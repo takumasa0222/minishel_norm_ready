@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/26 20:43:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/28 23:04:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	exec_lexer_test(char *test_file_name, char *expected_file)
 	i = 1;
 	while ((test = get_next_line(fd)))
 	{
-		printf("testval %s\n", test);
 		ret = lexer(test);
 		expected = get_next_line(fd2);
 		if (!match(ret, expected))
