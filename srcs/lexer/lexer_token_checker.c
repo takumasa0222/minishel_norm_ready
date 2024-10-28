@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/26 20:24:32 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/29 01:35:03 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ bool	is_word(char *input)
 	return (input && !is_metachar(*input));
 }
 
-bool	is_blank(int c)
+bool	is_blank(char c)
 {
-	return (ft_strchr(" \t", c));
+	return (c == ' ' || c == '\t' || c == '\n');
 }
 
 bool	is_operator(char *input)
@@ -34,7 +34,8 @@ bool	is_operator(char *input)
 	size_t		i;
 	size_t		ope_len;
 	static char	*ope[] = \
-	{"||", "|", "&&", "&", ";;", ";", "(", ")", "|&", "\n", NULL};
+	{"||", "|", "<<", ">>", "&&", "&", "<", ">", \
+	";;", ";", "(", ")", "|&", "\n", NULL};
 
 	if (!input)
 		d_throw_error("is_operator", "input is null");

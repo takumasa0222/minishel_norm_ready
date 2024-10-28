@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/26 18:31:41 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/29 01:36:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*fetch_fst_word_token(char *input);
 
 bool	is_metachar(int c);
 bool	is_word(char *input);
-bool	is_blank(int c);
+bool	is_blank(char c);
 bool	is_operator(char *input);
 
 size_t	get_char_arry_size(char **str);

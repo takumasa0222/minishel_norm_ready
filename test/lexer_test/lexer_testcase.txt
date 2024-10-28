@@ -5,8 +5,8 @@ echo Hello
 (false || wc -l) && ls
 ( false || wc -l )&&ls
 false||wc&&ls
-     false||wc&&      ls
+    false||wc&&      ls
 >out2>out3>out4|ls
 echo Hello  >   out2   >   out3   >   out4 | cat
-true || (wc -l && ls)
+true || (wc -l && ls)  
 false || (echo "Hello" && ls)

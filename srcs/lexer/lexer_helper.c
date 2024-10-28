@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:40:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/26 18:11:44 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/29 00:17:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ t_token	*create_token(char *word, t_token_kind kind)
 	ret = malloc(1 * sizeof(t_token));
 	if (!ret)
 		d_throw_error("create_token", "malloc failed");
-	if (!word)
-		d_throw_error("create_token", "word is NULL");
 	ret->kind = kind;
 	ret->word = word;
 	ret->next = NULL;

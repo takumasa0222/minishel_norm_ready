@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:15:25 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/26 20:22:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/29 01:24:03 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void	node_printer(t_token *token);
 int		main(int argc, char *argv[]);
 void	free_token_list(t_token	*token);
 bool	match(t_token *token, char *str);
+void	free_words(char	**word);
 
 #endif

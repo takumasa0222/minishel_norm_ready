@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/28 23:04:34 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/29 02:00:50 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	exec_lexer_test(char *test_file_name, char *expected_file)
 	{
 		ret = lexer(test);
 		expected = get_next_line(fd2);
+//		node_printer(ret);
 		if (!match(ret, expected))
 			printf("testcase %d NG\n", i);
 		else
@@ -74,11 +75,17 @@ bool	match(t_token *token, char *str)
 	i = 0;
 	while (copy_token->kind != TK_EOF && copy_token->word)
 	{
-		if (copy_token->word != str_list[i])
+		if (ft_strncmp(copy_token->word, str_list[i], ft_strlen(str_list[i])))
+		{
+			free_words(str_list);
 			return	(false);
+		}
 		copy_token = copy_token->next;
 		i++;
 	}
+	if (ft_strncmp(str_list[i],"\n",1) || str_list[i + 1])
+		return (false);
+	free_words(str_list);
 	return (true);
 }
 
@@ -97,6 +104,21 @@ void	free_token_list(t_token	*token)
 		token = temp;
 	}
 }
+void	free_words(char	**word)
+{
+	int	i;
+
+	i = 0;
+	if (!word)
+		return ;
+	while (word[i])
+	{
+		free(word[i]);
+		i++;
+	}
+	free(word);
+}
+
 
 void	node_printer(t_token *token)
 {

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/26 21:04:36 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/29 01:55:02 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	*lexer(char *line)
 
 	head.next = NULL;
 	token = &head;
-	while (line)
+	while (*line)
 	{
 		if (skip_blank(&line, line))
 			continue ;
@@ -44,7 +44,7 @@ t_token	*lexer(char *line)
 			token->next = fetch_fst_word_token(line);
 		else
 			d_throw_error("lexer", "unexpected token");
-		line = line + ft_strlen(token->word);
+		line = line + ft_strlen(token->next->word);
 		token = token->next;
 	}
 	token->next = create_token(NULL, TK_EOF);
@@ -60,7 +60,7 @@ bool	skip_blank(char **rest, char *input)
 	i = 0;
 	while (input[i] && is_blank(input[i]))
 		i++;
-	*rest = i + *rest;
+	*rest = i + input;
 	return (i);
 }
 
@@ -69,7 +69,8 @@ t_token	*fetch_fst_ope_token(char *input)
 	size_t		i;
 	size_t		ope_len;
 	static char	*ope[] = \
-	{"||", "|", "&&", "&", ";;", ";", "(", ")", "|&", "\n", NULL};
+	{"||", "|", "<<", ">>", "&&", "&", "<", ">", \
+	";;", ";", "(", ")", "|&", "\n", NULL};
 
 	if (!input)
 		d_throw_error("fetch_fst_ope_token", "input is NULL");
