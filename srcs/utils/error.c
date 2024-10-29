@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/10/28 23:49:14 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/10/26 16:33:29 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/10/26 16:43:59 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../includes/utils.h"
+/*
+This function for testing purpose. When you submit this code, this should be
+replased
+*/
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <limits.h>
-
-#endif
+void	d_throw_error(char *func_name, char *error_msg)
+{
+	printf("Error: function name: %s, Error message: %s", func_name, error_msg);
+	exit(EXIT_FAILURE);
+}

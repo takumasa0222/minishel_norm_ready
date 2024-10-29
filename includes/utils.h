@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/10/28 23:49:14 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/10/26 16:34:45 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/10/26 18:12:57 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef UTILS_H
+# define UTILS_H
 
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <limits.h>
+# include <unistd.h>
+# include <stdlib.h>
+
+void	d_throw_error(char *func_name, char *error_msg);
 
 #endif
