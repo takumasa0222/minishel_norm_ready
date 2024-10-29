@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: shokosoeno <shokosoeno@student.42.fr>      +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/10/29 14:23:43 by shokosoeno       ###   ########.fr        #
+#    Updated: 2024/10/26 20:35:22 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ UNAME_S := $(shell uname -s)
 
 NAME = minishell
 CC = $(if $(findstring Darwin, $(UNAME_S)), cc, clang)
-INCLUDES = -I includes -I $(LIBFT_DIR)
+INCLUDES = -I ../../includes
 CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
 
 ifeq ($(UNAME_S),Darwin)
@@ -28,38 +28,33 @@ else
 	LIBS := -lreadline
 endif
 
-# add libft
-LIBFT_DIR = ./libft
-LIBFT = ${LIBFT_DIR}/libft.a
-
-SRCS = srcs/main.c \
-srcs/lexer/lexer_helper.c \
-srcs/lexer/lexer_token_checker.c \
-srcs/lexer/lexer.c \
-srcs/utils/error.c
+SRCS = \
+./lexer_tester.c \
+./ft_get_next_line/get_next_line_bonus.c \
+./ft_get_next_line/get_next_line_utils_bonus.c \
+../../srcs/lexer/lexer_helper.c \
+../../srcs/lexer/lexer_token_checker.c \
+../../srcs/lexer/lexer.c \
+../../srcs/utils/error.c
 
 OBJS = $(SRCS:.c=.o)
 
 # General rules
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+$(NAME): $(OBJS)
+	@make -C ../../libft
+	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -L../../libft -lft -o $(NAME) 
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LIBS) -o $(NAME)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+srcs/%.o: srcs/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
-	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
-	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
