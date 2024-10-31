@@ -6,11 +6,11 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/10/27 17:07:41 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/10/31 21:41:49 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	main(void)
 {
@@ -71,66 +71,4 @@ void	test_builtin(const char *cmd, int argc, char *argv[])
 	{
 		printf("%s is not a builtin command.\n", cmd);
 	}
-}
-
-t_builtin	*lookup_builtin(char *cmd)
-{
-	t_builtin	builtins_list[4];
-	t_builtin	*p;
-
-	builtins_list[0] = (t_builtin){"cd", builtin_cd};
-	builtins_list[1] = (t_builtin){"pwd", builtin_pwd};
-	builtins_list[2] = (t_builtin){"exit", builtin_exit};
-	builtins_list[3] = (t_builtin){NULL, NULL};
-	p = builtins_list;
-	while (p->name)
-	{
-		if (ft_strncmp(cmd, p->name, ft_strlen(p->name)) == 0)
-			return (p);
-		p++;
-	}
-	return (NULL);
-}
-
-int	builtin_cd(int argc, char *argv[])
-{
-	if (argc != 2)
-	{
-		printf("%s: wrong argument\n", argv[0]);
-		return (1);
-	}
-	if (chdir(argv[1]) < 0)
-	{
-		perror(argv[1]);
-		return (1);
-	}
-	return (0);
-}
-
-int	builtin_pwd(int argc, char *argv[])
-{
-	char	buf[PATH_MAX];
-
-	if (argc != 1)
-	{
-		printf("%s: wrong argument\n", argv[0]);
-		return (1);
-	}
-	if (!getcwd(buf, PATH_MAX))
-	{
-		printf("%s: cannot get working directory\n", argv[0]);
-		return (1);
-	}
-	printf("%s\n", buf);
-	return (0);
-}
-
-int	builtin_exit(int argc, char *argv[])
-{
-	if (argc != 1)
-	{
-		printf("%s: too many arguments\n", argv[0]);
-		return (1);
-	}
-	exit(0);
 }

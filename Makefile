@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: shokosoeno <shokosoeno@student.42.fr>      +#+  +:+       +#+         #
+#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/10/29 14:23:43 by shokosoeno       ###   ########.fr        #
+#    Updated: 2024/10/31 21:44:06 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,11 @@ SRCS = srcs/main.c \
 srcs/lexer/lexer_helper.c \
 srcs/lexer/lexer_token_checker.c \
 srcs/lexer/lexer.c \
-srcs/utils/error.c
+srcs/utils/error.c \
+srcs/builtin/builtin_cd.c \
+srcs/builtin/builtin_exit.c \
+srcs/builtin/builtin_pwd.c \
+srcs/builtin/lookup_builtin.c
 
 OBJS = $(SRCS:.c=.o)
 
