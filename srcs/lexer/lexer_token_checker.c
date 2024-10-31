@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/29 01:35:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/31 19:00:21 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,14 @@ bool	is_operator(char *input)
 		i++;
 	}
 	return (false);
+}
+
+bool	is_s_quote(char input)
+{
+	return (input == '\'');
+}
+
+bool	is_d_quote(char input)
+{
+	return (input == '\"');
 }
