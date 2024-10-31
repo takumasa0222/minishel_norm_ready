@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/10/31 21:41:49 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/10/31 22:09:27 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,3 @@ int	main(void)
 	exit(0);
 }
 
-// test for builtin
-void	test_builtin(const char *cmd, int argc, char *argv[])
-{
-	t_builtin	*builtin;
-	int			status;
-
-	builtin = lookup_builtin((char *)cmd);
-	if (builtin)
-	{
-		status = builtin->f(argc, argv);
-		if (status == 0)
-			;
-		else
-			printf("%s execution failed with status %d.\n", cmd, status);
-	}
-	else
-	{
-		printf("%s is not a builtin command.\n", cmd);
-	}
-}
