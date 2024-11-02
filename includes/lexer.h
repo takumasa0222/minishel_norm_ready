@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/31 22:12:32 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/03 05:21:33 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ bool	is_metachar(int c);
 bool	is_word(char *input);
 bool	is_blank(char c);
 bool	is_operator(char *input);
+
 bool	is_s_quote(char input);
 bool	is_d_quote(char input);
 
