@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/10/28 23:49:14 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/11/05 03:19:46 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PARSER_H
+# define PARSER_H
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <limits.h>
+typedef enum e_node_kind{
+	ND_IN_RD,
+	ND_OUT_RD,
+	ND_APPEND_RD,
+	ND_HERE_DOC,
+	ND_PIPE,
+	ND_OR_OP,
+	ND_AND_OP,
+	ND_L_PARE,
+	ND_R_PARE,
+	ND_WORD,
+	ND_FD_NUM
+}	t_node_kind;
+
+typedef struct s_node	t_node;
+
+// AST node type
+struct s_node {
+	t_node_kind	kind;
+	t_node		*lhs;
+	t_node		*rhs;
+	char		*val;
+	int			num;
+};
 
 #endif

@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/10/28 23:48:49 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/10/26 20:35:22 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ UNAME_S := $(shell uname -s)
 
 NAME = minishell
 CC = $(if $(findstring Darwin, $(UNAME_S)), cc, clang)
-INCLUDES = -I includes
+INCLUDES = -I ../../includes
 CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
 
 ifeq ($(UNAME_S),Darwin)
@@ -28,11 +28,14 @@ else
 	LIBS := -lreadline
 endif
 
-SRCS = srcs/main.c \
-srcs/lexer/lexer_helper.c \
-srcs/lexer/lexer_token_checker.c \
-srcs/lexer/lexer.c \
-srcs/utils/error.c
+SRCS = \
+./lexer_tester.c \
+./ft_get_next_line/get_next_line_bonus.c \
+./ft_get_next_line/get_next_line_utils_bonus.c \
+../../srcs/lexer/lexer_helper.c \
+../../srcs/lexer/lexer_token_checker.c \
+../../srcs/lexer/lexer.c \
+../../srcs/utils/error.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -41,7 +44,8 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(LIBS) -o $(NAME) $(OBJS)
+	@make -C ../../libft
+	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -L../../libft -lft -o $(NAME) 
 
 srcs/%.o: srcs/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
