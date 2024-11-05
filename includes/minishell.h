@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shokosoeno <shokosoeno@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/10/29 14:34:35 by shokosoeno       ###   ########.fr       */
+/*   Updated: 2024/11/05 20:09:41 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <stdbool.h>
 # include "libft.h"
 
 // builtins
@@ -33,5 +34,36 @@ t_builtin	*lookup_builtin(char *cmd);
 int			builtin_cd(int argc, char *argv[]);
 int			builtin_pwd(int argc, char *argv[]);
 int			builtin_exit(int argc, char *argv[]);
+
+// map
+typedef struct s_map		t_map;
+typedef struct s_item		t_item;
+
+struct s_item {
+	char	*name;
+	char	*value;
+	struct s_item	*next;
+};
+
+struct s_map {
+	t_item	item_head;
+};
+
+t_map	*initenv(char *envp[]);
+
+t_item	*item_new(t_map *map, const char *name);
+char 	*item_get_string(t_item *item);
+t_map	*map_new(void);
+char	*map_get(t_map *map, const char *name);
+int		map_put(t_map *map, const char *string, bool allow_empty_value);
+int		map_set(t_map *map, const char *name, const char *value);
+int		map_unset(t_map *map, const char *name);
+size_t	map_size(t_map *map, bool count_null_value);
+void	map_printall(t_map *map);
+
+// env.c
+char 	*xgetenv(const char *name);
+void	initenv(void);
+char 	**get_environ(t_map *map);
 
 #endif
