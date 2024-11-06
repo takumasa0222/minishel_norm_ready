@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/05 16:35:21 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/11/06 17:21:22 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,14 @@ srcs/builtin/builtin_cd.c \
 srcs/builtin/builtin_exit.c \
 srcs/builtin/builtin_pwd.c \
 srcs/builtin/lookup_builtin.c \
-srcs/map.c \
-srcs/env.c
+srcs/init_env.c \
+srcs/map/item_utils.c \
+srcs/map/map_get.c \
+srcs/map/map_new.c \
+srcs/map/map_put.c \
+srcs/map/map_set.c \
+srcs/map/map_size.c \
+srcs/map/map_unset.c
 
 OBJS = $(SRCS:.c=.o)
 

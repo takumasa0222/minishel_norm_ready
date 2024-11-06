@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/05 20:09:26 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/06 17:16:23 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
-	char	**path;
 
 	(void)argc;
 	(void)argv;
-	initenv(envp);
-	//init_env(envp);
+	init_env(envp);
 
 	// test for builtins
 	// printf("Testing builtins...\n");

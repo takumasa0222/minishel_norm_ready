@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/05 20:09:41 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/06 17:27:36 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,24 @@ struct s_map {
 	t_item	item_head;
 };
 
-t_map	*initenv(char *envp[]);
-
+t_map	*init_env(char *envp[]);
 t_item	*item_new(t_map *map, const char *name);
 char 	*item_get_string(t_item *item);
 t_map	*map_new(void);
 char	*map_get(t_map *map, const char *name);
 int		map_put(t_map *map, const char *string, bool allow_empty_value);
-int		map_set(t_map *map, const char *name, const char *value);
 int		map_unset(t_map *map, const char *name);
 size_t	map_size(t_map *map, bool count_null_value);
 void	map_printall(t_map *map);
 
+// map_set.c
+int		map_set(t_map *map, const char *name, const char *value);
+
 // env.c
-char 	*xgetenv(const char *name);
-void	initenv(void);
+t_map	*init_env(char *envp[]);
+
+// initenv.c
+char	*xgetenv(t_map *envmap, const char *name);
 char 	**get_environ(t_map *map);
 
 #endif
