@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/06 17:27:36 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/07 23:37:15 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,8 @@ void	map_printall(t_map *map);
 // map_set.c
 int		map_set(t_map *map, const char *name, const char *value);
 
-// env.c
+// inite_nv.c
 t_map	*init_env(char *envp[]);
-
-// initenv.c
 char	*xgetenv(t_map *envmap, const char *name);
 char 	**get_environ(t_map *map);
 

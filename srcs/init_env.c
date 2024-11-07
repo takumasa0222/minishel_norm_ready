@@ -2,6 +2,12 @@
 
 static void	envmap_init(t_map *envmap, char **ep);
 
+// wrapper for map_get to get environment variables
+char *xgetenv(t_map *envmap, const char *name)
+{
+    return map_get(envmap, name);
+}
+
 // initialize a new environment map
 t_map	*init_env(char *envp[])
 {
@@ -9,12 +15,6 @@ t_map	*init_env(char *envp[])
 	envmap = map_new();
 	envmap_init(envmap, envp);
 	return (envmap);
-}
-
-// get the value of an environment variable
-char	*xgetenv(const char *name)
-{
-	return (map_get(envmap, name));
 }
 
 char	**get_environ(t_map *map)

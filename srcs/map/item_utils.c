@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-t_item	*item_new(char *name, char *value)
+t_item	*item_new(char *name, const char *value)
 {
 	t_item	*item;
 

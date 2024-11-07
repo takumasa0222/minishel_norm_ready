@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/06 17:16:23 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/07 23:28:54 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char *argv[], char *envp[])
 	
 	// char *exit_args[] = {"exit"};
 	// test_builtin("exit", 1, exit_args);
-	printf("Builtins test done.\n");
+	// printf("Builtins test done.\n");
 
 	rl_outstream = stderr;
 	while (1)
