@@ -69,6 +69,7 @@ void	map_add_item(t_map *map, const char *name, const char *value)
 	map->item_head.next = new_item;
 }
 
+// if the name is in the map, update the value
 int map_set(t_map *map, const char *name, const char *value)
 {
 	t_item	*item;

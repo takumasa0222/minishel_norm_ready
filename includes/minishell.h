@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/09 13:33:01 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/09 15:40:38 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ struct s_item {
 	struct s_item	*next;
 };
 
+// t_map is a dummy head of the linked list of items
+// which is not counted in the size of the map
+// item_head is not a pointer 
+// to simplify the initialization of the linked list
 struct s_map {
 	t_item	item_head;
 };
