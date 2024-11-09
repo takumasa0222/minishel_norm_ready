@@ -33,7 +33,7 @@ int	map_put(t_map *map, const char *string, bool allow_empty_value)
 	if (result != 0)
 		return (result);
 	result = map_set(map, name, value);
-	free(name);
+	free(name); 
 	free(value);
 	return (result);
 }

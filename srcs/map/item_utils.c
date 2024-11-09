@@ -35,5 +35,10 @@ char	*item_get_string(t_item *item)
 }
 // 1 byte for "=" and 1 byte for null terminator
 
-
-
+int ft_strcmp_for_map(const char *s1, const char *s2) {
+    while (*s1 && *s2 && *s1 == *s2) {
+        s1++;
+        s2++;
+    }
+    return ((unsigned char)*s1 - (unsigned char)*s2);
+}
