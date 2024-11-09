@@ -8,7 +8,7 @@ t_item	*item_new(char *name, char *value)
 	item = malloc(sizeof(*item));
 	if (!item)
 		d_throw_error("item_new", "Memory allocation error");
-	item->name = ft_strdup(name);
+	item->name = name;
 	item->value = value;
 	item->next = NULL;
 	return (item);
@@ -35,10 +35,12 @@ char	*item_get_string(t_item *item)
 }
 // 1 byte for "=" and 1 byte for null terminator
 
-int ft_strcmp_for_map(const char *s1, const char *s2) {
-    while (*s1 && *s2 && *s1 == *s2) {
-        s1++;
-        s2++;
-    }
-    return ((unsigned char)*s1 - (unsigned char)*s2);
+int	ft_strcmp_for_map(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

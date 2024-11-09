@@ -21,16 +21,14 @@ bool	is_identifier(const char *s)
 t_item	*map_find_item(t_map *map, const char *name)
 {
 	t_item	*cur;
-	size_t	name_len;
-	size_t	cur_name_len;
 
-	name_len = ft_strlen(name);
 	cur = map->item_head.next;
-	while(cur)
+	while (cur)
 	{
-		cur_name_len = ft_strlen(cur->name);
-		if (ft_strncmp(cur->name, name, name_len) == 0 && cur_name_len == name_len)
-			return cur;
+		if (ft_strcmp_for_map(cur->name, name) == 0)
+		{
+			return (cur);
+		}
 		cur = cur->next;
 	}
 	return (NULL);
@@ -52,25 +50,27 @@ void	map_update_item(t_item *item, const char *value)
 void	map_add_item(t_map *map, const char *name, const char *value)
 {
 	t_item	*new_item;
+	char	*name_copy;
+	char	*value_copy;
 
+	name_copy = ft_strdup(name);
 	if (value == NULL)
-	{
-		new_item = item_new(strdup(name), NULL);
-		if (new_item->name == NULL)
-			d_throw_error("map_set", "Memory allocation error");
-	}
+		value_copy = NULL;
 	else
+		value_copy = ft_strdup(value);
+	if (!name_copy || (value && !value_copy))
 	{
-		new_item = item_new(ft_strdup(name), ft_strdup(value));
-		if (new_item->name == NULL || new_item->value == NULL)
-			d_throw_error("map_set", "Memory allocation error");
+		free(name_copy);
+		free(value_copy);
+		d_throw_error("map_add_item", "Memory allocation error");
 	}
+	new_item = item_new(name_copy, value_copy);
 	new_item->next = map->item_head.next;
 	map->item_head.next = new_item;
 }
 
 // if the name is in the map, update the value
-int map_set(t_map *map, const char *name, const char *value)
+int	map_set(t_map *map, const char *name, const char *value)
 {
 	t_item	*item;
 

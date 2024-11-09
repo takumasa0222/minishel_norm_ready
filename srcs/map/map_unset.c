@@ -4,18 +4,14 @@ int	map_unset(t_map *map, const char *name)
 {
 	t_item	*cur;
 	t_item	*prev;
-	size_t	name_len;
-	size_t	cur_name_len;
 
-	name_len = ft_strlen(name);
 	if (name == NULL || !is_identifier(name))
 		return (-1);
 	prev = &map->item_head;
 	cur = map->item_head.next;
 	while (cur)
 	{
-		cur_name_len = ft_strlen(cur->name);
-		if (ft_strncmp(cur->name, name, name_len) == 0 && cur_name_len == name_len)
+		if (ft_strcmp_for_map(cur->name, name) == 0)
 		{
 			prev->next = cur->next;
 			free(cur->name);
