@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/10/31 22:34:40 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/09 13:47:31 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,25 @@ TestCase test_cases[] = {
 	// exitはプログラムが終了してしまうので、別の方法でのテストを考える
 };
 
-int	main(void)
+int	main(int argc, char *argv[], char *envp[])
 {
+	(void)argc;
+	(void)argv;
+	t_map *envmap = init_env(envp);
 	printf("Testing builtins...\n");
+
+	char **environ = get_environ(envmap);
+	if (environ == NULL)
+	{
+		printf("Failed to get environment variables.\n");
+		exit(EXIT_FAILURE);
+	}
+	printf("Environment variables:\n");
+	for (size_t i = 0; environ[i] != NULL; i++)
+	{
+		printf("%s\n", environ[i]);
+	}
+
 	for (size_t i = 0; i < sizeof(test_cases) / sizeof(TestCase); i++)
 	{
 		printf("Case %zu: %s\n", i + 1, test_cases[i].description);
