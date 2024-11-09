@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/07 23:37:15 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/09 13:33:01 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ struct s_map {
 };
 
 t_map	*init_env(char *envp[]);
-t_item	*item_new(t_map *map, const char *name);
+t_item	*item_new(char *name, char *value);
 char 	*item_get_string(t_item *item);
 t_map	*map_new(void);
 char	*map_get(t_map *map, const char *name);
@@ -61,6 +61,7 @@ void	map_printall(t_map *map);
 
 // map_set.c
 int		map_set(t_map *map, const char *name, const char *value);
+bool	is_identifier(const char *s);
 
 // inite_nv.c
 t_map	*init_env(char *envp[]);

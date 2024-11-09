@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/09 13:47:31 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/09 14:06:24 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,34 @@ int	main(int argc, char *argv[], char *envp[])
 		printf("Failed to get environment variables.\n");
 		exit(EXIT_FAILURE);
 	}
-	printf("Environment variables:\n");
+	printf("initialize environment variables:\n");
 	for (size_t i = 0; environ[i] != NULL; i++)
 	{
 		printf("%s\n", environ[i]);
 	}
+
+	// test for map_unset
+	for (int i = 0; environ[i] != NULL; i++)
+	{
+		char *key = strtok(environ[i], "=");
+		if (key)
+		{
+			printf("Unsetting %s\n", key);
+			if (map_unset(envmap, key) != 0)
+			{
+				printf("Failed to unset %s\n", key);
+			}
+		}
+	}
+	char **empty_environ = get_environ(envmap);
+	if (empty_environ[0] == NULL)
+	{
+		printf("all environment variables are unset.\n");
+	} else {
+		printf("Failed to unset all environment variables.\n");
+	}
+	free(environ);
+	free(empty_environ);
 
 	for (size_t i = 0; i < sizeof(test_cases) / sizeof(TestCase); i++)
 	{
@@ -58,6 +81,12 @@ int	main(int argc, char *argv[], char *envp[])
 	printf("Builtins test done.\n");
 	exit(0);
 }
+
+// test for map
+// void	test_map(t_map *map)
+// {
+// 	map_printall(map);
+// }
 
 // test for builtin
 void	test_builtin(const char *cmd, int argc, char *argv[])

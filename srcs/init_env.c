@@ -17,6 +17,20 @@ t_map	*init_env(char *envp[])
 	return (envmap);
 }
 
+// char **ep is formatted as "KEY=VALUE"
+// map_put() to add each environment variable to t_map
+static void	envmap_init(t_map *envmap, char **ep)
+{
+	while (*ep)
+	{
+		map_put(envmap, *ep, false);
+		ep++;
+	}
+}
+
+// get each environment variable from t_map
+// and generate an environment variable array ("KEY=VALUE")
+// the last element of the array is NULL
 char	**get_environ(t_map *map)
 {
 	size_t	i;
@@ -41,11 +55,3 @@ char	**get_environ(t_map *map)
 	return (environ);
 }
 
-static void	envmap_init(t_map *envmap, char **ep)
-{
-	while (*ep)
-	{
-		map_put(envmap, *ep, false);
-		ep++;
-	}
-}

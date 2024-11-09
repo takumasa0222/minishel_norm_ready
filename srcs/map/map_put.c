@@ -17,6 +17,7 @@ int split_name_value(const char *string, bool allow_empty_value, char **name, ch
         *name = ft_substr(string, 0, name_end - string);
         *value = ft_strdup(name_end + 1);
     }
+    return (EXIT_SUCCESS);
 }
 
 int	map_put(t_map *map, const char *string, bool allow_empty_value)

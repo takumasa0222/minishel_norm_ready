@@ -1,12 +1,13 @@
 #include "../../includes/minishell.h"
+#include "../../includes/utils.h"
 
-t_item	*item_new(char *name, const char *value)
+t_item	*item_new(char *name, char *value)
 {
 	t_item	*item;
 
 	item = malloc(sizeof(*item));
 	if (!item)
-		throw_err("item_new", "Memory allocation error");
+		d_throw_error("item_new", "Memory allocation error");
 	item->name = ft_strdup(name);
 	item->value = value;
 	item->next = NULL;
@@ -23,7 +24,7 @@ char	*item_get_string(t_item *item)
 		strsize += ft_strlen(item->value);
 	str = malloc(strsize);
 	if (str == NULL)
-		throw_err("item_get_string", "Memory allocation error");
+		d_throw_error("item_get_string", "Memory allocation error");
 	ft_strlcpy(str, item->name, strsize);
 	if (item->value)
 	{

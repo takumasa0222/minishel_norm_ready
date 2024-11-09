@@ -6,19 +6,15 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/07 23:28:54 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:35:52 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(void)
 {
 	char	*line;
-
-	(void)argc;
-	(void)argv;
-	init_env(envp);
 
 	// test for builtins
 	// printf("Testing builtins...\n");

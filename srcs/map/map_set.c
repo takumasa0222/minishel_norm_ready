@@ -1,4 +1,5 @@
 #include "../../includes/minishell.h"
+#include "../../includes/utils.h"
 
 bool	is_identifier(const char *s)
 {
@@ -11,6 +12,7 @@ bool	is_identifier(const char *s)
 			return (false);
 		s++;
 	}
+	return (true);
 }
 // to check if the string follows the rules of an identifier 
 // (starting with an alphabet or underscore, 
@@ -19,11 +21,15 @@ bool	is_identifier(const char *s)
 t_item	*map_find_item(t_map *map, const char *name)
 {
 	t_item	*cur;
+	size_t	name_len;
+	size_t	cur_name_len;
 
+	name_len = ft_strlen(name);
 	cur = map->item_head.next;
 	while(cur)
 	{
-		if (ft_strcmp(cur->name, name) == 0)
+		cur_name_len = ft_strlen(cur->name);
+		if (ft_strncmp(cur->name, name, name_len) == 0 && cur_name_len == name_len)
 			return cur;
 		cur = cur->next;
 	}
@@ -39,7 +45,7 @@ void	map_update_item(t_item *item, const char *value)
 	{
 		item->value = ft_strdup(value);
 		if (item->value == NULL)
-			throw_err("map_update_item", "Memory allocation error");
+			d_throw_error("map_update_item", "Memory allocation error");
 	}
 }
 
@@ -51,13 +57,13 @@ void	map_add_item(t_map *map, const char *name, const char *value)
 	{
 		new_item = item_new(strdup(name), NULL);
 		if (new_item->name == NULL)
-			throw_err("map_set", "Memory allocation error");
+			d_throw_error("map_set", "Memory allocation error");
 	}
 	else
 	{
 		new_item = item_new(ft_strdup(name), ft_strdup(value));
 		if (new_item->name == NULL || new_item->value == NULL)
-			throw_err("map_set", "Memory allocation error");
+			d_throw_error("map_set", "Memory allocation error");
 	}
 	new_item->next = map->item_head.next;
 	map->item_head.next = new_item;
