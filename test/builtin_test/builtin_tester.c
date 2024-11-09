@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/09 16:12:47 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/09 21:52:44 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct {
 } TestCase;
 
 void	test_builtin(const char *cmd, int argc, char *argv[]);
-void	test_env_map(char *envp[]);
+void	test_map(void);
 
 TestCase test_cases[] = {
 	{"cd", 2, {"cd", "/tmp", NULL}, "cd to /tmp"},
@@ -32,22 +32,9 @@ TestCase test_cases[] = {
 	// exitはプログラムが終了してしまうので、別の方法でのテストを考える
 };
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(void)
 {
-	(void)argc;
-	(void)argv;
-	
-	t_map *env_map = test_init_env(envp);
-	if (!env_map)
-	{
-		printf("Failed to initialize environment map.\n");
-		exit(EXIT_FAILURE);
-	}
-
-	test_map_get(env_map);
-	test_map_put(env_map);
-	test_map_unset(env_map);
-	test_map_size(env_map);
+	test_map();
 
 	printf("Testing builtins...\n");
 
@@ -81,32 +68,91 @@ void	test_builtin(const char *cmd, int argc, char *argv[])
 	}
 }
 
-void	test_env_map(char *envp[])
+void	test_map()
 {
-	t_map *envmap = init_env(envp);
-	if (envmap == NULL)
+	char *envp[] = {
+		"HOME=/home/user",
+		"PATH=/usr/bin",
+		"SHELL=/bin/bash",
+		NULL
+	};
+	
+	t_map	*envmap = init_env(envp);
+	if (!envmap)
 	{
 		printf("Failed to initialize environment map.\n");
-		exit(EXIT_FAILURE);
+		return ;
+	}
+
+	const char *path_value = map_get(envmap, "PATH");
+	const char *home_value = map_get(envmap, "HOME");
+	const char *shell_value = map_get(envmap, "SHELL");
+	if (path_value && home_value && shell_value)
+	{
+		printf("Environment map initialized.\n");
+		printf("PATH=%s\n", path_value);
+		printf("HOME=%s\n", home_value);
+		printf("SHELL=%s\n", shell_value);
+	}
+	else
+	{
+		printf("Failed to get environment variables.\n");
+	}
+
+	// test map_put
+	printf("map_put test\n");
+	if (map_put(envmap, "NEW_VAR=new_value", false) == 0)
+	{
+		const char *new_var_value = map_get(envmap, "NEW_VAR");
+		if (new_var_value && ft_strcmp_for_map(new_var_value, "new_value") == 0)
+		{
+			printf("map_put: NEW_VAR=new_value added with value '%s'\n", new_var_value);
+		}
+		else
+		{
+			printf("map_put failed.\n");
+		}
+	}
+	if (map_put(envmap, "NEW_VAR=new_value", false) == 0)
+	{
+		const char *new_var_value = map_get(envmap, "NEW_VAR");
+		printf("DEBUG: After map_put, NEW_VAR = %s\n", new_var_value);
+	}
+
+	// test map_set
+	printf("map_set test\n");
+	if (map_set(envmap, "NEW_VAR", "updated_value") == 0)
+	{
+		const char *updated = map_get(envmap, "NEW_VAR");
+		if (updated && ft_strcmp_for_map(updated, "updated_value") == 0)
+		{
+			printf("map_set: NEW_VAR updated with value '%s'\n", updated);
+		}
+		else
+		{
+			printf("map_set failed.\n");
+		}
 	}
 	
+	// get_environ test
+	printf("get_environ test\n");
 	char **environ = get_environ(envmap);
 	if (environ == NULL)
 	{
 		printf("Failed to get environment variables.\n");
 		exit(EXIT_FAILURE);
 	}
-
-	printf("Environment variables in map:\n");
 	for (size_t i = 0; environ[i] != NULL; i++)
 	{
 		printf("%s\n", environ[i]);
 	}
 
-	// test for map_unset
+	// map_unset test
+	printf("map_unset test\n");
 	for (int i = 0; environ[i] != NULL; i++)
 	{
-		char *key = strtok(environ[i], "=");
+		char *env_copy = ft_strdup(environ[i]);
+		char *key = strtok(env_copy, "=");
 		if (key)
 		{
 			printf("Unsetting %s\n", key);
@@ -115,7 +161,9 @@ void	test_env_map(char *envp[])
 				printf("Failed to unset %s\n", key);
 			}
 		}
+		free(env_copy);
 	}
+	// check if all environment variables are unset
 	char **empty_environ = get_environ(envmap);
 	if (empty_environ[0] == NULL)
 	{
@@ -123,6 +171,17 @@ void	test_env_map(char *envp[])
 	} else {
 		printf("Failed to unset all environment variables.\n");
 	}
-	free(environ);
-	free(empty_environ);
+	// get_environで取得した配列と各要素を解放
+    for (size_t i = 0; environ[i] != NULL; i++)
+    {
+        free(environ[i]);
+    }
+    free(environ);
+    for (size_t i = 0; empty_environ[i] != NULL; i++)
+    {
+        free(empty_environ[i]);
+    }
+    free(empty_environ);
+	free(envmap);
 }
+
