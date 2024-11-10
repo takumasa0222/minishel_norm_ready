@@ -6,60 +6,68 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/09 21:52:44 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/10 18:47:51 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-typedef struct {
+typedef struct
+{
 	const char	*cmd;
-	int argc;
-	char *argv[3];
+	int			argc;
+	char		*argv[3];
 	const char	*description;
-} TestCase;
+}				TestCase;
 
-void	test_builtin(const char *cmd, int argc, char *argv[]);
-void	test_map(void);
+void			test_builtin_no_envmap(const char *cmd, int argc, char *argv[]);
+void			test_builtin_with_envmap(const char *cmd, int argc, char *argv[], t_map *envmap);
+void			test_envmap_operations(void);
 
-TestCase test_cases[] = {
+TestCase		no_envmap_test_cases[] = {
 	{"cd", 2, {"cd", "/tmp", NULL}, "cd to /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "pwd (expect /tmp)"},
-	{"cd", 2, {"cd", "/non-existent-dir", NULL}, "Attempt to change to a non-existent directory"},
+	{"cd", 2, {"cd", "/non-existent-dir", NULL},
+		"Attempt to change to a non-existent directory"},
 	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd"},
 	{"cd", 2, {"cd", "..", NULL}, "Move to the parent directory of /tmp"},
-	{"pwd", 1, {"pwd", NULL}, "cd after moving up a level (expect /)"},
-	// exitはプログラムが終了してしまうので、別の方法でのテストを考える
+	{"pwd", 1, {"pwd", NULL}, "cd after moving up a level (expect /)"}
+};
+
+TestCase		with_envmap_test_cases[] = {
+	{"export", 2, {"export", "NEW_VAR=new_value", NULL}, "Export NEW_VAR with value"},
+	{"export", 2, {"export", "NEW_VAR=updated_value", NULL}, "Update NEW_VAR with new value"},
+	{"export", 2, {"export", "1INVALID_NAME", NULL}, "Attempt to export an invalid identifier"},
+	{"export", 1, {"export", NULL}, "Print all environment variables"}
 };
 
 int	main(void)
 {
-	test_map();
-
-	printf("Testing builtins...\n");
-
-	for (size_t i = 0; i < sizeof(test_cases) / sizeof(TestCase); i++)
+	printf("Testing builtins without envmap...\n");
+	for (size_t i = 0; i < sizeof(no_envmap_test_cases) / sizeof(TestCase); i++)
 	{
-		printf("Case %zu: %s\n", i + 1, test_cases[i].description);
-		test_builtin(test_cases[i].cmd, test_cases[i].argc, test_cases[i].argv);
+		printf("Case %zu: %s\n", i + 1, no_envmap_test_cases[i].description);
+		test_builtin_no_envmap(no_envmap_test_cases[i].cmd, no_envmap_test_cases[i].argc, no_envmap_test_cases[i].argv);
 	}
-	printf("Builtins test done.\n");
+	printf("Non-envmap builtins test done.\n");
+
+	printf("Testing envmap operations...\n");
+	test_envmap_operations();
+	printf("Envmap operations test done.\n");
+
 	exit(0);
 }
 
-// test for builtin
-void	test_builtin(const char *cmd, int argc, char *argv[])
+// test for cd and pwd
+void	test_builtin_no_envmap(const char *cmd, int argc, char *argv[])
 {
 	t_builtin	*builtin;
-	int			status;
 
 	builtin = lookup_builtin((char *)cmd);
 	if (builtin)
 	{
-		status = builtin->f(argc, argv);
-		if (status == 0)
-			;
-		else
+		int status = builtin->f(argc, argv, NULL);
+		if (status != 0)
 			printf("%s execution failed with status %d.\n", cmd, status);
 	}
 	else
@@ -68,120 +76,83 @@ void	test_builtin(const char *cmd, int argc, char *argv[])
 	}
 }
 
-void	test_map()
+// test for export and other builtins with envmap
+void	test_builtin_with_envmap(const char *cmd, int argc, char *argv[], t_map *envmap)
 {
-	char *envp[] = {
-		"HOME=/home/user",
-		"PATH=/usr/bin",
-		"SHELL=/bin/bash",
-		NULL
-	};
-	
-	t_map	*envmap = init_env(envp);
-	if (!envmap)
-	{
-		printf("Failed to initialize environment map.\n");
-		return ;
-	}
+	t_builtin	*builtin;
 
-	const char *path_value = map_get(envmap, "PATH");
-	const char *home_value = map_get(envmap, "HOME");
-	const char *shell_value = map_get(envmap, "SHELL");
-	if (path_value && home_value && shell_value)
+	builtin = lookup_builtin((char *)cmd);
+	if (builtin)
 	{
-		printf("Environment map initialized.\n");
-		printf("PATH=%s\n", path_value);
-		printf("HOME=%s\n", home_value);
-		printf("SHELL=%s\n", shell_value);
+		int status = builtin->f(argc, argv, envmap);
+		if (status != 0)
+			printf("%s execution failed with status %d.\n", cmd, status);
 	}
 	else
 	{
-		printf("Failed to get environment variables.\n");
+		printf("%s is not a builtin command.\n", cmd);
 	}
-
-	// test map_put
-	printf("map_put test\n");
-	if (map_put(envmap, "NEW_VAR=new_value", false) == 0)
-	{
-		const char *new_var_value = map_get(envmap, "NEW_VAR");
-		if (new_var_value && ft_strcmp_for_map(new_var_value, "new_value") == 0)
-		{
-			printf("map_put: NEW_VAR=new_value added with value '%s'\n", new_var_value);
-		}
-		else
-		{
-			printf("map_put failed.\n");
-		}
-	}
-	if (map_put(envmap, "NEW_VAR=new_value", false) == 0)
-	{
-		const char *new_var_value = map_get(envmap, "NEW_VAR");
-		printf("DEBUG: After map_put, NEW_VAR = %s\n", new_var_value);
-	}
-
-	// test map_set
-	printf("map_set test\n");
-	if (map_set(envmap, "NEW_VAR", "updated_value") == 0)
-	{
-		const char *updated = map_get(envmap, "NEW_VAR");
-		if (updated && ft_strcmp_for_map(updated, "updated_value") == 0)
-		{
-			printf("map_set: NEW_VAR updated with value '%s'\n", updated);
-		}
-		else
-		{
-			printf("map_set failed.\n");
-		}
-	}
-	
-	// get_environ test
-	printf("get_environ test\n");
-	char **environ = get_environ(envmap);
-	if (environ == NULL)
-	{
-		printf("Failed to get environment variables.\n");
-		exit(EXIT_FAILURE);
-	}
-	for (size_t i = 0; environ[i] != NULL; i++)
-	{
-		printf("%s\n", environ[i]);
-	}
-
-	// map_unset test
-	printf("map_unset test\n");
-	for (int i = 0; environ[i] != NULL; i++)
-	{
-		char *env_copy = ft_strdup(environ[i]);
-		char *key = strtok(env_copy, "=");
-		if (key)
-		{
-			printf("Unsetting %s\n", key);
-			if (map_unset(envmap, key) != 0)
-			{
-				printf("Failed to unset %s\n", key);
-			}
-		}
-		free(env_copy);
-	}
-	// check if all environment variables are unset
-	char **empty_environ = get_environ(envmap);
-	if (empty_environ[0] == NULL)
-	{
-		printf("all environment variables are unset.\n");
-	} else {
-		printf("Failed to unset all environment variables.\n");
-	}
-	// get_environで取得した配列と各要素を解放
-    for (size_t i = 0; environ[i] != NULL; i++)
-    {
-        free(environ[i]);
-    }
-    free(environ);
-    for (size_t i = 0; empty_environ[i] != NULL; i++)
-    {
-        free(empty_environ[i]);
-    }
-    free(empty_environ);
-	free(envmap);
 }
 
+// envmapの初期化、追加・更新・削除のテスト
+void	test_envmap_operations(void)
+{
+	char		*envp[] = {"HOME=/home/user", "PATH=/usr/bin", "SHELL=/bin/bash", NULL};
+	t_map		*envmap = init_env(envp);
+
+	if (!envmap)
+	{
+		printf("Failed to initialize environment map.\n");
+		return;
+	}
+
+	printf("Environment map initialized.\n");
+	const char *initial_vars[] = {"PATH", "HOME", "SHELL"};
+	for (size_t i = 0; i < sizeof(initial_vars) / sizeof(initial_vars[0]); i++)
+	{
+		const char *value = map_get(envmap, initial_vars[i]);
+		if (value)
+			printf("%s=%s\n", initial_vars[i], value);
+		else
+			printf("Failed to get %s from envmap.\n", initial_vars[i]);
+	}
+
+	// 追加と更新のテスト
+	for (size_t i = 0; i < sizeof(with_envmap_test_cases) / sizeof(TestCase); i++)
+	{
+		printf("Case %zu: %s\n", i + 1, with_envmap_test_cases[i].description);
+		test_builtin_with_envmap(with_envmap_test_cases[i].cmd, with_envmap_test_cases[i].argc, with_envmap_test_cases[i].argv, envmap);
+	}
+
+	// 環境変数の表示
+	printf("Environment variables after operations:\n");
+	char **environ = get_environ(envmap);
+	for (size_t i = 0; environ && environ[i] != NULL; i++)
+	{
+		printf("%s\n", environ[i]);
+		free(environ[i]);
+	}
+	free(environ);
+
+	// 環境変数の削除
+	printf("Unsetting all environment variables...\n");
+	for (size_t i = 0; initial_vars[i] != NULL; i++)
+	{
+		if (map_unset(envmap, initial_vars[i]) != 0)
+		{
+			printf("Failed to unset %s\n", initial_vars[i]);
+		}
+	}
+
+	// すべての環境変数が削除されたことを確認
+	char **empty_environ = get_environ(envmap);
+	if (empty_environ[0] == NULL)
+		printf("All environment variables are unset.\n");
+	else
+		printf("Failed to unset all environment variables.\n");
+	for (size_t i = 0; empty_environ[i] != NULL; i++)
+		free(empty_environ[i]);
+	free(empty_environ);
+
+	free(envmap);
+}
