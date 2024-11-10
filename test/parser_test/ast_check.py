@@ -1,22 +1,46 @@
 from lark import Lark, Transformer, Tree
 
 # Define the grammar
+# shell_grammar = """
+#     start: command
+#     command: subshell ("&&" subshell)*
+#     subshell: "(" list ")" | list* subshell*
+    
+#     list: pipeline_command ("&&" pipeline_command | "||" pipeline_command)*
+    
+#     pipeline_command: simple_command ("|" simple_command)*
+    
+#     simple_command: redirection* wordlist redirection*
+#                   | wordlist redirection*
+    
+#     wordlist: WORD | wordlist WORD
+    
+#     redirection: ">" filename
+#                | "<" filename
+#                | ">>" filename
+#                | "<<" filename
+#                | "<>" filename
+#                | NUMBER ">" filename
+#                | NUMBER "<" filename
+#                | NUMBER ">>" filename
+#                | NUMBER "<<" filename
+#                | NUMBER "<>" filename
+    
+#     filename: WORD
+#     WORD: /[a-zA-Z0-9_"]+/
+#     NUMBER: /[0-9]+/
+    
+#     %ignore " "
+# """
+
 shell_grammar = """
     start: command
-    
-    command: subshell ("&&" subshell)*
-
-    subshell: "(" list ")" | list* subshell*
-    
-    list: pipeline_command ("&&" pipeline_command | "||" pipeline_command)*
-    
-    pipeline_command: simple_command ("|" simple_command)*
-    
+    command: simple_command | pipeline_command | subshell | logical_operator | redirection
+    subshell: "(" command ")" command*
+    logical_operator: command ("&&" | "||" ) command
+    pipeline_command: command ("|" command)+
     simple_command: redirection* wordlist redirection*
-                  | wordlist redirection*
-    
     wordlist: WORD | wordlist WORD
-    
     redirection: ">" filename
                | "<" filename
                | ">>" filename
@@ -34,8 +58,6 @@ shell_grammar = """
     
     %ignore " "
 """
-
-
 
 
 
@@ -77,16 +99,37 @@ class ShellTransformer(Transformer):
 
 parser = Lark(shell_grammar, parser="earley")
 
-# 入力例
-input_text = "(cat filetxt > outputtxt || echo error) && ( ls | grep test )"
+
 input_text = "( ls | grep test )"
 input_text = "cat filetxt > outputtxt || echo error && echo"
 input_text = "cat filetxt > outputtxt || echo error && ( ls | grep test )"
-try:
-    ast = parser.parse(input_text)
-    print(ast.pretty())  # 構文木の表示
-except Exception as e:
-    print(f"エラー: {e}")
+input_text = "(cat filetxt > outputtxt || echo error) && ( ls | grep test )"
+# input_text = "cat filetxt > outputtxt | echo error  | grep test > out < infile > e > o"
+commands = [
+    "ls",
+    "(cat file1 && echo done) > output",
+    "(ls | grep test) > result",
+    "ls | grep sample || echo error",
+    "(cat file1 && cat file2) || (echo file not found)",
+    "(ls | grep log) && (cat logs > log_backup)",
+    "cat file1 | sort | uniq || echo failed",
+	"< file1 cat | sort abc asfd ec >out | abc |((ls)&&(cat)) >asf || cat >qwe>as>asdf>asf",
+	"((ls))",
+	">files"
+]
+
+index = 0
+while index < len(commands):
+    input_text = commands[index]
+    print(f"\n解析中のコマンド: {input_text}")
+    
+    try:
+        ast = parser.parse(input_text)
+        print(ast.pretty())
+    except Exception as e:
+        print(f"エラー: {e}")
+    
+    index += 1
 
 ## Create the parser
 #parser = Lark(shell_grammar, parser='earley', transformer=ShellTransformer())
