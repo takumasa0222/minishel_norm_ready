@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/10 20:23:57 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/10 22:03:43 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef enum e_node_kind{
 	ND_AND_OP,
 	ND_L_PARE,
 	ND_R_PARE,
-	ND_WORD,
+	ND_SUB_SHELL,
+	ND_CMD,
 	ND_FD_NUM
 }	t_node_kind;
 
@@ -34,8 +35,10 @@ struct s_node {
 	t_node_kind	kind;
 	t_node		*left;
 	t_node		*right;
-	char		*val;
-	int			num;
+	char		**cmds;
+	char		*op_val;
+	int			fd_num;
+	char		**redirects;
 };
 
 #endif

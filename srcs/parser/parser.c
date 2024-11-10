@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/10 20:37:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/10 22:21:29 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,62 +41,83 @@ this parser will create AST based on below eBNF.
 				
 */
 
-t_node	*parse_command() {
-    t_node	*node;
+/*
+今あまり明確になっていないところ
+・どんなときならノードを作るのか
+・親ノードを追加する場合や子ノードを追加するときの切り分け方
+・
+
+*/
+
+t_node	*entry_parser(t_token *token_list)
+{
+	t_node	*ret;
+
+	ret = NULL;
+	return (parse_cmd(&token_list));
+}
+
+t_node	*parse_cmd(t_token **token_list)
+{
+	t_node	*node;
 
 	node = parse_cmd_type();
 	if (!node)
 		d_throw_error();
-    return (parse_command_tail(node));
+	return (parse_cmd_tail(node));
 }
 
-
-t_node	*cmd_type(t_node **ast_tr)
+t_node	*parse_cmd_type(t_node *node, t_token **token_list)
 {
 	t_node	*ret;
 
-	if (match_subshell())
-	{
-		subshell();
-	}
+	// should not proceed token since in the parse_subshell match_token will be used.
+	if (is_left_pare(ND_L_PARE, token_list))
+		return (parse_subshell(token_list));
 	else
-	{
-		simple_command();
-		simple_command1();
-	}
+		return (simple_cmd(token_list));
 }
 
-t_node	*simple_command()
+t_node	*simple_cmd(t_token **token_list)
 {
 	t_node	*node;
 
-	while (redirection())
+	node = create_node(ND_CMD);
+	//add redirect node and the node can contain multi redirect cmds
+	if (match_token(ND_REDIRECT, token_list))
+		node->left = parse_redirect(token_list);
+	//IF NEXT TOKEN IS WORD THEN 
+	node->cmds = word_list();
+	if (!node->cmds)
+		//remove this node since there is no words.
+		//evaluation should be done by simple_command1
+		// token_list should be reset before this function exec. 
+	if (match_token(ND_REDIRECT, token_list))
 	{
+		node->right = parse_redirect(token_list);
 	}
-	if (!node)
-		word_list();
-	while (redirection())
-	{
-	}
+	return (node);
 }
 
-t_node	*simple_command1()
+t_node	*parse_redirect(t_token **token_list)
 {
-	redirection();
+
 }
 
-t_node	*redirection()
+t_node	*parse_subshell(t_node *node, t_token **token_list)
 {
+	t_node	*node;
 	
+	if(!match_token(ND_L_PARE))
+		d_throw_error("parser_subshell","syntax_error");
+	node = create_node(ND_SUB_SHELL);
+	node->left = parse_cmd();
+	if(!match_token(ND_R_PARE))
+		d_throw_error("parser_subshell","syntax_error");
+	return (parse_cmd_tail(node, token_list));
 }
 
-t_node	*subshell(t_node **ast_tr)
-{
-	
-	if (token)
-}
-
-t_node	*parse_command_tail(t_node *left)
+t_node	*parse_cmd_tail(t_node *left, t_token **token_list)
 {
 	t_node	*node;
 
@@ -105,7 +126,7 @@ t_node	*parse_command_tail(t_node *left)
 		node = create_node(ND_PIPE);
 		node->left = left;
         node->right = parse_cmd_type();
-		return (parse_command_tail(node));
+		return (parse_cmd_tail(node, token_list));
 	}
 	else if (match_token(ND_AND_OP) || match_token(ND_OR_OP))
 	{
@@ -115,7 +136,7 @@ t_node	*parse_command_tail(t_node *left)
 			node = create_node(ND_OR_OP);
 		node->left = left;
 		node->right = parse_cmd_type();
-		return (parse_command_tail(node));
+		return (parse_cmd_tail(node, token_list));
 	}
 	else if (is_redirection(current_token))
 		return (parse_redirection(left));
