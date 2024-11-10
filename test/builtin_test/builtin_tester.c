@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/10 18:47:51 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/10 20:36:53 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,14 +136,14 @@ void	test_envmap_operations(void)
 
 	// 環境変数の削除
 	printf("Unsetting all environment variables...\n");
-	for (size_t i = 0; initial_vars[i] != NULL; i++)
+	for (size_t i = 0; i < sizeof(initial_vars) / sizeof(initial_vars[0]); i++)
 	{
 		if (map_unset(envmap, initial_vars[i]) != 0)
 		{
 			printf("Failed to unset %s\n", initial_vars[i]);
 		}
 	}
-
+	map_unset(envmap, "NEW_VAR"); 
 	// すべての環境変数が削除されたことを確認
 	char **empty_environ = get_environ(envmap);
 	if (empty_environ[0] == NULL)
@@ -153,6 +153,6 @@ void	test_envmap_operations(void)
 	for (size_t i = 0; empty_environ[i] != NULL; i++)
 		free(empty_environ[i]);
 	free(empty_environ);
-
 	free(envmap);
 }
+
