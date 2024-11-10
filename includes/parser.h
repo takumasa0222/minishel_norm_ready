@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/05 03:19:46 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/10 20:23:57 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef struct s_node	t_node;
 // AST node type
 struct s_node {
 	t_node_kind	kind;
-	t_node		*lhs;
-	t_node		*rhs;
+	t_node		*left;
+	t_node		*right;
 	char		*val;
 	int			num;
 };

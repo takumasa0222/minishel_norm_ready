@@ -35,11 +35,14 @@ from lark import Lark, Transformer, Tree
 
 shell_grammar = """
     start: command
-    command: simple_command | pipeline_command | subshell | logical_operator | redirection
-    subshell: "(" command ")" command*
-    logical_operator: command ("&&" | "||" ) command
-    pipeline_command: command ("|" command)+
-    simple_command: redirection* wordlist redirection*
+	command: cmd_type command_tail
+	command_tail: "|" cmd_type command_tail 
+            | ("&&" | "||") cmd_type command_tail
+            | redirection
+			|
+	cmd_type: simple_command | subshell
+	subshell: "(" command ")" command_tail*
+	simple_command: redirection* wordlist redirection* | redirection+
     wordlist: WORD | wordlist WORD
     redirection: ">" filename
                | "<" filename
@@ -51,6 +54,7 @@ shell_grammar = """
                | NUMBER ">>" filename
                | NUMBER "<<" filename
                | NUMBER "<>" filename
+	
     
     filename: WORD
     WORD: /[a-zA-Z0-9_"]+/
@@ -108,14 +112,15 @@ input_text = "(cat filetxt > outputtxt || echo error) && ( ls | grep test )"
 commands = [
     "ls",
     "(cat file1 && echo done) > output",
-    "(ls | grep test) > result",
+    "(ls | grep test) > result > iyt",
     "ls | grep sample || echo error",
     "(cat file1 && cat file2) || (echo file not found)",
     "(ls | grep log) && (cat logs > log_backup)",
     "cat file1 | sort | uniq || echo failed",
 	"< file1 cat | sort abc asfd ec >out | abc |((ls)&&(cat)) >asf || cat >qwe>as>asdf>asf",
 	"((ls))",
-	">files"
+	">files",
+	">files>a>b>c"
 ]
 
 index = 0
