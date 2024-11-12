@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/10 20:36:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/12 22:51:09 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,19 @@ void			test_builtin_with_envmap(const char *cmd, int argc, char *argv[], t_map *
 void			test_envmap_operations(void);
 
 TestCase		no_envmap_test_cases[] = {
+	{"cd", 1, {"cd", NULL}, "cd with no arguments (expect to home directory)"},
+	{"pwd", 1, {"pwd", NULL}, "pwd (expect home directory)"},
 	{"cd", 2, {"cd", "/tmp", NULL}, "cd to /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "pwd (expect /tmp)"},
 	{"cd", 2, {"cd", "/non-existent-dir", NULL},
 		"Attempt to change to a non-existent directory"},
 	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd"},
 	{"cd", 2, {"cd", "..", NULL}, "Move to the parent directory of /tmp"},
-	{"pwd", 1, {"pwd", NULL}, "cd after moving up a level (expect /)"}
-};
-
-TestCase		with_envmap_test_cases[] = {
-	{"export", 2, {"export", "NEW_VAR=new_value", NULL}, "Export NEW_VAR with value"},
-	{"export", 2, {"export", "NEW_VAR=updated_value", NULL}, "Update NEW_VAR with new value"},
-	{"export", 2, {"export", "1INVALID_NAME", NULL}, "Attempt to export an invalid identifier"},
-	{"export", 1, {"export", NULL}, "Print all environment variables"}
+	{"pwd", 1, {"pwd", NULL}, "cd after moving up a level (expect /)"},
+	{"echo", 1, {"echo", NULL}, "Echo with no arguments (expect newline only)"},
+    {"echo", 2, {"echo", "-n", NULL}, "Echo with -n only (no newline)"},
+	{"echo", 2, {"echo", "Hello, world!", NULL}, "Echo with single argument"},
+    {"echo", 3, {"echo", "-n", "No newline"}, "Echo with -n (no newline)"},
 };
 
 int	main(void)
@@ -117,42 +116,48 @@ void	test_envmap_operations(void)
 			printf("Failed to get %s from envmap.\n", initial_vars[i]);
 	}
 
-	// 追加と更新のテスト
-	for (size_t i = 0; i < sizeof(with_envmap_test_cases) / sizeof(TestCase); i++)
-	{
-		printf("Case %zu: %s\n", i + 1, with_envmap_test_cases[i].description);
-		test_builtin_with_envmap(with_envmap_test_cases[i].cmd, with_envmap_test_cases[i].argc, with_envmap_test_cases[i].argv, envmap);
+	printf("Testing env with no options\n");
+	TestCase env_case = {"env", 1, {"env", NULL}, "Print all environment variables"};
+	test_builtin_with_envmap(env_case.cmd, env_case.argc, env_case.argv, envmap);
+	
+	printf("Testing export (add NEW_VAR=new_value)\n");
+	TestCase export_case1 = {"export", 2, {"export", "NEW_VAR=new_value", NULL}, "Export NEW_VAR with value"};
+	test_builtin_with_envmap(export_case1.cmd, export_case1.argc, export_case1.argv, envmap);
+	
+	printf("Checking if NEW_VAR is added...\n");
+	const char *new_var_value = map_get(envmap, "NEW_VAR");
+	if (new_var_value) {
+		printf("NEW_VAR=%s\n", new_var_value);
+	} else {
+		printf("Failed to get NEW_VAR from envmap.\n");
+	}
+	
+	printf("Testing export (update NEW_VAR=updated_value)\n");
+	TestCase export_case2 = {"export", 2, {"export", "NEW_VAR=updated_value", NULL}, "Update NEW_VAR"};
+    test_builtin_with_envmap(export_case2.cmd, export_case2.argc, export_case2.argv, envmap);
+
+	printf("Checking if NEW_VAR is updated...\n");
+    new_var_value = map_get(envmap, "NEW_VAR");
+    if (new_var_value) {
+		printf("NEW_VAR=%s\n", new_var_value);
+	} else {
+		printf("Failed to get NEW_VAR from envmap.\n");
+	}
+	
+	printf("Testing unset (unset NEW_VAR)\n");
+	TestCase unset_case = {"unset", 2, {"unset", "NEW_VAR", NULL}, "Unset NEW_VAR"};
+	test_builtin_with_envmap(unset_case.cmd, unset_case.argc, unset_case.argv, envmap);
+	
+	printf("Checking if NEW_VAR is unset...\n");
+	new_var_value = map_get(envmap, "NEW_VAR");
+	if (new_var_value == NULL) {
+		printf("NEW_VAR was successfully unset.\n");
+	} else {
+		printf("Failed to unset NEW_VAR, still exists with value: %s\n", new_var_value);
 	}
 
-	// 環境変数の表示
-	printf("Environment variables after operations:\n");
-	char **environ = get_environ(envmap);
-	for (size_t i = 0; environ && environ[i] != NULL; i++)
-	{
-		printf("%s\n", environ[i]);
-		free(environ[i]);
-	}
-	free(environ);
-
-	// 環境変数の削除
-	printf("Unsetting all environment variables...\n");
-	for (size_t i = 0; i < sizeof(initial_vars) / sizeof(initial_vars[0]); i++)
-	{
-		if (map_unset(envmap, initial_vars[i]) != 0)
-		{
-			printf("Failed to unset %s\n", initial_vars[i]);
-		}
-	}
-	map_unset(envmap, "NEW_VAR"); 
-	// すべての環境変数が削除されたことを確認
-	char **empty_environ = get_environ(envmap);
-	if (empty_environ[0] == NULL)
-		printf("All environment variables are unset.\n");
-	else
-		printf("Failed to unset all environment variables.\n");
-	for (size_t i = 0; empty_environ[i] != NULL; i++)
-		free(empty_environ[i]);
-	free(empty_environ);
+	printf("Testing env with no options\n");
+	test_builtin_with_envmap(env_case.cmd, env_case.argc, env_case.argv, envmap);
+	
 	free(envmap);
 }
-

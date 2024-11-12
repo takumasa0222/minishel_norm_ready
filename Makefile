@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/06 17:21:22 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/11/12 22:22:43 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,10 @@ srcs/utils/error.c \
 srcs/builtin/builtin_cd.c \
 srcs/builtin/builtin_exit.c \
 srcs/builtin/builtin_pwd.c \
+srcs/builtin/builtin_export.c \
+srcs/builtin/builtin_unset.c \
+srcs/builtin/builtin_echo.c \
+srcs/builtin/builtin_env.c \
 srcs/builtin/lookup_builtin.c \
 srcs/init_env.c \
 srcs/map/item_utils.c \
