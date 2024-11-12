@@ -1,7 +1,7 @@
 #include "../../includes/minishell.h"
 
-int	split_name_value(const char *string,
-		bool allow_empty_value, char **name, char **value)
+int	split_name_value(const char *string, bool allow_empty_value, char **name,
+		char **value)
 {
 	char	*name_end;
 

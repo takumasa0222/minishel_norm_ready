@@ -28,3 +28,10 @@ int	map_unset(t_map *map, const char *name)
 //  (throw errorにすべき？あとで相談）
 // if the name is in the map, remove it and
 // free the memory of the item (name, value, item itself)
+/*
+一致する項目が見つかった場合：
+prev->next = cur->next で現在の項目（cur）をリストから除く
+cur->name と cur->value を free で解放、続けて cur 自体も解放
+一致しない場合：
+prev を cur に更新し、cur を cur->next に進める
+*/

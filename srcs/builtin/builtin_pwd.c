@@ -6,20 +6,27 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:56:59 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/10/31 21:40:10 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/12 22:57:14 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	builtin_pwd(int argc, char *argv[])
+int	builtin_pwd(int argc, char *argv[], t_map *envmap)
 {
 	char	buf[PATH_MAX];
+	size_t	i;
 
-	if (argc != 1)
+	(void)envmap;
+	i = 1;
+	while (i < argc)
 	{
-		printf("%s: wrong argument\n", argv[0]);
-		return (1);
+		if (argv[i][0] == "-")
+		{
+			printf("%s: option unsupported\n", argv[i]);
+			return (1);
+		}
+		i++;
 	}
 	if (!getcwd(buf, PATH_MAX))
 	{
@@ -29,3 +36,8 @@ int	builtin_pwd(int argc, char *argv[])
 	printf("%s\n", buf);
 	return (0);
 }
+/*
+if multiple arguments are given, ignore them
+and print the current working directory
+if argument contains "-", print error message
+*/

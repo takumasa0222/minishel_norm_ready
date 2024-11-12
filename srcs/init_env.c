@@ -22,16 +22,33 @@ t_map	*init_env(char *envp[])
 // map_put() to add each environment variable to t_map
 static void	envmap_init(t_map *envmap, char **ep)
 {
+	char	cwd[PATH_MAX];
+
 	while (*ep)
 	{
 		map_put(envmap, *ep, false);
 		ep++;
 	}
+	if (map_get(envmap, "SHLVL") == NULL)
+		map_set(envmap, "SHLVL", "1");
+	if (map_get(envmap, "PWD") == NULL)
+	{
+		getcwd(cwd, PATH_MAX);
+		map_set(envmap, "PWD", cwd);
+	}
+	if (map_get(envmap, "OLDPWD") == NULL)
+		map_set(envmap, "ODLPWD", NULL);
 }
+/*
+SHLVL: shell level, the number of nested shells
+if SHLVL is not set, set it to 1
+*/
 
-// get each environment variable from t_map
-// and generate an environment variable array ("KEY=VALUE")
-// the last element of the array is NULL
+/*
+get each environment variable from t_map
+and generate an environment variable array ("KEY=VALUE")
+the last element of the array is NULL
+*/
 char	**get_environ(t_map *map)
 {
 	size_t	i;

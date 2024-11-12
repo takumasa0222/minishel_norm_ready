@@ -10,7 +10,6 @@ t_item	*item_new(char *name, char *value)
 		d_throw_error("item_new", "Memory allocation error");
 	item->name = name;
 	item->value = value;
-	item->next = NULL;
 	return (item);
 }
 
