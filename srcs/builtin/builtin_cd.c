@@ -6,28 +6,30 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/12 22:50:15 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/13 23:20:31 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../includes/utils.h"
 
 int	builtin_cd(int argc, char *argv[], t_map *envmap)
 {
-	(void)envmap;
+	const char	*home;
+
+	if (argc == 1)
+	{
+		home = xgetenv(envmap, "HOME");
+		if (home == NULL)
+		{
+			builtin_error("cd", argv[0], "HOME not set");
+			return (EXIT_FAILURE);
+		}
+	}
 	if (argc > 2)
 	{
 		printf("%s: too many argument\n", argv[0]);
 		return (EXIT_FAILURE);
-	}
-	if (argc == 1)
-	{
-		if (chdir(xgetenv(envmap, "HOME")) < 0)
-		{
-			perror("cd");
-			return (EXIT_FAILURE);
-		}
-		return (EXIT_SUCCESS);
 	}
 	if (chdir(argv[1]) < 0)
 	{

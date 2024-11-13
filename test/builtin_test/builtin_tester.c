@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/12 22:51:09 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/13 23:32:27 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@ void			test_builtin_no_envmap(const char *cmd, int argc, char *argv[]);
 void			test_builtin_with_envmap(const char *cmd, int argc, char *argv[], t_map *envmap);
 void			test_envmap_operations(void);
 
-TestCase		no_envmap_test_cases[] = {
-	{"cd", 1, {"cd", NULL}, "cd with no arguments (expect to home directory)"},
+TestCase		echo_test_cases[] = {
+	{"cd", 1, {"cd", NULL}, "Change to HOME directory when no arguments are provided"},
+    {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
+    {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to a non-existent directory"},
+    {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
+	{"cd", 1, {"cd", NULL}, "Check current directory after failed cd"},
+	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd"},
 	{"pwd", 1, {"pwd", NULL}, "pwd (expect home directory)"},
 	{"cd", 2, {"cd", "/tmp", NULL}, "cd to /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "pwd (expect /tmp)"},
-	{"cd", 2, {"cd", "/non-existent-dir", NULL},
-		"Attempt to change to a non-existent directory"},
+	{"cd", 2, {"cd", "/non-existent-dir", NULL},"Attempt to change to a non-existent directory"},
 	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd"},
 	{"cd", 2, {"cd", "..", NULL}, "Move to the parent directory of /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "cd after moving up a level (expect /)"},
@@ -42,17 +46,14 @@ TestCase		no_envmap_test_cases[] = {
 
 int	main(void)
 {
-	printf("Testing builtins without envmap...\n");
+	printf("Testing envmap operations...\n");
+	test_envmap_operations();
 	for (size_t i = 0; i < sizeof(no_envmap_test_cases) / sizeof(TestCase); i++)
 	{
 		printf("Case %zu: %s\n", i + 1, no_envmap_test_cases[i].description);
 		test_builtin_no_envmap(no_envmap_test_cases[i].cmd, no_envmap_test_cases[i].argc, no_envmap_test_cases[i].argv);
 	}
 	printf("Non-envmap builtins test done.\n");
-
-	printf("Testing envmap operations...\n");
-	test_envmap_operations();
-	printf("Envmap operations test done.\n");
 
 	exit(0);
 }

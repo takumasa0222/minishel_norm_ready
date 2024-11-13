@@ -4,7 +4,7 @@ char	*map_get(t_map *map, const char *name)
 {
 	t_item	*cur;
 
-	if (name == NULL)
+	if (map == NULL || name == NULL)
 		return (NULL);
 	cur = map->item_head.next;
 	while (cur)
