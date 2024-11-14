@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/13 23:32:27 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/14 19:19:09 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,30 @@ typedef struct
 	const char	*description;
 }				TestCase;
 
-void			test_builtin_no_envmap(const char *cmd, int argc, char *argv[]);
-void			test_builtin_with_envmap(const char *cmd, int argc, char *argv[], t_map *envmap);
-void			test_envmap_operations(void);
+void			test_builtin(const char *cmd, int argc, char *argv[], t_map *envmap);
+t_map			*test_envmap_operations(void);
+void			free_envmap(t_map *envmap);
 
-TestCase		echo_test_cases[] = {
+/*
+exitについては未実装部分があり、他の昨日実装後に大幅修正が必要
+cdの仕様は相談が必要
+*/
+TestCase		test_cases[] = {
 	{"cd", 1, {"cd", NULL}, "Change to HOME directory when no arguments are provided"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd with no arguments(expect HOME)"},
     {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd /tmp"},
+	{"cd", 2, {"cd", "..", NULL}, "Change to parent directory"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd .."},
+    {"cd", 2, {"cd", ".", NULL}, "Stay in the current directory"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd ."},
+    {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to non-existent directory"},
+    {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
+    {"cd", 2, {"cd", "/tmp", NULL}, "Check current directory after valid cd"},
+    {"cd", 2, {"cd", "-", NULL}, "Change to previous directory (OLDPWD)"},
     {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to a non-existent directory"},
     {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
-	{"cd", 1, {"cd", NULL}, "Check current directory after failed cd"},
-	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd"},
+	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd(expect /tmp)"},
 	{"pwd", 1, {"pwd", NULL}, "pwd (expect home directory)"},
 	{"cd", 2, {"cd", "/tmp", NULL}, "cd to /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "pwd (expect /tmp)"},
@@ -46,38 +59,21 @@ TestCase		echo_test_cases[] = {
 
 int	main(void)
 {
+	t_map	*envmap;
 	printf("Testing envmap operations...\n");
-	test_envmap_operations();
-	for (size_t i = 0; i < sizeof(no_envmap_test_cases) / sizeof(TestCase); i++)
+	envmap = test_envmap_operations();
+	printf("builtin test...\n");
+	for (size_t i = 0; i < sizeof(test_cases) / sizeof(TestCase); i++)
 	{
-		printf("Case %zu: %s\n", i + 1, no_envmap_test_cases[i].description);
-		test_builtin_no_envmap(no_envmap_test_cases[i].cmd, no_envmap_test_cases[i].argc, no_envmap_test_cases[i].argv);
+		printf("Case %zu: %s\n", i + 1, test_cases[i].description);
+		test_builtin(test_cases[i].cmd, test_cases[i].argc, test_cases[i].argv, envmap);
 	}
-	printf("Non-envmap builtins test done.\n");
-
+	printf("builtins test done.\n");
+	free_envmap(envmap);
 	exit(0);
 }
 
-// test for cd and pwd
-void	test_builtin_no_envmap(const char *cmd, int argc, char *argv[])
-{
-	t_builtin	*builtin;
-
-	builtin = lookup_builtin((char *)cmd);
-	if (builtin)
-	{
-		int status = builtin->f(argc, argv, NULL);
-		if (status != 0)
-			printf("%s execution failed with status %d.\n", cmd, status);
-	}
-	else
-	{
-		printf("%s is not a builtin command.\n", cmd);
-	}
-}
-
-// test for export and other builtins with envmap
-void	test_builtin_with_envmap(const char *cmd, int argc, char *argv[], t_map *envmap)
+void	test_builtin(const char *cmd, int argc, char *argv[], t_map *envmap)
 {
 	t_builtin	*builtin;
 
@@ -94,16 +90,15 @@ void	test_builtin_with_envmap(const char *cmd, int argc, char *argv[], t_map *en
 	}
 }
 
-// envmapの初期化、追加・更新・削除のテスト
-void	test_envmap_operations(void)
+t_map *test_envmap_operations(void)
 {
-	char		*envp[] = {"HOME=/home/user", "PATH=/usr/bin", "SHELL=/bin/bash", NULL};
+	char		*envp[] = {"HOME=/home/ssoeno", "PATH=/usr/bin", "SHELL=/bin/bash", NULL};
 	t_map		*envmap = init_env(envp);
 
 	if (!envmap)
 	{
 		printf("Failed to initialize environment map.\n");
-		return;
+		return (NULL);
 	}
 
 	printf("Environment map initialized.\n");
@@ -119,11 +114,11 @@ void	test_envmap_operations(void)
 
 	printf("Testing env with no options\n");
 	TestCase env_case = {"env", 1, {"env", NULL}, "Print all environment variables"};
-	test_builtin_with_envmap(env_case.cmd, env_case.argc, env_case.argv, envmap);
+	test_builtin(env_case.cmd, env_case.argc, env_case.argv, envmap);
 	
 	printf("Testing export (add NEW_VAR=new_value)\n");
 	TestCase export_case1 = {"export", 2, {"export", "NEW_VAR=new_value", NULL}, "Export NEW_VAR with value"};
-	test_builtin_with_envmap(export_case1.cmd, export_case1.argc, export_case1.argv, envmap);
+	test_builtin(export_case1.cmd, export_case1.argc, export_case1.argv, envmap);
 	
 	printf("Checking if NEW_VAR is added...\n");
 	const char *new_var_value = map_get(envmap, "NEW_VAR");
@@ -135,7 +130,7 @@ void	test_envmap_operations(void)
 	
 	printf("Testing export (update NEW_VAR=updated_value)\n");
 	TestCase export_case2 = {"export", 2, {"export", "NEW_VAR=updated_value", NULL}, "Update NEW_VAR"};
-    test_builtin_with_envmap(export_case2.cmd, export_case2.argc, export_case2.argv, envmap);
+    test_builtin(export_case2.cmd, export_case2.argc, export_case2.argv, envmap);
 
 	printf("Checking if NEW_VAR is updated...\n");
     new_var_value = map_get(envmap, "NEW_VAR");
@@ -144,11 +139,9 @@ void	test_envmap_operations(void)
 	} else {
 		printf("Failed to get NEW_VAR from envmap.\n");
 	}
-	
-	printf("Testing unset (unset NEW_VAR)\n");
+	printf("Testing unset (unset NEW_VAR)...\n");
 	TestCase unset_case = {"unset", 2, {"unset", "NEW_VAR", NULL}, "Unset NEW_VAR"};
-	test_builtin_with_envmap(unset_case.cmd, unset_case.argc, unset_case.argv, envmap);
-	
+	test_builtin(unset_case.cmd, unset_case.argc, unset_case.argv, envmap);
 	printf("Checking if NEW_VAR is unset...\n");
 	new_var_value = map_get(envmap, "NEW_VAR");
 	if (new_var_value == NULL) {
@@ -156,9 +149,24 @@ void	test_envmap_operations(void)
 	} else {
 		printf("Failed to unset NEW_VAR, still exists with value: %s\n", new_var_value);
 	}
+	printf("Testing env with no options...\n");
+	test_builtin(env_case.cmd, env_case.argc, env_case.argv, envmap);
+	return (envmap);
+}
 
-	printf("Testing env with no options\n");
-	test_builtin_with_envmap(env_case.cmd, env_case.argc, env_case.argv, envmap);
-	
-	free(envmap);
+void free_envmap(t_map *map)
+{
+	t_item	*cur;
+	t_item	*next;
+
+	cur = map->item_head.next;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur->name);
+		free(cur->value);
+		free(cur);
+		cur = next;
+	}
+	free(map);
 }
