@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:56:59 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/13 23:10:55 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/14 17:52:10 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	builtin_pwd(int argc, char *argv[], t_map *envmap)
 
 	(void)envmap;
 	i = 1;
-	printf("argc: %d\n", argc);
 	while (i < argc)
 	{
 		if (argv[i][0] == '-')

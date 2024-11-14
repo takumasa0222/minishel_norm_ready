@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/12 22:47:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/14 15:14:18 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_builtin {
 	int		(*f)(int argc, char *argv[], t_map *envmap);
 }	t_builtin;
 
-void		test_builtin(const char *cmd, int argc, char *argv[]);
+// void		test_builtin(const char *cmd, int argc, char *argv[], t_map *envmap);
 t_builtin	*lookup_builtin(char *cmd);
 
 // init_env.c

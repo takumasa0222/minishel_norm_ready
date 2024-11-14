@@ -16,18 +16,23 @@ bool	is_identifier(const char *s)
 }
 // to check if the string follows the rules of an identifier 
 // (starting with an alphabet or underscore, 
-// followed by alphabet, digits, or underscores)"
+// followed by alphabet, digits, or underscores)
 
 t_item	*map_find_item(t_map *map, const char *name)
 {
 	t_item	*cur;
 
+	if (map == NULL || name == NULL || name[0] == '\0')
+		return (NULL);
 	cur = map->item_head.next;
 	while (cur)
 	{
-		if (ft_strcmp_for_map(cur->name, name) == 0)
+		if (cur->name && cur->name[0] != '\0')
 		{
-			return (cur);
+			if (ft_strcmp_for_map(cur->name, name) == 0)
+			{
+				return (cur);
+			}
 		}
 		cur = cur->next;
 	}
@@ -74,7 +79,7 @@ int	map_set(t_map *map, const char *name, const char *value)
 {
 	t_item	*item;
 
-	if (name == NULL || !is_identifier(name))
+	if (map == NULL || name == NULL || !is_identifier(name))
 		return (-1);
 	item = map_find_item(map, name);
 	if (item)

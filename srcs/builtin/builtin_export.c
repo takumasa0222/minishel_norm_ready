@@ -27,6 +27,10 @@ int	builtin_export(int argc, char **argv, t_map *envmap)
 		print_allenv(envmap);
 		return (EXIT_SUCCESS);
 	}
+	if (envmap == NULL) {
+		builtin_error("builtin_export", NULL, "map is not initialized");
+		return (EXIT_FAILURE);
+	}
 	status = 0;
 	i = 1;
 	while (argv[i])
@@ -40,3 +44,5 @@ int	builtin_export(int argc, char **argv, t_map *envmap)
 	}
 	return (status);
 }
+
+
