@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/29 02:00:50 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/31 22:14:40 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	exec_lexer_test(char *test_file_name, char *expected_file)
 	{
 		ret = lexer(test);
 		expected = get_next_line(fd2);
-//		node_printer(ret);
+		//node_printer(ret);
 		if (!match(ret, expected))
 			printf("testcase %d NG\n", i);
 		else
