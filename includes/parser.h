@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/10 22:03:43 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/15 23:52:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 typedef enum e_node_kind{
+	ND_REDIRECTS,
 	ND_IN_RD,
 	ND_OUT_RD,
 	ND_APPEND_RD,
@@ -25,7 +26,8 @@ typedef enum e_node_kind{
 	ND_R_PARE,
 	ND_SUB_SHELL,
 	ND_CMD,
-	ND_FD_NUM
+	ND_FD_NUM,
+	ND_FD_WORD
 }	t_node_kind;
 
 typedef struct s_node	t_node;

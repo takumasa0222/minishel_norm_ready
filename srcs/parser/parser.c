@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/10 22:25:11 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/16 00:18:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,23 @@ t_node	*parse_cmd(t_token **token_list)
 {
 	t_node	*node;
 
-	node = parse_cmd_type();
+	node = NULL;
+	node = parse_cmd_type(token_list);
 	if (!node)
 		d_throw_error();
-	return (parse_cmd_tail(node));
+	return (parse_cmd_tail(node, token_list));
 }
 
-t_node	*parse_cmd_type(t_node *node, t_token **token_list)
+t_node	*parse_cmd_type(t_token **token_list)
 {
-	t_node	*ret;
+	t_node	*node;
 
 	// should not proceed token since in the parse_subshell match_token will be used.
 	if (is_left_pare(ND_L_PARE, token_list))
-		return (parse_subshell(token_list));
+	{
+		node = parse_subshell(token_list);
+		return (node);
+	}	
 	else
 		return (simple_cmd(token_list));
 }
@@ -81,22 +85,49 @@ t_node	*parse_cmd_type(t_node *node, t_token **token_list)
 t_node	*simple_cmd(t_token **token_list)
 {
 	t_node	*node;
+	t_node	*tmp;
 
 	node = create_node(ND_CMD);
 	//add redirect node and the node can contain multi redirect cmds
-	if (match_token(ND_REDIRECT, token_list))
+	if (match_token(ND_REDIRECTS, token_list))
 		node->left = parse_redirect(token_list);
 	//IF NEXT TOKEN IS WORD THEN 
-	node->cmds = word_list();
-	if (!node->cmds)
-		//remove this node since there is no words.
-		//evaluation should be done by simple_command1
-		// token_list should be reset before this function exec. 
-	if (match_token(ND_REDIRECT, token_list))
+	node->cmds = parse_words(token_list);
+	if (!node->cmds && !node->left)
 	{
-		node->right = parse_redirect(token_list);
+		free(node);
+		return (NULL);
 	}
+	else if (!node->cmds && node->left)
+	{
+		tmp = node->left;
+		free(node);
+		return (tmp);
+	}
+	else if (match_token(ND_REDIRECTS, token_list))
+		node->right = parse_redirect(token_list);
 	return (node);
+}
+
+char	**parse_words(t_token	**token_list)
+{
+	char	**ret;
+	int		i;
+
+	i = 0;
+	ret = NULL;
+	if (i)
+		ret = malloc((count_word_node(token_list) + 1) * sizeof(char *));
+	else
+		return (ret);
+	if (!ret)
+		d_throw_error("parse_words", "malloc_error");
+	while (match_token(ND_FD_WORD, token_list))
+	{
+		ret[i] = (*token_list)->word;
+		i++;
+	}
+	return (ret);
 }
 
 t_node	*parse_redirect(t_token **token_list)
@@ -104,14 +135,14 @@ t_node	*parse_redirect(t_token **token_list)
 
 }
 
-t_node	*parse_subshell(t_node *node, t_token **token_list)
+t_node	*parse_subshell(t_token **token_list)
 {
 	t_node	*node;
 	
-	if(!match_token(ND_L_PARE))
+	if(!match_token(ND_L_PARE, token_list))
 		d_throw_error("parser_subshell","syntax_error");
 	node = create_node(ND_SUB_SHELL);
-	node->left = parse_cmd();
+	node->left = parse_cmd(token_list);
 	if(!match_token(ND_R_PARE))
 		d_throw_error("parser_subshell","syntax_error");
 	return (parse_cmd_tail(node, token_list));
@@ -121,21 +152,21 @@ t_node	*parse_cmd_tail(t_node *left, t_token **token_list)
 {
 	t_node	*node;
 
-	if (match_token(ND_PIPE)) 
+	if (match_token(ND_PIPE, token_list)) 
 	{
 		node = create_node(ND_PIPE);
 		node->left = left;
-        node->right = parse_cmd_type();
+        node->right = parse_cmd_type(token_list);
 		return (parse_cmd_tail(node, token_list));
 	}
-	else if (match_token(ND_AND_OP) || match_token(ND_OR_OP))
+	else if (match_token(ND_AND_OP, token_list) || match_token(ND_OR_OP, token_list))
 	{
-		if (match_token (ND_AND_OP))
+		if (match_token (ND_AND_OP, token_list))
 			node = create_node(ND_AND_OP);
 		else
 			node = create_node(ND_OR_OP);
 		node->left = left;
-		node->right = parse_cmd_type();
+		node->right = parse_cmd_type(token_list);
 		return (parse_cmd_tail(node, token_list));
 	}
 	else if (is_redirection(current_token))
@@ -162,9 +193,4 @@ t_node	*create_node(t_node_kind token_kind)
 		d_throw_error("create_node", "malloc failed");
 	new_node->kind = token_kind;
 	return (new_node);
-}
-
-match_subshell()
-{
-	
 }
