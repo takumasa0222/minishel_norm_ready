@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_checker.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/29 01:35:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/03 05:21:15 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,5 @@ bool	is_operator(char *input)
 	}
 	return (false);
 }
+
+

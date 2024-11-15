@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/29 01:36:00 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/03 05:21:33 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,15 @@ t_token	*lexer(char *line);
 bool	skip_blank(char **rest, char *input);
 t_token	*fetch_fst_ope_token(char *input);
 t_token	*fetch_fst_word_token(char *input);
+int		move_to_next_quotation(char *input, int i);
 
 bool	is_metachar(int c);
 bool	is_word(char *input);
 bool	is_blank(char c);
 bool	is_operator(char *input);
+
+bool	is_s_quote(char input);
+bool	is_d_quote(char input);
 
 size_t	get_char_arry_size(char **str);
 t_token	*create_token(char *word, t_token_kind kind);
