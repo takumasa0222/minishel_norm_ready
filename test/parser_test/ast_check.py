@@ -38,7 +38,8 @@ shell_grammar = """
 	command: cmd_type command_tail
 	command_tail: "|" cmd_type command_tail 
             | ("&&" | "||") cmd_type command_tail
-            | redirection
+            | redirection 
+			| command
 			|
 	cmd_type: simple_command | subshell
 	subshell: "(" command ")" command_tail*
@@ -120,7 +121,9 @@ commands = [
 	"< file1 cat | sort abc asfd ec >out | abc |((ls)&&(cat)) >asf || cat >qwe>as>asdf>asf",
 	"((ls))",
 	">files",
-	">files>a>b>c"
+	">files>a>b>c",
+	"(ls | grep log) >file || (cat logs > log_backup)",
+	">files>a>b>c(ls | grep log) >file || (cat logs > log_backup)"
 ]
 
 index = 0

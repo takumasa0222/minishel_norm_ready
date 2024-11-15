@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/03 05:21:33 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/16 04:10:20 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,26 @@ typedef enum e_token_kind
 	TK_EOF,
 }	t_token_kind;
 
+typedef enum e_node_kind{
+	ND_REDIRECTS,
+	ND_IN_RD,
+	ND_OUT_RD,
+	ND_APPEND_RD,
+	ND_HERE_DOC,
+	ND_PIPE,
+	ND_OR_OP,
+	ND_AND_OP,
+	ND_L_PARE,
+	ND_R_PARE,
+	ND_SUB_SHELL,
+	ND_CMD,
+	ND_FD_NUM,
+	ND_FD_WORD
+}	t_node_kind;
+
 struct s_token {
 	char			*word;
-	t_token_kind	kind;
+	t_node_kind		kind;
 	t_token			*next;
 };
 
