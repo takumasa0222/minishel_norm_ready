@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/10/26 20:35:22 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/11/03 05:24:53 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ ifeq ($(UNAME_S),Darwin)
 	INCLUDES += -I$(RLDIR)/include
 else
 	# for Linux
-	LIBS := -lreadline
+	# LIBS := -lreadline
 endif
 
 SRCS = \
@@ -34,6 +34,7 @@ SRCS = \
 ./ft_get_next_line/get_next_line_utils_bonus.c \
 ../../srcs/lexer/lexer_helper.c \
 ../../srcs/lexer/lexer_token_checker.c \
+../../srcs/lexer/lexer_token_quote_checker.c \
 ../../srcs/lexer/lexer.c \
 ../../srcs/utils/error.c
 
