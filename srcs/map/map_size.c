@@ -1,4 +1,5 @@
 #include "../../includes/minishell.h"
+#include "../../includes/builtin.h"
 
 size_t	map_size(t_map *map, bool count_null_value)
 {

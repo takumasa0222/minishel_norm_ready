@@ -1,4 +1,5 @@
 #include "../includes/minishell.h"
+#include "../includes/builtin.h"
 
 static void	envmap_init(t_map *envmap, char **ep);
 

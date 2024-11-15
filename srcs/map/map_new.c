@@ -1,5 +1,6 @@
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
+#include "../../includes/builtin.h"
 
 /*
 item_head is a dummy item which is not counted in the size of the map

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/15 17:23:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/15 22:32:40 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,13 @@ int	builtin_cd(int argc, char *argv[], t_map *envmap)
 		}
 		ft_strlcpy(path, home, PATH_MAX);
 	}
-	else
-		ft_strlcpy(path, argv[1], PATH_MAX);
-
+	if (argc == 2 && argv[1][0] == '-')
+	{
+		ft_strlcpy(path, xgetenv(envmap, "OLDPWD"), PATH_MAX);
+	}
 	if (chdir(path) < 0)
 	{
+		perror("chdir");
 		builtin_error("cd", NULL, "chdir");
 		return (EXIT_FAILURE);
 	}

@@ -1,5 +1,6 @@
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
+#include "../../includes/builtin.h"
 
 int	split_name_value(const char *string, bool allow_empty_value, char **name,
 		char **value)

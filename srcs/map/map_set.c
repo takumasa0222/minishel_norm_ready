@@ -1,5 +1,6 @@
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
+#include "../../includes/builtin.h"
 
 bool	is_identifier(const char *s)
 {

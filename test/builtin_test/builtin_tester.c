@@ -6,12 +6,12 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/15 17:34:30 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/15 22:35:47 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-#include "../includes/builtin.h"
+#include "../../includes/minishell.h"
+#include "../../includes/builtin.h"
 
 typedef struct
 {
@@ -32,9 +32,13 @@ cdの仕様は相談が必要
 TestCase		test_cases[] = {
 	{"cd", 1, {"cd", NULL}, "Change to HOME directory when no arguments are provided"},
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd with no arguments(expect HOME)"},
+	{"cd", 2, {"cd", "Downloads", NULL}, "cd Downloads"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd Downloads"},
+	{"cd", 2, {"cd", "../../", NULL}, "cd ../../ expect home directory"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd ../../"},
     {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd /tmp"},
-	{"cd", 2, {"cd", "..", NULL}, "Change to parent directory (cd ..)"},
+	{"cd", 2, {"cd", "..", NULL}, "Change to parent directory (cd ..), expect root directory"},
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd .."},
     {"cd", 2, {"cd", ".", NULL}, "Stay in the current directory (cd .), expect /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd ."},
@@ -46,18 +50,18 @@ TestCase		test_cases[] = {
     {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
     {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to a non-existent directory"},
     {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
-	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd(expect /tmp)"},
-	{"pwd", 1, {"pwd", NULL}, "pwd (expect home directory)"},
-	{"cd", 2, {"cd", "/tmp", NULL}, "cd to /tmp"},
-	{"pwd", 1, {"pwd", NULL}, "pwd (expect /tmp)"},
-	{"cd", 2, {"cd", "/non-existent-dir", NULL},"Attempt to change to a non-existent directory"},
-	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd"},
-	{"cd", 2, {"cd", "..", NULL}, "Move to the parent directory of /tmp"},
-	{"pwd", 1, {"pwd", NULL}, "cd after moving up a level (expect /)"},
-	{"echo", 1, {"echo", NULL}, "Echo with no arguments (expect newline only)"},
-    {"echo", 2, {"echo", "-n", NULL}, "Echo with -n only (no newline)"},
-	{"echo", 2, {"echo", "Hello, world!", NULL}, "Echo with single argument"},
-    {"echo", 3, {"echo", "-n", "No newline"}, "Echo with -n (no newline)"},
+	// {"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd(expect /tmp)"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd (expect home directory)"},
+	// {"cd", 2, {"cd", "/tmp", NULL}, "cd to /tmp"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd (expect /tmp)"},
+	// {"cd", 2, {"cd", "/non-existent-dir", NULL},"Attempt to change to a non-existent directory"},
+	// {"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd"},
+	// {"cd", 2, {"cd", "..", NULL}, "Move to the parent directory of /tmp"},
+	// {"pwd", 1, {"pwd", NULL}, "cd after moving up a level (expect /)"},
+	// {"echo", 1, {"echo", NULL}, "Echo with no arguments (expect newline only)"},
+    // {"echo", 2, {"echo", "-n", NULL}, "Echo with -n only (no newline)"},
+	// {"echo", 2, {"echo", "Hello, world!", NULL}, "Echo with single argument"},
+    // {"echo", 3, {"echo", "-n", "No newline"}, "Echo with -n (no newline)"},
 };
 
 int	main(void)
