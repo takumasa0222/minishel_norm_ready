@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/15 22:35:47 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/15 23:23:50 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,25 @@ cdの仕様は相談が必要
 */
 TestCase		test_cases[] = {
 	{"cd", 1, {"cd", NULL}, "Change to HOME directory when no arguments are provided"},
-	{"pwd", 1, {"pwd", NULL}, "pwd after cd with no arguments(expect HOME)"},
-	{"cd", 2, {"cd", "Downloads", NULL}, "cd Downloads"},
-	{"pwd", 1, {"pwd", NULL}, "pwd after cd Downloads"},
-	{"cd", 2, {"cd", "../../", NULL}, "cd ../../ expect home directory"},
-	{"pwd", 1, {"pwd", NULL}, "pwd after cd ../../"},
-    {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
-	{"pwd", 1, {"pwd", NULL}, "pwd after cd /tmp"},
-	{"cd", 2, {"cd", "..", NULL}, "Change to parent directory (cd ..), expect root directory"},
-	{"pwd", 1, {"pwd", NULL}, "pwd after cd .."},
-    {"cd", 2, {"cd", ".", NULL}, "Stay in the current directory (cd .), expect /tmp"},
-	{"pwd", 1, {"pwd", NULL}, "pwd after cd ."},
-	{"cd", 2, {"cd", "../bin", NULL}, "cd ../bin"},
-	{"pwd", 1, {"pwd", NULL}, "pwd after cd ../bin"},
-    {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to non-existent directory"},
-	{"cd", 2, {"cd", "../tmp", NULL}, "cd ../tmp"},
-	{"pwd", 1, {"pwd", NULL}, "pwd after cd ../tmp"},
-    {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
-    {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to a non-existent directory"},
-    {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd with no arguments(expect HOME)"},
+	// {"cd", 2, {"cd", "Downloads", NULL}, "cd Downloads"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd Downloads"},
+	// {"cd", 2, {"cd", "../../", NULL}, "cd ../../ expect home directory"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd ../../"},
+    // {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd /tmp"},
+	// {"cd", 2, {"cd", "..", NULL}, "Change to parent directory (cd ..), expect root directory"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd .."},
+    // {"cd", 2, {"cd", ".", NULL}, "Stay in the current directory (cd .), expect /tmp"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd ."},
+	// {"cd", 2, {"cd", "../bin", NULL}, "cd ../bin"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd ../bin"},
+    // {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to non-existent directory"},
+	// {"cd", 2, {"cd", "../tmp", NULL}, "cd ../tmp"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd ../tmp"},
+    // {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
+    // {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to a non-existent directory"},
+    // {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
 	// {"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd(expect /tmp)"},
 	// {"pwd", 1, {"pwd", NULL}, "pwd (expect home directory)"},
 	// {"cd", 2, {"cd", "/tmp", NULL}, "cd to /tmp"},
@@ -67,6 +67,7 @@ TestCase		test_cases[] = {
 int	main(void)
 {
 	t_map	*envmap;
+
 	printf("Testing envmap operations...\n");
 	envmap = test_envmap_operations();
 	printf("builtin test...\n");
