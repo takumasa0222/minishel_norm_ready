@@ -6,11 +6,12 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/14 19:19:09 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/15 17:34:30 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/builtin.h"
 
 typedef struct
 {
@@ -33,14 +34,16 @@ TestCase		test_cases[] = {
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd with no arguments(expect HOME)"},
     {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd /tmp"},
-	{"cd", 2, {"cd", "..", NULL}, "Change to parent directory"},
+	{"cd", 2, {"cd", "..", NULL}, "Change to parent directory (cd ..)"},
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd .."},
-    {"cd", 2, {"cd", ".", NULL}, "Stay in the current directory"},
+    {"cd", 2, {"cd", ".", NULL}, "Stay in the current directory (cd .), expect /tmp"},
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd ."},
+	{"cd", 2, {"cd", "../bin", NULL}, "cd ../bin"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd ../bin"},
     {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to non-existent directory"},
+	{"cd", 2, {"cd", "../tmp", NULL}, "cd ../tmp"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd ../tmp"},
     {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
-    {"cd", 2, {"cd", "/tmp", NULL}, "Check current directory after valid cd"},
-    {"cd", 2, {"cd", "-", NULL}, "Change to previous directory (OLDPWD)"},
     {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to a non-existent directory"},
     {"cd", 2, {"cd", "extra_arg", NULL}, "Too many arguments for cd"},
 	{"pwd", 1, {"pwd", NULL}, "Check current directory after failed cd(expect /tmp)"},

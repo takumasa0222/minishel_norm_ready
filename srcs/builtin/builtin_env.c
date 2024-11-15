@@ -1,4 +1,5 @@
 #include "../../includes/minishell.h"
+#include "../../includes/builtin.h"
 
 int	builtin_env(int argc, char *argv[], t_map *envmap)
 {

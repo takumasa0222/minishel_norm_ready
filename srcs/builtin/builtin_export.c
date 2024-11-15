@@ -1,5 +1,6 @@
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
+#include "../../includes/builtin.h"
 
 void	print_allenv(t_map *envmap)
 {

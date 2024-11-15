@@ -6,12 +6,13 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/14 19:11:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/15 17:23:53 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
+#include "../../includes/builtin.h"
 
 bool	consume_path(char **rest, char *path, char *elem)
 {

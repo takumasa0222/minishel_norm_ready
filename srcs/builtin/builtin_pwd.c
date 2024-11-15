@@ -6,11 +6,12 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:56:59 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/14 17:52:10 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/15 17:24:10 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../includes/builtin.h"
 
 int	builtin_pwd(int argc, char *argv[], t_map *envmap)
 {

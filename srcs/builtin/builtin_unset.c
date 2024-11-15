@@ -1,5 +1,6 @@
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
+#include "../../includes/builtin.h"
 
 int	builtin_unset(int argc, char *argv[], t_map *envmap)
 {
