@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/12 20:46:05 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/11/16 20:12:45 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,10 +42,10 @@ SRCS = ./builtin_tester.c \
 ../../srcs/builtin/builtin_env.c \
 ../../srcs/builtin/lookup_builtin.c \
 ../../srcs/map/item_utils.c \
+../../srcs/map/map_set.c \
 ../../srcs/map/map_get.c \
 ../../srcs/map/map_new.c \
 ../../srcs/map/map_put.c \
-../../srcs/map/map_set.c \
 ../../srcs/map/map_size.c \
 ../../srcs/map/map_unset.c \
 ../../srcs/utils/error.c \

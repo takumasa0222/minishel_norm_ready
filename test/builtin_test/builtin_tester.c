@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/15 23:23:50 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/16 20:31:47 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,22 @@ cdの仕様は相談が必要
 */
 TestCase		test_cases[] = {
 	{"cd", 1, {"cd", NULL}, "Change to HOME directory when no arguments are provided"},
-	// {"pwd", 1, {"pwd", NULL}, "pwd after cd with no arguments(expect HOME)"},
-	// {"cd", 2, {"cd", "Downloads", NULL}, "cd Downloads"},
-	// {"pwd", 1, {"pwd", NULL}, "pwd after cd Downloads"},
-	// {"cd", 2, {"cd", "../../", NULL}, "cd ../../ expect home directory"},
-	// {"pwd", 1, {"pwd", NULL}, "pwd after cd ../../"},
-    // {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
-	// {"pwd", 1, {"pwd", NULL}, "pwd after cd /tmp"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd with no arguments(expect HOME)"},
+	// {"cd", 2, {"cd", "Downloads", NULL}, "cd Downloads (not supported)"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd Downloads (not supported)"},
+    {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
+	{"pwd", 1, {"pwd", NULL}, "pwd after cd /tmp"},
 	// {"cd", 2, {"cd", "..", NULL}, "Change to parent directory (cd ..), expect root directory"},
 	// {"pwd", 1, {"pwd", NULL}, "pwd after cd .."},
     // {"cd", 2, {"cd", ".", NULL}, "Stay in the current directory (cd .), expect /tmp"},
+	// {"cd", 2, {"cd", "/", NULL}, "Change to root directory (cd /) "},
+	// {"cd", 2, {"cd", "/bin", NULL}, "cd /bin"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd /bin (expect /usr/bin because of symbolic link)"},
 	// {"pwd", 1, {"pwd", NULL}, "pwd after cd ."},
-	// {"cd", 2, {"cd", "../bin", NULL}, "cd ../bin"},
-	// {"pwd", 1, {"pwd", NULL}, "pwd after cd ../bin"},
+	// {"cd", 2, {"cd", "/tmp", NULL}, "Change to the specified directory /tmp"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd /tmp"},
+	// {"cd", 2, {"cd", "-", NULL}, "Change to the previous directory (cd -)"},
+	// {"pwd", 1, {"pwd", NULL}, "pwd after cd - (expect /usr/bin)"}
     // {"cd", 2, {"cd", "/nonexistentdir", NULL}, "Attempt to change to non-existent directory"},
 	// {"cd", 2, {"cd", "../tmp", NULL}, "cd ../tmp"},
 	// {"pwd", 1, {"pwd", NULL}, "pwd after cd ../tmp"},
@@ -81,6 +84,7 @@ int	main(void)
 	exit(0);
 }
 
+// {"cd", 1, {"cd", NULL}, "Change to HOME directory when no arguments are provided"},
 void	test_builtin(const char *cmd, int argc, char *argv[], t_map *envmap)
 {
 	t_builtin	*builtin;

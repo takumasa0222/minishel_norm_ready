@@ -38,7 +38,10 @@ static void	envmap_init(t_map *envmap, char **ep)
 		map_set(envmap, "PWD", cwd);
 	}
 	if (map_get(envmap, "OLDPWD") == NULL)
-		map_set(envmap, "ODLPWD", NULL);
+	{
+		map_set(envmap, "OLDPWD", cwd);
+	}
+	printf("EDBUG envmap_init OLDPWD: %s\n", map_get(envmap, "OLDPWD"));
 }
 /*
 SHLVL: shell level, the number of nested shells
