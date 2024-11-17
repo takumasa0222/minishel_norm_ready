@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/17 19:32:22 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/11/17 23:11:35 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ endif
 LIBFT_DIR = ../../libft
 LIBFT = ${LIBFT_DIR}/libft.a
 
-SRCS = ./builtin_tester.c \
+SRCS = \
 ../../srcs/builtin/builtin_cd.c \
 ../../srcs/builtin/builtin_cd_utils.c \
 ../../srcs/builtin/builtin_exit.c \
@@ -50,7 +50,10 @@ SRCS = ./builtin_tester.c \
 ../../srcs/map/map_size.c \
 ../../srcs/map/map_unset.c \
 ../../srcs/utils/error.c \
-../../srcs/init_env.c
+../../srcs/init_env.c \
+./tm_tester.c
+#./builtin_tester.c \
+
 
 OBJS = $(SRCS:.c=.o)
 

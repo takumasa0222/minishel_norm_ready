@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_tester.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:41:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/17 23:08:30 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ typedef struct
 {
 	const char	*cmd;
 	int			argc;
-	char		*argv[3];
+	char		*argv[4];
 	const char	*description;
 }				TestCase;
 
@@ -64,7 +64,7 @@ TestCase		test_cases[] = {
 	{"echo", 1, {"echo", NULL}, "Echo with no arguments (expect newline only)"},
     {"echo", 2, {"echo", "-n", NULL}, "Echo with -n only (no newline)"},
 	{"echo", 2, {"echo", "Hello, world!", NULL}, "Echo with single argument"},
-    {"echo", 3, {"echo", "-n", "No newline"}, "Echo with -n (no newline)"},
+    {"echo", 3, {"echo", "-n", "No newline",NULL}, "Echo with -n (no newline)"},
 };
 
 int	main(void)
