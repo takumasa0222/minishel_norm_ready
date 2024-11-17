@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_set.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/17 19:53:57 by ssoeno            #+#    #+#             */
+/*   Updated: 2024/11/17 19:54:00 by ssoeno           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
 #include "../../includes/builtin.h"
@@ -45,7 +57,10 @@ void	map_update_item(t_item *item, const char *value)
 	if (item == NULL)
 		d_throw_error("map_update_item", "item is NULL");
 	if (item->value)
+	{
 		free(item->value);
+		item->value = NULL;
+	}
 	if (value == NULL)
 		item->value = NULL;
 	else
@@ -83,9 +98,6 @@ int	map_set(t_map *map, const char *name, const char *value)
 {
 	t_item	*item;
 
-	printf("DEBUG map_set name: %s\n", name);
-	printf("DEBUG map_set value: %s\n", value);
-
 	if (map == NULL || name == NULL || !is_identifier(name))
 		return (-1);
 	item = map_find_item(map, name);
@@ -93,8 +105,5 @@ int	map_set(t_map *map, const char *name, const char *value)
 		map_update_item(item, value);
 	else
 		map_add_item(map, name, value);
-
-	printf("DEBUG map_set, print_allenv\n");
-	print_allenv(map);
 	return (EXIT_SUCCESS);
 }

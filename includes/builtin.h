@@ -61,22 +61,24 @@ size_t		map_size(t_map *map, bool count_null_value);
 // map_unset.c
 int			map_unset(t_map *map, const char *name);
 
-// builtin_cd.c, builtin_pwd.c, builtin_exit.c
+// builtin_cd.c
 int			builtin_cd(int argc, char *argv[], t_map *envmap);
+
+// builtin_cd_utils.c
+bool	consume_path(char **rest, char *path, char *elem);
+void	delete_last_elem(char *path);
+void	append_path_elem(char *dst, char **rest, char *src);
+char	*resolve_pwd(char *pwd_before_chdir, char *path);
+
+// builtin pwd, exit, unset, env, echo
 int			builtin_pwd(int argc, char *argv[], t_map *envmap);
 int			builtin_exit(int argc, char *argv[], t_map *envmap);
+int			builtin_unset(int argc, char *argv[], t_map *envmap);
+int			builtin_env(int argc, char *argv[], t_map *envmap);
+int			builtin_echo(int argc, char *argv[], t_map *envmap);
 
 // builtin_export.c
 void   		print_allenv(t_map *envmap);
 int     	builtin_export(int argc, char **argv, t_map *envmap);
-
-// builtin_unset.c
-int			builtin_unset(int argc, char *argv[], t_map *envmap);
-
-// builtin_env.c
-int			builtin_env(int argc, char *argv[], t_map *envmap);
-
-// builtin_echo.c
-int			builtin_echo(int argc, char *argv[], t_map *envmap);
 
 #endif

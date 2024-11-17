@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/17 19:55:24 by ssoeno            #+#    #+#             */
+/*   Updated: 2024/11/17 19:55:27 by ssoeno           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include "../includes/builtin.h"
 
@@ -39,7 +51,7 @@ static void	envmap_init(t_map *envmap, char **ep)
 	}
 	if (map_get(envmap, "OLDPWD") == NULL)
 	{
-		map_set(envmap, "OLDPWD", cwd);
+		map_set(envmap, "OLDPWD", "/home/ssoeno/Downloads");
 	}
 	printf("EDBUG envmap_init OLDPWD: %s\n", map_get(envmap, "OLDPWD"));
 }

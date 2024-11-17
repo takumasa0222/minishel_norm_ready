@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/17 19:49:49 by ssoeno            #+#    #+#             */
+/*   Updated: 2024/11/17 19:49:51 by ssoeno           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
 #include "../../includes/builtin.h"
@@ -28,7 +40,8 @@ int	builtin_export(int argc, char **argv, t_map *envmap)
 		print_allenv(envmap);
 		return (EXIT_SUCCESS);
 	}
-	if (envmap == NULL) {
+	if (envmap == NULL)
+	{
 		builtin_error("builtin_export", NULL, "map is not initialized");
 		return (EXIT_FAILURE);
 	}
@@ -36,14 +49,11 @@ int	builtin_export(int argc, char **argv, t_map *envmap)
 	i = 1;
 	while (argv[i])
 	{
-		if (map_put(envmap, argv[i], true) < 0)
+		if (map_put(envmap, argv[i++], true) < 0)
 		{
-			builtin_error("export", argv[i], "not a valid identifier");
+			builtin_error("export", argv[i - 1], "not a valid identifier");
 			status = 1;
 		}
-		i++;
 	}
 	return (status);
 }
-
-
