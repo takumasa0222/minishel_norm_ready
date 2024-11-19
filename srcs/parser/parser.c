@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/16 04:33:26 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:42:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ t_node	*parse_redirects(t_token **token_list)
 	t_node	*node;
 
 	node = NULL;
-	if (match_token(ND_REDIRECTS, token_list))
+	if (compare_token(ND_REDIRECTS, token_list))
 	{
 		node = create_node(ND_REDIRECTS);
 		node->redirects = parse_redirect_arry(token_list);
@@ -158,7 +158,8 @@ t_node	*parse_subshell(t_token **token_list)
 	node->left = parse_cmd(token_list);
 	if (!match_token(ND_R_PARE, token_list))
 		d_throw_error("parser_subshell", "syntax_error");
-	return (parse_cmd_tail(node, token_list));
+	return (node);
+	//return (parse_cmd_tail(node, token_list));
 }
 
 t_node	*parse_cmd_tail(t_node *left, t_token **token_list)
@@ -241,7 +242,7 @@ char **parse_redirect_arry(t_token	**token_list)
 
 	i = 0;
 	ret = NULL;
-	if (i)
+	if (count_rd_node(token_list))
 		ret = malloc((count_rd_node(token_list) + 1) * sizeof(char *));
 	else
 		return (ret);
