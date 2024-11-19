@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:41:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/19 19:37:32 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ typedef struct
 {
 	const char	*cmd;
 	int			argc;
-	char		*argv[3];
+	char		*argv[4];
 	const char	*description;
 }				TestCase;
 
@@ -30,6 +30,7 @@ exitについては未実装部分があり、他の昨日実装後に大幅修�
 cdの仕様は相談が必要
 */
 TestCase		test_cases[] = {
+	{"pwd", 2, {"pwd", "-P", NULL}, "pwd after cd with no arguments(expect HOME)"},
 	{"cd", 1, {"cd", NULL}, "Change to HOME directory when no arguments are provided"},
 	{"pwd", 1, {"pwd", NULL}, "pwd after cd with no arguments(expect HOME)"},
 	{"cd", 2, {"cd", ".../", NULL}, "cd .../, expect chdir error (no such file) "},
@@ -63,8 +64,10 @@ TestCase		test_cases[] = {
 	{"pwd", 1, {"pwd", NULL}, "cd after moving up a level (expect /)"},
 	{"echo", 1, {"echo", NULL}, "Echo with no arguments (expect newline only)"},
     {"echo", 2, {"echo", "-n", NULL}, "Echo with -n only (no newline)"},
-	{"echo", 2, {"echo", "Hello, world!", NULL}, "Echo with single argument"},
-    {"echo", 3, {"echo", "-n", "No newline"}, "Echo with -n (no newline)"},
+	{"echo", 3, {"echo", "-n", "hello", NULL}, "echo -n hello (expect hello without newline)"},
+	{"echo", 3, {"echo", "Hello, world!", NULL}, "Echo with single argument"},
+	{"echo", 3, {"echo", "-nabc", "newline", NULL}, "echo -nabc newline (expect -nabc newline)"},
+	{"echo", 3, {"echo", "-nnnnnn", "newline", NULL}, "echo -nnnnnn newline (expect newline without newline)"}
 };
 
 int	main(void)
