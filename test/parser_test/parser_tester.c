@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:16:13 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/19 18:55:07 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:32:04 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,69 +42,69 @@ void	exec_parser_test(void)
 	//{"cat", ">", "file", "||", "ls"},                 // テストケース20
 	//{"(", "echo", "Hello", ">", "file", "&&", "(", "cat", "|", "grep", "abc", ")", "||", "ls", ")"},  // テストケース21
 	//{"echo", "abc", ">", "file", "||", "(", "ls", "|", "grep", "xyz", ")", "&&", "cat"},  // テストケース22
-	{"(", "cat", ">", "file", "|", "grep", "abc", ")", "&&", "ls", "|", "sort"},  // テストケース23
-	{"echo", "start", ">", "file1", "&&", "(", "echo", "middle", "|", "sort", ">", "file2", ")", "||", "echo", "end"},  // テストケース24
-	{"(", "(", "ls", "|", "grep", "abc", ")", "&&", "echo", "done", ">", "output", ")", "||", "cat"},  // テストケース25
-	{"echo", "foo", ">", "file1", "&&", "(", "echo", "bar", ">", "file2", "&&", "cat", ")", "|", "sort"},  // テストケース26
-	{"(", "echo", "foo", "|", "sort", ">", "file1", "&&", "(", "ls", "|", "grep", "bar", ")", "||", "cat"},  // テストケース27
+	//{"(", "cat", ">", "file", "|", "grep", "abc", ")", "&&", "ls", "|", "sort"},  // テストケース23
+	//{"echo", "start", ">", "file1", "&&", "(", "echo", "middle", "|", "sort", ">", "file2", ")", "||", "echo", "end"},  // テストケース24
+	//{"(", "(", "ls", "|", "grep", "abc", ")", "&&", "echo", "done", ">", "output", ")", "||", "cat"},  // テストケース25
+	//{"echo", "foo", ">", "file1", "&&", "(", "echo", "bar", ">", "file2", "&&", "cat", ")", "|", "sort"},  // テストケース26
+	{"(", "echo", "foo", "|", "sort", ">", "file1", "&&", "(", "ls", "|", "grep", "bar", ")", "||", "cat", ")"},  // テストケース27
 	{"cat", ">", "file", "|", "(", "echo", "start", "|", "grep", "xyz", ")", "&&", "ls", "|", "sort"},  // テストケース28
 	{"(", "echo", "first", "&&", "ls", ">", "file1", "|", "cat", "&&", "echo", "second", ")", "||", "cat"},  // テストケース29
 	{"(", "echo", "start", ">", "file", "&&", "(", "cat", "|", "grep", "abc", ")", "&&", "echo", "end", ")", "||", "ls"}  // テストケース30
 };
 
 	t_node_kind test_kinds[][30] = {
-    //{ND_FD_WORD},      // テストケース1
-    //{ND_REDIRECTS, ND_FD_WORD},      // テストケース2
-    //{ND_FD_WORD, ND_PIPE, ND_FD_WORD},       // テストケース3
-	//{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},         // テストケース11
-	//{ND_L_PARE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE}, // テストケース12
-	//{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD},                             // テストケース13
-	//{ND_L_PARE, ND_FD_WORD, ND_OR_OP, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE},  // テストケース14
-	//{ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},           // テストケース15
-	//{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD},      // テストケース16
-	//{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE}, // テストケース17
-	//{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE}, // テストケース18
-	//{ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},             // テストケース19
-	//{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},                    // テストケース20
-	//{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_R_PARE}, // テストケース21
-	//{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_OR_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD}, // テストケース22
+    {ND_FD_WORD},      // テストケース1
+    {ND_REDIRECTS, ND_FD_WORD},      // テストケース2
+    {ND_FD_WORD, ND_PIPE, ND_FD_WORD},       // テストケース3
+	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},         // テストケース11
+	{ND_L_PARE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE}, // テストケース12
+	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD},                             // テストケース13
+	{ND_L_PARE, ND_FD_WORD, ND_OR_OP, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE},  // テストケース14
+	{ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},           // テストケース15
+	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD},      // テストケース16
+	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE}, // テストケース17
+	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE}, // テストケース18
+	{ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},             // テストケース19
+	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},                    // テストケース20
+	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_R_PARE}, // テストケース21
+	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_OR_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD}, // テストケース22
 	{ND_L_PARE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース23
-	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース24
+	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE,ND_FD_WORD,ND_FD_WORD,ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_FD_WORD}, // テストケース24
 	{ND_L_PARE, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース25
 	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_PIPE, ND_FD_WORD}, // テストケース26
-	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース27
+	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD,ND_R_PARE}, // テストケース27
 	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース28
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース29
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース30
 
 	};
 	int	list_size[30] = {
-		//1,
-		//2,
-		//3,
-		//6, case11
-		//8, case12
-		//4, case13
-		//7, case14
-		//6, case15
-		//6, case16
-		//8, case17
-		//9, case18
-		//6, case19
-		//5, case20
-		//15, 
-		//13, 
-		12, 
-		10, 
-		15, 
-		13, 
-		14, 
+		1,
+		2,
+		3,
+		6, //case11
+		8, //case12
+		4, //case13
+		7, //case14
+		6, //case15
+		6, //case16
+		8, //case17
+		9, //case18
+		6, //case19
+		5, //case20
+		15, //case21
+		13, //case22
+		12, //case23
+		16, //case24
+		15, //case25
+		15, //case26
+		17, 
 		14, 
 		13, 
 		18
 	};
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 30; i++)
 	{
 		printf("---------------testcase [%d]\n",i + 1);
 		token_list = create_dummy_token_list(test_words[i], test_kinds[i], list_size[i]);

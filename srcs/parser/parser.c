@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/19 18:42:38 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:44:53 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,35 @@ this parser will create AST based on below eBNF.
             | ("&&" | "||") cmd_type command_tail
             | redirection
 			|
+	cmd_type: simple_command | subshell
+	subshell: "(" command ")" command_tail*
+	simple_command: redirection* wordlist redirection* | redirection+
+    wordlist: WORD | wordlist WORD
+    redirection: ">" filename
+               | "<" filename
+               | ">>" filename
+               | "<<" filename
+               | "<>" filename
+               | NUMBER ">" filename
+               | NUMBER "<" filename
+               | NUMBER ">>" filename
+               | NUMBER "<<" filename
+               | NUMBER "<>" filename
+    filename: WORD
+    WORD: /[a-zA-Z0-9_"]+/
+    NUMBER: /[0-9]+/
+				
+*/
+
+/*
+this parser will create AST based on below eBNF.
+    start: command
+	command: cmd_type (command_tail | pipe_tail)
+	command_tail: 
+            | ("&&" | "||") cmd_type (command_tail | pipe_tail) 
+            | redirection
+			|
+	pipe_tail: "|" cmd_type (command_tail | pipe_tail)
 	cmd_type: simple_command | subshell
 	subshell: "(" command ")" command_tail*
 	simple_command: redirection* wordlist redirection* | redirection+
@@ -183,7 +212,13 @@ t_node	*parse_cmd_tail(t_node *left, t_token **token_list)
 			node = create_node(ND_OR_OP);
 		node->left = left;
 		node->right = parse_cmd_type(token_list);
-		return (parse_cmd_tail(node, token_list));
+		if (compare_token(ND_PIPE, token_list))
+		{
+			node->right = parse_cmd_tail(node->right,token_list);
+			return (node);
+		}
+		else
+			return (parse_cmd_tail(node, token_list));
 	}
 	else if (compare_token(ND_REDIRECTS, token_list))
 		return (parse_redirects(token_list));

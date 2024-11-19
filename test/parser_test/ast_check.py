@@ -35,12 +35,12 @@ from lark import Lark, Transformer, Tree
 
 shell_grammar = """
     start: command
-	command: cmd_type command_tail
-	command_tail: "|" cmd_type command_tail 
-            | ("&&" | "||") cmd_type command_tail
-            | redirection 
-			| command
+	command: cmd_type (command_tail | pipe_tail | subshell)
+	command_tail: 
+            | ("&&" | "||") cmd_type (command_tail | pipe_tail) 
+            | redirection
 			|
+	pipe_tail: "|" cmd_type (command_tail | pipe_tail)
 	cmd_type: simple_command | subshell
 	subshell: "(" command ")" command_tail*
 	simple_command: redirection* wordlist redirection* | redirection+
@@ -55,8 +55,6 @@ shell_grammar = """
                | NUMBER ">>" filename
                | NUMBER "<<" filename
                | NUMBER "<>" filename
-	
-    
     filename: WORD
     WORD: /[a-zA-Z0-9_"]+/
     NUMBER: /[0-9]+/
@@ -123,7 +121,8 @@ commands = [
 	">files",
 	">files>a>b>c",
 	"(ls | grep log) >file || (cat logs > log_backup)",
-	">files>a>b>c(ls | grep log) >file || (cat logs > log_backup)"
+	">files>a>b>c(ls | grep log) >file || (cat logs > log_backup)",
+	""
 ]
 
 index = 0
