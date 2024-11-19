@@ -6,19 +6,24 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:31 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:49:34 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/19 20:12:31 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
+#include "../../includes/utils.h"
 
 int	builtin_env(int argc, char *argv[], t_map *envmap)
 {
 	t_item	*cur;
 
-	(void) argc;
 	(void) argv;
+	if (argc > 1)
+	{
+		builtin_error("env", NULL, "Arguments are not supproted");
+		return (EXIT_FAILURE);
+	}
 	cur = envmap->item_head.next;
 	while (cur)
 	{

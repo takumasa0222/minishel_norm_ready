@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:56:59 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/15 17:24:10 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/19 19:37:50 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,13 @@ int	builtin_pwd(int argc, char *argv[], t_map *envmap)
 	char	buf[PATH_MAX];
 	int		i;
 
+	(void)argc;
 	(void)envmap;
 	i = 1;
-	while (i < argc)
+	if (argv[1] && argv[1][0] == '-')
 	{
-		if (argv[i][0] == '-')
-		{
-			printf("%s: option unsupported\n", argv[i]);
-			return (EXIT_FAILURE);
-		}
-		i++;
+		printf("%s: option unsupported\n", argv[i]);
+		return (EXIT_FAILURE);
 	}
 	if (!getcwd(buf, PATH_MAX))
 	{
