@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/16 04:16:12 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/22 04:43:28 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,20 @@ struct s_node {
 	char		**redirects;
 };
 
-t_node	*entry_parser(t_token *token_list);
 t_node	*parse_cmd(t_token **token_list);
 t_node	*parse_cmd_type(t_token **token_list);
 t_node	*simple_cmd(t_token **token_list);
-char	**parse_words(t_token	**token_list);
-t_node	*parse_redirects(t_token **token_list);
 t_node	*parse_subshell(t_token **token_list);
 t_node	*parse_cmd_tail(t_node *left, t_token **token_list);
-bool	match_token(t_node_kind expected, t_token **cur_token);
+
+t_node	*create_logi_node(t_node *left, t_token **token_list);
 t_node	*create_node(t_node_kind token_kind);
+
+bool	match_token(t_node_kind expected, t_token **cur_token);
 bool	compare_token(t_node_kind expected, t_token **cur_token);
+
+char	**parse_words(t_token	**token_list);
+t_node	*parse_redirects(t_token **token_list);
 size_t	count_word_node(t_token	**token_list);
 char	**parse_redirect_arry(t_token	**token_list);
 size_t	count_rd_node(t_token	**token_list);

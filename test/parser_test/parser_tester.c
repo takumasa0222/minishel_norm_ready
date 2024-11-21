@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tester.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:16:13 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/19 22:32:04 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/22 04:38:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,32 @@ void	exec_parser_test(void)
 
 	i = 0;
 	char *test_words[][30] = {
-    //{"ls"}, // テストケース1
-    //{">","file"},   // テストケース2
-    //{"cat", "|", "abc"},       // テストケース3
-	//{"cat", ">", "file", "|", "grep", "abc"},       // テストケース11
-	//{"(", "cat", "&&", "ls", "|", "grep", "abc", ")"}, // テストケース12
-	//{"echo", "Hello", ">", "output.txt"},           // テストケース13
-	//{"(", "ls", "||", "cat", ">", "file", ")"},      // テストケース14
-	//{"echo", "abc", "&&", "ls", "||", "cat"},        // テストケース15
-	//{"echo", "Hello", ">", "file", "&&", "cat"},     // テストケース16
-	//{"(", "echo", "Hello", ">", "file", "&&", "cat", ")"}, // テストケース17
-	//{"(", "echo", "abc", "&&", "ls", "|", "grep", "xyz", ")"}, // テストケース18
-	//{"ls", "|", "grep", "abc", "||", "cat"},        // テストケース19
-	//{"cat", ">", "file", "||", "ls"},                 // テストケース20
-	//{"(", "echo", "Hello", ">", "file", "&&", "(", "cat", "|", "grep", "abc", ")", "||", "ls", ")"},  // テストケース21
-	//{"echo", "abc", ">", "file", "||", "(", "ls", "|", "grep", "xyz", ")", "&&", "cat"},  // テストケース22
-	//{"(", "cat", ">", "file", "|", "grep", "abc", ")", "&&", "ls", "|", "sort"},  // テストケース23
-	//{"echo", "start", ">", "file1", "&&", "(", "echo", "middle", "|", "sort", ">", "file2", ")", "||", "echo", "end"},  // テストケース24
-	//{"(", "(", "ls", "|", "grep", "abc", ")", "&&", "echo", "done", ">", "output", ")", "||", "cat"},  // テストケース25
-	//{"echo", "foo", ">", "file1", "&&", "(", "echo", "bar", ">", "file2", "&&", "cat", ")", "|", "sort"},  // テストケース26
+    {"ls"}, // テストケース1
+    {">","file"},   // テストケース2
+    {"cat", "|", "abc"},       // テストケース3
+	{"(","cat",")"},	// テストケース4
+	{"<","file"},		// テストケース5
+	{"<<", "end"},		// テストケース6
+	{">>","file"},		// テストケース7
+	{"cat", "&&", "ls"},// テストケース8
+	{"cat", "||", "abc"},// テストケース9
+	{"(","cat", "||", "abc",")"},	// テストケース10
+	{"cat", ">", "file", "|", "grep", "abc"},       // テストケース11
+	{"(", "cat", "&&", "ls", "|", "grep", "abc", ")"}, // テストケース12
+	{"echo", "Hello", ">", "output.txt"},           // テストケース13
+	{"(", "ls", "||", "cat", ">", "file", ")"},      // テストケース14
+	{"echo", "abc", "&&", "ls", "||", "cat"},        // テストケース15
+	{"echo", "Hello", ">", "file", "&&", "cat"},     // テストケース16
+	{"(", "echo", "Hello", ">", "file", "&&", "cat", ")"}, // テストケース17
+	{"(", "echo", "abc", "&&", "ls", "|", "grep", "xyz", ")"}, // テストケース18
+	{"ls", "|", "grep", "abc", "||", "cat"},        // テストケース19
+	{"cat", ">", "file", "||", "ls"},                 // テストケース20
+	{"(", "echo", "Hello", ">", "file", "&&", "(", "cat", "|", "grep", "abc", ")", "||", "ls", ")"},  // テストケース21
+	{"echo", "abc", ">", "file", "||", "(", "ls", "|", "grep", "xyz", ")", "&&", "cat"},  // テストケース22
+	{"(", "cat", ">", "file", "|", "grep", "abc", ")", "&&", "ls", "|", "sort"},  // テストケース23
+	{"echo", "start", ">", "file1", "&&", "(", "echo", "middle", "|", "sort", ">", "file2", ")", "||", "echo", "end"},  // テストケース24
+	{"(", "(", "ls", "|", "grep", "abc", ")", "&&", "echo", "done", ">", "output", ")", "||", "cat"},  // テストケース25
+	{"echo", "foo", ">", "file1", "&&", "(", "echo", "bar", ">", "file2", "&&", "cat", ")", "|", "sort"},  // テストケース26
 	{"(", "echo", "foo", "|", "sort", ">", "file1", "&&", "(", "ls", "|", "grep", "bar", ")", "||", "cat", ")"},  // テストケース27
 	{"cat", ">", "file", "|", "(", "echo", "start", "|", "grep", "xyz", ")", "&&", "ls", "|", "sort"},  // テストケース28
 	{"(", "echo", "first", "&&", "ls", ">", "file1", "|", "cat", "&&", "echo", "second", ")", "||", "cat"},  // テストケース29
@@ -56,6 +63,13 @@ void	exec_parser_test(void)
     {ND_FD_WORD},      // テストケース1
     {ND_REDIRECTS, ND_FD_WORD},      // テストケース2
     {ND_FD_WORD, ND_PIPE, ND_FD_WORD},       // テストケース3
+	{ND_L_PARE, ND_FD_WORD, ND_R_PARE},			// テストケース4
+	{ND_REDIRECTS, ND_FD_WORD},			// テストケース5
+	{ND_REDIRECTS, ND_FD_WORD},			// テストケース6
+	{ND_REDIRECTS, ND_FD_WORD},			// テストケース7
+	{ND_FD_WORD, ND_AND_OP, ND_FD_WORD},			// テストケース8
+	{ND_FD_WORD, ND_OR_OP, ND_FD_WORD},			// テストケース9
+	{ND_L_PARE, ND_FD_WORD,ND_OR_OP,ND_FD_WORD, ND_R_PARE},				// テストケース10
 	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},         // テストケース11
 	{ND_L_PARE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE}, // テストケース12
 	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD},                             // テストケース13
@@ -75,13 +89,20 @@ void	exec_parser_test(void)
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD,ND_R_PARE}, // テストケース27
 	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース28
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース29
-	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース30
+	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD,ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース30
 
 	};
 	int	list_size[30] = {
 		1,
 		2,
 		3,
+		3,
+		2,
+		2,
+		2,
+		3,
+		3,
+		5,
 		6, //case11
 		8, //case12
 		4, //case13
@@ -110,7 +131,7 @@ void	exec_parser_test(void)
 		token_list = create_dummy_token_list(test_words[i], test_kinds[i], list_size[i]);
 		if (!token_list)
 			printf("unexpexted error in exec_parser_test");
-		astree = entry_parser(token_list);
+		astree = parse_cmd(&token_list);
 		print_tree(astree, 0, "root");
 		astree = NULL;
 		printf("---------------testcase [%d] done\n\n",i + 1);
@@ -183,6 +204,25 @@ void	print_tree(t_node *node, int depth, char *relation)
 	}
 	// 現在のノードと親子関係を表示
 	printf("%s (%s)\n", node_kind_conv(node->kind), relation);
+	// cmds や redirects の中身を確認したい場合はコメントアウト外す
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	if (!node->cmds)
+	// 		break;
+	// 	if (node->cmds[i])
+	// 		printf("cmds[%d]: %s\n",i, node->cmds[i]);
+	// 	else
+	// 		break;
+	// }
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	if (!node->redirects)
+	// 		break;
+	// 	if (node->redirects[i])
+	// 		printf("redirects[%d]: %s\n",i, node->redirects[i]);
+	// 	else
+	// 		break;
+	// }
 	// 左右の子を再帰的に表示
 	if (node->left)
 	{

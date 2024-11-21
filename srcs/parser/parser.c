@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/19 21:44:53 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/22 04:42:09 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,6 @@ this parser will create AST based on below eBNF.
 */
 
 /*
-this parser will create AST based on below eBNF.
-    start: command
-	command: cmd_type (command_tail | pipe_tail)
-	command_tail: 
-            | ("&&" | "||") cmd_type (command_tail | pipe_tail) 
-            | redirection
-			|
-	pipe_tail: "|" cmd_type (command_tail | pipe_tail)
-	cmd_type: simple_command | subshell
-	subshell: "(" command ")" command_tail*
-	simple_command: redirection* wordlist redirection* | redirection+
-    wordlist: WORD | wordlist WORD
-    redirection: ">" filename
-               | "<" filename
-               | ">>" filename
-               | "<<" filename
-               | "<>" filename
-               | NUMBER ">" filename
-               | NUMBER "<" filename
-               | NUMBER ">>" filename
-               | NUMBER "<<" filename
-               | NUMBER "<>" filename
-    filename: WORD
-    WORD: /[a-zA-Z0-9_"]+/
-    NUMBER: /[0-9]+/
-				
-*/
-
-/*
 今あまり明確になっていないところ
 ・どんなときならノードを作るのか -> オペレーターもしくはコマンドのときのみ
 ・親ノードを追加する場合や子ノードを追加するときの切り分け方　-> 実際にほしい木を意識してみるとわかりやすい
@@ -81,14 +52,6 @@ this parser will create AST based on below eBNF.
 修正ポイント　11/17
 ・match_token / compare_token の箇所は、t_token_kind に合わせる。一方で、t_token_kind の種類を増やす
 */
-
-t_node	*entry_parser(t_token *token_list)
-{
-	t_node	*ret;
-
-	ret = NULL;
-	return (parse_cmd(&token_list));
-}
 
 t_node	*parse_cmd(t_token **token_list)
 {
@@ -139,44 +102,6 @@ t_node	*simple_cmd(t_token **token_list)
 	return (node);
 }
 
-char	**parse_words(t_token	**token_list)
-{
-	char	**ret;
-	int		i;
-	size_t	word_cnt;
-
-	i = 0;
-	ret = NULL;
-	word_cnt = count_word_node(token_list);
-	if (word_cnt)
-		ret = malloc((word_cnt + 1) * sizeof(char *));
-	else
-		return (ret);
-	if (!ret)
-		d_throw_error("parse_words", "malloc_error");
-	while (compare_token(ND_FD_WORD, token_list))
-	{
-		ret[i] = (*token_list)->word;
-		i++;
-		*token_list = (*token_list)->next;
-	}
-	ret[i] = NULL;
-	return (ret);
-}
-
-t_node	*parse_redirects(t_token **token_list)
-{
-	t_node	*node;
-
-	node = NULL;
-	if (compare_token(ND_REDIRECTS, token_list))
-	{
-		node = create_node(ND_REDIRECTS);
-		node->redirects = parse_redirect_arry(token_list);
-	}
-	return (node);
-}
-
 t_node	*parse_subshell(t_token **token_list)
 {
 	t_node	*node;
@@ -188,7 +113,6 @@ t_node	*parse_subshell(t_token **token_list)
 	if (!match_token(ND_R_PARE, token_list))
 		d_throw_error("parser_subshell", "syntax_error");
 	return (node);
-	//return (parse_cmd_tail(node, token_list));
 }
 
 t_node	*parse_cmd_tail(t_node *left, t_token **token_list)
@@ -206,15 +130,10 @@ t_node	*parse_cmd_tail(t_node *left, t_token **token_list)
 	else if (compare_token(ND_AND_OP, token_list) \
 	|| compare_token(ND_OR_OP, token_list))
 	{
-		if (match_token (ND_AND_OP, token_list))
-			node = create_node(ND_AND_OP);
-		else if (match_token (ND_OR_OP, token_list))
-			node = create_node(ND_OR_OP);
-		node->left = left;
-		node->right = parse_cmd_type(token_list);
+		node = create_logi_node(left, token_list);
 		if (compare_token(ND_PIPE, token_list))
 		{
-			node->right = parse_cmd_tail(node->right,token_list);
+			node->right = parse_cmd_tail(node->right, token_list);
 			return (node);
 		}
 		else
@@ -223,99 +142,4 @@ t_node	*parse_cmd_tail(t_node *left, t_token **token_list)
 	else if (compare_token(ND_REDIRECTS, token_list))
 		return (parse_redirects(token_list));
 	return (left);
-}
-
-bool	match_token(t_node_kind expected, t_token **cur_token)
-{
-	if (!*cur_token)
-		return (false);
-	if ((*cur_token)->kind == expected)
-	{
-		*cur_token = (*cur_token)->next;
-		return (true);
-	}
-	return (false);
-}
-
-t_node	*create_node(t_node_kind token_kind)
-{
-	t_node	*new_node;
-
-	new_node = malloc(1 * sizeof(t_node));
-	if (!new_node)
-		d_throw_error("create_node", "malloc failed");
-	new_node->kind = token_kind;
-	return (new_node);
-}
-
-bool	compare_token(t_node_kind expected, t_token **cur_token)
-{
-	if (!*cur_token)
-		return (false);
-	return ((*cur_token)->kind == expected);
-}
-
-size_t	count_word_node(t_token	**token_list)
-{
-	size_t	i;
-	t_token	*temp;
-
-	temp = *token_list;
-	i = 0;
-	while (compare_token(ND_FD_WORD, &temp))
-	{
-		i++;
-		temp = temp->next;
-	}
-	return (i);
-}
-
-char **parse_redirect_arry(t_token	**token_list)
-{
-	char	**ret;
-	int		i;
-
-	i = 0;
-	ret = NULL;
-	if (count_rd_node(token_list))
-		ret = malloc((count_rd_node(token_list) + 1) * sizeof(char *));
-	else
-		return (ret);
-	if (!ret)
-		d_throw_error("parse_redirect_arry", "malloc_error");
-	while (compare_token(ND_REDIRECTS, token_list))
-	{
-		ret[i] = (*token_list)->word;
-		i++;
-		*token_list = (*token_list)->next;
-		if (!compare_token(ND_FD_WORD, token_list))
-			d_throw_error("parse_redirect_arry", "filename syntax error");
-		ret[i] = (*token_list)->word;
-		i++;
-		*token_list = (*token_list)->next;
-	}
-	ret[i] = NULL;
-	return (ret);
-}
-
-size_t	count_rd_node(t_token	**token_list)
-{
-	size_t	i;
-	t_token	*temp;
-
-	temp = *token_list;
-	i = 0;
-	while (compare_token(ND_REDIRECTS, &temp))
-	{
-		i++;
-		temp = temp->next;
-		if (!compare_token(ND_FD_WORD, &temp))
-		{
-			printf("count_rd_node:unexpexted token\n");
-			return (i);
-		}
-		i++;
-		temp = temp->next;
-	}
-	return (i);
 }
