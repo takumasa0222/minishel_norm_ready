@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   map_get.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/15 17:24:02 by ssoeno           ###   ########.fr       */
+/*   Created: 2024/11/17 19:53:27 by ssoeno            #+#    #+#             */
+/*   Updated: 2024/11/17 19:53:30 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
 
-int	builtin_exit(int argc, char *argv[], t_map *envmap)
+char	*map_get(t_map *map, const char *name)
 {
-	(void)envmap;
-	if (argc != 1)
+	t_item	*cur;
+
+	cur = map->item_head.next;
+	while (cur)
 	{
-		printf("%s: too many arguments\n", argv[0]);
-		return (EXIT_FAILURE);
+		if (ft_strcmp_for_map(cur->name, name) == 0)
+			return (cur->value);
+		cur = cur->next;
 	}
-	exit(EXIT_SUCCESS);
+	return (NULL);
 }

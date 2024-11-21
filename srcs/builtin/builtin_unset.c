@@ -1,25 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/15 17:24:02 by ssoeno           ###   ########.fr       */
+/*   Created: 2024/11/17 19:50:01 by ssoeno            #+#    #+#             */
+/*   Updated: 2024/11/19 20:09:35 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../includes/utils.h"
 #include "../../includes/builtin.h"
 
-int	builtin_exit(int argc, char *argv[], t_map *envmap)
+int	builtin_unset(int argc, char *argv[], t_map *envmap)
 {
-	(void)envmap;
-	if (argc != 1)
+	int		status;
+	size_t	i;
+
+	(void)argc;
+	status = 0;
+	i = 1;
+	if (envmap == NULL)
 	{
-		printf("%s: too many arguments\n", argv[0]);
+		builtin_error("builtin_unset", NULL, "map is not initialized");
 		return (EXIT_FAILURE);
 	}
-	exit(EXIT_SUCCESS);
+	while (argv[i])
+	{
+		if (map_unset(envmap, argv[i]) < 0)
+		{
+			builtin_error("unset", argv[i], "not a valid identifier");
+			status = 1;
+		}
+		else
+			status = 0;
+		i++;
+	}
+	return (status);
 }
