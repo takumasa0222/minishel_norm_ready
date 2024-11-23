@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:31:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/23 19:32:55 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/23 21:53:46 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ int	invoke_commands(struct cmds *cmdhead)
 	int	exit_status;
 	int	original_stdin;
 	int	original_stdout;
+	int	cp_fd[2];
 
 	original_stdin = dup(STDIN_FILENO);
 	original_stdout = dup(STDOUT_FILENO);
-	exec_pipeline(cmdhead);
+	cp_fd[0] = original_stdin;
+	cp_fd[1] = original_stdout;
+	exec_pipeline(cmdhead, cp_fd);
 	exit_status = wait_pipeline(cmdhead);
+	
 	close(STDIN_FILENO);
 	dup2(original_stdin, STDIN_FILENO);
 	close(original_stdin);
@@ -33,15 +37,19 @@ int	invoke_commands(struct cmds *cmdhead)
 	return (exit_status);
 }
 
-void	exec_pipeline(struct cmds *cmdhead)
+void	exec_pipeline(struct cmds *cmdhead, int cp_fd[2])
 {
 	struct cmds	*cur_cmd;
 	int			pfd_pre[2];
 	int			pfd[2];
 
 	cur_cmd = cmdhead;
-	ft_memset(pfd_pre, -1, sizeof(pfd_pre));
-	ft_memset(pfd, -1, sizeof(pfd));
+	// ft_memset(pfd_pre, -1, sizeof(pfd_pre));
+	// ft_memset(pfd, -1, sizeof(pfd));
+	pfd_pre[0] = -1;
+	pfd_pre[1] = -1;
+	pfd[0] = -1;
+	pfd[1] = -1;
 	while (cur_cmd)
 	{
 		pfd_pre[0] = pfd[0];
@@ -57,7 +65,7 @@ void	exec_pipeline(struct cmds *cmdhead)
 			cur_cmd = cur_cmd->next;
 			continue ;
 		}
-		handle_child_process(cmdhead, cur_cmd, pfd_pre, pfd);
+		handle_child_process(cur_cmd, pfd_pre, pfd, cp_fd);
 	}
 }
 
@@ -88,15 +96,37 @@ child process
 		- redirect the read end of the previous pipe to STDIN
 		- does not write to the pipe
 */
-void	handle_child_process(struct cmds *cmdhead,
-	struct cmds *cur_cmd, int *pfd_pre, int *pfd)
+// void	handle_child_process(struct cmds *cmdhead,
+// 	struct cmds *cur_cmd, int *pfd_pre, int *pfd)
+// {
+// 	if (cur_cmd != cmdhead)
+// 	{
+// 		close(STDIN_FILENO);
+// 		dup2(pfd_pre[0], STDIN_FILENO);
+// 		close(pfd_pre[0]);
+// 		close(pfd_pre[1]);
+// 	}
+// 	if (cur_cmd->next != NULL)
+// 	{
+// 		close(pfd[0]);
+// 		close(STDOUT_FILENO);
+// 		dup2(pfd[1], STDOUT_FILENO);
+// 		close(pfd[1]);
+// 	}
+// 	execvp(cur_cmd->cmd[0], cur_cmd->cmd);
+// 	d_throw_error("exec_pipeline", "failed to execvp");
+// }
+void	handle_child_process(struct cmds *cur_cmd,
+	int *pfd_pre, int *pfd, int cp_fd[2])
 {
-	if (cur_cmd != cmdhead)
+	if (pfd_pre[1] != -1)
 	{
 		close(STDIN_FILENO);
 		dup2(pfd_pre[0], STDIN_FILENO);
 		close(pfd_pre[0]);
 		close(pfd_pre[1]);
+		// close(pfd[0]);
+		// close(pfd[1]);
 	}
 	if (cur_cmd->next != NULL)
 	{
@@ -104,10 +134,19 @@ void	handle_child_process(struct cmds *cmdhead,
 		close(STDOUT_FILENO);
 		dup2(pfd[1], STDOUT_FILENO);
 		close(pfd[1]);
+		// close(pfd_pre[0]);
+		// close(pfd_pre[1]);
 	}
+	close(cp_fd[0]);
+	close(cp_fd[1]);
 	execvp(cur_cmd->cmd[0], cur_cmd->cmd);
 	d_throw_error("exec_pipeline", "failed to execvp");
 }
+/*
+子プロセスの中でexecvpを実行する
+ファイルディスクリプタを閉じる
+の2つに関数を分割したほうがよい。
+*/
 
 /*
 if cmd is a builtin
