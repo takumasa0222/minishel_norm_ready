@@ -26,7 +26,7 @@ struct cmds *create_test_commands()
     cmd2->cmd = malloc(3 * sizeof(char *));
     cmd2->cmd[0] = strdup("wc");
     cmd2->cmd[1] = strdup("-l");;
-	cmd2->cmd[1] = NULL;
+	cmd2->cmd[2] = NULL;
     cmd2->next = NULL;
 
     return cmd1;
