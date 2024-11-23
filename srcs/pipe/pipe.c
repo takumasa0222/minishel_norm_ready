@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:31:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/23 18:33:05 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/23 19:32:55 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int	invoke_commands(struct cmds *cmdhead)
 	int	original_stdin;
 	int	original_stdout;
 
-	original_stdin = dup(0);
-	original_stdout = dup(1);
+	original_stdin = dup(STDIN_FILENO);
+	original_stdout = dup(STDOUT_FILENO);
 	exec_pipeline(cmdhead);
 	exit_status = wait_pipeline(cmdhead);
-	close(0);
-	dup2(original_stdin, 0);
+	close(STDIN_FILENO);
+	dup2(original_stdin, STDIN_FILENO);
 	close(original_stdin);
-	close(1);
-	dup2(original_stdout, 1);
+	close(STDOUT_FILENO);
+	dup2(original_stdout, STDOUT_FILENO);
 	close(original_stdout);
 	return (exit_status);
 }
@@ -61,6 +61,11 @@ void	exec_pipeline(struct cmds *cmdhead)
 	}
 }
 
+/*
+parent process
+	- does NOT read or write to the pipe.
+	- close the write end of the pipe(pfd[1])
+*/
 void	handle_parent_process(int *pfd_pre, int *pfd)
 {
 	if (pfd_pre[0] != -1)
@@ -71,6 +76,18 @@ void	handle_parent_process(int *pfd_pre, int *pfd)
 		close(pfd[1]);
 }
 
+/*
+child process
+	- FIRST command
+		- close the read end of the pipe(pfd[0])
+		- redirect the write end of the pipe to STDOUT
+	- MIDDLE command
+		- redirect the read end of the previous pipe to STDIN
+		- redirect the write end of the pipe to STDOUT
+	- LAST command
+		- redirect the read end of the previous pipe to STDIN
+		- does not write to the pipe
+*/
 void	handle_child_process(struct cmds *cmdhead,
 	struct cmds *cur_cmd, int *pfd_pre, int *pfd)
 {

@@ -19,6 +19,7 @@ struct cmds *create_test_commands()
     cmd1->cmd[0] = strdup("echo");
     cmd1->cmd[1] = strdup("hello");
     cmd1->cmd[2] = NULL;
+    cmd1->exit_status = 0;
     cmd1->next = cmd2;
 
     // cmd2 (wc -l)
@@ -27,6 +28,7 @@ struct cmds *create_test_commands()
     cmd2->cmd[0] = strdup("wc");
     cmd2->cmd[1] = strdup("-l");;
 	cmd2->cmd[2] = NULL;
+    cmd2->exit_status = 0;
     cmd2->next = NULL;
 
     return cmd1;
