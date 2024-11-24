@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/12 22:22:43 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/11/24 17:36:20 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,9 @@ LIBFT_DIR = ./libft
 LIBFT = ${LIBFT_DIR}/libft.a
 
 SRCS = srcs/main.c \
-srcs/lexer/lexer_helper.c \
-srcs/lexer/lexer_token_checker.c \
-srcs/lexer/lexer.c \
 srcs/utils/error.c \
 srcs/builtin/builtin_cd.c \
+srcs/builtin/builtin_cd_utils.c \
 srcs/builtin/builtin_exit.c \
 srcs/builtin/builtin_pwd.c \
 srcs/builtin/builtin_export.c \
@@ -52,7 +50,12 @@ srcs/map/map_new.c \
 srcs/map/map_put.c \
 srcs/map/map_set.c \
 srcs/map/map_size.c \
-srcs/map/map_unset.c
+srcs/map/map_unset.c \
+srcs/signal/signal.c
+
+# srcs/lexer/lexer_helper.c \
+# srcs/lexer/lexer_token_checker.c \
+# srcs/lexer/lexer.c \
 
 OBJS = $(SRCS:.c=.o)
 

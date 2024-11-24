@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:32:59 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/23 20:57:44 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/23 22:51:22 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ struct cmds {
 	int			exit_status;
 	struct cmds	*next;
 };
+
+// struct s_node {
+// 	t_node_kind	kind;
+// 	t_node		*left;
+// 	t_node		*right;
+// 	char		**cmds;
+// 	char		*op_val;
+// 	int			fd_num;
+// 	char		**redirects;
+// };
 
 int		invoke_commands(struct cmds *cmdhead);
 void	exec_pipeline(struct cmds *cmdhead, int cp_fd[2]);
