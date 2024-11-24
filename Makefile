@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/24 17:36:20 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/11/24 19:10:58 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ srcs/map/map_put.c \
 srcs/map/map_set.c \
 srcs/map/map_size.c \
 srcs/map/map_unset.c \
-srcs/signal/signal.c
+srcs/signal/signal.c \
+srcs/signal/signal_child.c
 
 # srcs/lexer/lexer_helper.c \
 # srcs/lexer/lexer_token_checker.c \

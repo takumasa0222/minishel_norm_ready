@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/24 17:16:32 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/24 19:02:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,13 @@
 # include <string.h>
 
 // signal
-typedef struct sigaction        t_sig;
+typedef struct sigaction		t_sig;
 extern volatile sig_atomic_t	g_sig;
-
-void    setup_signal(void);
-void    reset_signal(void);
+void	setup_signal(void);
+void	handler(int signum);
+int		check_state(void);
+void	setup_signal(void);
+void	ignore_sig(int signum);
+void	setup_sigint(void);
 
 #endif
