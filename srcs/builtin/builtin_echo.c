@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:20 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:49:23 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/25 18:24:33 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ int	builtin_echo(int argc, char *argv[], t_map *envmap)
 	return (EXIT_SUCCESS);
 }
 /*
+echo -n -n -n
 */

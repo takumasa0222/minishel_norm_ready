@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/03 05:21:33 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/25 20:59:55 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ bool	is_d_quote(char input);
 
 size_t	get_char_arry_size(char **str);
 t_token	*create_token(char *word, t_token_kind kind);
+
 #endif
