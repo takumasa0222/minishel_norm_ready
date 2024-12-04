@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_node_operator.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:40:41 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/22 04:47:19 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/05 03:51:02 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,32 @@ t_node	*create_logi_node(t_node *left, t_token **token_list)
 	node->left = left;
 	node->right = parse_cmd_type(token_list);
 	return (node);
+}
+
+t_node	*create_pipe_node(t_node *left, t_token **token_list)
+{
+	t_node	*node;
+
+	node = NULL;
+	node = create_node(ND_PIPE);
+	node->left = left;
+	node->right = parse_cmd_type(token_list);
+	if (compare_tk(ND_PIPE, token_list))
+		create_sequential_pipe_node(node, token_list);
+	return (node);
+}
+
+t_node	*create_sequential_pipe_node(t_node *parent, t_token **token_list)
+{
+	t_node	*child;
+
+	if (match_token(ND_PIPE, token_list))
+	{
+		child = create_node(ND_PIPE);
+		child->left = parent->right;
+		parent->right = child;
+		child->right = parse_cmd_type(token_list);
+		return (create_sequential_pipe_node(child, token_list));
+	}
+	return (parent);
 }

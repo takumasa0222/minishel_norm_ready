@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/22 04:48:25 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/05 03:50:48 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**parse_words(t_token	**token_list)
 		return (ret);
 	if (!ret)
 		d_throw_error("parse_words", "malloc_error");
-	while (compare_token(ND_FD_WORD, token_list))
+	while (compare_tk(ND_FD_WORD, token_list))
 	{
 		ret[i] = (*token_list)->word;
 		i++;
@@ -44,7 +44,7 @@ t_node	*parse_redirects(t_token **token_list)
 	t_node	*node;
 
 	node = NULL;
-	if (compare_token(ND_REDIRECTS, token_list))
+	if (compare_tk(ND_REDIRECTS, token_list))
 	{
 		node = create_node(ND_REDIRECTS);
 		node->redirects = parse_redirect_arry(token_list);
@@ -59,7 +59,7 @@ size_t	count_word_node(t_token	**token_list)
 
 	temp = *token_list;
 	i = 0;
-	while (compare_token(ND_FD_WORD, &temp))
+	while (compare_tk(ND_FD_WORD, &temp))
 	{
 		i++;
 		temp = temp->next;
@@ -80,12 +80,12 @@ char	**parse_redirect_arry(t_token	**token_list)
 		return (ret);
 	if (!ret)
 		d_throw_error("parse_redirect_arry", "malloc_error");
-	while (compare_token(ND_REDIRECTS, token_list))
+	while (compare_tk(ND_REDIRECTS, token_list))
 	{
 		ret[i] = (*token_list)->word;
 		i++;
 		*token_list = (*token_list)->next;
-		if (!compare_token(ND_FD_WORD, token_list))
+		if (!compare_tk(ND_FD_WORD, token_list))
 			d_throw_error("parse_redirect_arry", "filename syntax error");
 		ret[i] = (*token_list)->word;
 		i++;
@@ -102,11 +102,11 @@ size_t	count_rd_node(t_token	**token_list)
 
 	temp = *token_list;
 	i = 0;
-	while (compare_token(ND_REDIRECTS, &temp))
+	while (compare_tk(ND_REDIRECTS, &temp))
 	{
 		i++;
 		temp = temp->next;
-		if (!compare_token(ND_FD_WORD, &temp))
+		if (!compare_tk(ND_FD_WORD, &temp))
 		{
 			printf("count_rd_node:unexpexted token\n");
 			return (i);
