@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/15 17:11:39 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/05 04:32:31 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,12 @@
 # include <limits.h>
 # include <stdbool.h>
 # include "../libft/libft.h"
+
+typedef struct s_context {
+	pid_t	*pids;
+	int		in_pipe_fd;
+	int		out_pipe_fd;
+	bool	is_exec_in_child_ps;
+}	t_context;
 
 #endif
