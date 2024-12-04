@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tester.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:16:13 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/22 04:38:07 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/05 03:26:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	exec_parser_test(void)
 	{"(", "echo", "foo", "|", "sort", ">", "file1", "&&", "(", "ls", "|", "grep", "bar", ")", "||", "cat", ")"},  // テストケース27
 	{"cat", ">", "file", "|", "(", "echo", "start", "|", "grep", "xyz", ")", "&&", "ls", "|", "sort"},  // テストケース28
 	{"(", "echo", "first", "&&", "ls", ">", "file1", "|", "cat", "&&", "echo", "second", ")", "||", "cat"},  // テストケース29
-	{"(", "echo", "start", ">", "file", "&&", "(", "cat", "|", "grep", "abc", ")", "&&", "echo", "end", ")", "||", "ls"}  // テストケース30
+	{"(", "echo", "start", ">", "file", "&&", "(", "cat", "|", "grep", "abc", ")", "&&", "echo", "end", ")", "||", "ls"},  // テストケース30
+	{"cat", "|", "abc", "|", "echo", "|", "def"}    // テストケース31
 };
 
 	t_node_kind test_kinds[][30] = {
@@ -83,16 +84,16 @@ void	exec_parser_test(void)
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_R_PARE}, // テストケース21
 	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_OR_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD}, // テストケース22
 	{ND_L_PARE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース23
-	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE,ND_FD_WORD,ND_FD_WORD,ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_FD_WORD}, // テストケース24
+	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE,ND_FD_WORD,ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_FD_WORD}, // テストケース24
 	{ND_L_PARE, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース25
 	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_PIPE, ND_FD_WORD}, // テストケース26
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD,ND_R_PARE}, // テストケース27
 	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース28
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース29
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD,ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース30
-
+    {ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD}
 	};
-	int	list_size[30] = {
+	int	list_size[31] = {
 		1,
 		2,
 		3,
@@ -122,10 +123,11 @@ void	exec_parser_test(void)
 		17, 
 		14, 
 		13, 
-		18
+		18,
+		7
 	};
 
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 31; i++)
 	{
 		printf("---------------testcase [%d]\n",i + 1);
 		token_list = create_dummy_token_list(test_words[i], test_kinds[i], list_size[i]);

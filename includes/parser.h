@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/22 04:43:28 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/05 03:49:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,11 @@ t_node	*parse_cmd_tail(t_node *left, t_token **token_list);
 
 t_node	*create_logi_node(t_node *left, t_token **token_list);
 t_node	*create_node(t_node_kind token_kind);
+t_node	*create_sequential_pipe_node(t_node *parent, t_token **token_list);
+t_node	*create_pipe_node(t_node *left, t_token **token_list);
 
 bool	match_token(t_node_kind expected, t_token **cur_token);
-bool	compare_token(t_node_kind expected, t_token **cur_token);
+bool	compare_tk(t_node_kind expected, t_token **cur_token);
 
 char	**parse_words(t_token	**token_list);
 t_node	*parse_redirects(t_token **token_list);
