@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:31:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/24 14:01:27 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:59:21 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ int	invoke_commands(struct cmds *cmdhead)
 	cp_fd[1] = original_stdout;
 	exec_pipeline(cmdhead, cp_fd);
 	exit_status = wait_pipeline(cmdhead);
-	
 	close(STDIN_FILENO);
-	dup2(original_stdin, STDIN_FILENO);
+	if (dup2(original_stdin, STDIN_FILENO) < 0)
+		d_throw_error("invoke_commands", "failed to restore STDIN");
 	close(original_stdin);
 	close(STDOUT_FILENO);
-	dup2(original_stdout, STDOUT_FILENO);
+	if (dup2(original_stdout, STDOUT_FILENO) < 0)
+		d_throw_error("invoke_commands", "failed to restore STDOUT");
 	close(original_stdout);
 	return (exit_status);
 }
@@ -164,7 +165,7 @@ int	wait_pipeline(struct cmds *cmdhead)
 	struct cmds	*cmd;
 
 	cmd = cmdhead;
-	while (cmd->next)
+	while (cmd)
 	{
 		waitpid(cmd->pid, &cmd->exit_status, 0);
 		cmd = cmd->next;
