@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:48:53 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/24 14:22:56 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:41:16 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	consume_path(char **rest, char *path, char *elem)
 
 	elem_len = ft_strlen(elem);
 	if (ft_strncmp(path, elem, elem_len) == 0)
-	{                       
+	{
 		if (path[elem_len] == '\0' || path[elem_len] == '/')
 		{
 			*rest = path + elem_len;
