@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tester.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:16:13 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/05 03:26:38 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/07 21:07:07 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ void	exec_parser_test(void)
 	{"cat", ">", "file", "|", "(", "echo", "start", "|", "grep", "xyz", ")", "&&", "ls", "|", "sort"},  // テストケース28
 	{"(", "echo", "first", "&&", "ls", ">", "file1", "|", "cat", "&&", "echo", "second", ")", "||", "cat"},  // テストケース29
 	{"(", "echo", "start", ">", "file", "&&", "(", "cat", "|", "grep", "abc", ")", "&&", "echo", "end", ")", "||", "ls"},  // テストケース30
-	{"cat", "|", "abc", "|", "echo", "|", "def"}    // テストケース31
+	{"cat", "|", "abc", "|", "echo", "|", "def"},  // テストケース31
+	{"pwd", "||", "ls", "||", "date"}, // テストケース32 soeno テスト1
+	{"pwd", "&&", "ls", "&&", "date"}, // テストケース33 soeno テスト2
+	{"(", "ls", "|", "wc", "-l", ">", "file1", ")", "||", "echo", "success"} // テストケース34 ssoeno テスト3	
 };
 
 	t_node_kind test_kinds[][30] = {
@@ -91,9 +94,12 @@ void	exec_parser_test(void)
 	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース28
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース29
 	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD,ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース30
-    {ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD}
+    {ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD},
+	{ND_FD_WORD, ND_OR_OP, ND_FD_WORD, ND_OR_OP, ND_FD_WORD}, // テストケース32 soeno テスト1
+	{ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_AND_OP, ND_FD_WORD}, // テストケース33 soeno テスト2
+	{ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_FD_WORD} // テストケース34 ssoeno テスト3	
 	};
-	int	list_size[31] = {
+	int	list_size[34] = {
 		1,
 		2,
 		3,
@@ -124,10 +130,13 @@ void	exec_parser_test(void)
 		14, 
 		13, 
 		18,
-		7
+		7,
+		5,
+		5,
+		11
 	};
 
-	for (int i = 0; i < 31; i++)
+	for (int i = 0; i < 34; i++)
 	{
 		printf("---------------testcase [%d]\n",i + 1);
 		token_list = create_dummy_token_list(test_words[i], test_kinds[i], list_size[i]);
