@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_checker.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/22 04:46:55 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:13:53 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	is_blank(char c)
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-bool	is_operator(char *input)
+bool	is_ope_or_meta(char *input)
 {
 	size_t		i;
 	size_t		ope_len;
@@ -38,7 +38,7 @@ bool	is_operator(char *input)
 	";;", ";", "(", ")", "|&", "\n", NULL};
 
 	if (!input)
-		d_throw_error("is_operator", "input is null");
+		d_throw_error("is_operator_or_metacharacter", "input is null");
 	i = 0;
 	ope_len = get_char_arry_size(ope);
 	while (i < ope_len)

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 15:29:15 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/08 19:15:14 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,6 @@
 # include <stdbool.h>
 
 typedef struct s_token	t_token;
-// typedef enum e_token_kind
-// {
-// 	TK_WORD,
-// 	TK_RESERVED,
-// 	TK_OP,
-// 	TK_EOF,
-// }	t_token_kind;
 
 typedef enum e_node_kind{
 	ND_REDIRECTS,
@@ -40,6 +33,7 @@ typedef enum e_node_kind{
 	ND_CMD,
 	ND_FD_NUM,
 	// ND_FD_WORD
+	ND_EOF
 }	t_node_kind;
 
 struct s_token {
@@ -47,6 +41,11 @@ struct s_token {
 	t_node_kind		kind;
 	t_token			*next;
 };
+
+typedef struct s_ope_map {
+	const char	*ope_str;
+	t_node_kind	kind;
+}	t_ope_map;
 
 t_token	*lexer(char *line);
 bool	skip_blank(char **rest, char *input);
@@ -57,11 +56,16 @@ int		move_to_next_quotation(char *input, int i);
 bool	is_metachar(int c);
 bool	is_word(char *input);
 bool	is_blank(char c);
-bool	is_operator(char *input);
+
 
 bool	is_s_quote(char input);
 bool	is_d_quote(char input);
 
+// lexer_operator_checker.c
+void get_ope_map(t_ope_map *ope_map);
+t_token	*fetch_fst_ope_token(char *input);
+bool	is_ope_or_meta(char *input);
+
 size_t	get_char_arry_size(char **str);
-t_token	*create_token(char *word, t_token_kind kind);
+t_token	*create_token(char *word, t_node_kind kind);
 #endif

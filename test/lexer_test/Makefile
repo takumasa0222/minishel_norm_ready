@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/03 05:24:53 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/12/08 18:32:14 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = \
 ../../srcs/lexer/lexer_token_checker.c \
 ../../srcs/lexer/lexer_token_quote_checker.c \
 ../../srcs/lexer/lexer.c \
+../../srcs/lexer/lexer_operator_checker.c \
 ../../srcs/utils/error.c
 
 OBJS = $(SRCS:.c=.o)
