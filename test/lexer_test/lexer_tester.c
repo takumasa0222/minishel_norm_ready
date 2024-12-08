@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 19:23:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/08 19:46:35 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void test_lexer(const char *input)
 int main(void)
 {
     // 簡単なテストケース
-    test_lexer("echo '  hello world '");
+    test_lexer("'  hi'");
     return 0;
 }
 /*
