@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 19:13:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/08 21:16:25 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,18 @@ bool	is_blank(char c)
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-bool	is_ope_or_meta(char *input)
+bool	is_operator(char *input)
 {
 	size_t		i;
-	size_t		ope_len;
-	static char	*ope[] = \
-	{"||", "|", "<<", ">>", "&&", "&", "<", ">", \
-	";;", ";", "(", ")", "|&", "\n", NULL};
+	t_ope_map	ope_map[OPE_MAP_SIZE];
 
 	if (!input)
 		d_throw_error("is_operator_or_metacharacter", "input is null");
 	i = 0;
-	ope_len = get_char_arry_size(ope);
-	while (i < ope_len)
+	get_ope_map(ope_map);
+	while (ope_map[i].op_str && ope_map[i].kind != ND_EOF)
 	{
-		if (!ft_strncmp(ope[i], input, ft_strlen(ope[i])))
+		if (!ft_strncmp(ope_map[i].op_str, input, ft_strlen(ope_map[i].op_str)))
 			return (true);
 		i++;
 	}

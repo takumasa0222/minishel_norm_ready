@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 19:52:10 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/08 20:52:32 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ t_token	*lexer(char *line)
 	{
 		if (skip_blank(&line, line))
 			continue ;
-		else if (is_ope_or_meta(line))
+		else if (is_operator(line))
+		{
 			token->next = fetch_fst_ope_token(line);
+		}
 		else if (is_word(line))
 			token->next = fetch_fst_word_token(line);
 		else
@@ -71,11 +73,8 @@ t_token	*fetch_fst_word_token(char *input)
 	i = 0;
 	while (input[i])
 	{
-		printf("DEBUG: %c\n", input[i]);
 		if (is_s_quote(input[i]) || is_d_quote(input[i]))
 			i = move_to_next_quotation(input, i);
-		// if (is_s_quote(input[i]) || is_d_quote(input[i]))
-		// 	i = move_to_next_quotation(input, i);
 		if (is_metachar(input[i]))
 			break ;
 		i++;

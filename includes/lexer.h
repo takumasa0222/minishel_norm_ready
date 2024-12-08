@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 19:15:14 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/08 21:09:33 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdbool.h>
+#define OPE_MAP_SIZE 10
 
 typedef struct s_token	t_token;
 
@@ -43,7 +44,7 @@ struct s_token {
 };
 
 typedef struct s_ope_map {
-	const char	*ope_str;
+	const char	*op_str;
 	t_node_kind	kind;
 }	t_ope_map;
 
@@ -64,7 +65,7 @@ bool	is_d_quote(char input);
 // lexer_operator_checker.c
 void get_ope_map(t_ope_map *ope_map);
 t_token	*fetch_fst_ope_token(char *input);
-bool	is_ope_or_meta(char *input);
+bool	is_operator(char *input);
 
 size_t	get_char_arry_size(char **str);
 t_token	*create_token(char *word, t_node_kind kind);
