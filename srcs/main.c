@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/08 22:50:16 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 23:23:32 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,12 +187,16 @@ void	set_pipe_fd(int *in_fd, int *out_fd, int *pfd)
 	*out_fd = pfd[1];
 }
 
-//exec_subshell(t_node *left, char **envp, int in_fd)
-//{
-//	int pid;
+exec_subshell(t_node *node, char **envp,  t_context *ctx)
+{
+	pid_t pid;
+	int	c_status;
 	
-//	pid = fork();
-//	if (pid > 0)
-//		exec_handler(left, envp, in_fd);
-//	wait();
-//}
+	pid = fork();
+	if (pid == 0)
+		exec_handler(node->left, envp, ctx);
+	else
+	{
+		waitpid(pid, &c_status, 0);
+	}
+}
