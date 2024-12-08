@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   comb_exec_test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:45:04 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/27 04:22:40 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:21:16 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@ int	main(int argc, char *argv[], char *envp[])
 	if (0 == 1)
 		printf("%d, %s \n",argc, argv[0]);
 	exec_combination_test(envp);
+}
+
+void temp_starter(t_node *ast_node, char **envp)
+{
+	t_context	*ctx;
+	int	i;
+	int	c_status;
+
+	i = -1;
+	ctx = init_ctx();
+	exec_handler(ast_node, envp, ctx);
+	while (++i <= ctx->cnt)
+		waitpid(ctx->pids[i], &c_status, 0);
+	//if (WIFSIGNALED(c_status))
+	//	return (WTERMSIG(c_status) + 128);
+	printf("signal %d\n", WEXITSTATUS(c_status));
 }
 
 void	exec_combination_test(char **envp)
@@ -32,7 +48,7 @@ void	exec_combination_test(char **envp)
 	{"sleep", "2", "|", "cat", "|", "echo", "where is " }, // テストケース1 
 	// {"echo", "hello", "|", "cat", "|", "echo", "where is " }, // テストケース1
 	// {"echo", "hello", "|", "cat"}, // テストケース1
-};
+	};
 
 	t_node_kind test_kinds[][30] = {
     // {ND_FD_WORD},      // テストケース1
@@ -52,7 +68,7 @@ void	exec_combination_test(char **envp)
 		if (!token_list)
 			printf("unexpexted error in exec_parser_test");
 		astree = parse_cmd(&token_list);
-		exec_handler(astree, envp, 0, false);
+		temp_starter(astree, envp);
 		// print_tree(astree, 0, "root");
 		astree = NULL;
 		printf("---------------testcase [%d] done\n\n",i + 1);

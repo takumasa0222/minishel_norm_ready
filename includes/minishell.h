@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/05 04:32:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:34:56 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@
 # include "../libft/libft.h"
 
 typedef struct s_context {
-	pid_t	*pids;
+	pid_t	pids[5000];
 	int		in_pipe_fd;
 	int		out_pipe_fd;
+	int		pre_in_pipe_fd;
+	int		cnt;
 	bool	is_exec_in_child_ps;
 }	t_context;
 
