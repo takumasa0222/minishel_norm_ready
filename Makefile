@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/12 22:22:43 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/08 22:03:10 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,16 @@ LIBFT = ${LIBFT_DIR}/libft.a
 SRCS = srcs/main.c \
 srcs/lexer/lexer_helper.c \
 srcs/lexer/lexer_token_checker.c \
+srcs/lexer/lexer_token_quote_checker.c \
+srcs/lexer/lexer_operator_checker.c \
 srcs/lexer/lexer.c \
+srcs/parser/parser.c \
+srcs/parser/parser_redirect_word.c \
+srcs/parser/parser_token_checker.c \
+srcs/parser/parser_node_operator.c \
 srcs/utils/error.c \
 srcs/builtin/builtin_cd.c \
+srcs/builtin/builtin_cd_utils.c \
 srcs/builtin/builtin_exit.c \
 srcs/builtin/builtin_pwd.c \
 srcs/builtin/builtin_export.c \

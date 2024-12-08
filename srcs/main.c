@@ -6,37 +6,21 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/11/09 21:59:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/08 22:16:23 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/lexer.h"
+#include "../includes/parser.h"
+
+void print_tree(t_node *node, int depth, char *relation);
 
 int	main(void)
 {
 	char	*line;
-
-	// test for builtins
-	// printf("Testing builtins...\n");
-	// printf("Case 1: cd to /tmp and display the directory\n");
-	// char *cd_args1[] = {"cd", "/tmp"}; 
-	// test_builtin("cd", 2, cd_args1);
-	// char *pwd_args1[] = {"pwd"};
-	// test_builtin("pwd", 1, pwd_args1);
-	// printf("Case 2: cd to non-existent directory\n");
-	// char *cd_args2[] = {"cd", "/non-existent-dir"};
-	// test_builtin("cd", 2, cd_args2);
-	// char *pwd_args2[] = {"pwd"};
-	// test_builtin("pwd", 1, pwd_args2);
-	// printf("Case 3: Move to the directory one level above the /tmp directory.\n");
-	// char *cd_args3[] = {"cd", ".."};
-	// test_builtin("cd", 2, cd_args3);
-	// char *pwd_args3[] = {"pwd"};
-	// test_builtin("pwd", 1, pwd_args3);
-	
-	// char *exit_args[] = {"exit"};
-	// test_builtin("exit", 1, exit_args);
-	// printf("Builtins test done.\n");
+	t_token	*token_list;
+	t_node	*ast;
 
 	rl_outstream = stderr;
 	while (1)
@@ -45,9 +29,55 @@ int	main(void)
 		if (line == NULL)
 			break ;
 		if (*line)
+		{
 			add_history(line);
-			// TODO: intepret line as a command
+			token_list = lexer(line);
+			ast = parse_cmd(&token_list);
+			print_tree(ast, 0, "root");
+		}
 		free(line);
 	}
 	exit(0);
+}
+
+void	print_tree(t_node *node, int depth, char *relation)
+{
+	if (node == NULL) 
+	{
+		return;
+	}
+	for (int i = 0; i < depth; i++)
+	{
+		printf("    ");
+	}
+	// 現在のノードと親子関係を表示
+	printf("%u (%s)\n", node->kind, relation);
+	// cmds や redirects の中身を確認したい場合はコメントアウト外す
+	for (int i = 0; i < 10; i++)
+	{
+		if (!node->cmds)
+			break;
+		if (node->cmds[i])
+			printf("cmds[%d]: %s\n",i, node->cmds[i]);
+		else
+			break;
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		if (!node->redirects)
+			break;
+		if (node->redirects[i])
+			printf("redirects[%d]: %s\n",i, node->redirects[i]);
+		else
+			break;
+	}
+	// 左右の子を再帰的に表示
+	if (node->left)
+	{
+		print_tree(node->left, depth + 1, "left child");
+	}
+	if (node->right)
+	{
+		print_tree(node->right, depth + 1, "right child");
+	}
 }

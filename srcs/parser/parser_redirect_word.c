@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/05 03:50:48 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 21:49:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**parse_words(t_token	**token_list)
 		return (ret);
 	if (!ret)
 		d_throw_error("parse_words", "malloc_error");
-	while (compare_tk(ND_FD_WORD, token_list))
+	while (compare_tk(ND_CMD, token_list))
 	{
 		ret[i] = (*token_list)->word;
 		i++;
@@ -59,7 +59,7 @@ size_t	count_word_node(t_token	**token_list)
 
 	temp = *token_list;
 	i = 0;
-	while (compare_tk(ND_FD_WORD, &temp))
+	while (compare_tk(ND_CMD, &temp))
 	{
 		i++;
 		temp = temp->next;
@@ -85,7 +85,7 @@ char	**parse_redirect_arry(t_token	**token_list)
 		ret[i] = (*token_list)->word;
 		i++;
 		*token_list = (*token_list)->next;
-		if (!compare_tk(ND_FD_WORD, token_list))
+		if (!compare_tk(ND_CMD, token_list))
 			d_throw_error("parse_redirect_arry", "filename syntax error");
 		ret[i] = (*token_list)->word;
 		i++;
@@ -106,7 +106,7 @@ size_t	count_rd_node(t_token	**token_list)
 	{
 		i++;
 		temp = temp->next;
-		if (!compare_tk(ND_FD_WORD, &temp))
+		if (!compare_tk(ND_CMD, &temp))
 		{
 			printf("count_rd_node:unexpexted token\n");
 			return (i);
