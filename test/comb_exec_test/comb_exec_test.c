@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:45:04 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 19:21:16 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 22:46:56 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,28 @@ void	exec_combination_test(char **envp)
 	i = 0;
 	char *test_words[][30] = {
 	// {"ls"}, // テストケース1
-	// {"echo", "hello", "|", "cat"}, // テストケース1
-	{"sleep", "2", "|", "cat", "|", "echo", "where is " }, // テストケース1 
-	// {"echo", "hello", "|", "cat", "|", "echo", "where is " }, // テストケース1
-	// {"echo", "hello", "|", "cat"}, // テストケース1
+	{"echo", "hello", "|", "cat"}, // テストケース1
+	{"sleep", "1", "|", "cat", "|", "echo", "where is " }, // テストケース1 
+	{"echo", "hello", "|", "cat", "|", "ls","42" }, // テストケース1
+	{"cat", "|", "cat","|", "ls" }, // テストケース1
 	};
 
 	t_node_kind test_kinds[][30] = {
     // {ND_FD_WORD},      // テストケース1
-		// {ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD},
+		{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD},
 		{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},
+		{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},
+		{ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD},
 	};
 	int	list_size[30] = {
 		// 1,
-		// 4,
-		7
+		 4,
+		7,
+		7,
+		5
 	};
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		printf("---------------testcase [%d]\n",i + 1);
 		token_list = create_dummy_token_list(test_words[i], test_kinds[i], list_size[i]);

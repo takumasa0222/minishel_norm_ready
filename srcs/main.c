@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/08 19:22:07 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 22:50:16 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,17 @@
 //	ast_node = parse_cmd(&token_list);
 //	ctx = init_ctx();
 //	exec_handler(ast_node, envp, ctx);
-
-	//return (WEXITSTATUS(c_status));
+	//while (++i <= ctx->cnt)
+	//	waitpid(ctx->pids[i], &c_status, 0);
+	//if (WIFSIGNALED(c_status))
+	//	return (WTERMSIG(c_status) + 128);
+//	return (WEXITSTATUS(c_status));
 //}
 
 
 
 void	exec_handler(t_node *ast_node, char **envp, t_context *ctx)
 {
-
 	if (ast_node->kind == ND_CMD)
 		exec_cmd_handler(ast_node, envp, ctx);
 	//else if (ast_node->kind == ND_SUB_SHELL)
@@ -85,7 +87,6 @@ void	exec_handler(t_node *ast_node, char **envp, t_context *ctx)
 	//	exec_pipe();
 	//else if (ast_node->kind == ND_AND_OP)
 	//	exec_pipe();
-
 }
 
 void	exec_pipeline(t_node *node, char **envp, t_context *ctx)
@@ -97,6 +98,7 @@ void	exec_pipeline(t_node *node, char **envp, t_context *ctx)
 	ctx->is_exec_in_child_ps = true;
 	set_pipe_fd(&ctx->in_pipe_fd, &ctx->out_pipe_fd, pfd);
 	exec_handler(node->left, envp, ctx);
+	ctx->out_pipe_fd = STDOUT_FILENO;
 	exec_handler(node->right, envp, ctx);
 }
 
@@ -104,20 +106,30 @@ void	exec_child_process(t_node *node, char **envp, t_context *ctx)
 {
 	// read data from pre_pipe_in
 	if (ctx->pre_in_pipe_fd != -1)
+	{
 		dup2(ctx->pre_in_pipe_fd, STDIN_FILENO);
-	close(ctx->in_pipe_fd);
-	close(ctx->pre_in_pipe_fd);
+		close(ctx->pre_in_pipe_fd);
+	}
+	// close because unused.
+	if (ctx->in_pipe_fd != -1)
+		close(ctx->in_pipe_fd);
 	// write data to current pipe
-	if (ctx->out_pipe_fd != -1)
+	if (ctx->out_pipe_fd != -1 && ctx->out_pipe_fd != STDOUT_FILENO)
+	{
 		dup2(ctx->out_pipe_fd, STDOUT_FILENO);
+		close(ctx->out_pipe_fd);
+	}
 	exec_cmd(node, envp, ctx);
 }
 
 void	exec_cmd(t_node *node, char **envp, t_context *ctx)
 {
 	//redirect();
-	ctx = init_ctx();
-	execve(node->cmds[0], node->cmds, envp);
+	ctx = NULL;
+	envp = NULL;
+	execvp(node->cmds[0], node->cmds);
+	perror("");
+	exit(0);
 }
 
 t_context	*init_ctx(void)
@@ -141,7 +153,7 @@ void	exec_cmd_handler(t_node *node, char **envp, t_context *ctx)
 	{
 		ctx->pids[ctx->cnt] = fork();
 		ctx->cnt += 1;
-		if (ctx->pids[ctx->cnt -1] > 0)
+		if (ctx->pids[ctx->cnt -1] == 0)
 		{
 			exec_child_process(node, envp, ctx);
 		}
@@ -158,9 +170,9 @@ void	exec_cmd_handler(t_node *node, char **envp, t_context *ctx)
 //if pre_in_pipe_fd is exist close
 void	parent_process_fd_reset(t_context *ctx)
 {
-	if (ctx->pre_in_pipe_fd != -1)
+	if (ctx->pre_in_pipe_fd != -1 && ctx->pre_in_pipe_fd != STDIN_FILENO)
 		close(ctx->pre_in_pipe_fd);
-	if (ctx->out_pipe_fd != -1)
+	if (ctx->out_pipe_fd != -1 && ctx->out_pipe_fd != STDOUT_FILENO)
 		close(ctx->out_pipe_fd);
 	ctx->pre_in_pipe_fd = ctx->in_pipe_fd;
 	ctx->in_pipe_fd = -1;
