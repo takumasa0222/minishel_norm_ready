@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/16 04:10:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 15:29:15 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@
 # include <stdbool.h>
 
 typedef struct s_token	t_token;
-typedef enum e_token_kind
-{
-	TK_WORD,
-	TK_RESERVED,
-	TK_OP,
-	TK_EOF,
-}	t_token_kind;
+// typedef enum e_token_kind
+// {
+// 	TK_WORD,
+// 	TK_RESERVED,
+// 	TK_OP,
+// 	TK_EOF,
+// }	t_token_kind;
 
 typedef enum e_node_kind{
 	ND_REDIRECTS,
-	ND_IN_RD,
-	ND_OUT_RD,
-	ND_APPEND_RD,
-	ND_HERE_DOC,
+	// ND_IN_RD,
+	// ND_OUT_RD,
+	// ND_APPEND_RD,
+	// ND_HERE_DOC,
 	ND_PIPE,
 	ND_OR_OP,
 	ND_AND_OP,
@@ -39,7 +39,7 @@ typedef enum e_node_kind{
 	ND_SUB_SHELL,
 	ND_CMD,
 	ND_FD_NUM,
-	ND_FD_WORD
+	// ND_FD_WORD
 }	t_node_kind;
 
 struct s_token {
