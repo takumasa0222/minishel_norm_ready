@@ -6,12 +6,13 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 19:46:35 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/08 20:51:43 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_tester.h"
 
+/*
 void test_lexer(const char *input)
 {
     t_token *tokens;
@@ -36,11 +37,11 @@ void test_lexer(const char *input)
 
 int main(void)
 {
-    // 簡単なテストケース
-    test_lexer("'  hi'");
+    test_lexer("< infile cat -e | wc -l > outfile");
     return 0;
 }
-/*
+*/
+
 int	main(int argc, char *argv[])
 {
 	if (argc == 1)
@@ -168,4 +169,3 @@ void	node_printer(t_token *token)
 		copy_token = copy_token->next;
 	}
 }
-*/
