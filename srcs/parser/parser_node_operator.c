@@ -30,10 +30,15 @@ t_node	*create_logi_node(t_node *left, t_token **token_list)
 	t_node	*node;
 
 	node = NULL;
-	if (match_token (ND_AND_OP, token_list))
+	if (match_token(ND_AND_OP, token_list))
 		node = create_node(ND_AND_OP);
-	else if (match_token (ND_OR_OP, token_list))
+	else if (match_token(ND_OR_OP, token_list))
 		node = create_node(ND_OR_OP);
+	else
+	{
+		d_throw_error("create_logi_node", "Expected logical operator");
+		return (NULL);
+	}
 	node->left = left;
 	node->right = parse_cmd_type(token_list);
 	return (node);
