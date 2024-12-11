@@ -40,7 +40,7 @@ char *test_input[] = {
 };
 
 void print_tree(t_node *node, int depth, char *relation);
-void free_ast(t_node *node);
+void free_ast(t_node **node);
 
 int	main(void)
 {
@@ -48,13 +48,13 @@ int	main(void)
 	t_node	*ast;
 
 	int i = 0;
-	while(test_input[i])
+	while(i < 34)
 	{
 		printf("--------------- Testcase [%d] ---------------\n", i + 1);
 		token_list = lexer(test_input[i]);
 		ast = parse_cmd(&token_list);
 		print_tree(ast, 0, "root");
-		free_ast(ast);
+		free_ast(&ast);
 		i++;
 	}
 	exit(0);
@@ -100,8 +100,7 @@ void	print_tree(t_node *node, int depth, char *relation)
 		for (int i = 0; node->cmds[i]; i++)
 		{
 			printf("%s ", node->cmds[i]);
-			if (!node->cmds[i + 1])
-				printf(", ");
+			printf(" ");
 		};
         printf("]");
     }
@@ -134,15 +133,29 @@ void	print_tree(t_node *node, int depth, char *relation)
 	}
 }
 
-void free_ast(t_node *node)
+void free_ast(t_node **node)
 {
-    if (!node)
+    if (!node || !*node)
         return;
+    free_ast(&(*node)->left);
+    free_ast(&(*node)->right);
 
-    if (node->left)
-        free_ast(node->left);
-    if (node->right)
-        free_ast(node->right);
+    // // node->cmdsの解放
+    // if ((*node)->cmds)
+    // {
+    //     for (int i = 0; (*node)->cmds[i]; i++)
+    //         free((*node)->cmds[i]); // cmds[i]自体が動的確保されているなら
+    //     free((*node)->cmds);
+    // }
 
-    free(node);
+    // // node->redirectsの解放
+    // if ((*node)->redirects)
+    // {
+    //     for (int i = 0; (*node)->redirects[i]; i++)
+    //         free((*node)->redirects[i]);
+    //     free((*node)->redirects);
+    // }
+
+    free(*node);
+    *node = NULL;
 }
