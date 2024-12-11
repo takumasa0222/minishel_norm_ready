@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:45:04 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 22:46:56 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/12 02:32:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,12 @@ int	main(int argc, char *argv[], char *envp[])
 void temp_starter(t_node *ast_node, char **envp)
 {
 	t_context	*ctx;
-	int	i;
-	int	c_status;
-
-	i = -1;
 	ctx = init_ctx();
-	exec_handler(ast_node, envp, ctx);
-	while (++i <= ctx->cnt)
-		waitpid(ctx->pids[i], &c_status, 0);
+	//while (++i <= ctx->cnt)
+	//	waitpid(ctx->pids[i], &c_status, 0);
 	//if (WIFSIGNALED(c_status))
 	//	return (WTERMSIG(c_status) + 128);
-	printf("signal %d\n", WEXITSTATUS(c_status));
+	printf("signal %d\n", exec_handler(ast_node, envp, ctx));
 }
 
 void	exec_combination_test(char **envp)
@@ -44,28 +39,34 @@ void	exec_combination_test(char **envp)
 	i = 0;
 	char *test_words[][30] = {
 	// {"ls"}, // テストケース1
-	{"echo", "hello", "|", "cat"}, // テストケース1
-	{"sleep", "1", "|", "cat", "|", "echo", "where is " }, // テストケース1 
-	{"echo", "hello", "|", "cat", "|", "ls","42" }, // テストケース1
-	{"cat", "|", "cat","|", "ls" }, // テストケース1
+	//{"echo", "hello", "|", "cat"}, // テストケース1
+	//{"sleep", "1", "|", "cat", "|", "echo", "where is " }, // テストケース2
+	//{"echo", "hello", "|", "cat", "|", "ls","42" }, // テストケース3
+	{"cat", "|", "cat","|", "ls" }, // テストケース4
+	//{"ls", "||", "ls" }, // テストケース5
+	//{"false", "||", "ls"}, // テストケース6
 	};
 
 	t_node_kind test_kinds[][30] = {
     // {ND_FD_WORD},      // テストケース1
-		{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD},
-		{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},
-		{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},
+		//{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD},
+		//{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},
+		//{ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},
 		{ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD},
+		//{ND_FD_WORD, ND_OR_OP, ND_FD_WORD},
+		//{ND_FD_WORD, ND_OR_OP, ND_FD_WORD},
 	};
 	int	list_size[30] = {
 		// 1,
-		 4,
-		7,
-		7,
-		5
+		//4,
+		//7,
+		//7,
+		5,
+		//3,
+		//3,
 	};
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		printf("---------------testcase [%d]\n",i + 1);
 		token_list = create_dummy_token_list(test_words[i], test_kinds[i], list_size[i]);

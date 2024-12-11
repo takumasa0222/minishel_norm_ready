@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/08 18:34:56 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/12 00:47:05 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_context {
 	int		pre_in_pipe_fd;
 	int		cnt;
 	bool	is_exec_in_child_ps;
+	bool	is_wait_call;
+	int		last_status;
 }	t_context;
 
 #endif
