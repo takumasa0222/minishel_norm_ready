@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:50:01 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:50:04 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/19 20:09:35 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	builtin_unset(int argc, char *argv[], t_map *envmap)
 	(void)argc;
 	status = 0;
 	i = 1;
+	if (envmap == NULL)
+	{
+		builtin_error("builtin_unset", NULL, "map is not initialized");
+		return (EXIT_FAILURE);
+	}
 	while (argv[i])
 	{
 		if (map_unset(envmap, argv[i]) < 0)

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/31 22:30:22 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/11/15 22:39:50 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ t_token	*fetch_fst_word_token(char *input)
 	i = 0;
 	while (input[i])
 	{
+		if (is_s_quote(input[i]) || is_d_quote(input[i]))
+			i = move_to_next_quotation(input, i);
 		if (is_s_quote(input[i]) || is_d_quote(input[i]))
 			i = move_to_next_quotation(input, i);
 		if (is_metachar(input[i]))

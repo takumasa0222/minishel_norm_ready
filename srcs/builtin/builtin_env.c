@@ -12,13 +12,18 @@
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
+#include "../../includes/utils.h"
 
 int	builtin_env(int argc, char *argv[], t_map *envmap)
 {
 	t_item	*cur;
 
-	(void) argc;
 	(void) argv;
+	if (argc > 1)
+	{
+		builtin_error("env", NULL, "Arguments are not supproted");
+		return (EXIT_FAILURE);
+	}
 	cur = envmap->item_head.next;
 	while (cur)
 	{

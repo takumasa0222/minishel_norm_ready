@@ -13,34 +13,51 @@
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
 
+bool	is_no_newline_option(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (!str || str[0] != '-')
+		return (false);
+	while (str[i] && str[i] == 'n')
+	{
+		i++;
+		if (str[i] == '\0')
+			return (true);
+	}
+	return (false);
+}
+/*
+echo -nabc newline (expect -nabc newline)
+*/
+
 int	builtin_echo(int argc, char *argv[], t_map *envmap)
 {
-	bool	is_first_arg;
-	bool	echo_newline;
+	bool	is_no_newline;
 	size_t	i;
 
 	(void)argc;
 	(void)envmap;
 	i = 1;
-	echo_newline = true;
-	if (argv[i] && ft_strncmp(argv[i], "-n", 2) == 0)
+	is_no_newline = false;
+	if (argv[1] && is_no_newline_option(argv[1]))
 	{
-		echo_newline = false;
+		is_no_newline = true;
 		i++;
 	}
-	is_first_arg = true;
 	while (argv[i])
 	{
-		if (!is_first_arg)
-			write(STDOUT_FILENO, " ", 1);
-		is_first_arg = false;
 		write(STDOUT_FILENO, argv[i], ft_strlen(argv[i]));
 		i++;
+		if (argv[i])
+			write(STDOUT_FILENO, " ", 1);
 	}
-	if (echo_newline)
+	if (!is_no_newline)
 		write(STDOUT_FILENO, "\n", 1);
 	return (EXIT_SUCCESS);
 }
+
 /*
 echo -n -n -n
 */

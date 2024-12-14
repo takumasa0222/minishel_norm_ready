@@ -1,0 +1,9 @@
+{
+	"files.associations": {
+		"stdio.h": "c",
+		"cmath": "cpp",
+		"limits": "cpp",
+		"type_traits": "cpp",
+		"stdbool.h": "c"
+	}
+}
