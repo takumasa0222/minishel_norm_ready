@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/27 02:19:09 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/12/15 02:04:13 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,10 @@ SRCS = \
 ../../srcs/parser/parser_redirect_word.c \
 ../../srcs/parser/parser_token_checker.c \
 ../../srcs/parser/parser_node_operator.c \
-../../srcs/main.c
+../../srcs/execution/execute_fd_controller.c \
+../../srcs/execution/execute_utils.c \
+../../srcs/execution/execute.c \
+../../srcs/execution/execute_logical_operator.c
 #./ft_get_next_line/get_next_line_bonus.c \
 #./ft_get_next_line/get_next_line_utils_bonus.c \
 #../../srcs/lexer/lexer_helper.c \
