@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/15 02:31:18 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/15 03:01:29 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	set_pipe_fd(int *in_fd, int *out_fd, int *pfd)
 {
 	if (!in_fd || !out_fd || !pfd)
 		d_throw_error("set_pipe_fd", "arg is invalid");
+	if (pfd[0] < 0 || pfd[1] < 0)
+		d_throw_error("set_pipe_fd", "invalid pipe file descriptors");
 	*in_fd = pfd[0];
 	*out_fd = pfd[1];
 }

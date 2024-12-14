@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:45:04 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/15 01:11:08 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/15 03:02:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ void temp_starter(t_node *ast_node, char **envp)
 	t_context	*ctx;
 
 	ctx = init_ctx();
+	if (!ctx)
+		return ;
 	exec_handler(ast_node, envp, ctx);
 	//ctx->last_status = exec_handler(ast_node, envp, ctx);
 	if(ctx->cnt)
 		wait_children_status(ctx);
 	printf("exit_status %d\n",ctx->last_status);
+	free(ctx);
 }
 
 void	exec_combination_test(char **envp)
