@@ -7,7 +7,6 @@ typedef struct ASTNode ASTNode;
 typedef enum {
     NODE_COMMAND,
     NODE_SIMPLE_COMMAND,
-    NODE_SUBSHELL,
     NODE_COMMAND_TAIL,
     NODE_REDIRECTION,
     NODE_WORDLIST,
@@ -34,19 +33,12 @@ typedef struct {
 // wordlistを持つ場合もある
 // redirectionsは複数とれるのでリスト化
 typedef struct {
-    ASTNode *redirections_before;
+    ASTNode **redirections_before;
     size_t redirection_before_count;
-    ASTNode *redirections_after;
+    ASTNode **redirections_after;
     size_t redirection_after_count;
     ASTNode *wordlist;
 } SimpleCommandData;
-
-// subshell: "(" command ")" command_tail*
-typedef struct {
-    ASTNode *inner_command;
-    ASTNode *command_tails;
-    size_t command_tail_count;
-} SubshellData;
 
 typedef struct {
     ASTNode *simple_command;
@@ -73,7 +65,6 @@ struct ASTNode {
     union {
         CommandData command;
         SimpleCommandData simple_command;
-        SubshellData subshell;
         CommandTailData command_tail;
         RedirectionData redirection;
         WordListData wordlist;

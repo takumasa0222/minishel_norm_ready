@@ -1,3 +1,6 @@
+#include "../../includes/minishell.h"
+#include "../lexer_test/lexer_tester.h"
+#include "../parser_test/parser_tester.h"
 #include "sample.h"
 
 ASTNode *create_filename_node(const char *filename) {
@@ -33,7 +36,7 @@ ASTNode *create_redirection_node(const char *symbol, ASTNode *filename, int numb
     return node;
 }
 
-ASTNode *create_simple_command_node(ASTNode *redir_before, size_t redir_before_count, ASTNode *redir_after, size_t redir_after_count, ASTNode *wordlist) {
+ASTNode *create_simple_command_node(ASTNode **redir_before, size_t redir_before_count, ASTNode **redir_after, size_t redir_after_count, ASTNode *wordlist) {
     ASTNode *node = malloc(sizeof(ASTNode));
     if (!node) {
         return NULL;
@@ -44,18 +47,6 @@ ASTNode *create_simple_command_node(ASTNode *redir_before, size_t redir_before_c
     node->data.simple_command.redirections_after = redir_after;
     node->data.simple_command.redirection_after_count = redir_after_count;
     node->data.simple_command.wordlist = wordlist;
-    return node;
-}
-
-ASTNode *create_subshell_node(ASTNode *inner_command, ASTNode *command_tails, size_t command_tail_count) {
-    ASTNode *node = malloc(sizeof(ASTNode));
-    if (!node) {
-        return NULL;
-    }
-    node->type = NODE_SUBSHELL;
-    node->data.subshell.inner_command = inner_command;
-    node->data.subshell.command_tails = command_tails;
-    node->data.subshell.command_tail_count = command_tail_count;
     return node;
 }
 
@@ -82,42 +73,216 @@ ASTNode *create_command_tail_node(const char *connector, ASTNode *cmd_type_or_re
     return node;
 }
 
-ASTNode *parse_command() {
-    ASTNode *command_type_node = parse_cmd_type(); // simple command or subshell
-    ASTNode *command_tail_node = parse_command_tail();
-    ASTNode *command_node = malloc(sizeof(ASTNode));
-    command_node->type = NODE_COMMAND;
-    command_node->data.command.type = command_type_node;
-    command_node->data.command.tail = command_tail_node;
-    return command_node;
 
+/// @brief トークンの種類を返す
+
+static t_token *current_token = NULL;
+
+static void advance_token() {
+    if (current_token) {
+        current_token = current_token->next;
+    }
+}
+
+static t_node_kind peek_kind()
+{
+    if (current_token == NULL) {
+        return ND_EOF;
+    }
+    return current_token->kind;
+}
+
+// parse_start()
+// parse_command()
+// parse_command_tail()
+// parse_cmd_type()
+// parse_simple_command()
+// parse_wordlist()
+// parse_redirection()
+
+/*
+filename: WORD
+*/
+ASTNode *parse_filename()
+{
+    if (peek_kind() != ND_CMD) {
+        return NULL;
+    }
+    char *filename = strdup(current_word());
+    advance_token();
+    return create_filename_node(filename);
 }
 
 /*
-最初にredirectionをできるだけ読む（0回以上）、続いてwordlistを読めれば読む、その後再度redirectionを0回以上読む
+redirection:
+    ">" filename
+  | "<" filename
+  | ">>" filename
+  | "<<" filename
+  | "<>" filename
+  | NUMBER ">" filename
+  | NUMBER "<" filename
+  | NUMBER ">>" filename
+  | NUMBER "<<" filename
+  | NUMBER "<>" filename
 */
-ASTNode *parse_simple_command()
+ASTNode *parse_redirection()
 {
+    int num = -1;
+    if (peek_kind() == ND_FD_NUM) {
+        num = atoi(current_word());
+        advance_token();
+    }
+    if (peek_kind() != ND_REDIRECTS) {
+        return NULL; // error
+    }
+    char *symbol = strdup(current_word());
+    advance_token();
+    ASTNode *filename = parse_filename();
+    if (filename == NULL) {
+        free(symbol);
+        return NULL;
+    }
+    return create_redirection_node(symbol, filename, 0);
+}
+
+/*
+wordlist: WORD | wordlist WORD
+*/
+ASTNode *parse_wordlist()
+{
+    size_t word_count = 0;
+    char **words = NULL;
+    if (peek_kind() != ND_CMD) {
+        return NULL; // error: word is a mandatory
+    }
+    while (peek_kind() == ND_CMD) {
+        words = realloc(words, sizeof(char *) * (word_count + 1));
+        words[word_count++] = strdup(current_word());
+        advance_token();
+    }
+    return create_wordlist_node(words, word_count);
+}
+
+/*
+simple_command: redirection* wordlist redirection*
+              | redirection+
+*/
+static int is_redirection_start() {
+    // ND_REDIRECTSやND_FD_NUM + ND_REDIRECTSパターンを考慮
+    t_node_kind k = peek_kind();
+    if (k == ND_REDIRECTS) return 1;
+    if (k == ND_FD_NUM) {
+        t_token *next = current_token->next;
+        if (next && next->kind == ND_REDIRECTS) return 1;
+    }
+    return 0;
+}
+
+ASTNode *parse_simple_command() {
+    // 前部redirection読み込み
     ASTNode **redir_before = NULL;
     size_t redir_before_count = 0;
-    while (next_token_is_redirection()) {
-        // parse redirectionでredirection nodeを作成
-        ASTNode *redir = parse_redirection();
-        redir_before = realloc(redir_before, sizeof(ASTNode *) * (redir_before_count + 1));
-        redir_before[redir_before_count++] = redir;
+    while (is_redirection_start()) {
+        ASTNode *r = parse_redirection();
+        if (!r) return NULL;
+        redir_before = realloc(redir_before, sizeof(ASTNode*)*(redir_before_count+1));
+        redir_before[redir_before_count++] = r;
     }
-    // wordlistがあれば読む（なければNULLを返す）
-    ASTNode *wordlist = parse_wordlist();
-    // redirectionの後半
+    // wordlistチェック
+    ASTNode *wordlist = NULL;
+    if (peek_kind() == ND_CMD) {
+        wordlist = parse_wordlist();
+        if (!wordlist) return NULL;
+    }
+    // 後部redirection読み込み
     ASTNode **redir_after = NULL;
     size_t redir_after_count = 0;
-    while (next_token_is_redirection()) {
-        ASTNode *redir = parse_redirection();
-        redir_after = realloc(redir_after, sizeof(ASTNode *) * (redir_after_count + 1));
-        redir_after[redir_after_count++] = redir;
+    while (is_redirection_start()) {
+        ASTNode *r = parse_redirection();
+        if (!r) return NULL;
+        redir_after = realloc(redir_after, sizeof(ASTNode*)*(redir_after_count+1));
+        redir_after[redir_after_count++] = r;
+    }
+    // wordlistも前後redirectionもない場合はエラー
+    if (!wordlist && redir_before_count == 0 && redir_after_count == 0) {
+        // エラー: 空のsimple_commandになってしまう
+        return NULL;
     }
 
-    // simple command nodeを作成
-    ASTNode *simple_command = create_simple_command_node(redir_before, redir_before_count, redir_after, redir_after_count, wordlist);
-    return simple_command;
+    // redirectionリストをまとめる処理が必要であれば行う
+    // 簡略化のため、ここではNULL渡し。実際には
+    // redirectionリスト用のノード作成などが必要。
+    return create_simple_command_node(NULL, redir_before_count, NULL, redir_after_count, wordlist);
 }
+
+
+/*
+command_tail:
+    "|" cmd_type command_tail
+  | ("&&" | "||") cmd_type command_tail
+  | redirection
+  |
+*/
+ASTNode *parse_command_tail() {
+    t_node_kind k = peek_kind();
+
+    // "|"の場合
+    if (k == ND_PIPE) {
+        advance_token(); // "|"
+        ASTNode *simple_cmd_node = parse_simple_command();
+        if (!simple_cmd_node) return NULL;
+        ASTNode *next_tail = parse_command_tail();
+        return create_command_tail_node("|", simple_cmd_node, next_tail);
+    }
+    // "&&"
+    if (k == ND_AND_OP) {
+        advance_token(); // "&&"
+        ASTNode *simple_cmd_node = parse_simple_command();
+        if (!simple_cmd_node) return NULL;
+        ASTNode *next_tail = parse_command_tail();
+        return create_command_tail_node("&&", simple_cmd_node, next_tail);
+    }
+    // "||"
+    if (k == ND_OR_OP) {
+        advance_token(); // "||"
+        ASTNode *simple_cmd_node = parse_simple_command();
+        if (!simple_cmd_node) return NULL;
+        ASTNode *next_tail = parse_command_tail();
+        return create_command_tail_node("||", simple_cmd_node, next_tail);
+    }
+    // redirectionの場合
+    if (k == ND_FD_NUM || k == ND_REDIRECTS) {
+        ASTNode *redir = parse_redirection();
+        if (!redir) return NULL;
+        return create_command_tail_node(NULL, redir, NULL);
+    }
+    // ε(空)
+    return NULL;
+}
+
+ASTNode *parse_command() {
+    ASTNode *simple_cmd_node = parse_simple_command();
+    if (!simple_cmd_node) return NULL;
+    ASTNode *tail_node = parse_command_tail();
+    return create_command_node(simple_cmd_node, tail_node);
+}
+
+ASTNode *parse_start(t_token *token_list) {
+    current_token = token_list;
+    ASTNode *root = parse_command();
+    // 最後にND_EOFを期待してもいい(任意)
+    return root;
+}
+
+int main() {
+    char *input = "echo hello | grep h && cat < input.txt";
+    t_token *tokens = lexer(input);
+    ASTNode *ast = parse_start(tokens);
+
+    // 生成されたastを処理する ...
+    // astを解放する処理も必要
+
+    return 0;
+}
+
