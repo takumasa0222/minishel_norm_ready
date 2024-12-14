@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/15 02:05:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/15 02:31:18 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@
 void	reset_parent_process_fd(t_context *ctx)
 {
 	if (ctx->pre_in_pipe_fd != -1 && ctx->pre_in_pipe_fd != STDIN_FILENO)
-		close(ctx->pre_in_pipe_fd);
+	{
+		if (close(ctx->pre_in_pipe_fd) == -1)
+			d_throw_error("reset_parent_process", "fail to cls pre_in_pipe_fd");
+	}
 	if (ctx->out_pipe_fd != -1 && ctx->out_pipe_fd != STDOUT_FILENO)
-		close(ctx->out_pipe_fd);
+		if (close(ctx->out_pipe_fd) == -1)
+			d_throw_error("reset_parent_process", "fail to cls out_pipe_fd");
 	ctx->pre_in_pipe_fd = ctx->in_pipe_fd;
 	ctx->in_pipe_fd = -1;
 	ctx->out_pipe_fd = -1;

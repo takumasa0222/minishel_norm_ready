@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:09:09 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/15 01:57:34 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/15 02:27:59 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define EXIT	"exit"
 # define CD "cd"
 # define PWD "pwd"
-# define UNSET "exit"
+# define UNSET "unset"
 # define ENV "env"
 # define ECHO "echo"
 # define EXPORT "export"
