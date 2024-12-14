@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:08:43 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/19 20:38:11 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:58:09 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ TestCase		test_cases[] = {
 	{"echo", 1, {"echo", NULL}, "Echo with no arguments (expect newline only)"},
     {"echo", 2, {"echo", "-n", NULL}, "Echo with -n only (no newline)"},
 	{"echo", 3, {"echo", "-n", "hello", NULL}, "echo -n hello (expect hello without newline)"},
-	{"echo", 3, {"echo", "Hello, world!", NULL}, "Echo with single argument"},
+	{"echo", 2, {"echo", "Hello, world!", NULL}, "Echo with single argument"},
 	{"echo", 3, {"echo", "-nabc", "newline", NULL}, "echo -nabc newline (expect -nabc newline)"},
-	{"echo", 3, {"echo", "-nnnnnn", "newline", NULL}, "echo -nnnnnn newline (expect newline without newline)"}
+	{"echo", 3, {"echo", "-nnnnnn", "newline", NULL}, "echo -nnnnnn newline (expect newline without newline)"}, 
 };
 
 int	main(void)
