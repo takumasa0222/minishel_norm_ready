@@ -4,6 +4,10 @@
 		"cmath": "cpp",
 		"limits": "cpp",
 		"type_traits": "cpp",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"parser.h": "c",
+		"lexer.h": "c",
+		"minishell.h": "c",
+		"execute.h": "c"
 	}
 }
