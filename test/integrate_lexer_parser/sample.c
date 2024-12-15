@@ -77,6 +77,7 @@ ASTNode *create_command_tail_node(const char *connector, ASTNode *cmd_type_or_re
 /// @brief トークンの種類を返す
 
 static t_token *current_token = NULL;
+void free_ast(ASTNode **node);
 
 static void advance_token() {
     if (current_token) {
@@ -100,6 +101,13 @@ static t_node_kind peek_kind()
 // parse_wordlist()
 // parse_redirection()
 
+static char *current_word(void) {
+    if (current_token && current_token->word) {
+        return current_token->word;
+    }
+    return "";
+}
+
 /*
 filename: WORD
 */
@@ -108,9 +116,13 @@ ASTNode *parse_filename()
     if (peek_kind() != ND_CMD) {
         return NULL;
     }
-    char *filename = strdup(current_word());
+    char *filename = current_word();
     advance_token();
-    return create_filename_node(filename);
+    ASTNode *node = create_filename_node(filename);
+    if (!node) {
+        return NULL;
+    }
+    return (node);
 }
 
 /*
@@ -136,14 +148,19 @@ ASTNode *parse_redirection()
     if (peek_kind() != ND_REDIRECTS) {
         return NULL; // error
     }
-    char *symbol = strdup(current_word());
+    char *symbol = current_word();
     advance_token();
     ASTNode *filename = parse_filename();
     if (filename == NULL) {
-        free(symbol);
         return NULL;
     }
-    return create_redirection_node(symbol, filename, 0);
+    ASTNode *redir_node = create_redirection_node(symbol, filename, num);
+    if (!redir_node) {
+        // create_redirection_nodeが失敗した場合はsymbolとfilenameを解放
+        free_ast(&filename);
+        return NULL;
+    }
+    return (redir_node);
 }
 
 /*
@@ -161,7 +178,14 @@ ASTNode *parse_wordlist()
         words[word_count++] = strdup(current_word());
         advance_token();
     }
-    return create_wordlist_node(words, word_count);
+    ASTNode *node = create_wordlist_node(words, word_count);
+    if (!node) {
+        for (size_t i = 0; i < word_count; i++) {
+            free(words[i]);
+        }
+        free(words);
+    }
+    return (node);
 }
 
 /*
@@ -213,7 +237,20 @@ ASTNode *parse_simple_command() {
     // redirectionリストをまとめる処理が必要であれば行う
     // 簡略化のため、ここではNULL渡し。実際には
     // redirectionリスト用のノード作成などが必要。
-    return create_simple_command_node(NULL, redir_before_count, NULL, redir_after_count, wordlist);
+    ASTNode *node = create_simple_command_node(redir_before, redir_before_count, redir_after, redir_after_count, wordlist);
+    if (!node) {
+        // メモリ確保失敗
+        for (size_t i = 0; i < redir_before_count; i++) {
+            free_ast(&redir_before[i]);
+        }
+        free(redir_before);
+        free_ast(&wordlist);
+        for (size_t i = 0; i < redir_after_count; i++) {
+            free_ast(&redir_after[i]);
+        }
+        free(redir_after);
+    }
+    return (node);
 }
 
 
@@ -233,7 +270,12 @@ ASTNode *parse_command_tail() {
         ASTNode *simple_cmd_node = parse_simple_command();
         if (!simple_cmd_node) return NULL;
         ASTNode *next_tail = parse_command_tail();
-        return create_command_tail_node("|", simple_cmd_node, next_tail);
+        ASTNode *node = create_command_tail_node("|", simple_cmd_node, next_tail);
+        if (!node) {
+            free_ast(&simple_cmd_node);
+            free_ast(&next_tail);
+        }
+        return (node);
     }
     // "&&"
     if (k == ND_AND_OP) {
@@ -241,7 +283,12 @@ ASTNode *parse_command_tail() {
         ASTNode *simple_cmd_node = parse_simple_command();
         if (!simple_cmd_node) return NULL;
         ASTNode *next_tail = parse_command_tail();
-        return create_command_tail_node("&&", simple_cmd_node, next_tail);
+        ASTNode *node = create_command_tail_node("&&", simple_cmd_node, next_tail);
+        if (!node) {
+            free_ast(&simple_cmd_node);
+            free_ast(&next_tail);
+        }
+        return (node);
     }
     // "||"
     if (k == ND_OR_OP) {
@@ -249,13 +296,22 @@ ASTNode *parse_command_tail() {
         ASTNode *simple_cmd_node = parse_simple_command();
         if (!simple_cmd_node) return NULL;
         ASTNode *next_tail = parse_command_tail();
-        return create_command_tail_node("||", simple_cmd_node, next_tail);
+        ASTNode *node = create_command_tail_node("||", simple_cmd_node, next_tail);
+        if (!node) {
+            free_ast(&simple_cmd_node);
+            free_ast(&next_tail);
+        }
+        return (node);
     }
     // redirectionの場合
     if (k == ND_FD_NUM || k == ND_REDIRECTS) {
         ASTNode *redir = parse_redirection();
         if (!redir) return NULL;
-        return create_command_tail_node(NULL, redir, NULL);
+        ASTNode *node = create_command_tail_node(NULL, redir, NULL);
+        if (!node) {
+            free_ast(&redir);
+        }
+        return (node);
     }
     // ε(空)
     return NULL;
@@ -265,7 +321,12 @@ ASTNode *parse_command() {
     ASTNode *simple_cmd_node = parse_simple_command();
     if (!simple_cmd_node) return NULL;
     ASTNode *tail_node = parse_command_tail();
-    return create_command_node(simple_cmd_node, tail_node);
+    ASTNode *node = create_command_node(simple_cmd_node, tail_node);
+    if (!node) {
+        free_ast(&simple_cmd_node);
+        free_ast(&tail_node);
+    }
+    return (node);
 }
 
 ASTNode *parse_start(t_token *token_list) {
@@ -275,6 +336,173 @@ ASTNode *parse_start(t_token *token_list) {
     return root;
 }
 
+void free_ast(ASTNode **node)
+{
+    if (!node || !*node)
+        return;
+
+    ASTNode *n = *node;
+
+    switch (n->type) {
+        case NODE_FILENAME:
+            if (n->data.filename.value) {
+                free(n->data.filename.value);
+            }
+            break;
+        
+        case NODE_WORDLIST:
+            if (n->data.wordlist.words) {
+                for (size_t i = 0; i < n->data.wordlist.word_count; i++) {
+                    free(n->data.wordlist.words[i]);
+                }
+                free(n->data.wordlist.words);
+            }
+            break;
+        
+        case NODE_REDIRECTION:
+            if (n->data.redirection.symbol) {
+                free(n->data.redirection.symbol);
+            }
+            // filenameは子ノード
+            free_ast(&n->data.redirection.filename);
+            break;
+        
+        case NODE_SIMPLE_COMMAND:
+            if (n->data.simple_command.redirections_before) {
+                for (size_t i = 0; i < n->data.simple_command.redirection_before_count; i++) {
+                    free_ast(&n->data.simple_command.redirections_before[i]);
+                }
+                free(n->data.simple_command.redirections_before);
+            }
+            if (n->data.simple_command.redirections_after) {
+                for (size_t i = 0; i < n->data.simple_command.redirection_after_count; i++) {
+                    free_ast(&n->data.simple_command.redirections_after[i]);
+                }
+                free(n->data.simple_command.redirections_after);
+            }
+            free_ast(&n->data.simple_command.wordlist);
+            break;
+        
+        case NODE_COMMAND:
+            free_ast(&n->data.command.simple_command);
+            free_ast(&n->data.command.command_tail);
+            break;
+        
+        case NODE_COMMAND_TAIL:
+            if (n->data.command_tail.connector) {
+                free(n->data.command_tail.connector);
+            }
+            free_ast(&n->data.command_tail.cmd_type_or_redir);
+            free_ast(&n->data.command_tail.next_tail);
+            break;
+    }
+
+    free(n);
+    *node = NULL;
+}
+
+void free_token_list(t_token *token_list)
+{
+    t_token *current = token_list;
+    t_token *next;
+
+    while (current)
+    {
+        next = current->next;
+        if (current->word)
+            free(current->word);
+        free(current);
+        current = next;
+    }
+}
+
+#include <stdio.h>
+
+static void print_ast_indent(int depth) {
+    for (int i = 0; i < depth; i++) {
+        printf("  ");
+    }
+}
+
+void print_ast(ASTNode **node, int depth)
+{
+    if (!node || !*node)
+        return;
+
+    ASTNode *n = *node;
+
+    print_ast_indent(depth);
+    switch (n->type) {
+        case NODE_FILENAME:
+            printf("NODE_FILENAME: %s\n", n->data.filename.value);
+            break;
+        
+        case NODE_WORDLIST:
+            printf("NODE_WORDLIST: ");
+            for (size_t i = 0; i < n->data.wordlist.word_count; i++) {
+                printf("%s ", n->data.wordlist.words[i]);
+            }
+            printf("\n");
+            break;
+        
+        case NODE_REDIRECTION:
+            printf("NODE_REDIRECTION: symbol=%s, number=%d\n", 
+                n->data.redirection.symbol,
+                n->data.redirection.number);
+            // filenameノードを再帰呼び出し
+            print_ast(&n->data.redirection.filename, depth + 1);
+            break;
+        
+        case NODE_SIMPLE_COMMAND:
+            printf("NODE_SIMPLE_COMMAND:\n");
+            // redirections_before
+            for (size_t i = 0; i < n->data.simple_command.redirection_before_count; i++) {
+                print_ast_indent(depth+1);
+                printf("redir_before[%zu]:\n", i);
+                print_ast(&n->data.simple_command.redirections_before[i], depth + 2);
+            }
+            // wordlist
+            if (n->data.simple_command.wordlist) {
+                print_ast_indent(depth+1);
+                printf("wordlist:\n");
+                print_ast(&n->data.simple_command.wordlist, depth + 2);
+            }
+            // redirections_after
+            for (size_t i = 0; i < n->data.simple_command.redirection_after_count; i++) {
+                print_ast_indent(depth+1);
+                printf("redir_after[%zu]:\n", i);
+                print_ast(&n->data.simple_command.redirections_after[i], depth + 2);
+            }
+            break;
+        
+        case NODE_COMMAND:
+            printf("NODE_COMMAND:\n");
+            print_ast_indent(depth+1);
+            printf("simple_command:\n");
+            print_ast(&n->data.command.simple_command, depth+2);
+            if (n->data.command.command_tail) {
+                print_ast_indent(depth+1);
+                printf("command_tail:\n");
+                print_ast(&n->data.command.command_tail, depth+2);
+            }
+            break;
+        
+        case NODE_COMMAND_TAIL:
+            printf("NODE_COMMAND_TAIL: connector=%s\n", n->data.command_tail.connector ? n->data.command_tail.connector : "NULL");
+            if (n->data.command_tail.cmd_type_or_redir) {
+                print_ast_indent(depth+1);
+                printf("cmd_type_or_redir:\n");
+                print_ast(&n->data.command_tail.cmd_type_or_redir, depth+2);
+            }
+            if (n->data.command_tail.next_tail) {
+                print_ast_indent(depth+1);
+                printf("next_tail:\n");
+                print_ast(&n->data.command_tail.next_tail, depth+2);
+            }
+            break;
+    }
+}
+
 int main() {
     char *input = "echo hello | grep h && cat < input.txt";
     t_token *tokens = lexer(input);
@@ -282,7 +510,8 @@ int main() {
 
     // 生成されたastを処理する ...
     // astを解放する処理も必要
-
+    print_ast(&ast, 0);
+    free_ast(&ast);
+    free_token_list(tokens);
     return 0;
 }
-

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 21:49:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/15 18:51:18 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ char	**parse_words(t_token	**token_list)
 		d_throw_error("parse_words", "malloc_error");
 	while (compare_tk(ND_CMD, token_list))
 	{
-		ret[i] = (*token_list)->word;
+		// ret[i] = (*token_list)->word;
+		ret[i] = ft_strdup((*token_list)->word);
+		if (!ret[i])
+			d_throw_error("parse_words", "strdup_error");
 		i++;
 		*token_list = (*token_list)->next;
 	}
@@ -87,7 +90,10 @@ char	**parse_redirect_arry(t_token	**token_list)
 		*token_list = (*token_list)->next;
 		if (!compare_tk(ND_CMD, token_list))
 			d_throw_error("parse_redirect_arry", "filename syntax error");
-		ret[i] = (*token_list)->word;
+		// ret[i] = (*token_list)->word;
+		ret[i] = ft_strdup((*token_list)->word);
+		if (!ret[i] )
+			d_throw_error("parse_redirect_arry", "strdup_error");
 		i++;
 		*token_list = (*token_list)->next;
 	}

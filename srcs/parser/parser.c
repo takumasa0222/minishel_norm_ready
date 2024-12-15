@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 21:46:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/15 18:59:43 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,20 @@ t_node	*parse_cmd_tail(t_node *left, t_token **tk_list)
 			return (parse_cmd_tail(node, tk_list));
 	}
 	else if (compare_tk(ND_REDIRECTS, tk_list))
-		return (parse_redirects(tk_list));
+	{
+		t_node *redirect_node = parse_redirects(tk_list);
+		if (redirect_node == NULL)
+			return (left);
+		if (left)
+		{
+			left->right = redirect_node;
+			return (left);
+		}
+		else 
+		{
+			return (redirect_node);
+		}
+		// return (parse_redirects(tk_list));
+	}
 	return (left);
 }

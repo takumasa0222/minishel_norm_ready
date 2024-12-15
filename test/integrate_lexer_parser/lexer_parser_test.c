@@ -141,20 +141,20 @@ void free_ast(t_node **node)
     free_ast(&(*node)->right);
 
     // // node->cmdsの解放
-    // if ((*node)->cmds)
-    // {
-    //     for (int i = 0; (*node)->cmds[i]; i++)
-    //         free((*node)->cmds[i]); // cmds[i]自体が動的確保されているなら
-    //     free((*node)->cmds);
-    // }
+    if ((*node)->cmds)
+    {
+        for (int i = 0; (*node)->cmds[i]; i++)
+            free((*node)->cmds[i]); // cmds[i]自体が動的確保されているなら
+        free((*node)->cmds);
+    }
 
-    // // node->redirectsの解放
-    // if ((*node)->redirects)
-    // {
-    //     for (int i = 0; (*node)->redirects[i]; i++)
-    //         free((*node)->redirects[i]);
-    //     free((*node)->redirects);
-    // }
+    // // // node->redirectsの解放
+    if ((*node)->redirects)
+    {
+        for (int i = 0; (*node)->redirects[i]; i++)
+            free((*node)->redirects[i]);
+        free((*node)->redirects);
+    }
 
     free(*node);
     *node = NULL;
