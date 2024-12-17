@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/16 23:36:01 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/18 01:36:40 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ char	*expand_variable(char *str, char **envp)
 			i = retrieve_var(&ret, str, i, envp);
 		else if (is_d_quote(str[i]))
 			i = retrieve_val_in_dq(&ret, str, i, envp);
+		else
+			i = retrieve_normal_val(&ret, str, i);
 		i++;
 	}
 	return (ret);
@@ -155,6 +157,8 @@ size_t	retrieve_var(char **ret, char *str, size_t i, char **envp)
 	if (!str[i + 1])
 		return (str_concat_helper(ret, str, i, 1), i);
 	var_name_len = retrieve_var_name_len(str, i + 1);
+	if (!var_name_len)
+		return (str_concat_helper(ret, str, i, 1), i);
 	tmp = ft_substr(str, i + 1, var_name_len);
 	if (!tmp)
 		d_throw_error("retrieve_var", "substr failed");
@@ -162,6 +166,8 @@ size_t	retrieve_var(char **ret, char *str, size_t i, char **envp)
 	map_get_val = map_get(map, tmp);
 	if (map_get_val)
 		str_concat_helper(ret, map_get_val, 0, ft_strlen(map_get_val));
+	else
+		str_concat_helper(ret, "", 0, 0);
 	free(tmp);
 	return (var_name_len + i);
 }
@@ -173,11 +179,29 @@ size_t	retrieve_var_name_len(char *str, size_t i)
 	len = 0;
 	if (!str)
 		d_throw_error("retrieve_var_name_end", "arg is invalid");
+	if (is_d_quote(str[i]) || is_s_quote(str[i]))
+		return (0);
 	if (!ft_isalpha(str[i]) && str[i] != UNDER_SCORE)
 		return (1);
 	while (ft_isalnum(str[i + len]) || str[i + len] == UNDER_SCORE)
 		len++;
 	return (len);
+}
+
+size_t	retrieve_normal_val(char **ret, char *str, size_t i)
+{
+	size_t	j;
+
+	if (!str)
+		d_throw_error("retrieve_normal_val", "arg is invalid");
+	j = 0;
+	while (str[i + j] && !is_d_quote(str[i + j]) && \
+	!is_s_quote(str[i + j]) && !is_dollar_symbol(str[i + j]))
+	{
+		j++;
+	}
+	str_concat_helper(ret, str, i, j);
+	return (i + j - 1);
 }
 
 t_map	*init_envmap(char **envp)
