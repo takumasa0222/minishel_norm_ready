@@ -87,16 +87,10 @@ char	*node_kind_conv(t_node_kind node_kind)
 void	print_tree(t_node *node, int depth, char *relation)
 {
 	if (node == NULL) 
-	{
 		return;
-	}
 	for (int i = 0; i < depth; i++)
-	{
 		printf("    ");
-	}
-	// 現在のノードと親子関係を表示
 	printf("%s (%s)\n", node_kind_conv(node->kind), relation);
-	// cmds や redirects の中身を確認したい場合はコメントアウト外す
 	if (node->cmds)
     {
 		printf(" [cmds: ");
@@ -107,12 +101,10 @@ void	print_tree(t_node *node, int depth, char *relation)
 		};
         printf("]");
     }
-	if (node->op_val) {
+	if (node->op_val)
 		printf(" [op_val: %s]", node->op_val);
-	}
-	if (node->fd_num) {
+	if (node->fd_num)
 		printf(" [fd_num: %d]", node->fd_num);
-	}
 	if (node->redirects)
 	{
 		printf(" [redirects: ");
@@ -125,15 +117,10 @@ void	print_tree(t_node *node, int depth, char *relation)
 		printf("]");
 	}
 	printf("\n");
-	// 左右の子を再帰的に表示
 	if (node->left)
-	{
 		print_tree(node->left, depth + 1, "left child");
-	}
 	if (node->right)
-	{
 		print_tree(node->right, depth + 1, "right child");
-	}
 }
 
 void free_ast(t_node **node)
