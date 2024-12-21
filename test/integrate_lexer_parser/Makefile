@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/21 19:01:38 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/21 22:27:43 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS = \
 ./lexer_parser_test.c \
 ../../srcs/utils/error.c \
 ../../srcs/parser/parser.c \
+../../srcs/parser/parser_cmd_tail.c \
 ../../srcs/parser/parser_redirect_word.c \
 ../../srcs/parser/parser_token_checker.c \
 ../../srcs/parser/parser_node_operator.c \

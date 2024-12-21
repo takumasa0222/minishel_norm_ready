@@ -174,7 +174,7 @@ ASTNode *parse_redirection()
         num = atoi(current_word());
         advance_token();
     }
-    if (peek_kind() != NODE_REDIRECTION) {
+    if (peek_kind() != ND_REDIRECTS) {
         return NULL; // error
     }
     char *symbol = current_word();
@@ -241,11 +241,11 @@ ASTNode *parse_simple_command() {
     size_t redir_before_count = 0;
     while (is_redirection_start()) {
         ASTNode *r = parse_redirection();
-        if (!r) goto error_simple_cmd;
+        if (!r) goto error;
         ASTNode **tmp = realloc(redir_before, sizeof(ASTNode*) * (redir_before_count+1));
         if (!tmp) {
             free_ast(&r);
-            goto error_simple_cmd;
+            goto error;
         }
         redir_before = tmp;
         redir_before[redir_before_count++] = r;
@@ -254,18 +254,18 @@ ASTNode *parse_simple_command() {
     ASTNode *wordlist = NULL;
     if (peek_kind() == ND_CMD) {
         wordlist = parse_wordlist();
-        if (!wordlist) goto error_simple_cmd;
+        if (!wordlist) goto error;
     }
     // 後部redirection読み込み
     ASTNode **redir_after = NULL;
     size_t redir_after_count = 0;
     while (is_redirection_start()) {
         ASTNode *r = parse_redirection();
-        if (!r) goto error_simple_cmd;
+        if (!r) goto error;
         ASTNode **tmp = realloc(redir_after, sizeof(ASTNode*) * (redir_after_count+1));
         if (!tmp) {
             free_ast(&r);
-            goto error_simple_cmd;
+            goto error;
         }
         redir_after = tmp;
         redir_after[redir_after_count++] = r;
@@ -273,7 +273,7 @@ ASTNode *parse_simple_command() {
     // wordlistも前後redirectionもない場合はエラー
     if (!wordlist && redir_before_count == 0 && redir_after_count == 0) {
         // 空コマンド
-        goto error_simple_cmd2;
+        goto error;
     }
     ASTNode *node = create_simple_command_node(redir_before, redir_before_count, redir_after, redir_after_count, wordlist);
     if (!node) {
@@ -286,17 +286,17 @@ ASTNode *parse_simple_command() {
     }
     return node;
 
-    error_simple_cmd2:
-        // redir_after確保失敗時のcleanup
-        for (size_t i = 0; i < redir_after_count; i++) free_ast(&redir_after[i]);
-        free(redir_after);
+    error:
+        if (redir_before) {
+            for (size_t i = 0; i < redir_before_count; i++) free_ast(&redir_before[i]);
+            free(redir_before);
+        }
+        if (redir_after) {
+            for (size_t i = 0; i < redir_after_count; i++) free_ast(&redir_after[i]);
+            free(redir_after);
+        }
         if (wordlist) free_ast(&wordlist);
-
-    error_simple_cmd:
-        for (size_t i = 0; i < redir_before_count; i++) free_ast(&redir_before[i]);
-        free(redir_before);
-
-        return NULL;
+    return NULL;
 }
 
 
@@ -313,10 +313,7 @@ ASTNode *parse_command_tail()
 
     if (k == ND_PIPE || k == ND_OR_OP || k == ND_AND_OP)
     {
-        const char *conn = NULL;
-        if (k == ND_PIPE) conn = "|";
-        if (k == ND_AND_OP) conn = "&&";
-        if (k == ND_OR_OP) conn = "||";
+        const char *conn = current_word();
         advance_token();
         ASTNode *simple_cmd_node = parse_simple_command();
         if (!simple_cmd_node) return NULL;
@@ -529,6 +526,7 @@ void print_ast(ASTNode **node, int depth)
 
 int main() {
     char *input = "echo hello | grep h && cat < input.txt";
+    char *input2 = "cat < outfile1 > outfile2";
     t_token *tokens = lexer(input);
     ASTNode *ast = parse_start(tokens);
 

@@ -42,6 +42,7 @@ char *test_input[] = {
 
 void print_tree(t_node *node, int depth, char *relation);
 void free_ast(t_node **node);
+void free_token_list(t_token *token_list);
 
 int	main(void)
 {
@@ -56,6 +57,7 @@ int	main(void)
 		ast = parse_cmd(&token_list);
 		print_tree(ast, 0, "root");
 		free_ast(&ast);
+		free_token_list(token_list);
 		i++;
 	}
 	exit(0);
@@ -161,4 +163,20 @@ void free_ast(t_node **node)
 
     free(*node);
     *node = NULL;
+}
+
+void free_token_list(t_token *token_list)
+{
+    t_token *temp;
+    while (token_list)
+    {
+        temp = token_list->next;
+        if (token_list->word)
+		{
+			free(token_list->word);
+			token_list->word = NULL;
+		}
+        free(token_list);
+        token_list = temp;
+    }
 }
