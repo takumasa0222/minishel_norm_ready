@@ -36,7 +36,8 @@ char *test_input[] = {
     "cat | abc | echo | def",  // テストケース31
     "pwd || ls || date",       // テストケース32
     "pwd && ls && date",       // テストケース33
-    "( ls | wc -l > file1 ) || echo success" // テストケース34
+    "( ls | wc -l > file1 ) || echo success", // テストケース34
+	"echo hello > outfile1 > outfile2" // テストケース35
 };
 
 void print_tree(t_node *node, int depth, char *relation);
@@ -48,7 +49,7 @@ int	main(void)
 	t_node	*ast;
 
 	int i = 0;
-	while(i < 34)
+	while(i < 35)
 	{
 		printf("--------------- Testcase [%d] ---------------\n", i + 1);
 		token_list = lexer(test_input[i]);
@@ -146,6 +147,7 @@ void free_ast(t_node **node)
         for (int i = 0; (*node)->cmds[i]; i++)
             free((*node)->cmds[i]); // cmds[i]自体が動的確保されているなら
         free((*node)->cmds);
+		(*node)->cmds = NULL;
     }
 
     // // // node->redirectsの解放
@@ -154,6 +156,7 @@ void free_ast(t_node **node)
         for (int i = 0; (*node)->redirects[i]; i++)
             free((*node)->redirects[i]);
         free((*node)->redirects);
+		(*node)->redirects = NULL;
     }
 
     free(*node);

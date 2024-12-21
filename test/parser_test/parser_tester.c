@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:16:13 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/09 18:06:05 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/21 18:50:52 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	exec_parser_test(void)
 	{"cat", "|", "abc", "|", "echo", "|", "def"},  // テストケース31
 	{"pwd", "||", "ls", "||", "date"}, // テストケース32 soeno テスト1
 	{"pwd", "&&", "ls", "&&", "date"}, // テストケース33 soeno テスト2
-	{"(", "ls", "|", "wc", "-l", ">", "file1", ")", "||", "echo", "success"} // テストケース34 ssoeno テスト3	
+	{"(", "ls", "|", "wc", "-l", ">", "file1", ")", "||", "echo", "success"}, // テストケース34 soeno テスト3	
+	{"echo", "hello", ">", "outfile1", ">", "outfile2"} // テストケース35 soeno テスト4
 };
 
 	t_node_kind test_kinds[][30] = {
@@ -97,9 +98,10 @@ void	exec_parser_test(void)
     {ND_CMD, ND_PIPE, ND_CMD, ND_PIPE, ND_CMD, ND_PIPE, ND_CMD},
 	{ND_CMD, ND_OR_OP, ND_CMD, ND_OR_OP, ND_CMD}, // テストケース32 soeno テスト1
 	{ND_CMD, ND_AND_OP, ND_CMD, ND_AND_OP, ND_CMD}, // テストケース33 soeno テスト2
-	{ND_L_PARE, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD, ND_CMD} // テストケース34 ssoeno テスト3	
+	{ND_L_PARE, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD, ND_CMD}, // テストケース34 ssoeno テスト3
+	{ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_REDIRECTS, ND_CMD} // テストケース34 ssoeno テスト3	
 	};
-	int	list_size[34] = {
+	int	list_size[35] = {
 		1,
 		2,
 		3,
@@ -133,10 +135,11 @@ void	exec_parser_test(void)
 		7,
 		5,
 		5,
-		11
+		11,
+		6
 	};
 
-	for (int i = 0; i < 34; i++)
+	for (int i = 0; i < 35; i++)
 	{
 		printf("---------------testcase [%d]\n",i + 1);
 		token_list = create_dummy_token_list(test_words[i], test_kinds[i], list_size[i]);

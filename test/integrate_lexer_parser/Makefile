@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/15 19:25:12 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/21 19:01:38 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ endif
 
 
 SRCS = \
-./sample.c \
+./lexer_parser_test.c \
 ../../srcs/utils/error.c \
 ../../srcs/parser/parser.c \
 ../../srcs/parser/parser_redirect_word.c \
@@ -41,6 +41,7 @@ SRCS = \
 ../../srcs/lexer/lexer_token_quote_checker.c \
 ../../srcs/lexer/lexer_operator_checker.c \
 ../../srcs/lexer/lexer.c
+# ./sample.c \
 
 # SRCS = \
 # ./lexer_parser_test.c \

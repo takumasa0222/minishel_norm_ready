@@ -32,12 +32,22 @@ static char *current_word(void) {
 
 static void *xmalloc(size_t size) {
     void *p = malloc(size);
+    if (!p) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     return p;
 }
 
-static char *xstrdup(const char *s) {
-    if (!s) return NULL;
+static char *xstrdup(const char *s)
+{
+    if (!s)
+        return NULL;
     char *dup = strdup(s);
+    if (!dup) {
+        perror("strdup");
+        exit(EXIT_FAILURE);
+    }
     return dup;
 }
 
@@ -46,13 +56,9 @@ static char *xstrdup(const char *s) {
 static ASTNode *alloc_node(NodeType type)
 {
     ASTNode *node = xmalloc(sizeof(ASTNode));
-    if (!node) {
-        return NULL;
-    }
     node->type = type;
     return node;
 }
-
 
 ASTNode *create_filename_node(const char *filename) {
     ASTNode *node = alloc_node(NODE_FILENAME);
@@ -67,25 +73,15 @@ ASTNode *create_filename_node(const char *filename) {
 }
 
 ASTNode *create_wordlist_node(char **words, size_t word_count) {
-    ASTNode *node = alloc_node(NODE_WORDLIST);
-    if (!node) {
-        return NULL;
-    }
+    ASTNode *node = alloc_node(ND_CMD);
     node->data.wordlist.words = words;
     node->data.wordlist.word_count = word_count;
     return node;
 }
 
 ASTNode *create_redirection_node(const char *symbol, ASTNode *filename, int number) {
-    ASTNode *node = alloc_node(NODE_REDIRECTION);
-    if (!node) {
-        return NULL;
-    }
+    ASTNode *node = alloc_node(ND_REDIRECTS);
     node->data.redirection.symbol = xstrdup(symbol);
-    if (!node->data.redirection.symbol) {
-        free(node);
-        return NULL;
-    }
     node->data.redirection.filename = filename;
     node->data.redirection.number = number;
     return node;
@@ -93,9 +89,6 @@ ASTNode *create_redirection_node(const char *symbol, ASTNode *filename, int numb
 
 ASTNode *create_simple_command_node(ASTNode **redir_before, size_t redir_before_count, ASTNode **redir_after, size_t redir_after_count, ASTNode *wordlist) {
     ASTNode *node = alloc_node(NODE_SIMPLE_COMMAND);
-    if (!node) {
-        return NULL;
-    }
     node->data.simple_command.redirections_before = redir_before;
     node->data.simple_command.redirection_before_count = redir_before_count;
     node->data.simple_command.redirections_after = redir_after;
@@ -106,19 +99,14 @@ ASTNode *create_simple_command_node(ASTNode **redir_before, size_t redir_before_
 
 ASTNode *create_command_node(ASTNode *simple_command, ASTNode *command_tail) {
     ASTNode *node = alloc_node(NODE_COMMAND);
-    if (!node) {
-        return NULL;
-    }
     node->data.command.simple_command = simple_command;
     node->data.command.command_tail = command_tail;
     return node;
 }
 
-ASTNode *create_command_tail_node(const char *connector, ASTNode *cmd_type_or_redir, ASTNode *next_tail) {
+ASTNode *create_command_tail_node(const char *connector, ASTNode *cmd_type_or_redir, ASTNode *next_tail)
+{
     ASTNode *node = alloc_node(NODE_COMMAND_TAIL);
-    if (!node) {
-        return NULL;
-    }
     if (connector) {
         node->data.command_tail.connector = xstrdup(connector);
         if (!node->data.command_tail.connector) {
@@ -142,8 +130,10 @@ simple_command: redirection* wordlist redirection*
 static bool is_redirection_start() {
     // ND_REDIRECTSやND_FD_NUM + ND_REDIRECTSパターンを考慮
     t_node_kind k = peek_kind();
-    if (k == ND_REDIRECTS) return true;
-    if (k == ND_FD_NUM) {
+    if (k == ND_REDIRECTS)
+        return true;
+    if (k == ND_FD_NUM)
+    {
         t_token *next = current_token->next;
         if (next && next->kind == ND_REDIRECTS) return true;
     }
@@ -155,7 +145,8 @@ filename: WORD
 */
 ASTNode *parse_filename()
 {
-    if (peek_kind() != ND_CMD) {
+    if (peek_kind() != NODE_COMMAND)
+    {
         return NULL;
     }
     char *filename = current_word();
@@ -183,7 +174,7 @@ ASTNode *parse_redirection()
         num = atoi(current_word());
         advance_token();
     }
-    if (peek_kind() != ND_REDIRECTS) {
+    if (peek_kind() != NODE_REDIRECTION) {
         return NULL; // error
     }
     char *symbol = current_word();
