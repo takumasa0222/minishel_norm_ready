@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/21 22:05:39 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/22 19:07:14 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	compare_tk(t_node_kind expected, t_token **cur_token);
 
 char	**parse_words(t_token	**token_list);
 t_node	*parse_redirects(t_token **token_list);
-size_t	count_word_node(t_token	**token_list);
 char	**parse_redirect_arry(t_token	**token_list);
-size_t	count_rd_node(t_token	**token_list);
+size_t	count_nodes(t_token **token_list, t_node_kind kind);
+
 #endif

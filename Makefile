@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/21 22:28:44 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/22 18:28:21 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,8 @@ srcs/parser/parser_redirect_word.c \
 srcs/parser/parser_token_checker.c \
 srcs/parser/parser_node_operator.c \
 srcs/utils/error.c \
+srcs/utils/free_functions.c \
+srcs/utils/xmalloc.c \
 srcs/builtin/builtin_cd.c \
 srcs/builtin/builtin_cd_utils.c \
 srcs/builtin/builtin_exit.c \

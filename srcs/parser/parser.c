@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/21 22:24:09 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/22 19:04:08 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,33 +52,6 @@ this parser will create AST based on below eBNF.
 修正ポイント　11/17
 ・match_token / compare_tk の箇所は、t_token_kind に合わせる。一方で、t_token_kind の種類を増やす
 */
-
-void	free_node(t_node *node)
-{
-	if (!node)
-		return ;
-	if (node->left)
-		free_node(node->left);
-	if (node->right)
-		free_node(node->right);
-	if (node->cmds)
-		free_wordlist(node->cmds);
-	free(node);
-}
-
-void	free_wordlist(char **wordlist)
-{
-	int	i;
-
-	i = 0;
-	while (wordlist[i])
-	{
-		free(wordlist[i]);
-		i++;
-	}
-	free(wordlist);
-}
-
 t_node	*parse_cmd(t_token **token_list)
 {
 	t_node	*node;
@@ -141,10 +114,38 @@ t_node	*parse_subshell(t_token **token_list)
 	return (node);
 }
 
+char	**parse_words(t_token **token_list)
+{
+	char	**ret;
+	size_t	i;
+	size_t	word_cnt;
+
+	i = 0;
+	ret = NULL;
+	word_cnt = count_nodes(token_list, ND_CMD);
+	if (!word_cnt)
+		return (NULL);
+	ret = xmalloc((word_cnt + 1) * sizeof(char *));
+	while (i < word_cnt)
+	{
+		if (!compare_tk(ND_CMD, token_list))
+			d_throw_error("parse_words", "unexpected token type");
+		ret[i] = ft_strdup((*token_list)->word);
+		if (!ret[i])
+		{
+			free_str_array(ret);
+			d_throw_error("parse_words", "strdup_error");
+		}
+		i++;
+		*token_list = (*token_list)->next;
+	}
+	ret[i] = NULL;
+	return (ret);
+}
+
 // t_node	*parse_cmd_tail(t_node *left, t_token **tk_list)
 // {
 // 	t_node	*node;
-
 // 	node = NULL;
 // 	if (match_token(ND_PIPE, tk_list))
 // 	{
@@ -183,5 +184,3 @@ t_node	*parse_subshell(t_token **token_list)
 // 	}
 // 	return (left);
 // }
-
-

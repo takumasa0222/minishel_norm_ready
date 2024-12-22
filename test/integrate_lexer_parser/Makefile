@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/21 22:27:43 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/22 18:28:12 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ endif
 SRCS = \
 ./lexer_parser_test.c \
 ../../srcs/utils/error.c \
+../../srcs/utils/free_functions.c \
+../../srcs/utils/xmalloc.c \
 ../../srcs/parser/parser.c \
 ../../srcs/parser/parser_cmd_tail.c \
 ../../srcs/parser/parser_redirect_word.c \

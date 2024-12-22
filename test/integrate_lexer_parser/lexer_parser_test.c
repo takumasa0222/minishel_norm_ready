@@ -54,10 +54,11 @@ int	main(void)
 	{
 		printf("--------------- Testcase [%d] ---------------\n", i + 1);
 		token_list = lexer(test_input[i]);
+		t_token *original_tokens = token_list;
 		ast = parse_cmd(&token_list);
 		print_tree(ast, 0, "root");
 		free_ast(&ast);
-		free_token_list(token_list);
+		free_token_list(original_tokens);
 		i++;
 	}
 	exit(0);
@@ -143,7 +144,10 @@ void free_ast(t_node **node)
     if ((*node)->redirects)
     {
         for (int i = 0; (*node)->redirects[i]; i++)
+		{
             free((*node)->redirects[i]);
+			(*node)->redirects[i] = NULL;
+		}
         free((*node)->redirects);
 		(*node)->redirects = NULL;
     }
@@ -158,6 +162,7 @@ void free_token_list(t_token *token_list)
     while (token_list)
     {
         temp = token_list->next;
+		// printf("Freeing token: %s\n", token_list->word ? token_list->word : "NULL");
         if (token_list->word)
 		{
 			free(token_list->word);

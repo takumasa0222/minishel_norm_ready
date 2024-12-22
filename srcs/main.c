@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/09 18:17:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/22 18:36:29 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,57 +42,35 @@ int	main(void)
 
 char	*node_kind_conv(t_node_kind node_kind)
 {
-	char	*node_list[] = {
-		"REDI",
-		// "IN_R",
-		// "OUT_",
-		// "APPE",
-		// "HERE",
-		"PIPE",
-		"OR_O",
-		"AND_",
-		"L_PA",
-		"R_PA",
-		"SUBS",
-		"CMD",
-		"FD_N",
-		// "WORD"
-	};
+	char	*node_list[9];
+
+	node_list[0] = "REDI";
+	// node_list[1] = "IN_R";
+	// node_list[2] = "OUT_";
+	// node_list[3] = "APPE";
+	// node_list[4] = "HERE";
+	node_list[1] = "PIPE";
+	node_list[2] = "OR_O";
+	node_list[3] = "AND_";
+	node_list[4] = "L_PA";
+	node_list[5] = "R_PA";
+	node_list[6] = "SUBS";
+	node_list[7] = "CMD";
+	node_list[8] = "FD_N";
+	// node_list[9] = "WORD";
 	return (node_list[node_kind]);
 }
 
 void	print_tree(t_node *node, int depth, char *relation)
 {
-	if (node == NULL) 
-	{
-		return;
-	}
-	for (int i = 0; i < depth; i++)
-	{
+	int	i;
+
+	if (node == NULL)
+		return ;
+	i = 0;
+	while (i++ < depth)
 		printf("    ");
-	}
-	// 現在のノードと親子関係を表示
 	printf("%s (%s)\n", node_kind_conv(node->kind), relation);
-	// cmds や redirects の中身を確認したい場合はコメントアウト外す
-	// for (int i = 0; i < 2; i++)
-	// {
-	// 	if (!node->cmds)
-	// 		break;
-	// 	if (node->cmds[i])
-	// 		printf("cmds[%d]: %s\n",i, node->cmds[i]);
-	// 	else
-	// 		break;
-	// }
-	// for (int i = 0; i < 2; i++)
-	// {
-	// 	if (!node->redirects)
-	// 		break;
-	// 	if (node->redirects[i])
-	// 		printf("redirects[%d]: %s\n",i, node->redirects[i]);
-	// 	else
-	// 		break;
-	// }
-	// 左右の子を再帰的に表示
 	if (node->left)
 	{
 		print_tree(node->left, depth + 1, "left child");
