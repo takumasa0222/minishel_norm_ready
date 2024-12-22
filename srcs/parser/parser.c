@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/22 19:04:08 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/22 19:50:44 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char	**parse_words(t_token **token_list)
 		ret[i] = ft_strdup((*token_list)->word);
 		if (!ret[i])
 		{
-			free_str_array(ret);
+			free_wordlist(ret);
 			d_throw_error("parse_words", "strdup_error");
 		}
 		i++;

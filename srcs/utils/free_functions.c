@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/22 19:02:04 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/22 20:29:34 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,58 @@ void	free_wordlist(char **wordlist)
 {
 	int	i;
 
+	if (!wordlist)
+		return ;
 	i = 0;
 	while (wordlist[i])
 	{
+		if (!wordlist[i])
+			break ;
 		free(wordlist[i]);
 		i++;
 	}
 	free(wordlist);
 }
 
-void	free_str_array(char **array)
+void	free_ast(t_node **node)
 {
-	int	i;
-
-	if (!array)
+	if (!node || !*node)
 		return ;
-	i = 0;
-	while (array[i])
+	free_ast(&(*node)->left);
+	free_ast(&(*node)->right);
+	if ((*node)->cmds)
 	{
-		free(array[i]);
-		i++;
+		for (int i = 0; (*node)->cmds[i]; i++)
+			free((*node)->cmds[i]);
+		free((*node)->cmds);
+		(*node)->cmds = NULL;
 	}
-	free(array);
+	if ((*node)->redirects)
+	{
+		for (int i = 0; (*node)->redirects[i]; i++)
+		{
+			free((*node)->redirects[i]);
+			(*node)->redirects[i] = NULL;
+		}
+		free((*node)->redirects);
+		(*node)->redirects = NULL;
+	}
+	free(*node);
+	*node = NULL;
+}
+
+void	free_token_list(t_token *token_list)
+{
+	t_token	*temp;
+	while (token_list)
+	{
+		temp = token_list->next;
+		if (token_list->word)
+		{
+			free(token_list->word);
+			token_list->word = NULL;
+		}
+		free(token_list);
+		token_list = temp;
+	}
 }

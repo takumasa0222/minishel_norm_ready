@@ -6,13 +6,14 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/22 18:36:29 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/22 20:31:17 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/lexer.h"
 #include "../includes/parser.h"
+#include "../includes/utils.h"
 
 void	print_tree(t_node *node, int depth, char *relation);
 
@@ -34,6 +35,9 @@ int	main(void)
 			token_list = lexer(line);
 			ast = parse_cmd(&token_list);
 			print_tree(ast, 0, "root");
+			free_node(ast);
+			if (token_list)
+				free_token_list(token_list);
 		}
 		free(line);
 	}

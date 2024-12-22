@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/22 18:28:12 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/22 19:58:19 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ ifeq ($(UNAME_S),Darwin)
 	INCLUDES += -I$(RLDIR)/include
 else
 	# for Linux
-	LIBS := -Lsrcs -lreadline
+	LIBS := -lreadline
 endif
 
 

@@ -50,12 +50,26 @@ int	main(void)
 	t_node	*ast;
 
 	int i = 0;
-	while(i < 35)
+	const int test_count = sizeof(test_input) / sizeof(test_input[0]);
+	while(i < test_count)
 	{
 		printf("--------------- Testcase [%d] ---------------\n", i + 1);
 		token_list = lexer(test_input[i]);
+		if (!token_list)
+		{
+			printf("Lexer failed\n");
+			i++;
+			continue;
+		}
 		t_token *original_tokens = token_list;
 		ast = parse_cmd(&token_list);
+		if (!ast)
+		{
+			printf("Parser failed\n");
+			free_token_list(original_tokens);
+			i++;
+			continue;
+		}
 		print_tree(ast, 0, "root");
 		free_ast(&ast);
 		free_token_list(original_tokens);
@@ -112,7 +126,7 @@ void	print_tree(t_node *node, int depth, char *relation)
 		for (int i = 0; node->redirects[i]; i++)
 		{
 			printf("%s ", node->redirects[i]);
-			if (!node->redirects[i + 1])
+			if (node->redirects[i + 1])
 				printf(", ");
 		};
 		printf("]");
@@ -122,53 +136,4 @@ void	print_tree(t_node *node, int depth, char *relation)
 		print_tree(node->left, depth + 1, "left child");
 	if (node->right)
 		print_tree(node->right, depth + 1, "right child");
-}
-
-void free_ast(t_node **node)
-{
-    if (!node || !*node)
-        return;
-    free_ast(&(*node)->left);
-    free_ast(&(*node)->right);
-
-    // // node->cmdsの解放
-    if ((*node)->cmds)
-    {
-        for (int i = 0; (*node)->cmds[i]; i++)
-            free((*node)->cmds[i]); // cmds[i]自体が動的確保されているなら
-        free((*node)->cmds);
-		(*node)->cmds = NULL;
-    }
-
-    // // // node->redirectsの解放
-    if ((*node)->redirects)
-    {
-        for (int i = 0; (*node)->redirects[i]; i++)
-		{
-            free((*node)->redirects[i]);
-			(*node)->redirects[i] = NULL;
-		}
-        free((*node)->redirects);
-		(*node)->redirects = NULL;
-    }
-
-    free(*node);
-    *node = NULL;
-}
-
-void free_token_list(t_token *token_list)
-{
-    t_token *temp;
-    while (token_list)
-    {
-        temp = token_list->next;
-		// printf("Freeing token: %s\n", token_list->word ? token_list->word : "NULL");
-        if (token_list->word)
-		{
-			free(token_list->word);
-			token_list->word = NULL;
-		}
-        free(token_list);
-        token_list = temp;
-    }
 }

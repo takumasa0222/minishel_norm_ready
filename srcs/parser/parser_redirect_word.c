@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/22 19:12:00 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/22 19:50:34 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*parse_single_redirect(t_token **token_list)
 
 void	handle_redirect_error(char **ret, size_t count)
 {
-	free_str_array(&ret[count - 1]);
+	free_wordlist(&ret[count - 1]);
 	d_throw_error("parse_redirect_array", "redirect syntax error");
 }
 
