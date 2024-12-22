@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:40:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 20:52:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/21 23:15:19 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ t_token	*create_token(char *word, t_node_kind kind)
 	if (!ret)
 		d_throw_error("create_token", "malloc failed");
 	ret->kind = kind;
-	ret->word = word;
+	if (word)
+		ret->word = word;
+	else
+		ret->word = NULL;
 	ret->next = NULL;
 	return (ret);
 }

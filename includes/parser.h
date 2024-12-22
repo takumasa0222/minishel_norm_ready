@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/05 03:49:51 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:05:39 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ struct s_node {
 	int			fd_num;
 	char		**redirects;
 };
+
+void	free_node(t_node *node);
+void	free_wordlist(char **wordlist);
 
 t_node	*parse_cmd(t_token **token_list);
 t_node	*parse_cmd_type(t_token **token_list);
