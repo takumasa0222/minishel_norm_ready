@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/18 01:36:40 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/21 00:57:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ size_t	skip_s_quote(char *str, size_t i)
 	i = i + 1;
 	while (str[i] && !is_s_quote(str[i]))
 		i++;
+		
+
+		
 	return (i);
 }
 
@@ -220,3 +223,60 @@ t_map	*init_envmap(char **envp)
 	}
 	return (map);
 }
+
+#include <sys/types.h>
+#include <dirent.h>
+void	expand_asterisk_handler(t_node *node)
+{
+	int		i;
+	char	**tmp;
+	int		size;
+
+	if (!node || !node->cmds)
+		d_throw_error("expand_variable_handler", "node or cmds is null");
+	i = 0;
+	while (node->cmds[i])
+	{
+		size = 0;
+		if (ft_strchr(node->cmds[i], ASTERISK))
+		{
+			tmp = NULL;
+			tmp = expand_asterisk(node->cmds[i], &size);
+			if (size > 1)
+				recreate_command_list();
+			free(node->cmds[i]);
+			node->cmds[i] = NULL;
+			node->cmds[i] = tmp;
+		}
+		i++;
+	}
+}
+
+char	**expand_asterisk(char *str, int *size)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		
+	}
+
+}
+
+get_all_files_in_dir()
+{
+	DIR		*dir;
+	dirent	*dir_ent;
+	
+	dir = opendir(".");
+	if (!dir)
+		d_throw_error("expand_asterisk", "opendir failed");
+	while ()
+	{
+		dir_ent = readdir(dir);
+		dir_ent->dir_name
+	}
+}
+
+find_expandable_asterisk()

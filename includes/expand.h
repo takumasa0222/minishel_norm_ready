@@ -6,13 +6,14 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/18 00:29:07 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:41:17 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPAND_H
 # define EXPAND_H
 # define DOLLAR '$'
+# define ASTERISK '*'
 # define UNDER_SCORE '_'
 # include "./parser.h"
 # include "./lexer.h"
