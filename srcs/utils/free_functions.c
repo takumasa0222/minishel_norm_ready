@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/22 20:29:34 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/22 20:37:23 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	free_wordlist(char **wordlist)
 	i = 0;
 	while (wordlist[i])
 	{
-		if (!wordlist[i])
-			break ;
 		free(wordlist[i]);
 		i++;
 	}

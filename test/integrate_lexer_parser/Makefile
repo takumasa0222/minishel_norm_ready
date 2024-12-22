@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/22 19:58:19 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/22 20:38:05 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,8 +85,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-test: all
-	./test.sh
 
 .PHONY: all clean fclean re test
