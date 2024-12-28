@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/22 19:50:34 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/28 15:19:18 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,10 @@ size_t	count_nodes(t_token **token_list, t_node_kind kind)
 
 	count = 0;
 	temp = *token_list;
-	while (temp && temp->kind == kind)
+	while (compare_tk(kind, &temp))
 	{
 		count++;
 		temp = temp->next;
-		if (kind == ND_REDIRECTS)
-		{
-			if (!temp || temp->kind != ND_CMD)
-				break ;
-			count++;
-			temp = temp->next;
-		}
 	}
 	return (count);
 }
@@ -53,6 +46,10 @@ char	*parse_single_redirect(t_token **token_list)
 {
 	char	*word;
 
+	if (!*token_list)
+		d_throw_error("parse_single_redirect", "token_list is NULL");
+ 	if ((*token_list)->kind == ND_EOF)
+		d_throw_error("parse_single_redirect", "NULL token kind");
 	word = ft_strdup((*token_list)->word);
 	if (!word)
 		d_throw_error("parse_single_redirect", "strdup_error");
@@ -62,9 +59,22 @@ char	*parse_single_redirect(t_token **token_list)
 
 void	handle_redirect_error(char **ret, size_t count)
 {
-	free_wordlist(&ret[count - 1]);
-	d_throw_error("parse_redirect_array", "redirect syntax error");
+	size_t	i;
+	
+	i = 0;
+	while (i < count)
+	{
+		free(ret[i]);
+		i++;
+	}
+	free(ret);
+	d_throw_error("handle_redirect_array", "redirect syntax error");
 }
+/*
+free_wordlist(&ret[count - 1]) is wrong.
+When iput is "> > file", ret[1] is not initialized in the parse_single_redirect
+so free_wordlist(&ret[count - 1]) causes a segmentation fault.
+*/
 
 char	**parse_redirect_arry(t_token **token_list)
 {
@@ -78,10 +88,13 @@ char	**parse_redirect_arry(t_token **token_list)
 	if (!rd_cnt)
 		return (NULL);
 	ret = xmalloc((rd_cnt + 1) * sizeof(char *));
-	while (compare_tk(ND_REDIRECTS, token_list))
+	while (*token_list && compare_tk(ND_REDIRECTS, token_list))
 	{
+		printf("DEBUG token_list->word: %s\n", (*token_list)->word);
 		ret[i++] = parse_single_redirect(token_list);
-		if (!compare_tk(ND_CMD, token_list))
+		if (*token_list && compare_tk(ND_REDIRECTS, token_list))
+			handle_redirect_error(ret, i);
+		if (!*token_list || !compare_tk(ND_CMD, token_list))
 			handle_redirect_error(ret, i);
 		ret[i++] = parse_single_redirect(token_list);
 	}

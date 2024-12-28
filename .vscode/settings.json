@@ -4,6 +4,7 @@
 		"cmath": "cpp",
 		"limits": "cpp",
 		"type_traits": "cpp",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"algorithm": "c"
 	}
 }
