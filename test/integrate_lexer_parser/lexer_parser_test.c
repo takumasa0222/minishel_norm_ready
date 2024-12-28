@@ -37,7 +37,8 @@ char *test_input[] = {
     "pwd || ls || date",       // テストケース32
     "pwd && ls && date",       // テストケース33
     "( ls | wc -l > file1 ) || echo success", // テストケース34
-	"echo hello > outfile1 > outfile2" // テストケース35
+	"echo hello > outfile1 2> outfile2", // テストケース35
+	"< <file", // テストケース36
 };
 
 void print_tree(t_node *node, int depth, char *relation);
@@ -61,6 +62,8 @@ int	main(void)
 			i++;
 			continue;
 		}
+		for (t_token *temp = token_list; temp; temp = temp->next)
+			printf("word: %s, kind: %s\n", temp->word, node_kind_conv(temp->kind));
 		t_token *original_tokens = token_list;
 		ast = parse_cmd(&token_list);
 		if (!ast)
@@ -94,7 +97,7 @@ char	*node_kind_conv(t_node_kind node_kind)
 		"SUBS",
 		"CMD",
 		"FD_N",
-		// "WORD"
+		"EOF"
 	};
 	return (node_list[node_kind]);
 }
