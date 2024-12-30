@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/28 15:19:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/30 19:09:11 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	handle_redirect_error(char **ret, size_t count)
 free_wordlist(&ret[count - 1]) is wrong.
 When iput is "> > file", ret[1] is not initialized in the parse_single_redirect
 so free_wordlist(&ret[count - 1]) causes a segmentation fault.
+
+TODO:need to change handle_redirect_error to check syntax error
 */
 
 char	**parse_redirect_arry(t_token **token_list)
@@ -92,12 +94,11 @@ char	**parse_redirect_arry(t_token **token_list)
 	{
 		printf("DEBUG token_list->word: %s\n", (*token_list)->word);
 		ret[i++] = parse_single_redirect(token_list);
-		if (*token_list && compare_tk(ND_REDIRECTS, token_list))
-			handle_redirect_error(ret, i);
-		if (!*token_list || !compare_tk(ND_CMD, token_list))
+		if (!*token_list || *token_list && !compare_tk(ND_CMD, token_list))
 			handle_redirect_error(ret, i);
 		ret[i++] = parse_single_redirect(token_list);
 	}
 	ret[i] = NULL;
 	return (ret);
 }
+
