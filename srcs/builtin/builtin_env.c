@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:31 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/19 20:12:31 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/11/23 16:53:22 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ int	builtin_env(int argc, char *argv[], t_map *envmap)
 	printf("_=/usr/bin/env\n");
 	return (EXIT_SUCCESS);
 }
-/* print "_=/usr/bin/env" to emulate 
+/*
+print "_=/usr/bin/env" to emulate 
 the behavior of the env command.
 shell commands are executed with _ set to the path of the command
 so that the command can know its own path
 echo $_ prints the path of the command
- */
+*/

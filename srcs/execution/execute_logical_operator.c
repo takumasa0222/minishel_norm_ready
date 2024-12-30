@@ -1,0 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_logical_operator.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/15 01:56:20 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/12/15 02:01:05 by tamatsuu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/lexer.h"
+#include "../includes/execute.h"
+#include "../includes/utils.h"
+
+int	exec_or_node(t_node *node, char **envp, t_context *ctx)
+{
+	int	status;
+
+	ctx->is_exec_in_child_ps = false;
+	status = 0;
+	status = exec_handler(node->left, envp, ctx);
+	if (ctx->cnt)
+		wait_children_status(ctx);
+	if (!ctx->last_status && !status)
+	{
+		clear_pid_status(ctx);
+		return (EXIT_SUCCESS);
+	}
+	else
+	{
+		ctx->is_exec_in_child_ps = false;
+		clear_pid_status(ctx);
+		return (exec_handler(node->right, envp, ctx));
+	}
+}
+
+int	exec_and_node(t_node *node, char **envp, t_context *ctx)
+{
+	int	status;
+
+	ctx->is_exec_in_child_ps = false;
+	status = 0;
+	status = exec_handler(node->left, envp, ctx);
+	if (ctx->cnt)
+		wait_children_status(ctx);
+	if (ctx->last_status || status)
+	{
+		clear_pid_status(ctx);
+		return (EXIT_FAILURE);
+	}
+	else
+	{
+		ctx->is_exec_in_child_ps = false;
+		clear_pid_status(ctx);
+		return (exec_handler(node->right, envp, ctx));
+	}
+}
+
+int	exec_round_brackets(t_node *node, char **envp, t_context *ctx)
+{
+	int	status;
+
+	ctx->is_exec_in_child_ps = true;
+	status = 0;
+	ctx->last_status = exec_handler(node->left, envp, ctx);
+	if (ctx->cnt)
+		wait_children_status(ctx);
+	clear_pid_status(ctx);
+	return (ctx->last_status);
+}

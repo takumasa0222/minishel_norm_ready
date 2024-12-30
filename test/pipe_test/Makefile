@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
+#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/30 19:13:12 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/11/23 17:08:41 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ UNAME_S := $(shell uname -s)
 
 NAME = minishell
 CC = $(if $(findstring Darwin, $(UNAME_S)), cc, clang)
-INCLUDES = -I includes -I $(LIBFT_DIR)
+INCLUDES = -I ../../includes -I $(LIBFT_DIR)
 CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
 
 ifeq ($(UNAME_S),Darwin)
@@ -29,46 +29,29 @@ else
 endif
 
 # add libft
-LIBFT_DIR = ./libft
+LIBFT_DIR = ../../libft
 LIBFT = ${LIBFT_DIR}/libft.a
 
-SRCS = srcs/main.c \
-srcs/lexer/lexer_helper.c \
-srcs/lexer/lexer_token_checker.c \
-srcs/lexer/lexer_token_quote_checker.c \
-srcs/lexer/lexer_operator_checker.c \
-srcs/lexer/lexer.c \
-srcs/parser/parser.c \
-srcs/parser/parser_cmd_tail.c \
-srcs/parser/parser_redirect_word.c \
-srcs/parser/parser_token_checker.c \
-srcs/parser/parser_node_operator.c \
-srcs/utils/error.c \
-srcs/utils/free_functions.c \
-srcs/utils/xmalloc.c \
-srcs/builtin/builtin_cd.c \
-srcs/builtin/builtin_cd_utils.c \
-srcs/builtin/builtin_exit.c \
-srcs/builtin/builtin_pwd.c \
-srcs/builtin/builtin_export.c \
-srcs/builtin/builtin_unset.c \
-srcs/builtin/builtin_echo.c \
-srcs/builtin/builtin_env.c \
-srcs/builtin/lookup_builtin.c \
-srcs/init_env.c \
-srcs/map/item_utils.c \
-srcs/map/map_get.c \
-srcs/map/map_new.c \
-srcs/map/map_put.c \
-srcs/map/map_set.c \
-srcs/map/map_size.c \
-srcs/map/map_unset.c \
-srcs/signal/signal.c \
-srcs/signal/signal_child.c
-
-# srcs/lexer/lexer_helper.c \
-# srcs/lexer/lexer_token_checker.c \
-# srcs/lexer/lexer.c \
+SRCS = ./pipe_tester.c \
+../../srcs/builtin/builtin_cd.c \
+../../srcs/builtin/builtin_cd_utils.c \
+../../srcs/builtin/builtin_exit.c \
+../../srcs/builtin/builtin_pwd.c \
+../../srcs/builtin/builtin_export.c \
+../../srcs/builtin/builtin_unset.c \
+../../srcs/builtin/builtin_echo.c \
+../../srcs/builtin/builtin_env.c \
+../../srcs/builtin/lookup_builtin.c \
+../../srcs/map/item_utils.c \
+../../srcs/map/map_set.c \
+../../srcs/map/map_get.c \
+../../srcs/map/map_new.c \
+../../srcs/map/map_put.c \
+../../srcs/map/map_size.c \
+../../srcs/map/map_unset.c \
+../../srcs/utils/error.c \
+../../srcs/init_env.c \
+../../srcs/pipe/pipe.c
 
 OBJS = $(SRCS:.c=.o)
 
