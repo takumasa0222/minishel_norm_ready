@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/21 00:57:12 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/25 22:47:42 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,6 @@ size_t	skip_s_quote(char *str, size_t i)
 	i = i + 1;
 	while (str[i] && !is_s_quote(str[i]))
 		i++;
-		
-
-		
 	return (i);
 }
 
@@ -241,8 +238,9 @@ void	expand_asterisk_handler(t_node *node)
 		if (ft_strchr(node->cmds[i], ASTERISK))
 		{
 			tmp = NULL;
+			// ここでリストの長さが変わる可能性があるので、詰めなおす必要がある
 			tmp = expand_asterisk(node->cmds[i], &size);
-			if (size > 1)
+			if (size > 1)++
 				recreate_command_list();
 			free(node->cmds[i]);
 			node->cmds[i] = NULL;
@@ -254,12 +252,23 @@ void	expand_asterisk_handler(t_node *node)
 
 char	**expand_asterisk(char *str, int *size)
 {
-	int	i;
+	size_t	i;
+	bool	is_first_asterisk;	
 
 	i = 0;
+	is_first_asterisk = false;
 	while (str[i])
 	{
-		
+		i = find_next_asterisk(str);
+		if (str[i] != ASTERISK && is_first_asterisk)
+			filtered_files = find_end_match_file(str, i);
+		else if (str[i] == ASTERISK && is_first_asterisk)
+			filtered_files = find_contain_file(str, i);
+		else if (str[i] == ASTERISK && !is_first_asterisk)
+		{
+			find_start_match_file(str, i);
+			filtered_files = is_first_asterisk = true;
+		}
 	}
 
 }
@@ -279,4 +288,23 @@ get_all_files_in_dir()
 	}
 }
 
-find_expandable_asterisk()
+bool	check_expandable_asterisk(char *str, size_t i)
+{
+	
+}
+
+size_t	find_next_asterisk(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (is_s_quote(input[i]) || is_d_quote(input[i]))
+			i = move_to_next_quotation(input, i);
+		if (str[i] == ASTERISK)
+			return (i);
+		i++;
+	}
+	return (i);
+}
