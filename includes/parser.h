@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/05 03:49:51 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/22 20:30:29 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ struct s_node {
 	char		**redirects;
 };
 
+// void	free_node(t_node *node);
+// void	free_wordlist(char **wordlist);
+
 t_node	*parse_cmd(t_token **token_list);
 t_node	*parse_cmd_type(t_token **token_list);
 t_node	*simple_cmd(t_token **token_list);
@@ -60,7 +63,7 @@ bool	compare_tk(t_node_kind expected, t_token **cur_token);
 
 char	**parse_words(t_token	**token_list);
 t_node	*parse_redirects(t_token **token_list);
-size_t	count_word_node(t_token	**token_list);
 char	**parse_redirect_arry(t_token	**token_list);
-size_t	count_rd_node(t_token	**token_list);
+size_t	count_nodes(t_token **token_list, t_node_kind kind);
+
 #endif

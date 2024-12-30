@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_checker.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/22 04:46:55 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 21:28:27 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,15 @@ bool	is_blank(char c)
 bool	is_operator(char *input)
 {
 	size_t		i;
-	size_t		ope_len;
-	static char	*ope[] = \
-	{"||", "|", "<<", ">>", "&&", "&", "<", ">", \
-	";;", ";", "(", ")", "|&", "\n", NULL};
+	t_ope_map	ope_map[OPE_MAP_SIZE];
 
 	if (!input)
-		d_throw_error("is_operator", "input is null");
+		d_throw_error("is_operator_or_metacharacter", "input is null");
 	i = 0;
-	ope_len = get_char_arry_size(ope);
-	while (i < ope_len)
+	get_ope_map(ope_map);
+	while (ope_map[i].op_str && ope_map[i].kind != ND_EOF)
 	{
-		if (!ft_strncmp(ope[i], input, ft_strlen(ope[i])))
+		if (!ft_strncmp(ope_map[i].op_str, input, ft_strlen(ope_map[i].op_str)))
 			return (true);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:40:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/29 00:17:23 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/21 23:15:19 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ size_t	get_char_arry_size(char **str)
 	return (i);
 }
 
-t_token	*create_token(char *word, t_token_kind kind)
+/* changed t_token_kind to t_node_kind*/
+t_token	*create_token(char *word, t_node_kind kind)
 {
 	t_token	*ret;
 
@@ -34,7 +35,10 @@ t_token	*create_token(char *word, t_token_kind kind)
 	if (!ret)
 		d_throw_error("create_token", "malloc failed");
 	ret->kind = kind;
-	ret->word = word;
+	if (word)
+		ret->word = word;
+	else
+		ret->word = NULL;
 	ret->next = NULL;
 	return (ret);
 }
