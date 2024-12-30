@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/11/17 19:32:22 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/30 23:21:35 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ SRCS = ./builtin_tester.c \
 ../../srcs/map/map_size.c \
 ../../srcs/map/map_unset.c \
 ../../srcs/utils/error.c \
-../../srcs/init_env.c
+../../srcs/utils/init_env.c
 
 OBJS = $(SRCS:.c=.o)
 
