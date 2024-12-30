@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/25 22:47:42 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/30 23:47:33 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	expand_handler(t_node *node, char **envp)
 	expand_variable_handler(node, envp);
 	//word_split_handler(node);
 	//expand_asterisk_handler(node);
-	//remove_quotes_handler(node);
+	remove_quotes_handler(node);
 }
 
 void	expand_variable_handler(t_node *node, char **envp)
@@ -220,6 +220,66 @@ t_map	*init_envmap(char **envp)
 	}
 	return (map);
 }
+
+/*
+Remove quote handler should remove quotation 
+which is not surrounded by other quotation.
+e.g. 
+"Hello" -> Hello
+"'Hello'" -> 'Hello'
+'Hello'"hello" -> Hellohello
+*/
+
+void	remove_quote_handler(t_node *node)
+{
+	int		i;
+	char	*tmp;
+
+	if (!node || !node->cmds)
+		d_throw_error("remove_quote_handler", "node or cmds is null");
+	i = 0;
+	while (node->cmds[i])
+	{
+		if (ft_strchr(node->cmds[i], '\'') || ft_strchr(node->cmds[i], '\"'))
+		{
+			tmp = NULL;
+			tmp = remove_quotes(node->cmds[i]);
+			free(node->cmds[i]);
+			node->cmds[i] = NULL;
+			node->cmds[i] = tmp;
+		}
+	}
+}
+
+char	*remove_quotes(char *str)
+{
+	static size_t	i = 0;
+	static size_t	j = 0;
+	char			*ret;
+
+	if (!str)
+		d_throw_error("remove_quotes", "unexpected error. str is null");
+	ret = xmalloc(ft_strlen(str));
+	while (str[i])
+	{
+		if (is_s_quote(str[i]) || is_d_quote(str[i]))
+		{
+			i++;
+			j = move_to_next_quotation(str, i);
+			while (i < j)
+			{
+				ret[i] = str[i];
+				i++;
+			}
+			i++;
+		}
+		else
+			ret[i++] = str[i++];
+	}
+	return (ret[i] = '\0', ret);
+}
+
+//below code for expand asterisk. freeze for developping.
 
 #include <sys/types.h>
 #include <dirent.h>
