@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:40:04 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/30 21:57:21 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
 #include "../../includes/builtin.h"
+#include "../../includes/map.h"
+#include "../../includes/environment.h"
 
 /*
 `cd -` simply swaps `PWD` and `OLDPWD` alternately.  

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/28 14:46:11 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/30 21:47:02 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_node	*parse_subshell(t_token **token_list)
 
 	if (!match_token(ND_L_PARE, token_list))
 		d_throw_error("parser_subshell", "syntax_error");
-	node = create_node(ND_SUB_SHELL);
+	node = create_node(ND_RND_BRACKET);
 	node->left = parse_cmd(token_list);
 	if (!match_token(ND_R_PARE, token_list))
 		d_throw_error("parser_subshell", "syntax_error");

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/15 02:05:17 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/30 22:03:04 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,6 @@ void	setup_child_process_fd(t_context *ctx)
 		dup2(ctx->out_pipe_fd, STDOUT_FILENO);
 		close(ctx->out_pipe_fd);
 	}
-}
-
-t_context	*init_ctx(void)
-{
-	t_context	*ret;
-
-	ret = malloc(sizeof(t_context));
-	if (!ret)
-		d_throw_error("init_ctx", "malloc is failed");
-	ret->in_pipe_fd = -1;
-	ret->out_pipe_fd = -1;
-	ret->pre_in_pipe_fd = -1;
-	ret->cnt = 0;
-	ret->is_exec_in_child_ps = false;
-	return (ret);
 }
 
 bool	is_builtin(char *cmd)

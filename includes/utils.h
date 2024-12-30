@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:34:45 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/22 20:29:56 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/30 21:20:06 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,4 @@ void	free_token_list(t_token *token_list);
 
 // xmalloc.c
 void	*xmalloc(size_t size);
-
 #endif

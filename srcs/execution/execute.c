@@ -6,19 +6,20 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/15 01:58:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:46:59 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexer.h"
 #include "../includes/execute.h"
 #include "../includes/utils.h"
+#include "../includes/builtin.h"
 
-int	exec_handler(t_node *ast_node, char **envp, t_context *ctx)
+int	exec_handler(t_node *ast_node, t_map *envp, t_context *ctx)
 {
 	if (ast_node->kind == ND_CMD)
 		return (exec_cmd_handler(ast_node, envp, ctx));
-	else if (ast_node->kind == ND_SUB_SHELL)
+	else if (ast_node->kind == ND_RND_BRACKET)
 		return (exec_round_brackets(ast_node, envp, ctx));
 	else if (ast_node->kind == ND_PIPE)
 		return (exec_pipe(ast_node, envp, ctx));
@@ -32,7 +33,7 @@ int	exec_handler(t_node *ast_node, char **envp, t_context *ctx)
 		return (EXIT_FAILURE);
 }
 
-int	exec_pipe(t_node *node, char **envp, t_context *ctx)
+int	exec_pipe(t_node *node, t_map *envp, t_context *ctx)
 {
 	int	pfd[2];
 
@@ -45,21 +46,32 @@ int	exec_pipe(t_node *node, char **envp, t_context *ctx)
 	return (exec_handler(node->right, envp, ctx));
 }
 
-int	exec_cmd(t_node *node, char **envp, t_context *ctx)
+/*
+
+*/
+int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 {
+	//signal();
+	//expand();
 	//redirect();
-	ctx = NULL;
-	envp = NULL;
-	execvp(node->cmds[0], node->cmds);
-	perror("execvp");
-	exit(EXIT_FAILURE);
-	return (EXIT_FAILURE);
+	if (is_builtin(node->cmds[0]) && 0)
+		lookup_builtin(node->cmds[0]);
+	else
+	{
+		ctx = NULL;
+		envp = NULL;
+		execvp(node->cmds[0], node->cmds);
+		perror("execvp");
+		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
-int	exec_cmd_handler(t_node *node, char **envp, t_context *ctx)
+int	exec_cmd_handler(t_node *node, t_map *envp, t_context *ctx)
 {
-	//if (!ctx->is_exec_in_child_ps && is_builtin(node->cmds[0]))
-	if (!ctx->is_exec_in_child_ps && 0)
+	if (!ctx->is_exec_in_child_ps && is_builtin(node->cmds[0]))
+	//if (!ctx->is_exec_in_child_ps && 0)
 		return (exec_cmd(node, envp, ctx));
 	else
 	{
