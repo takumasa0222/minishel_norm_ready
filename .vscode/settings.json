@@ -10,5 +10,6 @@
 		"lexer.h": "c",
 		"minishell.h": "c",
 		"execute.h": "c"
-	}
+	},
+	"C_Cpp.errorSquiggles": "disabled"
 }

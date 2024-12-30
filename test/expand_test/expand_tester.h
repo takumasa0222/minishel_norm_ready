@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tester.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 22:54:28 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/16 23:01:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/18 00:00:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXPAND_TESTER_H
 
 # include "../../includes/expand.h"
+void	test_expand_variable(char *envp[]);
 
 
 #endif 
