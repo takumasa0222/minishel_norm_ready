@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:41:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/24 19:45:45 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/30 21:58:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../includes/signals.h"
 #include "../../includes/utils.h"
 
 volatile sig_atomic_t	g_sig = 0;

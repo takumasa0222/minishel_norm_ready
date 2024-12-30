@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 19:09:11 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:53:01 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*parse_single_redirect(t_token **token_list)
 void	handle_redirect_error(char **ret, size_t count)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while (i < count)
 	{
@@ -94,7 +94,7 @@ char	**parse_redirect_arry(t_token **token_list)
 	{
 		printf("DEBUG token_list->word: %s\n", (*token_list)->word);
 		ret[i++] = parse_single_redirect(token_list);
-		if (!*token_list || *token_list && !compare_tk(ND_CMD, token_list))
+		if (!*token_list || (*token_list && !compare_tk(ND_CMD, token_list)))
 			handle_redirect_error(ret, i);
 		ret[i++] = parse_single_redirect(token_list);
 	}

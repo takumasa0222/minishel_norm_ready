@@ -9,6 +9,14 @@
 		"parser.h": "c",
 		"lexer.h": "c",
 		"minishell.h": "c",
-		"execute.h": "c"
+		"execute.h": "c",
+		"map.h": "c",
+		"signal.h": "c",
+		"stdlib.h": "c",
+		"unistd.h": "c",
+		"readline.h": "c",
+		"builtin.h": "c",
+		"utils.h": "c",
+		"environment.h": "c"
 	}
 }

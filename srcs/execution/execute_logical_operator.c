@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:56:20 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/15 02:01:05 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:42:20 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../includes/execute.h"
 #include "../includes/utils.h"
 
-int	exec_or_node(t_node *node, char **envp, t_context *ctx)
+int	exec_or_node(t_node *node, t_map *envp, t_context *ctx)
 {
 	int	status;
 
@@ -36,7 +36,7 @@ int	exec_or_node(t_node *node, char **envp, t_context *ctx)
 	}
 }
 
-int	exec_and_node(t_node *node, char **envp, t_context *ctx)
+int	exec_and_node(t_node *node, t_map *envp, t_context *ctx)
 {
 	int	status;
 
@@ -58,7 +58,7 @@ int	exec_and_node(t_node *node, char **envp, t_context *ctx)
 	}
 }
 
-int	exec_round_brackets(t_node *node, char **envp, t_context *ctx)
+int	exec_round_brackets(t_node *node, t_map *envp, t_context *ctx)
 {
 	int	status;
 
