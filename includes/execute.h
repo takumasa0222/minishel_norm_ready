@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:09:09 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 22:00:43 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/31 03:35:13 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,6 @@ void		set_pipe_fd(int *in_fd, int *out_fd, int *pfd);
 int			wait_children_status(t_context *ctx);
 void		clear_pid_status(t_context *ctx);
 bool		is_builtin(char *cmd);
+
+char		*find_executable_path(t_node *node, t_map *envp);
 #endif

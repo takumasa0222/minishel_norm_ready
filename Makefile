@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
+#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/30 22:08:22 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/12/31 03:34:58 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,8 @@ srcs/signal/signal_child.c \
 srcs/execution/execute_fd_controller.c \
 srcs/execution/execute_logical_operator.c \
 srcs/execution/execute_utils.c \
-srcs/execution/execute.c 
+srcs/execution/execute.c \
+srcs/execution/execute_prep.c
 
 # srcs/lexer/lexer_helper.c \
 # srcs/lexer/lexer_token_checker.c \
