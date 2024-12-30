@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:55:24 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:55:27 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/30 21:56:25 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../includes/builtin.h"
+#include "../includes/environment.h"
 
 static void	envmap_init(t_map *envmap, char **ep);
 

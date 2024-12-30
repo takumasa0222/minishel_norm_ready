@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 19:15:52 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:46:28 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,14 @@ typedef struct s_token	t_token;
 
 typedef enum e_node_kind{
 	ND_REDIRECTS,
-	// ND_IN_RD,
-	// ND_OUT_RD,
-	// ND_APPEND_RD,
-	// ND_HERE_DOC,
 	ND_PIPE,
 	ND_OR_OP,
 	ND_AND_OP,
 	ND_L_PARE,
 	ND_R_PARE,
-	ND_SUB_SHELL,
+	ND_RND_BRACKET,
 	ND_CMD,
 	ND_FD_NUM,
-	// ND_FD_WORD
 	ND_EOF
 }	t_node_kind;
 

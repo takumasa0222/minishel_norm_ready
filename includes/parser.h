@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/22 20:30:29 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/30 21:47:29 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,7 @@
 # define PARSER_H
 # include "lexer.h"
 
-//typedef enum e_node_kind{
-//	ND_REDIRECTS,
-//	ND_IN_RD,
-//	ND_OUT_RD,
-//	ND_APPEND_RD,
-//	ND_HERE_DOC,
-//	ND_PIPE,
-//	ND_OR_OP,
-//	ND_AND_OP,
-//	ND_L_PARE,
-//	ND_R_PARE,
-//	ND_SUB_SHELL,
-//	ND_CMD,
-//	ND_FD_NUM,
-//	ND_FD_WORD
-//}	t_node_kind;
-
 typedef struct s_node	t_node;
-
 // AST node type
 struct s_node {
 	t_node_kind	kind;
@@ -43,9 +25,6 @@ struct s_node {
 	int			fd_num;
 	char		**redirects;
 };
-
-// void	free_node(t_node *node);
-// void	free_wordlist(char **wordlist);
 
 t_node	*parse_cmd(t_token **token_list);
 t_node	*parse_cmd_type(t_token **token_list);

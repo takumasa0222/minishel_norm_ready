@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/30 19:13:12 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/12/30 22:08:22 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ srcs/builtin/builtin_unset.c \
 srcs/builtin/builtin_echo.c \
 srcs/builtin/builtin_env.c \
 srcs/builtin/lookup_builtin.c \
-srcs/init_env.c \
+srcs/utils/init_env.c \
 srcs/map/item_utils.c \
 srcs/map/map_get.c \
 srcs/map/map_new.c \
@@ -64,7 +64,11 @@ srcs/map/map_set.c \
 srcs/map/map_size.c \
 srcs/map/map_unset.c \
 srcs/signal/signal.c \
-srcs/signal/signal_child.c
+srcs/signal/signal_child.c \
+srcs/execution/execute_fd_controller.c \
+srcs/execution/execute_logical_operator.c \
+srcs/execution/execute_utils.c \
+srcs/execution/execute.c 
 
 # srcs/lexer/lexer_helper.c \
 # srcs/lexer/lexer_token_checker.c \
