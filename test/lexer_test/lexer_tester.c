@@ -3,14 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tester.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/31 22:14:40 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/08 20:51:43 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_tester.h"
+
+/*
+void test_lexer(const char *input)
+{
+    t_token *tokens;
+    t_token *current;
+
+    if (!input)
+    {
+        printf("Input is NULL\n");
+        return;
+    }
+
+    printf("Testing lexer with input: \"%s\"\n", input);
+    tokens = lexer((char *)input);
+
+    current = tokens;
+    while (current && current->kind != ND_EOF)
+    {
+        printf("Token: word=\"%s\", kind=%d\n", current->word, current->kind);
+        current = current->next;
+    }
+}
+
+int main(void)
+{
+    test_lexer("< infile cat -e | wc -l > outfile");
+    return 0;
+}
+*/
 
 int	main(int argc, char *argv[])
 {
@@ -73,7 +103,7 @@ bool	match(t_token *token, char *str)
 	if (!token)
 		printf("token is NULL");
 	i = 0;
-	while (copy_token->kind != TK_EOF && copy_token->word)
+	while (copy_token->kind != ND_EOF && copy_token->word)
 	{
 		if (ft_strncmp(copy_token->word, str_list[i], ft_strlen(str_list[i])))
 		{
@@ -133,7 +163,7 @@ void	node_printer(t_token *token)
 	copy_token = token;
 	if (!token)
 		printf("token is NULL");
-	while (copy_token->kind != TK_EOF && copy_token->word)
+	while (copy_token->kind != ND_EOF && copy_token->word)
 	{
 		printf("word: %s, kind: %s\n", copy_token->word, token_kind[copy_token->kind]);
 		copy_token = copy_token->next;

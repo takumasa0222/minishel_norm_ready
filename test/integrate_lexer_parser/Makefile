@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/08 18:32:14 by ssoeno           ###   ########.fr        #
+#    Updated: 2024/12/22 20:38:05 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,19 +25,45 @@ ifeq ($(UNAME_S),Darwin)
 	INCLUDES += -I$(RLDIR)/include
 else
 	# for Linux
-	# LIBS := -lreadline
+	LIBS := -lreadline
 endif
 
+
 SRCS = \
-./lexer_tester.c \
-./ft_get_next_line/get_next_line_bonus.c \
-./ft_get_next_line/get_next_line_utils_bonus.c \
+./lexer_parser_test.c \
+../../srcs/utils/error.c \
+../../srcs/utils/free_functions.c \
+../../srcs/utils/xmalloc.c \
+../../srcs/parser/parser.c \
+../../srcs/parser/parser_cmd_tail.c \
+../../srcs/parser/parser_redirect_word.c \
+../../srcs/parser/parser_token_checker.c \
+../../srcs/parser/parser_node_operator.c \
 ../../srcs/lexer/lexer_helper.c \
 ../../srcs/lexer/lexer_token_checker.c \
 ../../srcs/lexer/lexer_token_quote_checker.c \
-../../srcs/lexer/lexer.c \
 ../../srcs/lexer/lexer_operator_checker.c \
-../../srcs/utils/error.c
+../../srcs/lexer/lexer.c
+# ./sample.c \
+
+# SRCS = \
+# ./lexer_parser_test.c \
+# ../../srcs/utils/error.c \
+# ../../srcs/parser/parser.c \
+# ../../srcs/parser/parser_redirect_word.c \
+# ../../srcs/parser/parser_token_checker.c \
+# ../../srcs/parser/parser_node_operator.c \
+# ../../srcs/lexer/lexer_helper.c \
+# ../../srcs/lexer/lexer_token_checker.c \
+# ../../srcs/lexer/lexer_token_quote_checker.c \
+# ../../srcs/lexer/lexer_operator_checker.c \
+# ../../srcs/lexer/lexer.c
+#./ft_get_next_line/get_next_line_bonus.c \
+#./ft_get_next_line/get_next_line_utils_bonus.c \
+#../../srcs/lexer/lexer_helper.c \
+#../../srcs/lexer/lexer_token_checker.c \
+#../../srcs/lexer/lexer_token_quote_checker.c \
+#../../srcs/lexer/lexer.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -59,8 +85,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-test: all
-	./test.sh
 
 .PHONY: all clean fclean re test

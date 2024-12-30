@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:16:13 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/07 21:07:07 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/21 18:50:52 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,46 +60,48 @@ void	exec_parser_test(void)
 	{"cat", "|", "abc", "|", "echo", "|", "def"},  // テストケース31
 	{"pwd", "||", "ls", "||", "date"}, // テストケース32 soeno テスト1
 	{"pwd", "&&", "ls", "&&", "date"}, // テストケース33 soeno テスト2
-	{"(", "ls", "|", "wc", "-l", ">", "file1", ")", "||", "echo", "success"} // テストケース34 ssoeno テスト3	
+	{"(", "ls", "|", "wc", "-l", ">", "file1", ")", "||", "echo", "success"}, // テストケース34 soeno テスト3	
+	{"echo", "hello", ">", "outfile1", ">", "outfile2"} // テストケース35 soeno テスト4
 };
 
 	t_node_kind test_kinds[][30] = {
-    {ND_FD_WORD},      // テストケース1
-    {ND_REDIRECTS, ND_FD_WORD},      // テストケース2
-    {ND_FD_WORD, ND_PIPE, ND_FD_WORD},       // テストケース3
-	{ND_L_PARE, ND_FD_WORD, ND_R_PARE},			// テストケース4
-	{ND_REDIRECTS, ND_FD_WORD},			// テストケース5
-	{ND_REDIRECTS, ND_FD_WORD},			// テストケース6
-	{ND_REDIRECTS, ND_FD_WORD},			// テストケース7
-	{ND_FD_WORD, ND_AND_OP, ND_FD_WORD},			// テストケース8
-	{ND_FD_WORD, ND_OR_OP, ND_FD_WORD},			// テストケース9
-	{ND_L_PARE, ND_FD_WORD,ND_OR_OP,ND_FD_WORD, ND_R_PARE},				// テストケース10
-	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD},         // テストケース11
-	{ND_L_PARE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE}, // テストケース12
-	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD},                             // テストケース13
-	{ND_L_PARE, ND_FD_WORD, ND_OR_OP, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE},  // テストケース14
-	{ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},           // テストケース15
-	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD},      // テストケース16
-	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE}, // テストケース17
-	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE}, // テストケース18
-	{ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},             // テストケース19
-	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_OR_OP, ND_FD_WORD},                    // テストケース20
-	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_R_PARE}, // テストケース21
-	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_OR_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD}, // テストケース22
-	{ND_L_PARE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース23
-	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE,ND_FD_WORD,ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_FD_WORD}, // テストケース24
-	{ND_L_PARE, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース25
-	{ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_PIPE, ND_FD_WORD}, // テストケース26
-	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD,ND_R_PARE}, // テストケース27
-	{ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD, ND_PIPE, ND_FD_WORD}, // テストケース28
-	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース29
-	{ND_L_PARE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_AND_OP, ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_R_PARE, ND_AND_OP, ND_FD_WORD,ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD}, // テストケース30
-    {ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_PIPE, ND_FD_WORD},
-	{ND_FD_WORD, ND_OR_OP, ND_FD_WORD, ND_OR_OP, ND_FD_WORD}, // テストケース32 soeno テスト1
-	{ND_FD_WORD, ND_AND_OP, ND_FD_WORD, ND_AND_OP, ND_FD_WORD}, // テストケース33 soeno テスト2
-	{ND_L_PARE, ND_FD_WORD, ND_PIPE, ND_FD_WORD, ND_FD_WORD, ND_REDIRECTS, ND_FD_WORD, ND_R_PARE, ND_OR_OP, ND_FD_WORD, ND_FD_WORD} // テストケース34 ssoeno テスト3	
+    {ND_CMD},      // テストケース1
+    {ND_REDIRECTS, ND_CMD},      // テストケース2
+    {ND_CMD, ND_PIPE, ND_CMD},       // テストケース3
+	{ND_L_PARE, ND_CMD, ND_R_PARE},			// テストケース4
+	{ND_REDIRECTS, ND_CMD},			// テストケース5
+	{ND_REDIRECTS, ND_CMD},			// テストケース6
+	{ND_REDIRECTS, ND_CMD},			// テストケース7
+	{ND_CMD, ND_AND_OP, ND_CMD},			// テストケース8
+	{ND_CMD, ND_OR_OP, ND_CMD},			// テストケース9
+	{ND_L_PARE, ND_CMD,ND_OR_OP,ND_CMD, ND_R_PARE},				// テストケース10
+	{ND_CMD, ND_REDIRECTS, ND_CMD, ND_PIPE, ND_CMD, ND_CMD},         // テストケース11
+	{ND_L_PARE, ND_CMD, ND_AND_OP, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE}, // テストケース12
+	{ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD},                             // テストケース13
+	{ND_L_PARE, ND_CMD, ND_OR_OP, ND_CMD, ND_REDIRECTS, ND_CMD, ND_R_PARE},  // テストケース14
+	{ND_CMD, ND_CMD, ND_AND_OP, ND_CMD, ND_OR_OP, ND_CMD},           // テストケース15
+	{ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_AND_OP, ND_CMD},      // テストケース16
+	{ND_L_PARE, ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_AND_OP, ND_CMD, ND_R_PARE}, // テストケース17
+	{ND_L_PARE, ND_CMD, ND_CMD, ND_AND_OP, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE}, // テストケース18
+	{ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_OR_OP, ND_CMD},             // テストケース19
+	{ND_CMD, ND_REDIRECTS, ND_CMD, ND_OR_OP, ND_CMD},                    // テストケース20
+	{ND_L_PARE, ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_AND_OP, ND_L_PARE, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD, ND_R_PARE}, // テストケース21
+	{ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_OR_OP, ND_L_PARE, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE, ND_AND_OP, ND_CMD}, // テストケース22
+	{ND_L_PARE, ND_CMD, ND_REDIRECTS, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE, ND_AND_OP, ND_CMD, ND_PIPE, ND_CMD}, // テストケース23
+	{ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_AND_OP, ND_L_PARE,ND_CMD,ND_CMD, ND_PIPE, ND_CMD, ND_REDIRECTS, ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD, ND_CMD}, // テストケース24
+	{ND_L_PARE, ND_L_PARE, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE, ND_AND_OP, ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD}, // テストケース25
+	{ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_AND_OP, ND_L_PARE, ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_AND_OP, ND_CMD, ND_R_PARE, ND_PIPE, ND_CMD}, // テストケース26
+	{ND_L_PARE, ND_CMD, ND_CMD, ND_PIPE, ND_CMD, ND_REDIRECTS, ND_CMD, ND_AND_OP, ND_L_PARE, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD,ND_R_PARE}, // テストケース27
+	{ND_CMD, ND_REDIRECTS, ND_CMD, ND_PIPE, ND_L_PARE, ND_CMD, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE, ND_AND_OP, ND_CMD, ND_PIPE, ND_CMD}, // テストケース28
+	{ND_L_PARE, ND_CMD, ND_CMD, ND_AND_OP, ND_CMD, ND_REDIRECTS, ND_CMD, ND_PIPE, ND_CMD, ND_AND_OP, ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD}, // テストケース29
+	{ND_L_PARE, ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_AND_OP, ND_L_PARE, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_R_PARE, ND_AND_OP, ND_CMD,ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD}, // テストケース30
+    {ND_CMD, ND_PIPE, ND_CMD, ND_PIPE, ND_CMD, ND_PIPE, ND_CMD},
+	{ND_CMD, ND_OR_OP, ND_CMD, ND_OR_OP, ND_CMD}, // テストケース32 soeno テスト1
+	{ND_CMD, ND_AND_OP, ND_CMD, ND_AND_OP, ND_CMD}, // テストケース33 soeno テスト2
+	{ND_L_PARE, ND_CMD, ND_PIPE, ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_R_PARE, ND_OR_OP, ND_CMD, ND_CMD}, // テストケース34 ssoeno テスト3
+	{ND_CMD, ND_CMD, ND_REDIRECTS, ND_CMD, ND_REDIRECTS, ND_CMD} // テストケース34 ssoeno テスト3	
 	};
-	int	list_size[34] = {
+	int	list_size[35] = {
 		1,
 		2,
 		3,
@@ -133,10 +135,11 @@ void	exec_parser_test(void)
 		7,
 		5,
 		5,
-		11
+		11,
+		6
 	};
 
-	for (int i = 0; i < 34; i++)
+	for (int i = 0; i < 35; i++)
 	{
 		printf("---------------testcase [%d]\n",i + 1);
 		token_list = create_dummy_token_list(test_words[i], test_kinds[i], list_size[i]);

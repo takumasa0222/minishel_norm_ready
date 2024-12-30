@@ -5,6 +5,7 @@
 		"limits": "cpp",
 		"type_traits": "cpp",
 		"stdbool.h": "c",
+		"algorithm": "c",
 		"parser.h": "c",
 		"lexer.h": "c",
 		"minishell.h": "c",
