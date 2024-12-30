@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 21:53:01 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/30 22:50:18 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*parse_single_redirect(t_token **token_list)
 
 	if (!*token_list)
 		d_throw_error("parse_single_redirect", "token_list is NULL");
- 	if ((*token_list)->kind == ND_EOF)
+	if ((*token_list)->kind == ND_EOF)
 		d_throw_error("parse_single_redirect", "NULL token kind");
 	word = ft_strdup((*token_list)->word);
 	if (!word)
@@ -101,4 +101,3 @@ char	**parse_redirect_arry(t_token **token_list)
 	ret[i] = NULL;
 	return (ret);
 }
-
