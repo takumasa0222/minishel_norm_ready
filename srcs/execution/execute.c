@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 14:24:47 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/31 16:27:12 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,33 @@ int	exec_pipe(t_node *node, t_map *envp, t_context *ctx)
 	return (exec_handler(node->right, envp, ctx));
 }
 
+int	exec_builtin(char *cmd, char **argv, t_map *envp, t_context *ctx)
+{
+	t_builtin	*builtin;
+	int			arr_size;
+
+	builtin = lookup_builtin(cmd);
+	arr_size = 0;
+	while(argv[arr_size])
+		arr_size++;
+	printf("DEBUG: exec_builtin arr_size %d\n", arr_size);
+	if (builtin)
+	{
+		ctx->last_status = builtin->f(arr_size, argv, envp);
+		if (ctx->last_status == EXIT_FAILURE)
+		{
+			printf("%s: %s\n", cmd, strerror(errno));
+			return (ctx->last_status);
+		}
+		return (EXIT_SUCCESS);
+	}
+	else
+	{
+		ft_putendl_fd("exec_builtin: \n", cmd);
+		ctx->last_status = EXIT_FAILURE;
+		return (EXIT_FAILURE);
+	}
+}
 
 /*
 
@@ -59,8 +86,8 @@ int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 	//redirect();
 	char	*cmd_path;
 
-	if (is_builtin(node->cmds[0]) && 0)
-		lookup_builtin(node->cmds[0]);
+	if (is_builtin(node->cmds[0]))
+		return (exec_builtin(node->cmds[0], node->cmds, envp, ctx));
 	else
 	{
 		ctx = NULL;
@@ -79,7 +106,6 @@ int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 int	exec_cmd_handler(t_node *node, t_map *envp, t_context *ctx)
 {
 	if (!ctx->is_exec_in_child_ps && is_builtin(node->cmds[0]))
-	//if (!ctx->is_exec_in_child_ps && 0)
 		return (exec_cmd(node, envp, ctx));
 	else
 	{
