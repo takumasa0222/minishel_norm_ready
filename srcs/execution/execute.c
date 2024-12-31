@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 03:42:34 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/31 14:24:47 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 	else
 	{
 		ctx = NULL;
-		cmd_path = find_executable_path(node, envp);
+		cmd_path = resolve_executable_path(node, envp);
 		if (!cmd_path)
 			d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
 		execve(cmd_path, node->cmds, get_environ(envp));

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 04:23:46 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/31 14:39:39 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include "../../includes/utils.h"
 
-bool is_executable_or_exit(char *cmd)
+bool	validate_executable_or_exit(char *cmd)
 {
 	if (!cmd)
 		d_throw_error("check_executable_path_or_exit", "cmd is NULL");
@@ -27,21 +27,13 @@ bool is_executable_or_exit(char *cmd)
 	return (true);
 }
 
-char	*find_cmd_in_env(char *cmd, t_map *envp)
+char	*find_executable_path_for_cmd(char *cmd, char **directories)
 {
-	char	*path_env_value;
-	char	**directories;
-	char	*candidate_path;
 	char	*executable_path;
-	int		i;
 	char	*dir_with_slash;
+	char	*candidate_path;
+	int		i;
 
-	path_env_value = map_get(envp, "PATH");
-	if (!path_env_value)
-		d_throw_error("find_cmd_from_path", "PATH not set");
-	directories = ft_split(path_env_value, ':');
-	if (!directories)
-		d_throw_error("find_cmd_from_path", "ft_split is failed");
 	executable_path = NULL;
 	i = 0;
 	while (directories[i])
@@ -52,14 +44,31 @@ char	*find_cmd_in_env(char *cmd, t_map *envp)
 		if (candidate_path && access(candidate_path, F_OK) == 0)
 		{
 			executable_path = candidate_path;
-			break;
+			break ;
 		}
-		free(executable_path);
+		free(candidate_path);
+		candidate_path = NULL;
 		i++;
 	}
+	return (executable_path);
+}
+
+char	*find_executable_path_env_or_exit(t_node *node, t_map *envp)
+{
+	char	*path_env_value;
+	char	**directories;
+	char	*executable_path;
+
+	path_env_value = map_get(envp, "PATH");
+	if (!path_env_value)
+		d_throw_error("find_cmd_from_path", "PATH not set");
+	directories = ft_split(path_env_value, ':');
+	if (!directories)
+		d_throw_error("find_cmd_from_path", "ft_split is failed");
+	executable_path = find_executable_path_for_cmd(node->cmds[0], directories);
 	free_wordlist(directories);
 	if (!executable_path)
-		d_throw_error("find_cmd_from_path", "executable not found");
+		d_throw_error("find_cmd_from_path", "executable path not found");
 	return (executable_path);
 }
 
@@ -73,6 +82,6 @@ char	*resolve_executable_path(t_node *node, t_map *envp)
 		executable_path = node->cmds[0];
 	}
 	else
-		executable_path = find_cmd_from_env_or_exit(node, envp);
+		executable_path = find_executable_path_env_or_exit(node, envp);
 	return (executable_path);
 }
