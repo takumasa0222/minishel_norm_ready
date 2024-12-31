@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/31 01:22:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/31 17:59:45 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,7 @@ t_context	*init_ctx(void)
 	ret->pre_in_pipe_fd = -1;
 	ret->cnt = 0;
 	ret->is_exec_in_child_ps = false;
+	ret->is_wait_call = false;
+	ret->last_status = 0;
 	return (ret);
 }

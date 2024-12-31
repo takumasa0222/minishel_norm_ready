@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:50:01 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/19 20:09:35 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/31 18:06:33 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 #include "../../includes/utils.h"
 #include "../../includes/builtin.h"
 
-int	builtin_unset(int argc, char *argv[], t_map *envmap)
+int	builtin_unset(int argc, char *argv[], t_map *envmap, t_context *ctx)
 {
 	int		status;
 	size_t	i;
 
 	(void)argc;
+	(void)ctx;
 	status = 0;
 	i = 1;
 	if (envmap == NULL)

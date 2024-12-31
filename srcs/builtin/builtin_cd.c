@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/30 21:57:21 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/31 18:04:54 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,14 @@ void	cd_with_no_argument(t_map *envmap, char *path)
 	return ;
 }
 
-int	builtin_cd(int argc, char *argv[], t_map *envmap)
+int	builtin_cd(int argc, char *argv[], t_map *envmap, t_context *ctx)
 {
 	char		*oldpwd_before_chdir;
 	char		*pwd_before_chdir;
 	char		path[PATH_MAX];
 	char		*pwd_after_chdir;
 
+	(void)ctx;
 	oldpwd_before_chdir = xgetenv(envmap, "OLDPWD");
 	pwd_before_chdir = xgetenv(envmap, "PWD");
 	map_set(envmap, "OLDPWD", pwd_before_chdir);
