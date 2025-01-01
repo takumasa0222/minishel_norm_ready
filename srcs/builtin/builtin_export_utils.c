@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:49 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/01 16:55:39 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 17:23:45 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	bubble_sort_map(t_map *map)
 		next = cur->next;
 		while (next)
 		{
-			if (ft_strncmp(cur->name, next->name, ft_strlen(cur->name)) > 0)
+			if (ft_strcmp(cur->name, next->name) > 0)
 				swap_item(cur, next);
 			next = next->next;
 		}
