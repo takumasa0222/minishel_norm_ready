@@ -6,55 +6,83 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:49 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 18:04:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 17:08:21 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
 #include "../../includes/builtin.h"
+#include "../../includes/map.h"
 
-void	print_allenv(t_map *envmap)
-{
-	t_item	*cur;
-
-	cur = envmap->item_head.next;
-	while (cur)
-	{
-		if (cur->value)
-			printf("declare -x %s=\"%s\"\n", cur->name, cur->value);
-		else
-			printf("declare -x %s\n", cur->name);
-		cur = cur->next;
-	}
-}
+static bool	is_valid_env_name(char *str);
+int			update_key_value(t_map *map, const char *str, bool allow_empty);
 
 int	builtin_export(int argc, char **argv, t_map *envmap, t_context *ctx)
 {
 	size_t	i;
-	int		status;
 
 	(void)argc;
-	(void)ctx;
-	if (argv[1] == NULL)
-	{
-		print_allenv(envmap);
-		return (EXIT_SUCCESS);
-	}
 	if (envmap == NULL)
 	{
 		builtin_error("builtin_export", NULL, "map is not initialized");
-		return (EXIT_FAILURE);
+		ctx->last_status = EXIT_INVALID_INPUT;
+		return (ctx->last_status);
 	}
-	status = 0;
+	if (argv[1] == NULL)
+	{
+		print_sorted_env(envmap);
+		ctx->last_status = EXIT_SUCCESS;
+		return (ctx->last_status);
+	}
 	i = 1;
 	while (argv[i])
 	{
-		if (map_put(envmap, argv[i++], true) < 0)
+		if (update_key_value(envmap, argv[i++], true) < 0)
 		{
-			builtin_error("export", argv[i - 1], "not a valid identifier");
-			status = 1;
+			builtin_error("export :", argv[i - 1], ": not a valid identifier");
+			ctx->last_status = EXIT_FAILURE;
 		}
 	}
-	return (status);
+	return (ctx->last_status);
+}
+
+// similar to map_put, but checks the name for validity
+int	update_key_value(t_map *map, const char *str, bool allow_empty)
+{
+	int		result;
+	char	*name;
+	char	*value;
+
+	name = NULL;
+	value = NULL;
+	result = split_name_value(str, allow_empty, &name, &value);
+	if (result != 0)
+		return (result);
+	if (!is_valid_env_name(name))
+	{
+		free(name);
+		free(value);
+		return (EXIT_FAILURE);
+	}
+	result = map_set(map, name, value);
+	free(name);
+	free(value);
+	return (EXIT_SUCCESS);
+}
+
+static bool	is_valid_env_name(char *str)
+{
+	size_t	i;
+
+	i = 1;
+	if (!str || !ft_isalpha(str[0]) || str[0] == '_')
+		return (false);
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }

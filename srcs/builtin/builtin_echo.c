@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:20 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 18:03:50 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 16:05:27 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ bool	is_no_newline_option(char *str)
 	{
 		i++;
 		if (str[i] == '\0')
-			return (true);
+			return (TRUE);
 	}
-	return (false);
+	return (FALSE);
 }
-/*
-echo -nabc newline (expect -nabc newline)
-*/
 
 int	builtin_echo(int argc, char *argv[], t_map *envmap, t_context *ctx)
 {
@@ -39,26 +36,22 @@ int	builtin_echo(int argc, char *argv[], t_map *envmap, t_context *ctx)
 
 	(void)argc;
 	(void)envmap;
-	(void)ctx;
 	i = 1;
 	is_no_newline = false;
-	if (argv[1] && is_no_newline_option(argv[1]))
+	while (argv[i] && is_no_newline_option(argv[i]))
 	{
 		is_no_newline = true;
 		i++;
 	}
 	while (argv[i])
 	{
-		write(STDOUT_FILENO, argv[i], ft_strlen(argv[i]));
+		ft_putstr_fd(argv[i], STDOUT_FILENO);
 		i++;
 		if (argv[i])
-			write(STDOUT_FILENO, " ", 1);
+			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
 	if (!is_no_newline)
-		write(STDOUT_FILENO, "\n", 1);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	ctx->last_status = EXIT_SUCCESS;
 	return (EXIT_SUCCESS);
 }
-
-/*
-echo -n -n -n
-*/

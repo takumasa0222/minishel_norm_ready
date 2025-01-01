@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:18:32 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 21:19:46 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/01 16:42:40 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_map	*map_new(void);
 
 // map_put.c
 int		map_put(t_map *map, const char *string, bool allow_empty_value);
+int		split_name_value(const char *string, bool allow_empty_value,
+		char **name, char **value);
 
 // map_set.c
 int		map_set(t_map *map, const char *name, const char *value);
