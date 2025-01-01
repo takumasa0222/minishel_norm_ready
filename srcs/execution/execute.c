@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 18:07:14 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 12:57:20 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	exec_builtin(char *cmd, char **argv, t_map *envp, t_context *ctx)
 	arr_size = 0;
 	while (argv[arr_size])
 		arr_size++;
-	printf("DEBUG: exec_builtin arr_size %d\n", arr_size);
 	if (builtin)
 	{
 		ctx->last_status = builtin->f(arr_size, argv, envp, ctx);
