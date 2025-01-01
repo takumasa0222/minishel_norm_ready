@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:55:24 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/30 21:56:25 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/02 05:12:50 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	envmap_init(t_map *envmap, char **ep)
 	{
 		map_set(envmap, "OLDPWD", "/home/ssoeno/Downloads");
 	}
-	printf("EDBUG envmap_init OLDPWD: %s\n", map_get(envmap, "OLDPWD"));
+	// printf("EDBUG envmap_init OLDPWD: %s\n", map_get(envmap, "OLDPWD"));
 }
 /*
 SHLVL: shell level, the number of nested shells
