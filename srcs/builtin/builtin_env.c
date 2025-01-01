@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:31 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 17:41:17 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 13:17:47 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	builtin_env(int argc, char *argv[], t_map *envmap, t_context *ctx)
 	if (argc > 1)
 	{
 		builtin_error("env", NULL, "Arguments are not supproted");
+		ctx->last_status = EXIT_FAILURE;
 		return (EXIT_FAILURE);
 	}
 	cur = envmap->item_head.next;
