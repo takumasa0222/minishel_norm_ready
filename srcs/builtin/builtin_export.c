@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:49 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/02 11:29:33 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/02 11:34:45 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static bool	is_valid_env_name(char *str)
 	size_t	i;
 
 	i = 1;
-	if (!str || !(ft_isalpha(str[0]) || str[0] == '_'))
+	if (!str || str[0] == '\0' || !(ft_isalpha(str[0]) || str[0] == '_'))
 		return (false);
 	while (str[i])
 	{
