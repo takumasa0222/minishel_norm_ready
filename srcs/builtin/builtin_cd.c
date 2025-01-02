@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 18:04:54 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/02 18:49:34 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,10 @@
 `cd -` simply swaps `PWD` and `OLDPWD` alternately.  
 As a result, it repeatedly returns to the previous directory.  
 `OLDPWD` always stores the current `PWD` and is used for subsequent `cd -`.
+may not be implemented in this project
+"cd --" is out of subject.
 */
-// void	cd_with_dash(char *path, char *oldpwd)
-// {
-// 	if (oldpwd[0] == '\0')
-// 	{
-// 		printf("DEBUG cd_with_dash OLDPWD not set\n");
-// 		path[0] = '\0';
-// 		return ;
-// 	}
-// 	ft_strlcpy(path, oldpwd, PATH_MAX);
-// 	return ;
-// }
+
 void	cd_with_no_argument(t_map *envmap, char *path)
 {
 	const char	*home;
@@ -39,61 +31,66 @@ void	cd_with_no_argument(t_map *envmap, char *path)
 	home = xgetenv(envmap, "HOME");
 	if (home == NULL)
 	{
-		builtin_error("cd_with_no_argument", NULL, "HOME not set");
+		builtin_error("cd", NULL, "HOME not set");
 		path[0] = '\0';
 		return ;
 	}
 	ft_strlcpy(path, home, PATH_MAX);
-	return ;
 }
 
-int	builtin_cd(int argc, char *argv[], t_map *envmap, t_context *ctx)
+int	handle_cd_error(int argc, char *argv[], t_context *ctx)
 {
-	char		*oldpwd_before_chdir;
-	char		*pwd_before_chdir;
-	char		path[PATH_MAX];
-	char		*pwd_after_chdir;
-
-	(void)ctx;
-	oldpwd_before_chdir = xgetenv(envmap, "OLDPWD");
-	pwd_before_chdir = xgetenv(envmap, "PWD");
-	map_set(envmap, "OLDPWD", pwd_before_chdir);
 	if (argc > 2)
 	{
-		printf("%s: too many argument\n", argv[0]);
-		return (EXIT_FAILURE);
-	}
-	else if (argc == 1)
-	{
-		cd_with_no_argument(envmap, path);
+		ft_putendl_fd("cd: too many argument\n", STDERR_FILENO);
+		ctx->last_status = EXIT_FAILURE;
+		return (ctx->last_status);
 	}
 	else if (argc == 2 && argv[1][0] == '-')
 	{
 		builtin_error("cd", argv[1], "option not supported");
-		return (EXIT_FAILURE);
+		ctx->last_status = EXIT_FAILURE;
+		return (ctx->last_status);
 	}
-	else
-	{
-		ft_strlcpy(path, argv[1], PATH_MAX);
-	}
-	if (path[0] == '\0')
-	{
-		printf("cd: no such file or directory: %s\n", argv[1]);
-		return (EXIT_FAILURE);
-	}
-	if (chdir(path) < 0)
-	{
-		builtin_error("cd", NULL, "chdir");
-		return (EXIT_FAILURE);
-	}
+	return (EXIT_SUCCESS);
+}
+
+void	update_pwd(t_map *envmap, char *pwd_before_chdir, char *path)
+{
+	char	*pwd_after_chdir;
+
 	pwd_after_chdir = resolve_pwd(pwd_before_chdir, path);
-	map_set(envmap, "PWD", pwd_after_chdir);
-	free(pwd_after_chdir);
+	if (pwd_after_chdir)
+	{
+		map_set(envmap, "PWD", pwd_after_chdir);
+		free(pwd_after_chdir);
+	}
+}
+
+int	builtin_cd(int argc, char *argv[], t_map *envmap, t_context *ctx)
+{
+	char		*pwd_before_chdir;
+	char		path[PATH_MAX];
+
+	if (handle_cd_error(argc, argv, ctx) == EXIT_FAILURE)
+		return (ctx->last_status);
+	pwd_before_chdir = xgetenv(envmap, "PWD");
+	map_set(envmap, "OLDPWD", pwd_before_chdir);
+	if (argc == 1)
+		cd_with_no_argument(envmap, path);
+	else
+		ft_strlcpy(path, argv[1], PATH_MAX);
+	if (path[0] == '\0' || chdir(path) < 0)
+	{
+		builtin_error("cd", path, "no such file or directory");
+		ctx->last_status = EXIT_FAILURE;
+		return (ctx->last_status);
+	}
+	update_pwd(envmap, pwd_before_chdir, path);
 	return (EXIT_SUCCESS);
 }
 /*
 if no arguments are given, change to the home directory
-"cd --" is out of subject!!! 
 chdir only changes the current directory and 
 does not update the logical path (PWD), 
 so we need to update the PWD manually. 
