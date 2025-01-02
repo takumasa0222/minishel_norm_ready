@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:20 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/01 16:05:27 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/02 11:10:26 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ bool	is_no_newline_option(char *str)
 	{
 		i++;
 		if (str[i] == '\0')
-			return (TRUE);
+			return (true);
 	}
-	return (FALSE);
+	return (false);
 }
 
 int	builtin_echo(int argc, char *argv[], t_map *envmap, t_context *ctx)

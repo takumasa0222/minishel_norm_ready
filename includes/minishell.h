@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/01 17:24:57 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/02 11:12:10 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 # define PATH_MAX 4096
 
-# define TRUE 1
-# define FALSE 0
 # define ERROR -1
 
 # define EXIT_INVALID_INPUT 2
@@ -45,7 +43,6 @@ typedef struct s_context {
 	int		pre_in_pipe_fd;
 	int		cnt;
 	bool	is_exec_in_child_ps;
-	bool	is_wait_call;
 	int		last_status;
 }	t_context;
 

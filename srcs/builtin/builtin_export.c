@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:49 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/01 17:08:21 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/02 11:29:33 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	builtin_export(int argc, char **argv, t_map *envmap, t_context *ctx)
 	{
 		if (update_key_value(envmap, argv[i++], true) < 0)
 		{
-			builtin_error("export :", argv[i - 1], ": not a valid identifier");
+			builtin_error("export ", argv[i - 1], " not a valid identifier");
 			ctx->last_status = EXIT_FAILURE;
 		}
 	}
@@ -63,7 +63,7 @@ int	update_key_value(t_map *map, const char *str, bool allow_empty)
 	{
 		free(name);
 		free(value);
-		return (EXIT_FAILURE);
+		return (ERROR);
 	}
 	result = map_set(map, name, value);
 	free(name);
@@ -76,13 +76,13 @@ static bool	is_valid_env_name(char *str)
 	size_t	i;
 
 	i = 1;
-	if (!str || !ft_isalpha(str[0]) || str[0] == '_')
+	if (!str || !(ft_isalpha(str[0]) || str[0] == '_'))
 		return (false);
 	while (str[i])
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (FALSE);
+		if (!(ft_isalnum(str[i]) || str[i] == '_'))
+			return (false);
 		i++;
 	}
-	return (TRUE);
+	return (true);
 }
