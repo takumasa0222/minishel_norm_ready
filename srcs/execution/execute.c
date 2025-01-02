@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 21:46:59 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/12/31 02:40:55 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../includes/execute.h"
 #include "../includes/utils.h"
 #include "../includes/builtin.h"
+#include "../includes/expand.h"
 
 int	exec_handler(t_node *ast_node, t_map *envp, t_context *ctx)
 {
@@ -52,7 +53,7 @@ int	exec_pipe(t_node *node, t_map *envp, t_context *ctx)
 int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 {
 	//signal();
-	//expand();
+	expand_handler(node, envp);
 	//redirect();
 	if (is_builtin(node->cmds[0]) && 0)
 		lookup_builtin(node->cmds[0]);
