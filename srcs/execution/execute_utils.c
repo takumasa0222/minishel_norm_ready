@@ -6,11 +6,12 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/03 15:23:05 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 16:38:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/execute.h"
+#include "../includes/expand.h"
 #include "../includes/utils.h"
 
 int	wait_children_status(t_context *ctx)
@@ -47,19 +48,19 @@ bool	is_builtin(char *cmd)
 {
 	if (!cmd)
 		d_throw_error("is_builtin", "command is null");
-	if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT)))
+	if (ft_strcmp(cmd, EXIT) == 0)
 		return (true);
-	else if (!ft_strncmp(cmd, CD, ft_strlen(CD)))
+	else if (ft_strcmp(cmd, CD) == 0)
 		return (true);
-	else if (!ft_strncmp(cmd, PWD, ft_strlen(PWD)))
+	else if (ft_strcmp(cmd, PWD) == 0)
 		return (true);
-	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET)))
+	else if (ft_strcmp(cmd, UNSET) == 0)
 		return (true);
-	else if (!ft_strncmp(cmd, ENV, ft_strlen(ENV)))
+	else if (ft_strcmp(cmd, ENV) == 0)
 		return (true);
-	else if (!ft_strncmp(cmd, ECHO, ft_strlen(ECHO)))
+	else if (ft_strcmp(cmd, ECHO) == 0)
 		return (true);
-	else if (!ft_strncmp(cmd, EXPORT, ft_strlen(EXPORT)))
+	else if (ft_strcmp(cmd, EXPORT) == 0)
 		return (true);
 	else
 		return (false);
