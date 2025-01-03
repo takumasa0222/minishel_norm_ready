@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 20:58:10 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 18:06:21 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 16:41:01 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int			builtin_env(int argc, char *argv[], t_map *envmap, t_context *ctx);
 int			builtin_echo(int argc, char *argv[], t_map *envmap, t_context *ctx);
 
 // builtin_export.c
-void		print_allenv(t_map *envmap);
 int			builtin_export(int argc, char **argv, t_map *envmap, t_context *ctx);
+// builtin_export_utils.c
+void		print_sorted_env(t_map *envmap);
 
 #endif

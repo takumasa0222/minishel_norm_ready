@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/01 12:44:20 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 14:35:36 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	start_exec(char *line, t_map *envp, t_context *ctx)
 
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
-	// ctx = init_ctx();
+	ctx = init_ctx();
 	exec_handler(ast_node, envp, ctx);
 	if (ctx->cnt)
 		wait_children_status(ctx);
@@ -86,7 +86,6 @@ t_context	*init_ctx(void)
 	ret->pre_in_pipe_fd = -1;
 	ret->cnt = 0;
 	ret->is_exec_in_child_ps = false;
-	ret->is_wait_call = false;
 	ret->last_status = 0;
 	return (ret);
 }

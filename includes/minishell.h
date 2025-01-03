@@ -6,13 +6,19 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/01 12:43:40 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/02 11:12:10 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define PATH_MAX 4096
+
+# define ERROR -1
+
+# define EXIT_INVALID_INPUT 2
+# define EXIT_EXEC_ERROR 126
+# define EXIT_CMD_NOT_FOUND 127
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -37,7 +43,6 @@ typedef struct s_context {
 	int		pre_in_pipe_fd;
 	int		cnt;
 	bool	is_exec_in_child_ps;
-	bool	is_wait_call;
 	int		last_status;
 }	t_context;
 

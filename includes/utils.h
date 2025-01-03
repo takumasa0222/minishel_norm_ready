@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:34:45 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 21:20:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/01 17:00:51 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,12 @@ void	free_node(t_node *node);
 void	free_wordlist(char **wordlist);
 void	free_ast(t_node **node);
 void	free_token_list(t_token *token_list);
+void    free_map(t_map *map);
 
 // xmalloc.c
 void	*xmalloc(size_t size);
+
+// ft_strcmp.c
+int     ft_strcmp(const char *s1, const char *s2);
+
 #endif

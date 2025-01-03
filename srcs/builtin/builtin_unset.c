@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:50:01 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 18:06:33 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 15:21:16 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@
 
 int	builtin_unset(int argc, char *argv[], t_map *envmap, t_context *ctx)
 {
-	int		status;
 	size_t	i;
 
 	(void)argc;
-	(void)ctx;
-	status = 0;
 	i = 1;
 	if (envmap == NULL)
 	{
 		builtin_error("builtin_unset", NULL, "map is not initialized");
+		ctx->last_status = EXIT_FAILURE;
 		return (EXIT_FAILURE);
 	}
 	while (argv[i])
@@ -33,11 +31,11 @@ int	builtin_unset(int argc, char *argv[], t_map *envmap, t_context *ctx)
 		if (map_unset(envmap, argv[i]) < 0)
 		{
 			builtin_error("unset", argv[i], "not a valid identifier");
-			status = 1;
+			ctx->last_status = 1;
 		}
 		else
-			status = 0;
+			ctx->last_status = 0;
 		i++;
 	}
-	return (status);
+	return (ctx->last_status);
 }

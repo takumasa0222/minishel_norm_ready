@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/30 23:10:13 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 17:26:36 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,23 @@ void	free_token_list(t_token *token_list)
 		free(token_list);
 		token_list = temp;
 	}
+}
+
+void	free_map(t_map *map)
+{
+	t_item	*cur;
+	t_item	*next;
+
+	if (!map)
+		return ;
+	cur = map->item_head.next;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur->name);
+		free(cur->value);
+		free(cur);
+		cur = next;
+	}
+	free(map);
 }

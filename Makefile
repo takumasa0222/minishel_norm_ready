@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/03 15:55:03 by ssoeno           ###   ########.fr        #
+#    Updated: 2025/01/03 16:01:32 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,17 +45,19 @@ srcs/parser/parser_token_checker.c \
 srcs/parser/parser_node_operator.c \
 srcs/utils/error.c \
 srcs/utils/free_functions.c \
+srcs/utils/ft_strcmp.c \
+srcs/utils/init_env.c \
 srcs/utils/xmalloc.c \
 srcs/builtin/builtin_cd.c \
 srcs/builtin/builtin_cd_utils.c \
 srcs/builtin/builtin_exit.c \
 srcs/builtin/builtin_pwd.c \
 srcs/builtin/builtin_export.c \
+srcs/builtin/builtin_export_utils.c \
 srcs/builtin/builtin_unset.c \
 srcs/builtin/builtin_echo.c \
 srcs/builtin/builtin_env.c \
 srcs/builtin/lookup_builtin.c \
-srcs/utils/init_env.c \
 srcs/map/item_utils.c \
 srcs/map/map_get.c \
 srcs/map/map_new.c \
