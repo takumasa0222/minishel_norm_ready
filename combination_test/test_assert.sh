@@ -21,7 +21,3 @@ assert() {
 	fi
 	echo
 }
-
-# Empty line (EOF)
-#assert 'ls'
-
