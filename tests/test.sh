@@ -83,5 +83,7 @@ assert 'exit  +1'
 assert 'exit  ++1'
 assert 'exit -1'
 assert 'exit --1'
+assert 'exit 99999999999999999999'
+assert 'exit 2147483648'
 
 cleanup
