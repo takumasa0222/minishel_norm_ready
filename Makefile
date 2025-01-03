@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
+#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2024/12/31 03:15:27 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/03 15:29:54 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,8 @@ srcs/expand/expand_handler.c \
 srcs/expand/expand_helper.c \
 srcs/expand/expand_variable_helper.c \
 srcs/expand/expand_variable.c \
-srcs/expand/remove_quotes.c 
+srcs/expand/remove_quotes.c \
+srcs/execution/execute_prep.c
 
 # srcs/lexer/lexer_helper.c \
 # srcs/lexer/lexer_token_checker.c \

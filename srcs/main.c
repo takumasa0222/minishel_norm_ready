@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/30 22:58:10 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/31 01:22:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	main(int argc, char *argv[], char *envp[])
 	rl_outstream = stderr;
 	setup_signal();
 	env = init_env(envp);
+	if (!env)
+		d_throw_error("main", "init_env is failed");
 	while (1)
 	{
 		line = readline("minishell$ ");

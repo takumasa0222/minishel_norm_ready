@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 02:40:55 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/03 14:57:39 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "../includes/execute.h"
 #include "../includes/utils.h"
 #include "../includes/builtin.h"
+#include "../includes/map.h"
+#include "../includes/environment.h"
 #include "../includes/expand.h"
 
 int	exec_handler(t_node *ast_node, t_map *envp, t_context *ctx)
@@ -47,6 +49,7 @@ int	exec_pipe(t_node *node, t_map *envp, t_context *ctx)
 	return (exec_handler(node->right, envp, ctx));
 }
 
+
 /*
 
 */
@@ -55,14 +58,19 @@ int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 	//signal();
 	expand_handler(node, envp);
 	//redirect();
+	char	*cmd_path;
+
 	if (is_builtin(node->cmds[0]) && 0)
 		lookup_builtin(node->cmds[0]);
 	else
 	{
 		ctx = NULL;
-		envp = NULL;
-		execvp(node->cmds[0], node->cmds);
+		cmd_path = resolve_executable_path(node, envp);
+		if (!cmd_path)
+			d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
+		execve(cmd_path, node->cmds, get_environ(envp));
 		perror("execvp");
+		free(cmd_path);
 		exit(EXIT_FAILURE);
 		return (EXIT_FAILURE);
 	}
