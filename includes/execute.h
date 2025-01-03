@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:09:09 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 14:24:11 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 16:48:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <sys/wait.h>
 # include "./map.h"
 
-# define EXIT	"exit"
+# define EXIT "exit"
 # define CD "cd"
 # define PWD "pwd"
 # define UNSET "unset"

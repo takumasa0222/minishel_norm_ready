@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/03 14:35:36 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 19:44:34 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	start_exec(char *line, t_map *envp, t_context *ctx)
 	exec_handler(ast_node, envp, ctx);
 	if (ctx->cnt)
 		wait_children_status(ctx);
+	// printf("exit status: %d\n", ctx->last_status);
 	free_token_list(token_list);
 	free_ast(&ast_node);
 }

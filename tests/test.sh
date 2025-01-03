@@ -73,4 +73,15 @@ assert "pwd"
 # assert 'exit 42Tokyo' 0  # This might differ depending on handling of non-integer args
 # assert 'exit 1 2' 1
 
+assert 'exit'
+assert 'exit 42'
+assert 'exit ""'
+assert 'exit hello'
+assert 'exit 42Tokyo'
+assert 'exit 1 2'
+assert 'exit  +1'
+assert 'exit  ++1'
+assert 'exit -1'
+assert 'exit --1'
+
 cleanup
