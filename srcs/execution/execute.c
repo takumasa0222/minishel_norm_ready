@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/03 23:35:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 02:39:16 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	return (EXIT_SUCCESS);
 }
 
-int	exec_cmd_handler(t_node *node, t_map *envp, t_context *ctx)
+int	exec_cmd_handler(t_node *node, t_context *ctx)
 {
 	if (!ctx->is_exec_in_child_ps && is_builtin(node->cmds[0]))
-		return (exec_cmd(node, envp, ctx));
+		return (exec_cmd(node, ctx));
 	else
 	{
 		ctx->pids[ctx->cnt] = fork();
@@ -115,7 +115,7 @@ int	exec_cmd_handler(t_node *node, t_map *envp, t_context *ctx)
 		if (ctx->pids[ctx->cnt -1] == 0)
 		{
 			setup_child_process_fd(ctx);
-			exec_cmd(node, envp, ctx);
+			exec_cmd(node, ctx);
 		}
 		else if (ctx->pids[ctx->cnt -1] == -1)
 			d_throw_error("exec_cmd_handler", "fork is failed");
