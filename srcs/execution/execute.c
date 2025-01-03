@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 14:24:47 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 14:57:39 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "../includes/builtin.h"
 #include "../includes/map.h"
 #include "../includes/environment.h"
+#include "../includes/expand.h"
 
 int	exec_handler(t_node *ast_node, t_map *envp, t_context *ctx)
 {
@@ -55,7 +56,7 @@ int	exec_pipe(t_node *node, t_map *envp, t_context *ctx)
 int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 {
 	//signal();
-	//expand();
+	expand_handler(node, envp);
 	//redirect();
 	char	*cmd_path;
 

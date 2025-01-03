@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:37:41 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/15 17:24:22 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 15:17:11 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_builtin	*lookup_builtin(char *cmd)
 	p = builtins_list;
 	while (p->name)
 	{
-		if (ft_strncmp(cmd, p->name, ft_strlen(p->name)) == 0)
+		if (ft_strncmp(cmd, p->name, ft_strlen(cmd)) == 0)
 			return (p);
 		p++;
 	}
