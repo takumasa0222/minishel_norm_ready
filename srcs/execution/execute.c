@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/03 18:58:48 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/03 22:28:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	exec_builtin(char *cmd, char **argv, t_map *envp, t_context *ctx)
 		{
 			ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
 			return (ctx->last_status);
+			// exit (ctx->last_status);
 		}
 		return (EXIT_SUCCESS);
 	}

@@ -42,3 +42,21 @@ assert "cd /non-existing-dir"
 assert "pwd"
 assert "cd invalid!path"
 assert "pwd"
+
+assert 'exit'
+assert 'exit 42'
+assert 'exit ""'
+assert 'exit hello'
+assert 'exit 42Tokyo'
+assert 'exit 1 2'
+assert 'exit  +1'
+assert 'exit  ++1'
+assert 'exit -1'
+assert 'exit --1'
+assert 'exit 99999999999999999999'
+assert 'exit 2147483648'
+assert 'exit -9223372036854775807'
+assert 'exit -9223372036854775808'
+assert 'exit -9223372036854775809'
+assert 'exit 9223372036854775807'
+assert 'exit 9223372036854775808'

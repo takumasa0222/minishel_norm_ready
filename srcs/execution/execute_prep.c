@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 14:39:39 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 16:48:10 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ char	*find_executable_path_env_or_exit(t_node *node, t_map *envp)
 
 	path_env_value = map_get(envp, "PATH");
 	if (!path_env_value)
-		d_throw_error("find_cmd_from_path", "PATH not set");
+		d_throw_error("find_cmd_from_path", "PATH not set\n");
 	directories = ft_split(path_env_value, ':');
 	if (!directories)
-		d_throw_error("find_cmd_from_path", "ft_split is failed");
+		d_throw_error("find_cmd_from_path", "ft_split is failed\n");
 	executable_path = find_executable_path_for_cmd(node->cmds[0], directories);
 	free_wordlist(directories);
 	if (!executable_path)
-		d_throw_error("find_cmd_from_path", "executable path not found");
+		d_throw_error("find_cmd_from_path", "executable path not found\n");
 	return (executable_path);
 }
 
