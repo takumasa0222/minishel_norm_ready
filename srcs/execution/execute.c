@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/01 12:57:20 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 15:41:35 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	exec_builtin(char *cmd, char **argv, t_map *envp, t_context *ctx)
 int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 {
 	//signal();
-	//expand();
+	expand_handler(node, envp);
 	//redirect();
 	char	*cmd_path;
 

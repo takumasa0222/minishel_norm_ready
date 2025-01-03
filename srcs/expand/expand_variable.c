@@ -1,14 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.c                                        :+:      :+:    :+:   */
+/*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/23 21:20:18 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/12/31 02:58:35 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/12/31 03:10:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../includes/utils.h"
+#include "../../libft/libft.h"
+#include "../../includes/expand.h"
 
 /*
 $? -> 前に終了したステータスの中身を文字列として取り出す
@@ -18,7 +22,24 @@ $<変数名> -> 変数名に該当する変数を展開し、中身を文字列�
 ダブルクォーテーションで囲まれている場合、$変数の展開は行う
 */
 
-expand_sp_var()
-expand_d_quote();
-expand_asterisk();
-expand_var();
+char	*expand_variable(char *str, t_map *envp)
+{
+	size_t	i;
+	char	*ret;
+
+	i = 0;
+	ret = NULL;
+	while (str[i])
+	{
+		if (is_s_quote(str[i]))
+			i = retrieve_val_in_sq(&ret, str, i);
+		else if (is_dollar_symbol(str[i]))
+			i = retrieve_var(&ret, str, i, envp);
+		else if (is_d_quote(str[i]))
+			i = retrieve_val_in_dq(&ret, str, i, envp);
+		else
+			i = retrieve_normal_val(&ret, str, i);
+		i++;
+	}
+	return (ret);
+}

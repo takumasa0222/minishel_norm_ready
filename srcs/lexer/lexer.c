@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/22 18:03:42 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/31 00:54:28 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	move_to_next_quotation(char *input, int i)
 		while (input[i] && !is_s_quote(input[i]))
 			i++;
 		if (!input[i])
-			d_throw_error("fetch_fst_word_token", "squote not closed");
+			d_throw_error("move_to_next_quotation", "squote not closed");
 	}
 	if (is_d_quote(input[i]))
 	{
@@ -99,7 +99,7 @@ int	move_to_next_quotation(char *input, int i)
 		while (input[i] && !is_d_quote(input[i]))
 			i++;
 		if (!input[i])
-			d_throw_error("fetch_fst_word_token", "dquote not closed");
+			d_throw_error("move_to_next_quotation", "dquote not closed");
 	}
 	return (i);
 }
