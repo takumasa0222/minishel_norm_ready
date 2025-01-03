@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/03 21:06:57 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 21:42:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,15 @@ static bool	is_digit_str(char *str)
 {
 	long	result;
 	int		digit;
+	long	sign;
 
 	result = 0;
 	digit = 0;
+	sign = 1;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
+	if (ft_strcmp("-9223372036854775808", str) == 0)
+		return (true);
 	if (*str == '+' || *str == '-')
 		str++;
 	if (!ft_isdigit(*str))
