@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 02:39:16 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 02:56:22 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 		arr_size++;
 	if (builtin)
 	{
-		ctx->last_status = builtin->f(arr_size, argv, ctx->env, ctx);
+		ctx->last_status = builtin->f(arr_size, argv, ctx);
 		if (ctx->last_status != EXIT_SUCCESS)
 		{
 			ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
@@ -88,14 +88,14 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	char	*cmd_path;
 
 	if (is_builtin(node->cmds[0]))
-		return (exec_builtin(node->cmds[0], node->cmds, envp, ctx));
+		return (exec_builtin(node->cmds[0], node->cmds, ctx));
 	else
 	{
 		ctx = NULL;
-		cmd_path = resolve_executable_path(node, envp);
+		cmd_path = resolve_executable_path(node, ctx->env);
 		if (!cmd_path)
 			d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
-		execve(cmd_path, node->cmds, get_environ(envp));
+		execve(cmd_path, node->cmds, get_environ(ctx->env));
 		perror("execvp");
 		free(cmd_path);
 		exit(EXIT_FAILURE);
