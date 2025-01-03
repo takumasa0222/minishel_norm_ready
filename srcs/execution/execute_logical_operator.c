@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:56:20 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 21:42:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/03 19:14:06 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ int	exec_and_node(t_node *node, t_map *envp, t_context *ctx)
 
 int	exec_round_brackets(t_node *node, t_map *envp, t_context *ctx)
 {
-	int	status;
-
 	ctx->is_exec_in_child_ps = true;
-	status = 0;
 	ctx->last_status = exec_handler(node->left, envp, ctx);
 	if (ctx->cnt)
 		wait_children_status(ctx);
