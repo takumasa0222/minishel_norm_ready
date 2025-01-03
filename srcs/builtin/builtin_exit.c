@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/03 21:42:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 22:28:26 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	builtin_exit(int argc, char *argv[], t_map *envmap, t_context *ctx)
 		{
 			builtin_error("exit", argv[1], "numeric argument required");
 			ctx->last_status = EXIT_INVALID_INPUT;
-			return (ctx->last_status);
+			// return (ctx->last_status);
+			exit(ctx->last_status);
 		}
 		ctx->last_status = ft_atoi(argv[1]);
 	}

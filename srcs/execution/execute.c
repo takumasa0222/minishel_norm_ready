@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/03 20:12:00 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 22:28:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int	exec_builtin(char *cmd, char **argv, t_map *envp, t_context *ctx)
 		if (ctx->last_status != EXIT_SUCCESS)
 		{
 			ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
-			// return (ctx->last_status);
-			exit (ctx->last_status);
+			return (ctx->last_status);
+			// exit (ctx->last_status);
 		}
 		return (EXIT_SUCCESS);
 	}

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/03 19:44:34 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 23:04:44 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,19 @@ int	main(int argc, char *argv[], char *envp[])
 	return (ctx->last_status);
 }
 
-void	start_exec(char *line, t_map *envp, t_context *ctx)
+void    start_exec(char *line, t_map *envp, t_context *ctx)
 {
-	t_token		*token_list;
-	t_node		*ast_node;
+    t_token        *token_list;
+    t_node        *ast_node;
 
-	token_list = lexer(line);
-	ast_node = parse_cmd(&token_list);
-	ctx = init_ctx();
-	exec_handler(ast_node, envp, ctx);
-	if (ctx->cnt)
-		wait_children_status(ctx);
-	// printf("exit status: %d\n", ctx->last_status);
-	free_token_list(token_list);
-	free_ast(&ast_node);
+    token_list = lexer(line);
+    ast_node = parse_cmd(&token_list);
+    clear_ctx(ctx);
+    exec_handler(ast_node, envp, ctx);
+    if (ctx->cnt)
+        wait_children_status(ctx);
+    free_token_list(token_list);
+    free_ast(&ast_node);
 }
 
 t_context	*init_ctx(void)
@@ -89,4 +88,16 @@ t_context	*init_ctx(void)
 	ret->is_exec_in_child_ps = false;
 	ret->last_status = 0;
 	return (ret);
+}
+
+void    clear_ctx(t_context *ctx)
+{
+    if (!ctx)
+        d_throw_error("clear_ctx", "ctx is null");
+    ctx->in_pipe_fd = -1;
+    ctx->out_pipe_fd = -1;
+    ctx->pre_in_pipe_fd = -1;
+    ctx->cnt = 0;
+    ctx->is_exec_in_child_ps = false;
+    ctx->last_status = 0;
 }
