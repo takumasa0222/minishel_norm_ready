@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/03 20:00:11 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 21:06:57 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	builtin_exit(int argc, char *argv[], t_map *envmap, t_context *ctx)
 	}
 	if (argc == 2)
 	{
-		if (!is_digit_str(argv[1]) || argv[1] == NULL)
+		if (argv[1] == NULL || !is_digit_str(argv[1]))
 		{
 			builtin_error("exit", argv[1], "numeric argument required");
 			ctx->last_status = EXIT_INVALID_INPUT;
