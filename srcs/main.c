@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/03 23:33:18 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 03:11:28 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,19 @@ int	main(int argc, char *argv[], char *envp[])
 	return (ctx->last_status);
 }
 
-void    start_exec(char *line, t_context *ctx)
+void	start_exec(char *line, t_context *ctx)
 {
-    t_token        *token_list;
-    t_node        *ast_node;
+	t_token		*token_list;
+	t_node		*ast_node;
 
-    token_list = lexer(line);
-    ast_node = parse_cmd(&token_list);
-    clear_ctx(ctx);
-    exec_handler(ast_node, ctx);
-    if (ctx->cnt)
-        wait_children_status(ctx);
-    free_token_list(token_list);
-    free_ast(&ast_node);
+	token_list = lexer(line);
+	ast_node = parse_cmd(&token_list);
+	clear_ctx(ctx);
+	exec_handler(ast_node, ctx);
+	if (ctx->cnt)
+		wait_children_status(ctx);
+	free_token_list(token_list);
+	free_ast(&ast_node);
 }
 
 t_context	*init_ctx(void)

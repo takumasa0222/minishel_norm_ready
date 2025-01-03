@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 02:56:22 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 03:19:24 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	exec_cmd(t_node *node, t_context *ctx)
 		return (exec_builtin(node->cmds[0], node->cmds, ctx));
 	else
 	{
-		ctx = NULL;
 		cmd_path = resolve_executable_path(node, ctx->env);
 		if (!cmd_path)
 			d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
