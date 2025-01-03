@@ -9,6 +9,7 @@
 		"parser.h": "c",
 		"lexer.h": "c",
 		"minishell.h": "c",
-		"execute.h": "c"
+		"execute.h": "c",
+		"expand.h": "c"
 	},
 }
