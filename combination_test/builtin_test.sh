@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./test_assert.sh
+source ./combination_test/test_assert.sh
 
 # buitins
 assert "env"

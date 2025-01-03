@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/03 16:01:32 by ssoeno           ###   ########.fr        #
+#    Updated: 2025/01/03 18:26:05 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,11 @@ srcs/utils/free_functions.c \
 srcs/utils/ft_strcmp.c \
 srcs/utils/init_env.c \
 srcs/utils/xmalloc.c \
+srcs/expand/expand_handler.c \
+srcs/expand/expand_helper.c \
+srcs/expand/expand_variable_helper.c \
+srcs/expand/expand_variable.c \
+srcs/expand/remove_quotes.c \
 srcs/builtin/builtin_cd.c \
 srcs/builtin/builtin_cd_utils.c \
 srcs/builtin/builtin_exit.c \

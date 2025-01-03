@@ -13,10 +13,12 @@ jobs:
 
     steps:
     - name: Check out code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y build-essential
 
     - name: Run tests
-      run: ./combination_test/run_tests.sh
+      run: |
+      chmod +x ./combination_test/run_test.sh
+      ./combination_test/run_test.sh

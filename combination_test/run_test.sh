@@ -1,16 +1,28 @@
 #!/bin/bash
 
+test_result() {
+	echo "=== Test Summary ==="
+	passed=$(grep -c "diff OK.*status OK" result)
+	total=$(wc -l < result)
+	failed=$((total - passed))
+	echo "Tests completed: $total"
+	echo "Tests passed: $passed"
+	echo "Tests failed: $failed"
+	> result
+}
+
 make
 if [ $? -ne 0 ]; then
 	echo "make is failed"
 	exit 1
 else 
-	cd combination_test || { echo "Failed to change directory to combination_test"; exit 1; }
-	source ./test_assert.sh || { echo "Failed to source test_assert.sh"; exit 1; }
+	source ./combination_test/test_assert.sh || { echo "Failed to source test_assert.sh"; exit 1; }
 	echo "expand test"
-	./expand_test.sh
+	./combination_test/expand_test.sh
+	test_result
 	echo "builtin test"
-	./builtin_test.sh
+	./combination_test/builtin_test.sh
 	echo "test is completed"
-	cleanup || { echo "cleanup failed"; exit 1; }
 fi
+
+trap 'cleanup || { echo "Error: cleanup failed"; exit 1; }' EXIT

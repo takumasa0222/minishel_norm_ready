@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/03 15:55:31 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 18:27:48 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "../includes/builtin.h"
 #include "../includes/map.h"
 #include "../includes/environment.h"
+#include "../includes/expand.h"
 
 int	exec_handler(t_node *ast_node, t_map *envp, t_context *ctx)
 {
