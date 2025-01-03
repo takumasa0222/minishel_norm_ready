@@ -20,5 +20,5 @@ jobs:
 
     - name: Run tests
       run: |
-      chmod +x ./combination_test/run_test.sh
-      ./combination_test/run_test.sh
+        chmod +x ./combination_test/run_test.sh
+        ./combination_test/run_test.sh

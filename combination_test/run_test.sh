@@ -8,7 +8,7 @@ test_result() {
 	echo "Tests completed: $total"
 	echo "Tests passed: $passed"
 	echo "Tests failed: $failed"
-	> result
+	true > result
 }
 
 make
