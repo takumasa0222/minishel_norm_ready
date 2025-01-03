@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:48:53 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/07 16:41:16 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/02 20:13:04 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,39 @@ bool	consume_path(char **rest, char *path, char *elem)
 	{
 		if (path[elem_len] == '\0' || path[elem_len] == '/')
 		{
-			*rest = path + elem_len;
+			*rest = (char *)(path + elem_len);
 			return (true);
 		}
 	}
 	return (false);
 }
+/*
+example:
+path = "../projects"
+result = consume_path(&rest, path, "..")
+result = true
+ret == "projects"
+*/
 
 void	delete_last_elem(char *path)
 {
-	char	*start;
+	char	*cur;
 	char	*last_slash_ptr;
 
 	if (*path == '\0' || (*path == '/' && ft_strlen(path) == 1))
 		return ;
-	start = path;
+	cur = path;
 	last_slash_ptr = NULL;
-	while (*path)
+	while (*cur)
 	{
-		if (*path == '/')
-			last_slash_ptr = path;
-		path++;
+		if (*cur == '/')
+			last_slash_ptr = cur;
+		cur++;
 	}
-	if (last_slash_ptr != NULL)
-	{
+	if (last_slash_ptr)
 		*last_slash_ptr = '\0';
-		if (*path == '\0' && last_slash_ptr == start)
-			ft_strlcpy(path, "/", 2);
-	}
+	if (*path == '\0')
+		ft_strlcpy(path, "/", 2);
 }
 /*
 if path is "/"(root directory), do nothing.
@@ -61,23 +66,35 @@ if path is null character after deleting the last element, return "/"
 void	append_path_elem(char *dst, char **rest, char *src)
 {
 	size_t	elem_len;
-	char	*temp_elem;
 
 	elem_len = 0;
-	temp_elem = ft_calloc(PATH_MAX, sizeof(char));
 	while (src[elem_len] && src[elem_len] != '/')
 		elem_len++;
 	if (dst[ft_strlen(dst) - 1] != '/')
 		ft_strlcat(dst, "/", PATH_MAX);
 	if (elem_len > 0)
-	{
-		ft_strlcat(temp_elem, src, elem_len + 1);
-		ft_strlcat(dst, temp_elem, PATH_MAX);
-	}
-	*rest = src + elem_len;
-	free(temp_elem);
+		ft_strlcat(dst, src, ft_strlen(dst) + elem_len + 1);
+	*rest = (char *)(src + elem_len);
 }
 // not sure strlcat is the best choice here
+/*
+Example1: when dst does not end with '/'
+dst[PATH_MAX] = "/home/user";
+src = "projects/next"
+append_path_elem(dst, &rest, src);
+dst == "/home/user/projects" pwd
+rest == "next"
+
+Example2: when dst ends with '/'
+dst[PATH_MAX] = "/";
+src = "home/user/projects"
+while(*rest){
+	append_path_elem(dst, &rest, src);
+	src = rest;
+}
+dst == "/home/user/projects"
+rest == ""
+*/
 
 char	*resolve_pwd(char *pwd_before_chdir, char *path)
 {
@@ -110,11 +127,37 @@ char	*resolve_pwd(char *pwd_before_chdir, char *path)
 resolve_pwd is used to generate an absolute path
 and set it to the PWD environment variable.
 if the path starts with "/" (absolute path), 
-	set pwd_after_chdir to "/"(root directory)
+	initialize pwd_after_chdir with "/"(root)
 if the path starts with "." (relative path), \
 	copy pwd_before_chdir to pwd_after_chdir
 In the loop, 
 '.' means the current directory so no need to change the path
 if the path starts with ".." (relative path), 
 copy pwd_before_chdir to pwd_after_chdir
+
+example:
+pwd_before_chdir = "/home/user"
+path = "../usr/bin"
+pwd_after_chdir = "/home/usr/bin"
+
+pwd_before_chdir = "/home/ssoeno"
+path = "minishell"
+pwd_after_chdir = "/home/user/minishell"
+
+pwd_before_chdir = "/home/user/minishell/minishell_norm_ready"
+path = "./minishell/../../usr/bin"
+pwd_after_chdir = "/usr/bin"
+
+pwd_before_chdir = "/home/user"
+path = "projects/../next";
+step1 append_path_elem adds "projects" to dst
+	dst == "/home/user/projects"
+	rest == "../next"
+step2 consume_path detect ".." -> go back to the parent dir
+	*delete_last_elem
+	dst = "/home/user"
+	rest == "next"
+step3 append_path_elem adds "next" to dst
+	dst == "/home/user/next"
+	rest == ""
 */
