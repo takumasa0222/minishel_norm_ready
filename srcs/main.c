@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2024/12/31 01:22:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 12:44:20 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	main(int argc, char *argv[], char *envp[])
 	//t_token	*token_list;
 	t_map	*env;
 	//t_node	*ast;
+	t_context	*ctx;
 
+	ctx = init_ctx();
 	if (argc >= 2)
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
@@ -42,7 +44,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (*line)
 		{
 			add_history(line);
-			start_exec(line, env);
+			start_exec(line, env, ctx);
 			//token_list = lexer(line);
 			//ast = parse_cmd(&token_list);
 			//free_node(ast);
@@ -54,18 +56,17 @@ int	main(int argc, char *argv[], char *envp[])
 		free(line);
 		line = NULL;
 	}
-	exit(0);
+	return (ctx->last_status);
 }
 
-void	start_exec(char *line, t_map *envp)
+void	start_exec(char *line, t_map *envp, t_context *ctx)
 {
 	t_token		*token_list;
 	t_node		*ast_node;
-	t_context	*ctx;
 
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
-	ctx = init_ctx();
+	// ctx = init_ctx();
 	exec_handler(ast_node, envp, ctx);
 	if (ctx->cnt)
 		wait_children_status(ctx);
@@ -85,5 +86,7 @@ t_context	*init_ctx(void)
 	ret->pre_in_pipe_fd = -1;
 	ret->cnt = 0;
 	ret->is_exec_in_child_ps = false;
+	ret->is_wait_call = false;
+	ret->last_status = 0;
 	return (ret);
 }

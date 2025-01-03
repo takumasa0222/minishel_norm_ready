@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/03 15:29:54 by ssoeno           ###   ########.fr        #
+#    Updated: 2025/01/03 15:55:03 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,11 +69,6 @@ srcs/execution/execute_fd_controller.c \
 srcs/execution/execute_logical_operator.c \
 srcs/execution/execute_utils.c \
 srcs/execution/execute.c \
-srcs/expand/expand_handler.c \
-srcs/expand/expand_helper.c \
-srcs/expand/expand_variable_helper.c \
-srcs/expand/expand_variable.c \
-srcs/expand/remove_quotes.c \
 srcs/execution/execute_prep.c
 
 # srcs/lexer/lexer_helper.c \

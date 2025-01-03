@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 22:50:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/01 13:07:02 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char	**parse_redirect_arry(t_token **token_list)
 	ret = xmalloc((rd_cnt + 1) * sizeof(char *));
 	while (*token_list && compare_tk(ND_REDIRECTS, token_list))
 	{
-		printf("DEBUG token_list->word: %s\n", (*token_list)->word);
 		ret[i++] = parse_single_redirect(token_list);
 		if (!*token_list || (*token_list && !compare_tk(ND_CMD, token_list)))
 			handle_redirect_error(ret, i);

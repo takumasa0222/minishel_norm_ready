@@ -25,5 +25,8 @@ assert() {
 # Empty line (EOF)
 assert ''
 
-cleanup
+# buitins
+assert "env"
+
+# cleanup
 echo 'all OK'

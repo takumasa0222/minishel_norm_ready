@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:49 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:49:51 by ssoeno           ###   ########.fr       */
+/*   Updated: 2024/12/31 18:04:18 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ void	print_allenv(t_map *envmap)
 	}
 }
 
-int	builtin_export(int argc, char **argv, t_map *envmap)
+int	builtin_export(int argc, char **argv, t_map *envmap, t_context *ctx)
 {
 	size_t	i;
 	int		status;
 
 	(void)argc;
+	(void)ctx;
 	if (argv[1] == NULL)
 	{
 		print_allenv(envmap);

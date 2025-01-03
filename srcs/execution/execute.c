@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/03 14:57:39 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/03 15:55:31 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "../includes/builtin.h"
 #include "../includes/map.h"
 #include "../includes/environment.h"
-#include "../includes/expand.h"
 
 int	exec_handler(t_node *ast_node, t_map *envp, t_context *ctx)
 {
@@ -49,6 +48,32 @@ int	exec_pipe(t_node *node, t_map *envp, t_context *ctx)
 	return (exec_handler(node->right, envp, ctx));
 }
 
+int	exec_builtin(char *cmd, char **argv, t_map *envp, t_context *ctx)
+{
+	t_builtin	*builtin;
+	int			arr_size;
+
+	builtin = lookup_builtin(cmd);
+	arr_size = 0;
+	while (argv[arr_size])
+		arr_size++;
+	if (builtin)
+	{
+		ctx->last_status = builtin->f(arr_size, argv, envp, ctx);
+		if (ctx->last_status != EXIT_SUCCESS)
+		{
+			ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
+			return (ctx->last_status);
+		}
+		return (EXIT_SUCCESS);
+	}
+	else
+	{
+		ft_putendl_fd("exec_builtin: not recognized builtin\n", STDERR_FILENO);
+		ctx->last_status = EXIT_FAILURE;
+		return (EXIT_FAILURE);
+	}
+}
 
 /*
 
@@ -60,8 +85,8 @@ int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 	//redirect();
 	char	*cmd_path;
 
-	if (is_builtin(node->cmds[0]) && 0)
-		lookup_builtin(node->cmds[0]);
+	if (is_builtin(node->cmds[0]))
+		return (exec_builtin(node->cmds[0], node->cmds, envp, ctx));
 	else
 	{
 		ctx = NULL;
@@ -80,7 +105,6 @@ int	exec_cmd(t_node *node, t_map *envp, t_context *ctx)
 int	exec_cmd_handler(t_node *node, t_map *envp, t_context *ctx)
 {
 	if (!ctx->is_exec_in_child_ps && is_builtin(node->cmds[0]))
-	//if (!ctx->is_exec_in_child_ps && 0)
 		return (exec_cmd(node, envp, ctx));
 	else
 	{
