@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:49:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 21:00:14 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:07:19 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ void	setup_sigint(void);
 
 // signal_child.c
 void	set_exec_child_handler(void);
+
+int	    initialize_rl_event_hook(void);
 
 #endif

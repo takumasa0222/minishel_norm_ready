@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:41:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/04 22:37:32 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/04 23:03:54 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ volatile sig_atomic_t	g_sig = 0;
 void 	idle_handler(int signum)
 {
 	(void)signum;
-	static int count = 0;
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	fprintf(stderr,
-        "DEBUG: idle_handler called with signum=%d count=%d time=%ld.%06ld\n",
-        signum, count, (long)tv.tv_sec, (long)tv.tv_usec);
+	// static int count = 0;
+	// struct timeval tv;
+	// gettimeofday(&tv, NULL);
+	// fprintf(stderr,
+    //     "DEBUG: idle_handler called with signum=%d count=%d time=%ld.%06ld\n",
+    //     signum, count, (long)tv.tv_sec, (long)tv.tv_usec);
 	g_sig = SIGINT;
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -64,3 +64,8 @@ rl_done: set to 1 so that next readline() will return NULL
 	and finish the loop
 rl_event_hook requires an int return value
 */
+
+int	initialize_rl_event_hook(void)
+{
+	return 0;
+}
