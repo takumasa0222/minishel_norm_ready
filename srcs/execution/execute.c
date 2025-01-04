@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 03:19:24 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 21:57:25 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/signals.h"
 #include "../includes/lexer.h"
 #include "../includes/execute.h"
 #include "../includes/utils.h"
@@ -113,13 +114,19 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		ctx->cnt += 1;
 		if (ctx->pids[ctx->cnt -1] == 0)
 		{
+			set_exec_child_handler(); // SIGINT=SIG_DFL, SIGQUIT=SIG_DFL
 			setup_child_process_fd(ctx);
 			exec_cmd(node, ctx);
 		}
 		else if (ctx->pids[ctx->cnt -1] == -1)
 			d_throw_error("exec_cmd_handler", "fork is failed");
 		else
+		{
+			ignore_sig(SIGINT); // while child runs, ignore SIGINT
+			ignore_sig(SIGQUIT);
 			reset_parent_process_fd(ctx);
+			set_idle_handler();
+		}
 	}
 	return (EXIT_SUCCESS);
 }

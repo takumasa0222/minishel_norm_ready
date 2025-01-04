@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/04 03:11:28 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 22:20:57 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
 	rl_outstream = stderr;
-	setup_signal();
 	ctx->env = init_env(envp);
+	set_idle_handler();
 	if (!ctx->env)
 		d_throw_error("main", "init_env is failed");
 	while (1)
 	{
+		fprintf(stderr, "DEBUG: about to call readline()\n");
 		line = readline("minishell$ ");
+		fprintf(stderr, "DEBUG: readline() returned, line='%s'\n",
+            line ? line : "NULL");
 		if (line == NULL)
 			break ;
 		if (*line)
@@ -66,7 +69,10 @@ void	start_exec(char *line, t_context *ctx)
 	clear_ctx(ctx);
 	exec_handler(ast_node, ctx);
 	if (ctx->cnt)
+	{
 		wait_children_status(ctx);
+		set_idle_handler();
+	}
 	free_token_list(token_list);
 	free_ast(&ast_node);
 }

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/03 16:38:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/04 22:02:53 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,15 @@ int	wait_children_status(t_context *ctx)
 	while (++i < ctx->cnt)
 		waitpid(ctx->pids[i], &c_status, 0);
 	if (WIFSIGNALED(c_status))
-		return (ctx->last_status = WTERMSIG(c_status) + 128, ctx->last_status);
-	return (ctx->last_status = WEXITSTATUS(c_status), ctx->last_status);
+		ctx->last_status = WTERMSIG(c_status) + 128;
+	else if (WIFEXITED(c_status))
+		ctx->last_status = WEXITSTATUS(c_status);
+	printf("DEBUG: wait children status: last_status: %d\n", ctx->last_status);
+	return (ctx->last_status);
 }
+/*
+SIGINT 2, SIGQUIT 3
+*/
 
 void	setup_child_process_fd(t_context *ctx)
 {
