@@ -1,4 +1,4 @@
-█!/bin/bash
+#!/bin/bash
 
 test_result() {
 	echo "=== Test Summary ==="
