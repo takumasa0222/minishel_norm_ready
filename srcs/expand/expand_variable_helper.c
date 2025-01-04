@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 03:08:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 02:42:04 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 22:50:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ size_t	retrieve_var(char **ret, char *str, size_t i, t_context *ctx)
 {
 	size_t	var_name_len;
 	char	*tmp;
-	char	*map_get_val;
+	char	*expanded_val;
 
 	if (!str)
 		d_throw_error("retrieve_var", "arg is invalid");
@@ -66,12 +66,16 @@ size_t	retrieve_var(char **ret, char *str, size_t i, t_context *ctx)
 	tmp = ft_substr(str, i + 1, var_name_len);
 	if (!tmp)
 		d_throw_error("retrieve_var", "substr failed");
-	map_get_val = map_get(ctx->env, tmp);
-	if (map_get_val)
-		str_concat_helper(ret, map_get_val, 0, ft_strlen(map_get_val));
+	if (var_name_len == 1 && !ft_strcmp(tmp, QUESTION_MARK))
+		expanded_val = ft_itoa(ctx->last_status);
+	else
+		expanded_val = ft_strdup(map_get(ctx->env, tmp));
+	if (expanded_val)
+		str_concat_helper(ret, expanded_val, 0, ft_strlen(expanded_val));
 	else
 		str_concat_helper(ret, "", 0, 0);
 	free(tmp);
+	free(expanded_val);
 	return (var_name_len + i);
 }
 

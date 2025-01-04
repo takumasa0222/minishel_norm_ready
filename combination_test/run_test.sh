@@ -1,4 +1,4 @@
-#!/bin/bash
+█!/bin/bash
 
 test_result() {
 	echo "=== Test Summary ==="
@@ -11,19 +11,34 @@ test_result() {
 	true > result
 }
 
+echo_start_test() {
+
+	echo -e "\e[36m
+ ██████   ██████   ██████   ██████      ██   ██   ████    ██  ██    ████    ██████   ██  ██   ██████   ██       ██
+   ██     ██       ██  ██     ██        ███ ███    ██     ███ ██     ██     ██  ██   ██  ██   ██       ██       ██
+   ██     ██       ██         ██        ███████    ██     ██████     ██     ██       ██  ██   ██       ██       ██
+   ██     ██████   ██████     ██        ██ █ ██    ██     ██████     ██     ██████   ██████   ██████   ██       ██
+   ██     ██           ██     ██        ██   ██    ██     ██ ███     ██         ██   ██  ██   ██       ██       ██
+   ██     ██       ██  ██     ██        ██   ██    ██     ██  ██     ██     ██  ██   ██  ██   ██       ██       ██
+   ██     ██████   ██████     ██        ██   ██   ████    ██  ██    ████    ██████   ██  ██   ██████   ██████   ██████
+
+\e[0m"
+}
+
 make
 if [ $? -ne 0 ]; then
 	echo "make is failed"
 	exit 1
 else 
 	source ./combination_test/test_assert.sh || { echo "Failed to source test_assert.sh"; exit 1; }
+	echo_start_test
 	echo "expand test"
 	./combination_test/expand_test.sh
 	test_result
 	echo "builtin test"
 	./combination_test/builtin_test.sh
-	echo "test is completed"
 	test_result
+	echo "test is completed"
 fi
 
 trap 'cleanup || { echo "Error: cleanup failed"; exit 1; }' EXIT

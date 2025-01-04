@@ -17,7 +17,7 @@ error_echo_w_linebreak()
 assert() {
 	printf '%-30s:' "\"$1\""
 	# exit status
-	echo -n -e "$1" | bash >cmp 2>&-
+	echo -n -e "$1" | bash --norc --noprofile >cmp 2>&-
 	expected=$?
 	echo -n -e "$1" | ./minishell >out 2>&-
 	actual=$?
