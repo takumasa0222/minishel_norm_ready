@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/04 02:04:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 22:00:10 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # include <fcntl.h>
 # include <string.h>
 # include "map.h"
-
 
 typedef struct s_context {
 	pid_t	pids[5000];

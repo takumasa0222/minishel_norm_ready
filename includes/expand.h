@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 01:57:53 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/04 22:28:56 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define DOLLAR '$'
 # define ASTERISK '*'
 # define UNDER_SCORE '_'
+# define QUESTION_MARK "?"
 # include "./parser.h"
 # include "./lexer.h"
 # include "./map.h"
