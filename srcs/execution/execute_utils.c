@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 22:02:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/05 14:03:37 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	wait_children_status(t_context *ctx)
 		ctx->last_status = WTERMSIG(c_status) + 128;
 	else if (WIFEXITED(c_status))
 		ctx->last_status = WEXITSTATUS(c_status);
-	printf("DEBUG: wait children status: last_status: %d\n", ctx->last_status);
 	return (ctx->last_status);
 }
 /*

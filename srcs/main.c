@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/04 23:22:01 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/05 15:05:16 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,21 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
 	rl_outstream = stderr;
-	rl_event_hook = initialize_rl_event_hook;
+	rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
-	set_idle_handler();
 	if (!ctx->env)
 		d_throw_error("main", "init_env is failed");
 	while (1)
 	{
-		// signal(SIGINT, handler);
+		set_idle_sig_handlers();
 		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
+		if (g_sig != 0)
+		{
+			ctx->last_status = g_sig + 128;
+			g_sig = 0;
+		}
 		if (*line)
 		{
 			add_history(line);
@@ -54,6 +58,7 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		free(line);
 		line = NULL;
+		// printf("DEBUG last_status: %d\n", ctx->last_status);
 	}
 	return (ctx->last_status);
 }
@@ -63,7 +68,6 @@ void	start_exec(char *line, t_context *ctx)
 	t_token		*token_list;
 	t_node		*ast_node;
 
-	printf("DEBUG: start_exec\n");
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
 	clear_ctx(ctx);
@@ -71,7 +75,7 @@ void	start_exec(char *line, t_context *ctx)
 	if (ctx->cnt)
 	{
 		wait_children_status(ctx);
-		set_idle_handler();
+		check_core_dump(ctx->last_status);
 	}
 	free_token_list(token_list);
 	free_ast(&ast_node);

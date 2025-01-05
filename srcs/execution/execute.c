@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 23:17:39 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/05 15:12:10 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 		{
 			ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
 			return (ctx->last_status);
-			// exit (ctx->last_status);
 		}
 		return (EXIT_SUCCESS);
 	}
@@ -106,29 +105,25 @@ int	exec_cmd(t_node *node, t_context *ctx)
 
 int	exec_cmd_handler(t_node *node, t_context *ctx)
 {
-	printf("DEBUG: exec_cmd_handler\n");
 	if (!ctx->is_exec_in_child_ps && is_builtin(node->cmds[0]))
 		return (exec_cmd(node, ctx));
 	else
 	{
 		ctx->pids[ctx->cnt] = fork();
 		ctx->cnt += 1;
-		ignore_sig(SIGINT); // while child runs, ignore SIGINT
-		// ignore_sig(SIGQUIT);
 		if (ctx->pids[ctx->cnt -1] == 0)
 		{
-			set_exec_child_handler(); // SIGINT=SIG_DFL, SIGQUIT=SIG_DFL
+			// set_exec_child_handler();
+			set_child_sig_handlers();
 			setup_child_process_fd(ctx);
 			exec_cmd(node, ctx);
-			printf("DEBUG: exec_cmd_handler: child: ctx->last_status: %d\n", ctx->last_status);
 		}
 		else if (ctx->pids[ctx->cnt -1] == -1)
 			d_throw_error("exec_cmd_handler", "fork is failed");
 		else
 		{
+			set_parent_sig_handlers();
 			reset_parent_process_fd(ctx);
-			printf("DEBUG: exec_cmd_handler: ctx->last_status: %d\n", ctx->last_status);
-			set_idle_handler();
 		}
 	}
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:49:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 23:07:19 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/05 15:06:15 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,19 @@
 # define SIGNALS_H
 # define _POSIX_C_SOURCE 200809L
 # include <signal.h>
+#include <stdbool.h>
+#include <sys/wait.h>
 
 // signal
 typedef struct sigaction		t_sig;
 extern volatile sig_atomic_t	g_sig;
 
-void	set_idle_handler(void);
-void	handler(int signum);
-int		check_state(void);
-void	ignore_sig(int signum);
-void	setup_sigint(void);
+void	set_idle_sig_handlers(void);
+void	set_parent_sig_handlers(void);
+void	set_child_sig_handlers(void);
 
-// signal_child.c
-void	set_exec_child_handler(void);
-
-int	    initialize_rl_event_hook(void);
+bool	is_interactive_mode(void);
+int	    sigint_event_hook(void);
+void	check_core_dump(int status);
 
 #endif

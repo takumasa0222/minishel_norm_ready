@@ -6,66 +6,67 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:41:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/04 23:03:54 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/05 15:41:01 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/signals.h"
 #include "../../includes/utils.h"
-#include <sys/time.h>
+#include <sys/wait.h>
 
 volatile sig_atomic_t	g_sig = 0;
 
-void 	idle_handler(int signum)
+void	set_global_sig_variable(int signum)
 {
-	(void)signum;
-	// static int count = 0;
-	// struct timeval tv;
-	// gettimeofday(&tv, NULL);
-	// fprintf(stderr,
-    //     "DEBUG: idle_handler called with signum=%d count=%d time=%ld.%06ld\n",
-    //     signum, count, (long)tv.tv_sec, (long)tv.tv_usec);
-	g_sig = SIGINT;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	rl_done = 1;
+	g_sig = signum;
 }
 
-void	set_idle_handler(void)
+// Sets the handlers for the shell process during input
+void	set_idle_sig_handlers(void)
 {
-	t_sig 		sa;
-
-	sa.sa_handler = idle_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGINT, set_global_sig_variable);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void	ignore_sig(int signum)
+// Sets the handlers for the parent process during command execution
+void	set_parent_sig_handlers(void)
 {
-	t_sig	sa;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
 
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sa.sa_handler = SIG_IGN;
-	if (sigaction(signum, &sa, NULL) < 0)
-		d_throw_error("ignore_sig", "sigaction failed");
+/*
+Sets the handlers for the child process during command execution.
+SIGINT and SIGQUIT are set to their default behavior 
+so that the child process can be interrupted.
+	Default behavior of SIGINT is to terminate the process.
+	Default behavior of SIGQUIT is to terminate the process 
+	and generate a core dump.
+*/
+void	set_child_sig_handlers(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+void	check_core_dump(int status)
+{
+	int	sig;
+
+	sig = WTERMSIG(status);
+	if (WIFSIGNALED(status))
+	{
+		if (sig == SIGQUIT)
+		{
+			ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+		}
+		else if (sig == SIGINT)
+		{
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+	}
 }
 /*
-sig = 0 means no signal is received
-SIGINT cancel the current line and update the state of readline
-	rl_on_new_line() moves the cursor to the beginning of the next line
-	rl_replace_line("", 0) clears the line
-	rl_redisplay() displays the prompt
-rl_done: set to 1 so that next readline() will return NULL
-	and finish the loop
-rl_event_hook requires an int return value
+WIFSIGNALED(status) && (status & 0x80) does NOT work
+I don't know why...
 */
-
-int	initialize_rl_event_hook(void)
-{
-	return 0;
-}
