@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/05 15:12:10 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/06 04:23:08 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,19 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 */
 int	exec_cmd(t_node *node, t_context *ctx)
 {
+	int	ret;
 	//signal();
 	expand_handler(node, ctx);
 	//redirect();
 	char	*cmd_path;
 
 	if (is_builtin(node->cmds[0]))
-		return (exec_builtin(node->cmds[0], node->cmds, ctx));
+	{
+		ret = exec_builtin(node->cmds[0], node->cmds, ctx);
+		if (ctx->is_exec_in_child_ps)
+			exit(ret);
+		return (ret);
+	}
 	else
 	{
 		cmd_path = resolve_executable_path(node, ctx->env);
