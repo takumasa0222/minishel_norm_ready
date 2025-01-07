@@ -11,6 +11,7 @@
 		"minishell.h": "c",
 		"execute.h": "c",
 		"expand.h": "c",
-		"utils.h": "c"
+		"utils.h": "c",
+		"unistd.h": "c"
 	},
 }

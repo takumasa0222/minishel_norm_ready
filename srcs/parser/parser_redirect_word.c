@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/01 13:07:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/07 01:41:50 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,21 @@ size_t	count_nodes(t_token **token_list, t_node_kind kind)
 
 	count = 0;
 	temp = *token_list;
-	while (compare_tk(kind, &temp))
+	if (kind == ND_REDIRECTS)
 	{
-		count++;
-		temp = temp->next;
+		while (compare_tk(kind, &temp) || compare_tk(ND_CMD, &temp))
+		{
+			count++;
+			temp = temp->next;
+		}
+	}
+	else
+	{
+		while (compare_tk(kind, &temp))
+		{
+			count++;
+			temp = temp->next;
+		}
 	}
 	return (count);
 }

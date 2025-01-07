@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/03 18:58:10 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/08 00:53:57 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,9 @@ srcs/execution/execute_fd_controller.c \
 srcs/execution/execute_logical_operator.c \
 srcs/execution/execute_utils.c \
 srcs/execution/execute.c \
-srcs/execution/execute_prep.c
+srcs/execution/execute_prep.c \
+srcs/heredoc/heredoc.c \
+srcs/redirect/redirect.c
 
 # srcs/lexer/lexer_helper.c \
 # srcs/lexer/lexer_token_checker.c \

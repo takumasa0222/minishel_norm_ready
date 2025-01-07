@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/04 03:11:28 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/08 01:29:19 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "../includes/map.h"
 #include "../includes/environment.h"
 #include "../includes/signals.h"
+#include "../includes/heredoc.h"
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -64,6 +65,7 @@ void	start_exec(char *line, t_context *ctx)
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
 	clear_ctx(ctx);
+	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
 	if (ctx->cnt)
 		wait_children_status(ctx);
@@ -84,17 +86,19 @@ t_context	*init_ctx(void)
 	ret->cnt = 0;
 	ret->is_exec_in_child_ps = false;
 	ret->last_status = 0;
+	// ret->stored_stdin = dup(STDIN_FILENO);
+	// ret->stored_stdout = dup(STDOUT_FILENO);
 	return (ret);
 }
 
-void    clear_ctx(t_context *ctx)
+void	clear_ctx(t_context *ctx)
 {
-    if (!ctx)
-        d_throw_error("clear_ctx", "ctx is null");
-    ctx->in_pipe_fd = -1;
-    ctx->out_pipe_fd = -1;
-    ctx->pre_in_pipe_fd = -1;
-    ctx->cnt = 0;
-    ctx->is_exec_in_child_ps = false;
-    ctx->last_status = 0;
+	if (!ctx)
+		d_throw_error("clear_ctx", "ctx is null");
+	ctx->in_pipe_fd = -1;
+	ctx->out_pipe_fd = -1;
+	ctx->pre_in_pipe_fd = -1;
+	ctx->cnt = 0;
+	ctx->is_exec_in_child_ps = false;
+	ctx->last_status = 0;
 }

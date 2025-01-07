@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/04 02:04:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/08 01:13:08 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_context {
 	int		cnt;
 	bool	is_exec_in_child_ps;
 	int		last_status;
+	int		stored_stdin;
+	int		stored_stdout;
 	t_map	*env;
 }	t_context;
 
