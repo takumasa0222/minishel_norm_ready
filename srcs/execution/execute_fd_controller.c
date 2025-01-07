@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_fd_controller.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/15 03:01:29 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/05 17:47:21 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 //if pre_in_pipe_fd is exist close
 void	reset_parent_process_fd(t_context *ctx)
 {
+	printf("DEBUG: reset_parent_process_fd called\n");
 	if (ctx->pre_in_pipe_fd != -1 && ctx->pre_in_pipe_fd != STDIN_FILENO)
 	{
 		if (close(ctx->pre_in_pipe_fd) == -1)
