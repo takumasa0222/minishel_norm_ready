@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/06 04:38:36 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/07 19:47:53 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
 	rl_outstream = stderr;
-	// rl_event_hook = sigint_event_hook;
+	// if (isatty(STDIN_FILENO))
+	// 	rl_event_hook = sigint_event_hook;
+	
 	ctx->env = init_env(envp);
 	if (!ctx->env)
 		d_throw_error("main", "init_env is failed");
