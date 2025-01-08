@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/08 12:01:00 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/08 22:41:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,28 @@ size_t	count_nodes_cmd_rd(t_token **tk_list, size_t *cmd_cnt, size_t *rd_cnt)
 t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
 {
 	t_node	*ret;
-	
-	if (cmd)
-		ret =create_node(ND_CMD);
-	if (!ret)
-		ret = create_node(RD)
+	size_t	i;
+	size_t	j;
+
+	node->left = create_node(ND_REDIRECTS);
+	node->cmds = xmalloc((cmd + 1) * sizeof(char *));
+	node->left->redirects = xmalloc((rd + 1) * sizeof(char *));
+	i = 0;
+	j = 0;
+	while (compare_tk(ND_REDIRECTS, t_l) || compare_tk(ND_CMD, t_l))
+	{
+		if (compare_tk(ND_REDIRECTS, t_l))
+		{
+			node->left->redirects[j] = ft_strdup()
+			*t_l = (*t_l)->next;
+			if (!compare_tk(ND_CMD, t_l))
+				d_throw_error("count_nodes_for_redirect", "invalid syntax");
+			
+		}
+		else if (compare_tk(ND_CMD, t_l))
+			command_node_cnt++;
+		temp = temp->next;
+	}
 }
 
 // size_t	count_nodes_rnode_redirect(t_token **token_list)
