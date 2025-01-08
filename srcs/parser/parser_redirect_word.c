@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/01 13:07:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/08 12:01:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,80 @@ size_t	count_nodes(t_token **token_list, t_node_kind kind)
 	}
 	return (count);
 }
+
+//<Redirect> <file_name> ARG1 ARG2 ... pattern could be possible.
+//e.g.
+// cat < a Makefile Readme < b 
+//expected count node: 4
+// cat < a < b < c Makefile <d
+//expected count node: 8
+
+size_t	count_nodes_cmd_rd(t_token **tk_list, size_t *cmd_cnt, size_t *rd_cnt)
+{
+	size_t	redirect_node_cnt;
+	size_t	command_node_cnt;
+	t_token	*temp;
+
+	redirect_node_cnt = 0;
+	command_node_cnt = 0;
+	temp = *tk_list;
+	while (compare_tk(ND_REDIRECTS, &temp) || compare_tk(ND_CMD, &temp))
+	{
+		if (compare_tk(ND_REDIRECTS, &temp))
+		{
+			temp = temp->next;
+			if (!compare_tk(ND_CMD, &temp))
+				d_throw_error("count_nodes_for_redirect", "invalid syntax");
+			redirect_node_cnt = redirect_node_cnt + 2;
+		}
+		else if (compare_tk(ND_CMD, &temp))
+			command_node_cnt++;
+		temp = temp->next;
+	}
+	if (rd_cnt)
+		*rd_cnt = redirect_node_cnt;
+	if (cmd_cnt)
+		*cmd_cnt = command_node_cnt;
+	return (redirect_node_cnt + command_node_cnt);
+}
+
+t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
+{
+	t_node	*ret;
+	
+	if (cmd)
+		ret =create_node(ND_CMD);
+	if (!ret)
+		ret = create_node(RD)
+}
+
+// size_t	count_nodes_rnode_redirect(t_token **token_list)
+// {
+// 	size_t	redirect_node_cnt;
+// 	t_token	*temp;
+// 	size_t	total_cnt;
+
+// 	redirect_node_cnt = 0;
+// 	temp = *token_list;
+// 	total_cnt = 0;
+// 	while (compare_tk(ND_REDIRECTS, &temp) || compare_tk(ND_CMD, &temp))
+// 	{
+// 		if (compare_tk(ND_REDIRECTS, &temp))
+// 		{
+// 			redirect_node_cnt++;
+// 			total_cnt++;
+// 			temp = temp->next;
+// 			if (!compare_tk(ND_CMD, &temp))
+// 				d_throw_error("count_nodes_for_redirect", "invalid syntax");
+// 			redirect_node_cnt++;
+// 		}
+// 		temp = temp->next;
+// 		total_cnt++;
+// 	}
+// 	if (total_ret)
+// 		*total_ret = total_cnt;
+// 	return (redirect_node_cnt);
+// }
 
 t_node	*parse_redirects(t_token **token_list)
 {
@@ -83,10 +157,12 @@ char	**parse_redirect_arry(t_token **token_list)
 	char	**ret;
 	int		i;
 	size_t	rd_cnt;
+	size_t	total_cnt;
 
 	ret = NULL;
 	i = 0;
-	rd_cnt = count_nodes(token_list, ND_REDIRECTS);
+	total_cnt = 0;
+	rd_cnt = count_nodes_for_redirect(token_list, &total_cnt);
 	if (!rd_cnt)
 		return (NULL);
 	ret = xmalloc((rd_cnt + 1) * sizeof(char *));
@@ -99,4 +175,48 @@ char	**parse_redirect_arry(t_token **token_list)
 	}
 	ret[i] = NULL;
 	return (ret);
+}
+
+t_node	*parse_redirects_rnode(t_token **token_list, t_node *cmd_node)
+{
+	t_node	*ret;
+	size_t	rd_cnt;
+	size_t	total_cnt;
+
+	ret = NULL;
+	if (!compare_tk(ND_REDIRECTS, token_list))
+		return (NULL);
+	total_cnt = 0;
+	rd_cnt = count_nodes_rnode_redirect(token_list, &total_cnt);
+	if (rd_cnt == total_cnt)
+		return (parse_redirects(token_list));
+	ret = create_node(ND_REDIRECTS);
+	ret->redirects = parse_redirect_rnode_arry(token_list, word_lst);
+}
+
+char	**parse_redirect_rnode_arry(t_token **tk_list, char ***word_lst)
+{
+	char	**ret;
+	int		i;
+	int		j;
+	size_t	rd_cnt;
+
+	i = 0;
+	j = 0;
+	rd_cnt = count_nodes_rnode_redirect(tk_list, NULL);
+	ret = xmalloc((rd_cnt + 1) * sizeof(char *));
+	while (*tk_list && \
+	(compare_tk(ND_REDIRECTS, tk_list) || compare_tk(ND_CMD, tk_list)))
+	{
+		if (compare_tk(ND_REDIRECTS, tk_list))
+		{
+			ret[i++] = parse_single_redirect(tk_list);
+			if (!*tk_list || (*tk_list && !compare_tk(ND_CMD, tk_list)))
+				handle_redirect_error(ret, i);
+			ret[i++] = parse_single_redirect(tk_list);
+		}
+		else
+			*word_lst[j++] = parse_single_redirect(tk_list);
+	}	
+	return (ret[i] = NULL,*word_lst[j] = NULL, ret);
 }
