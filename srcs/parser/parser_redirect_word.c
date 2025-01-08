@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/08 23:30:12 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/09 02:31:29 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,26 @@ size_t	count_nodes(t_token **token_list, t_node_kind kind)
 		count++;
 		temp = temp->next;
 	}
+	return (count);
+}
+
+size_t	count_nodes_for_rd(t_token **token_list)
+{
+	size_t	count;
+	t_token	*temp;
+
+	count = 0;
+	temp = *token_list;
+	while (compare_tk(ND_REDIRECTS, &temp))
+	{
+		temp = temp->next;
+		if (!compare_tk(ND_CMD, &temp))
+			d_throw_error("count_nodes_for_redirect", "invalid syntax");
+		count = count + 2;
+		temp = temp->next;
+	}
+	if (!count && count % 2)
+		d_throw_error("count_nodes_for_redirect", "unexpected result");
 	return (count);
 }
 
@@ -68,7 +88,6 @@ size_t	count_nodes_cmd_rd(t_token **tk_list, size_t *cmd_cnt, size_t *rd_cnt)
 
 t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
 {
-	t_node	*ret;
 	size_t	i;
 	size_t	j;
 
@@ -85,11 +104,15 @@ t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
 			*t_l = (*t_l)->next;
 			if (!compare_tk(ND_CMD, t_l))
 				d_throw_error("count_nodes_for_redirect", "invalid syntax");
+			node->left->redirects[j++] = ft_strdup((*t_l)->word);
 		}
 		else if (compare_tk(ND_CMD, t_l))
-			command_node_cnt++;
-		temp = temp->next;
+			node->cmds[i++] = ft_strdup((*t_l)->word);
+		*t_l = (*t_l)->next;
 	}
+	node->left->redirects[j] = NULL;
+	node->cmds[i] = NULL;
+	return (node);
 }
 
 // size_t	count_nodes_rnode_redirect(t_token **token_list)
@@ -173,12 +196,10 @@ char	**parse_redirect_arry(t_token **token_list)
 	char	**ret;
 	int		i;
 	size_t	rd_cnt;
-	size_t	total_cnt;
 
 	ret = NULL;
 	i = 0;
-	total_cnt = 0;
-	rd_cnt = count_nodes_for_redirect(token_list, &total_cnt);
+	rd_cnt = count_nodes_for_rd(token_list);
 	if (!rd_cnt)
 		return (NULL);
 	ret = xmalloc((rd_cnt + 1) * sizeof(char *));
@@ -193,46 +214,46 @@ char	**parse_redirect_arry(t_token **token_list)
 	return (ret);
 }
 
-t_node	*parse_redirects_rnode(t_token **token_list, t_node *cmd_node)
-{
-	t_node	*ret;
-	size_t	rd_cnt;
-	size_t	total_cnt;
+// t_node	*parse_redirects_rnode(t_token **token_list, t_node *cmd_node)
+// {
+// 	t_node	*ret;
+// 	size_t	rd_cnt;
+// 	size_t	total_cnt;
 
-	ret = NULL;
-	if (!compare_tk(ND_REDIRECTS, token_list))
-		return (NULL);
-	total_cnt = 0;
-	rd_cnt = count_nodes_rnode_redirect(token_list, &total_cnt);
-	if (rd_cnt == total_cnt)
-		return (parse_redirects(token_list));
-	ret = create_node(ND_REDIRECTS);
-	ret->redirects = parse_redirect_rnode_arry(token_list, word_lst);
-}
+// 	ret = NULL;
+// 	if (!compare_tk(ND_REDIRECTS, token_list))
+// 		return (NULL);
+// 	total_cnt = 0;
+// 	rd_cnt = count_nodes_rnode_redirect(token_list, &total_cnt);
+// 	if (rd_cnt == total_cnt)
+// 		return (parse_redirects(token_list));
+// 	ret = create_node(ND_REDIRECTS);
+// 	ret->redirects = parse_redirect_rnode_arry(token_list, word_lst);
+// }
 
-char	**parse_redirect_rnode_arry(t_token **tk_list, char ***word_lst)
-{
-	char	**ret;
-	int		i;
-	int		j;
-	size_t	rd_cnt;
+// char	**parse_redirect_rnode_arry(t_token **tk_list, char ***word_lst)
+// {
+// 	char	**ret;
+// 	int		i;
+// 	int		j;
+// 	size_t	rd_cnt;
 
-	i = 0;
-	j = 0;
-	rd_cnt = count_nodes_rnode_redirect(tk_list, NULL);
-	ret = xmalloc((rd_cnt + 1) * sizeof(char *));
-	while (*tk_list && \
-	(compare_tk(ND_REDIRECTS, tk_list) || compare_tk(ND_CMD, tk_list)))
-	{
-		if (compare_tk(ND_REDIRECTS, tk_list))
-		{
-			ret[i++] = parse_single_redirect(tk_list);
-			if (!*tk_list || (*tk_list && !compare_tk(ND_CMD, tk_list)))
-				handle_redirect_error(ret, i);
-			ret[i++] = parse_single_redirect(tk_list);
-		}
-		else
-			*word_lst[j++] = parse_single_redirect(tk_list);
-	}	
-	return (ret[i] = NULL,*word_lst[j] = NULL, ret);
-}
+// 	i = 0;
+// 	j = 0;
+// 	rd_cnt = count_nodes_rnode_redirect(tk_list, NULL);
+// 	ret = xmalloc((rd_cnt + 1) * sizeof(char *));
+// 	while (*tk_list && \
+// 	(compare_tk(ND_REDIRECTS, tk_list) || compare_tk(ND_CMD, tk_list)))
+// 	{
+// 		if (compare_tk(ND_REDIRECTS, tk_list))
+// 		{
+// 			ret[i++] = parse_single_redirect(tk_list);
+// 			if (!*tk_list || (*tk_list && !compare_tk(ND_CMD, tk_list)))
+// 				handle_redirect_error(ret, i);
+// 			ret[i++] = parse_single_redirect(tk_list);
+// 		}
+// 		else
+// 			*word_lst[j++] = parse_single_redirect(tk_list);
+// 	}	
+// 	return (ret[i] = NULL,*word_lst[j] = NULL, ret);
+// }

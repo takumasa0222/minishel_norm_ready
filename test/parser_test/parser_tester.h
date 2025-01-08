@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tester.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:18:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/16 04:11:59 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/09 02:10:06 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ t_token	*create_dummy_token_list(char **word_list, t_node_kind *kind_list, int l
 char	*node_kind_conv(t_node_kind node_kind);
 t_token	*create_tokens(char *word, t_node_kind kind);
 void	print_tree(t_node *node, int depth, char *relation);
+void	run_test_parser();
 #endif

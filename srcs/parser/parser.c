@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/08 11:15:46 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/09 01:29:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_node	*simple_cmd(t_token **token_list)
 	else if (rd_cnt && cmd_cnt)
 	{
 		node = create_node(ND_CMD);
-		parse_cmd_redirct_node(token_list, node, cmd_cnt, rd_cnt);
+		parse_cmd_rd_node(token_list, node, cmd_cnt, rd_cnt);
 	}
 	return (node);
 }
