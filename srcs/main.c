@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/08 22:28:12 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/08 22:31:50 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
 	rl_outstream = stderr;
-	// if (isatty(STDIN_FILENO))
-	// 	rl_event_hook = sigint_event_hook;
-	
+	if (isatty(STDIN_FILENO))
+		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
 	if (!ctx->env)
 		d_throw_error("main", "init_env is failed");
