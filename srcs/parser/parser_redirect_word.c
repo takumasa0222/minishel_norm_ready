@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/08 22:41:12 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/08 23:30:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,10 @@ t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
 	{
 		if (compare_tk(ND_REDIRECTS, t_l))
 		{
-			node->left->redirects[j] = ft_strdup()
+			node->left->redirects[j++] = ft_strdup((*t_l)->word);
 			*t_l = (*t_l)->next;
 			if (!compare_tk(ND_CMD, t_l))
 				d_throw_error("count_nodes_for_redirect", "invalid syntax");
-			
 		}
 		else if (compare_tk(ND_CMD, t_l))
 			command_node_cnt++;
