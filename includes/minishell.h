@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/04 14:50:58 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/08 22:29:08 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # include <fcntl.h>
 # include <string.h>
 # include "map.h"
-
 
 typedef struct s_context {
 	pid_t	pids[5000];

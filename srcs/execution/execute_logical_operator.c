@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:56:20 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 02:38:32 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/05 00:57:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	exec_or_node(t_node *node, t_context *ctx)
 {
 	int	status;
 
-	ctx->is_exec_in_child_ps = false;
 	status = 0;
 	status = exec_handler(node->left, ctx);
 	if (ctx->cnt)
@@ -40,7 +39,6 @@ int	exec_and_node(t_node *node, t_context *ctx)
 {
 	int	status;
 
-	ctx->is_exec_in_child_ps = false;
 	status = 0;
 	status = exec_handler(node->left, ctx);
 	if (ctx->cnt)
@@ -48,6 +46,8 @@ int	exec_and_node(t_node *node, t_context *ctx)
 	if (ctx->last_status || status)
 	{
 		clear_pid_status(ctx);
+		if (ctx->last_status)
+			return (ctx->last_status);
 		return (EXIT_FAILURE);
 	}
 	else
@@ -65,5 +65,6 @@ int	exec_round_brackets(t_node *node, t_context *ctx)
 	if (ctx->cnt)
 		wait_children_status(ctx);
 	clear_pid_status(ctx);
+	ctx->is_exec_in_child_ps = false;
 	return (ctx->last_status);
 }

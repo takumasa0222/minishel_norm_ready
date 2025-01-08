@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/07 19:47:53 by ssoeno           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/08 22:28:12 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/minishell.h"
 #include "../includes/lexer.h"
@@ -108,5 +109,5 @@ void    clear_ctx(t_context *ctx)
     ctx->pre_in_pipe_fd = -1;
     ctx->cnt = 0;
     ctx->is_exec_in_child_ps = false;
-    ctx->last_status = 0;
+    // ctx->last_status = 0;
 }
