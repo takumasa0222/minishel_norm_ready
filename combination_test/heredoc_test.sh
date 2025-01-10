@@ -61,7 +61,7 @@ assert "cat << eof
 'a
 eof
 "
-
+#below cases are failed and need to be fixed.
 assert "cat << eof
 $'
 eof
