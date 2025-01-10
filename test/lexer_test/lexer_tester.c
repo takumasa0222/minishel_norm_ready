@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/09 02:49:25 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/10 21:06:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,9 @@ void	free_token_list(t_token **token_list)
 {
 	t_token	*temp;
 
-	while (token_list)
+	if (!token_list || !*token_list)
+		return;
+	while (*token_list)
 	{
 		temp = (*token_list)->next;
 		if ((*token_list)->word)

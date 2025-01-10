@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/09 02:31:29 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/10 20:23:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ size_t	count_nodes_for_rd(t_token **token_list)
 
 	count = 0;
 	temp = *token_list;
+	if (!temp)
+		d_throw_error("count_nodes_for_redirect", "unexpected result");
 	while (compare_tk(ND_REDIRECTS, &temp))
 	{
 		temp = temp->next;
@@ -45,17 +47,10 @@ size_t	count_nodes_for_rd(t_token **token_list)
 		count = count + 2;
 		temp = temp->next;
 	}
-	if (!count && count % 2)
+	if (!count || count % 2)
 		d_throw_error("count_nodes_for_redirect", "unexpected result");
 	return (count);
 }
-
-//<Redirect> <file_name> ARG1 ARG2 ... pattern could be possible.
-//e.g.
-// cat < a Makefile Readme < b 
-//expected count node: 4
-// cat < a < b < c Makefile <d
-//expected count node: 8
 
 size_t	count_nodes_cmd_rd(t_token **tk_list, size_t *cmd_cnt, size_t *rd_cnt)
 {
@@ -114,34 +109,6 @@ t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
 	node->cmds[i] = NULL;
 	return (node);
 }
-
-// size_t	count_nodes_rnode_redirect(t_token **token_list)
-// {
-// 	size_t	redirect_node_cnt;
-// 	t_token	*temp;
-// 	size_t	total_cnt;
-
-// 	redirect_node_cnt = 0;
-// 	temp = *token_list;
-// 	total_cnt = 0;
-// 	while (compare_tk(ND_REDIRECTS, &temp) || compare_tk(ND_CMD, &temp))
-// 	{
-// 		if (compare_tk(ND_REDIRECTS, &temp))
-// 		{
-// 			redirect_node_cnt++;
-// 			total_cnt++;
-// 			temp = temp->next;
-// 			if (!compare_tk(ND_CMD, &temp))
-// 				d_throw_error("count_nodes_for_redirect", "invalid syntax");
-// 			redirect_node_cnt++;
-// 		}
-// 		temp = temp->next;
-// 		total_cnt++;
-// 	}
-// 	if (total_ret)
-// 		*total_ret = total_cnt;
-// 	return (redirect_node_cnt);
-// }
 
 t_node	*parse_redirects(t_token **token_list)
 {
