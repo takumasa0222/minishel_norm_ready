@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tester.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 20:51:43 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/10 21:06:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,19 +119,22 @@ bool	match(t_token *token, char *str)
 	return (true);
 }
 
-void	free_token_list(t_token	*token)
+void	free_token_list(t_token **token_list)
 {
 	t_token	*temp;
 
-
-	if (!token)
-		return ;
-	while (token)
+	if (!token_list || !*token_list)
+		return;
+	while (*token_list)
 	{
-		temp = token->next;
-		free(token);
-		token = NULL;
-		token = temp;
+		temp = (*token_list)->next;
+		if ((*token_list)->word)
+		{
+			free((*token_list)->word);
+			(*token_list)->word = NULL;
+		}
+		free((*token_list));
+		(*token_list) = temp;
 	}
 }
 void	free_words(char	**word)
