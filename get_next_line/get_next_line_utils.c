@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.h                                          :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/06 13:31:55 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/10 22:20:38 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/05/24 22:06:47 by tamatsuu          #+#    #+#             */
+/*   Updated: 2025/01/10 23:27:27 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEREDOC_H
-# define HEREDOC_H
-# include "./minishell.h"
-# include "./parser.h"
+#include "get_next_line.h"
 
-int		input_heredoc_content(char *eof);
-void	heredoc_handler(t_node *node);
-void	call_heredoc(t_node *node);
-bool	is_heredoc_end(char **redirects);
+char	*ft_strndup(char *s, size_t len)
+{
+	char	*ret;
+	size_t	i;
 
-#endif
+	if (!s)
+		return (NULL);
+	ret = malloc(sizeof(char) * (len + 1));
+	if (!ret)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		ret[i] = s[i];
+		i++;
+	}
+	ret[i] = '\0';
+	return (ret);
+}

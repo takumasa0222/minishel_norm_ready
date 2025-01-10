@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/08 00:53:57 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/10 23:27:16 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,11 +78,10 @@ srcs/execution/execute_utils.c \
 srcs/execution/execute.c \
 srcs/execution/execute_prep.c \
 srcs/heredoc/heredoc.c \
-srcs/redirect/redirect.c
+srcs/redirect/redirect.c \
+get_next_line/get_next_line.c \
+get_next_line/get_next_line_utils.c 
 
-# srcs/lexer/lexer_helper.c \
-# srcs/lexer/lexer_token_checker.c \
-# srcs/lexer/lexer.c \
 
 OBJS = $(SRCS:.c=.o)
 

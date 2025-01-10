@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/08 01:31:24 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:20:16 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,40 +73,27 @@ void	call_heredoc(t_node *node)
 		}
 		i++;
 	}
-	temp_fd_arry[j] = 0;
-	node->fd_num = temp_fd_arry[--j];
-	close_fd_arry(&temp_fd_arry, j);
+	if (j > 0 && is_heredoc_end(node->redirects))
+		node->fd_num = temp_fd_arry[--j];
 	free(temp_fd_arry);
 }
 
-void	close_fd_arry(int **arry, size_t end)
+bool	is_heredoc_end(char **redirects)
 {
 	size_t	i;
+	bool	ret;
 
-	if (!arry || !*arry || !end)
-		return ;
 	i = 0;
-	while (i < end)
+	ret = false;
+	if (!redirects || !redirects[i])
+		d_throw_error("retrieve_last_input", "redirects is null");
+	while (redirects[i])
 	{
-		close(*arry[i]);
+		if (!ft_strcmp(redirects[i], "<"))
+			ret = false;
+		else if (!ft_strcmp(redirects[i], "<<"))
+			ret = true;
 		i++;
 	}
+	return (ret);
 }
-
-	// if (j)
-	// {
-	// 	int f = 0;
-	// 	while (j--)
-	// 	{
-	// 		char test[128];
-	// 		int readret = read(fds[f], test, sizeof(test) - 1);
-	// 		printf("readret: %d\n",readret);
-	// 		printf("heredoc_test: %s\n",test);
-	// 		f++;
-	// 	}
-	// }
-
-// close_heredoc()
-// {
-	
-// }

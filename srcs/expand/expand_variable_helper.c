@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 03:08:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 22:50:38 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 02:38:54 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 
 size_t	retrieve_val_in_sq(char **ret, char *str, size_t i)
 {
-	size_t	next_sq_pos;
+	size_t	closing_sq_pos;
 
 	if (!is_s_quote(str[i]) || !ret || !str)
 		d_throw_error("retrieve_val_in_sq", "arg is invalid");
-	next_sq_pos = skip_s_quote(str, i);
-	str_concat_helper(ret, str, i, next_sq_pos - i + 1);
-	if (!is_s_quote(str[next_sq_pos]))
+	closing_sq_pos = skip_s_quote_block(str, i);
+	append_substring(ret, str, i, closing_sq_pos - i + 1);
+	if (!is_s_quote(str[closing_sq_pos]))
 		d_throw_error("retrieve_val_in_sq", "unexpected error");
-	return (next_sq_pos);
+	return (closing_sq_pos);
 }
 
 size_t	retrieve_val_in_dq(char **ret, char *str, size_t i, t_context *ctx)
@@ -38,13 +38,13 @@ size_t	retrieve_val_in_dq(char **ret, char *str, size_t i, t_context *ctx)
 	{
 		if (is_dollar_symbol(str[j]))
 		{
-			str_concat_helper(ret, str, i, j - i);
+			append_substring(ret, str, i, j - i);
 			j = retrieve_var(ret, str, j, ctx);
 			i = j + 1;
 		}
 		j++;
 	}
-	str_concat_helper(ret, str, i, j - i + 1);
+	append_substring(ret, str, i, j - i + 1);
 	if (!is_d_quote(str[j]))
 		d_throw_error("retrieve_val_in_dq", "unexpected error");
 	return (j);
@@ -59,10 +59,10 @@ size_t	retrieve_var(char **ret, char *str, size_t i, t_context *ctx)
 	if (!str)
 		d_throw_error("retrieve_var", "arg is invalid");
 	if (!str[i + 1])
-		return (str_concat_helper(ret, str, i, 1), i);
-	var_name_len = retrieve_var_name_len(str, i + 1);
+		return (append_substring(ret, str, i, 1), i);
+	var_name_len = retrieve_var_name_len(str, i + 1, false);
 	if (!var_name_len)
-		return (str_concat_helper(ret, str, i, 1), i);
+		return (append_substring(ret, str, i, 1), i);
 	tmp = ft_substr(str, i + 1, var_name_len);
 	if (!tmp)
 		d_throw_error("retrieve_var", "substr failed");
@@ -71,22 +71,22 @@ size_t	retrieve_var(char **ret, char *str, size_t i, t_context *ctx)
 	else
 		expanded_val = ft_strdup(map_get(ctx->env, tmp));
 	if (expanded_val)
-		str_concat_helper(ret, expanded_val, 0, ft_strlen(expanded_val));
+		append_substring(ret, expanded_val, 0, ft_strlen(expanded_val));
 	else
-		str_concat_helper(ret, "", 0, 0);
+		append_substring(ret, "", 0, 0);
 	free(tmp);
 	free(expanded_val);
 	return (var_name_len + i);
 }
 
-size_t	retrieve_var_name_len(char *str, size_t i)
+size_t	retrieve_var_name_len(char *str, size_t i, bool is_heredoc)
 {
 	size_t	len;
 
 	len = 0;
 	if (!str)
 		d_throw_error("retrieve_var_name_end", "arg is invalid");
-	if (is_d_quote(str[i]) || is_s_quote(str[i]))
+	if (!is_heredoc && (is_d_quote(str[i]) || is_s_quote(str[i])))
 		return (0);
 	if (!ft_isalpha(str[i]) && str[i] != UNDER_SCORE)
 		return (1);
@@ -95,18 +95,24 @@ size_t	retrieve_var_name_len(char *str, size_t i)
 	return (len);
 }
 
-size_t	retrieve_normal_val(char **ret, char *str, size_t i)
+size_t	retrieve_normal_val(char **ret, char *str, size_t i, bool is_heredoc)
 {
 	size_t	j;
 
 	if (!str)
 		d_throw_error("retrieve_normal_val", "arg is invalid");
 	j = 0;
-	while (str[i + j] && !is_d_quote(str[i + j]) && \
-	!is_s_quote(str[i + j]) && !is_dollar_symbol(str[i + j]))
+	if (is_heredoc)
 	{
+		while (str[i + j] && !is_dollar_symbol(str[i + j]))
+			j++;
+	}
+	else
+	{
+		while (str[i + j] && !is_dollar_symbol(str[i + j]) \
+		&& !is_d_quote(str[i + j]) && !is_s_quote(str[i + j]))
 		j++;
 	}
-	str_concat_helper(ret, str, i, j);
+	append_substring(ret, str, i, j);
 	return (i + j - 1);
 }

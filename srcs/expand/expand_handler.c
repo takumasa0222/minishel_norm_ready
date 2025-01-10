@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 02:41:00 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 00:04:15 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	expand_variable_handler(t_node *node, t_context *ctx)
 		}
 		i++;
 	}
+	if (node->left && node->left->fd_num != -1)
+		node->left->fd_num = expand_heredoc_var(node->left, ctx);
 }
 /*
 Remove quote handler should remove quotation 
