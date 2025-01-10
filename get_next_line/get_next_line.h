@@ -6,11 +6,12 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 22:06:45 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/10 23:00:15 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 03:46:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 # include <unistd.h>
 # include <stdlib.h>
 # ifndef BUFFER_SIZE
