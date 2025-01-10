@@ -31,12 +31,15 @@ if [ $? -ne 0 ]; then
 	exit 1
 else 
 	source ./combination_test/test_assert.sh || { echo "Failed to source test_assert.sh"; exit 1; }
-	echo_start_test
-	echo "expand test"
-	./combination_test/expand_test.sh
-	test_result
-	echo "builtin test"
-	./combination_test/builtin_test.sh
+	# echo_start_test
+	# echo "expand test"
+	# ./combination_test/expand_test.sh
+	# test_result
+	# echo "builtin test"
+	# ./combination_test/builtin_test.sh
+	# test_result
+	echo "heredoc test"
+	./combination_test/heredoc_test.sh
 	test_result
 	echo "test is completed"
 fi

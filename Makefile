@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/10 23:27:16 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/11 03:00:36 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ srcs/parser/parser_cmd_tail.c \
 srcs/parser/parser_redirect_word.c \
 srcs/parser/parser_token_checker.c \
 srcs/parser/parser_node_operator.c \
+srcs/parser/parser_node_counter.c \
 srcs/utils/error.c \
 srcs/utils/free_functions.c \
 srcs/utils/ft_strcmp.c \

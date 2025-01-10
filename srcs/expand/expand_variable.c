@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:58:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 02:38:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 02:55:58 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	expand_heredoc_var(t_node *node, t_context *ctx)
 			write(pipe_fds[1], ret, ft_strlen(ret));
 		else
 			write(pipe_fds[1], line, ft_strlen(line));
-
 		free(line);
 		free(ret);
 		line = NULL;
@@ -99,7 +98,6 @@ char	*expand_var_in_heredoc(char *str, t_context *ctx)
 	}
 	return (ret);
 }
-
 
 size_t	retrieve_var_in_heredoc(char **ret, char *str, size_t i, t_context *ctx)
 {
