@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/11 01:49:22 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 03:31:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,5 @@ void	clear_ctx(t_context *ctx)
 	ctx->pre_in_pipe_fd = -1;
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
-	ctx->last_status = 0;
+    // ctx->last_status = 0;
 }
