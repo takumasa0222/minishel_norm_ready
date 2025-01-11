@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:57 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:54:00 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 12:03:17 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 bool	is_identifier(const char *s)
 {
+	if (!s)
+		return (false);
 	if (!ft_isalpha(*s) && *s != '_')
 		return (false);
 	s++;
@@ -77,6 +79,8 @@ void	map_add_item(t_map *map, const char *name, const char *value)
 	char	*name_copy;
 	char	*value_copy;
 
+	if (!map || !name)
+		d_throw_error("map_add_item", "map or name is NULL");
 	name_copy = ft_strdup(name);
 	if (value == NULL)
 		value_copy = NULL;
