@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 10:32:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:12:55 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 */
 int	exec_cmd(t_node *node, t_context *ctx)
 {
-	int	ret;
 	//signal();
 	//redirect();
 	char	*cmd_path;
