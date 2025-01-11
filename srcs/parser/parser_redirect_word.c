@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/01 13:07:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 03:00:01 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,33 @@
 #include "../../includes/parser.h"
 #include "../../includes/utils.h"
 
-// combine count_word_node and count_rd_node
-size_t	count_nodes(t_token **token_list, t_node_kind kind)
+t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
 {
-	size_t	count;
-	t_token	*temp;
+	size_t	i;
+	size_t	j;
 
-	count = 0;
-	temp = *token_list;
-	while (compare_tk(kind, &temp))
+	node->left = create_node(ND_REDIRECTS);
+	node->cmds = xmalloc((cmd + 1) * sizeof(char *));
+	node->left->redirects = xmalloc((rd + 1) * sizeof(char *));
+	i = 0;
+	j = 0;
+	while (compare_tk(ND_REDIRECTS, t_l) || compare_tk(ND_CMD, t_l))
 	{
-		count++;
-		temp = temp->next;
+		if (compare_tk(ND_REDIRECTS, t_l))
+		{
+			node->left->redirects[j++] = ft_strdup((*t_l)->word);
+			*t_l = (*t_l)->next;
+			if (!compare_tk(ND_CMD, t_l))
+				d_throw_error("count_nodes_for_redirect", "invalid syntax");
+			node->left->redirects[j++] = ft_strdup((*t_l)->word);
+		}
+		else if (compare_tk(ND_CMD, t_l))
+			node->cmds[i++] = ft_strdup((*t_l)->word);
+		*t_l = (*t_l)->next;
 	}
-	return (count);
+	node->left->redirects[j] = NULL;
+	node->cmds[i] = NULL;
+	return (node);
 }
 
 t_node	*parse_redirects(t_token **token_list)
@@ -86,7 +99,7 @@ char	**parse_redirect_arry(t_token **token_list)
 
 	ret = NULL;
 	i = 0;
-	rd_cnt = count_nodes(token_list, ND_REDIRECTS);
+	rd_cnt = count_nodes_for_rd(token_list);
 	if (!rd_cnt)
 		return (NULL);
 	ret = xmalloc((rd_cnt + 1) * sizeof(char *));

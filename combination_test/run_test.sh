@@ -38,6 +38,9 @@ else
 	echo "builtin test"
 	./combination_test/builtin_test.sh
 	test_result
+	echo "heredoc test"
+	./combination_test/heredoc_test.sh
+	test_result
 	echo "test is completed"
 fi
 

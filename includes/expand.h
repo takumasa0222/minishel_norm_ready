@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 22:28:56 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 02:38:54 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,19 @@
 void	expand_handler(t_node *node, t_context *ctx);
 void	expand_variable_handler(t_node *node, t_context *ctx);
 char	*expand_variable(char *str, t_context *ctx);
+int		expand_heredoc_var(t_node *node, t_context *ctx);
 size_t	retrieve_val_in_sq(char **ret, char *str, size_t i);
-size_t	skip_s_quote(char *str, size_t i);
+size_t	skip_s_quote_block(char *str, size_t i);
 bool	is_dollar_symbol(char c);
 size_t	retrieve_val_in_dq(char **ret, char *str, size_t i, t_context *ctx);
-char	*str_concat_helper(char **ret, char *str, size_t i, size_t len);
+char	*append_substring(char **ret, char *str, size_t i, size_t len);
 size_t	retrieve_var(char **ret, char *str, size_t i, t_context *ctx);
-size_t	retrieve_var_name_len(char *str, size_t i);
-size_t	retrieve_normal_val(char **ret, char *str, size_t i);
+size_t	retrieve_var_name_len(char *str, size_t i, bool is_heredoc);
+size_t	retrieve_normal_val(char **ret, char *str, size_t i, bool is_heredoc);
 void	remove_quote_handler(t_node *node);
 char	*remove_quotes(char *str);
 int		move_to_next_quotation_expnd(char *input, int i);
+char	*expand_var_in_heredoc(char *str, t_context *ctx);
+size_t	retrieve_var_in_heredoc(char **ret, char *s, size_t i, t_context *ctx);
 
 #endif

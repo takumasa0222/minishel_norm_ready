@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/06 04:23:08 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 10:32:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "../includes/map.h"
 #include "../includes/environment.h"
 #include "../includes/expand.h"
+#include "../includes/redirect.h"
 
 int	exec_handler(t_node *ast_node, t_context *ctx)
 {
@@ -84,10 +85,12 @@ int	exec_cmd(t_node *node, t_context *ctx)
 {
 	int	ret;
 	//signal();
-	expand_handler(node, ctx);
 	//redirect();
 	char	*cmd_path;
+	int		ret;
 
+	expand_handler(node, ctx);
+	set_redirect_fds(node, ctx);
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = exec_builtin(node->cmds[0], node->cmds, ctx);

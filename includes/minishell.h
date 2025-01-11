@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/08 22:29:08 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 10:34:28 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ typedef struct s_context {
 	int		pre_in_pipe_fd;
 	int		cnt;
 	bool	is_exec_in_child_ps;
+	bool	is_in_round_bracket;
 	int		last_status;
+	int		stored_stdin;
+	int		stored_stdout;
 	t_map	*env;
 }	t_context;
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/05 15:02:15 by ssoeno           ###   ########.fr        #
+#    Updated: 2025/01/11 03:00:36 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ srcs/parser/parser_cmd_tail.c \
 srcs/parser/parser_redirect_word.c \
 srcs/parser/parser_token_checker.c \
 srcs/parser/parser_node_operator.c \
+srcs/parser/parser_node_counter.c \
 srcs/utils/error.c \
 srcs/utils/free_functions.c \
 srcs/utils/ft_strcmp.c \
@@ -76,11 +77,12 @@ srcs/execution/execute_fd_controller.c \
 srcs/execution/execute_logical_operator.c \
 srcs/execution/execute_utils.c \
 srcs/execution/execute.c \
-srcs/execution/execute_prep.c
+srcs/execution/execute_prep.c \
+srcs/heredoc/heredoc.c \
+srcs/redirect/redirect.c \
+get_next_line/get_next_line.c \
+get_next_line/get_next_line_utils.c 
 
-# srcs/lexer/lexer_helper.c \
-# srcs/lexer/lexer_token_checker.c \
-# srcs/lexer/lexer.c \
 
 OBJS = $(SRCS:.c=.o)
 

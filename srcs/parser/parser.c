@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 21:47:02 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/09 01:29:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,28 +76,54 @@ t_node	*parse_cmd_type(t_token **token_list)
 	return (node);
 }
 
+// t_node	*simple_cmd(t_token **token_list)
+// {
+// 	t_node	*node;
+// 	t_node	*tmp;
+
+// 	node = create_node(ND_CMD);
+// 	if (compare_tk(ND_REDIRECTS, token_list))
+// 		node->left = parse_redirects(token_list);
+// 	node->cmds = parse_words(token_list);
+// 	if (!node->cmds && !node->left)
+// 	{
+// 		free_node(node);
+// 		return (NULL);
+// 	}
+// 	else if (!node->cmds && node->left)
+// 	{
+// 		tmp = node->left;
+// 		free(node);
+// 		return (tmp);
+// 	}
+// 	if (compare_tk(ND_REDIRECTS, token_list))
+// 		// node->right = parse_redirects(token_list);
+// 		node->right = parse_redirects_rnode(token_list, node);
+// 	return (node);
+// }
+
 t_node	*simple_cmd(t_token **token_list)
 {
 	t_node	*node;
-	t_node	*tmp;
+	size_t	cmd_cnt;
+	size_t	rd_cnt;
 
-	node = create_node(ND_CMD);
-	if (compare_tk(ND_REDIRECTS, token_list))
-		node->left = parse_redirects(token_list);
-	node->cmds = parse_words(token_list);
-	if (!node->cmds && !node->left)
+	cmd_cnt = 0;
+	rd_cnt = 0;
+	node = NULL;
+	count_nodes_cmd_rd(token_list, &cmd_cnt, &rd_cnt);
+	if (!rd_cnt && cmd_cnt)
 	{
-		free_node(node);
-		return (NULL);
+		node = create_node(ND_CMD);
+		node->cmds = parse_words(token_list);
 	}
-	else if (!node->cmds && node->left)
+	else if (!cmd_cnt && rd_cnt && compare_tk(ND_REDIRECTS, token_list))
+		node = parse_redirects(token_list);
+	else if (rd_cnt && cmd_cnt)
 	{
-		tmp = node->left;
-		free(node);
-		return (tmp);
+		node = create_node(ND_CMD);
+		parse_cmd_rd_node(token_list, node, cmd_cnt, rd_cnt);
 	}
-	if (compare_tk(ND_REDIRECTS, token_list))
-		node->right = parse_redirects(token_list);
 	return (node);
 }
 
