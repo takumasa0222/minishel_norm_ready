@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:49:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/08 00:53:16 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 16:57:26 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@
 # include "./parser.h"
 
 void	set_redirect_fds(t_node *node, t_context *ctx);
+void    restore_std_fds(t_context *ctx);
 
 #endif

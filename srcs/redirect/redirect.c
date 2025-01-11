@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 15:42:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 16:59:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	set_redirect_fds(t_node *node, t_context *ctx)
 	// if (!ctx->is_exec_in_child_ps)
 	// 	store_std_in_out();
 
+	printf("DEBUG set_redirect_fds\n");
 
 	int	i;
 
@@ -77,9 +78,8 @@ void	set_redirect_fds(t_node *node, t_context *ctx)
 		}
 		if (node->fd_num < 0)
 			d_throw_error("set_redirect_fds", "open failed");
-		node->redirects++;
+		i += 2;
 	}
-	return (EXIT_SUCCESS);
 }
 
 
