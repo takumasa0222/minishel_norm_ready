@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/08 21:52:31 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 10:34:59 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,18 +83,19 @@ t_context	*init_ctx(void)
 	ret->pre_in_pipe_fd = -1;
 	ret->cnt = 0;
 	ret->is_exec_in_child_ps = false;
+	ret->is_in_round_bracket = false;
 	ret->last_status = 0;
 	return (ret);
 }
 
-void    clear_ctx(t_context *ctx)
+void	clear_ctx(t_context *ctx)
 {
-    if (!ctx)
-        d_throw_error("clear_ctx", "ctx is null");
-    ctx->in_pipe_fd = -1;
-    ctx->out_pipe_fd = -1;
-    ctx->pre_in_pipe_fd = -1;
-    ctx->cnt = 0;
-    ctx->is_exec_in_child_ps = false;
-    // ctx->last_status = 0;
+	if (!ctx)
+		d_throw_error("clear_ctx", "ctx is null");
+	ctx->in_pipe_fd = -1;
+	ctx->out_pipe_fd = -1;
+	ctx->pre_in_pipe_fd = -1;
+	ctx->cnt = 0;
+	ctx->is_exec_in_child_ps = false;
+	ctx->is_in_round_bracket = false;
 }
