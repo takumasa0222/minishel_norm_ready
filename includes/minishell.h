@@ -44,6 +44,8 @@ typedef struct s_context {
 	bool	is_exec_in_child_ps;
 	bool	is_in_round_bracket;
 	int		last_status;
+	int		stored_stdin;
+	int		stored_stdout;
 	t_map	*env;
 }	t_context;
 

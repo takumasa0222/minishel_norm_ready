@@ -17,6 +17,7 @@
 #include "../includes/map.h"
 #include "../includes/environment.h"
 #include "../includes/expand.h"
+#include "../includes/redirect.h"
 
 int	exec_handler(t_node *ast_node, t_context *ctx)
 {
@@ -88,6 +89,7 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	int		ret;
 
 	expand_handler(node, ctx);
+	set_redirect_fds(node, ctx);
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = exec_builtin(node->cmds[0], node->cmds, ctx);

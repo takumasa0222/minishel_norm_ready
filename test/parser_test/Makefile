@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/09 02:53:30 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/11 03:01:14 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS = \
 ../../srcs/parser/parser_redirect_word.c \
 ../../srcs/parser/parser_token_checker.c \
 ../../srcs/parser/parser_node_operator.c \
+../../srcs/parser/parser_node_counter.c \
 ../../srcs/lexer/lexer_helper.c \
 ../../srcs/lexer/lexer_token_checker.c \
 ../../srcs/lexer/lexer_token_quote_checker.c \
