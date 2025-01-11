@@ -85,6 +85,7 @@ t_context	*init_ctx(void)
 	ret->pre_in_pipe_fd = -1;
 	ret->cnt = 0;
 	ret->is_exec_in_child_ps = false;
+	ret->is_in_round_bracket = false;
 	ret->last_status = 0;
 	// ret->stored_stdin = dup(STDIN_FILENO);
 	// ret->stored_stdout = dup(STDOUT_FILENO);
@@ -100,5 +101,5 @@ void	clear_ctx(t_context *ctx)
 	ctx->pre_in_pipe_fd = -1;
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
-    // ctx->last_status = 0;
+	ctx->is_in_round_bracket = false;
 }

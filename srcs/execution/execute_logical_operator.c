@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:56:20 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/05 00:57:07 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 10:36:37 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	exec_or_node(t_node *node, t_context *ctx)
 	}
 	else
 	{
-		ctx->is_exec_in_child_ps = false;
+		if (!ctx->is_in_round_bracket)
+			ctx->is_exec_in_child_ps = false;
 		clear_pid_status(ctx);
 		return (exec_handler(node->right, ctx));
 	}
@@ -52,7 +53,8 @@ int	exec_and_node(t_node *node, t_context *ctx)
 	}
 	else
 	{
-		ctx->is_exec_in_child_ps = false;
+		if (!ctx->is_in_round_bracket)
+			ctx->is_exec_in_child_ps = false;
 		clear_pid_status(ctx);
 		return (exec_handler(node->right, ctx));
 	}
@@ -61,10 +63,12 @@ int	exec_and_node(t_node *node, t_context *ctx)
 int	exec_round_brackets(t_node *node, t_context *ctx)
 {
 	ctx->is_exec_in_child_ps = true;
+	ctx->is_in_round_bracket = true;
 	ctx->last_status = exec_handler(node->left, ctx);
 	if (ctx->cnt)
 		wait_children_status(ctx);
 	clear_pid_status(ctx);
+	ctx->is_in_round_bracket = false;
 	ctx->is_exec_in_child_ps = false;
 	return (ctx->last_status);
 }
