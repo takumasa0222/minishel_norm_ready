@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 16:58:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 17:19:12 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,11 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	int		ret;
 
 	expand_handler(node, ctx);
-	if (node->redirects)
+	printf("DEBUG exec_cmd: expand done: %s\n", node->cmds[0]);	
+	if (node->left->redirects){
+		printf("DEBUG set_redirect_fds call\n");
 		set_redirect_fds(node, ctx);
+	}
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = exec_builtin(node->cmds[0], node->cmds, ctx);

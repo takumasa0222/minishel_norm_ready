@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/11 03:31:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:17:00 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	start_exec(char *line, t_context *ctx)
 
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
+	// print_ast(ast_node, 0);
 	clear_ctx(ctx);
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
