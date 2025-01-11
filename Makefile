@@ -72,7 +72,7 @@ srcs/map/map_set.c \
 srcs/map/map_size.c \
 srcs/map/map_unset.c \
 srcs/signal/signal.c \
-srcs/signal/signal_child.c \
+srcs/signal/signal_hook.c \
 srcs/execution/execute_fd_controller.c \
 srcs/execution/execute_logical_operator.c \
 srcs/execution/execute_utils.c \

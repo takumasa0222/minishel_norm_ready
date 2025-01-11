@@ -12,6 +12,7 @@
 		"execute.h": "c",
 		"expand.h": "c",
 		"utils.h": "c",
+		"signals.h": "c"
 		"unistd.h": "c"
 	},
 }

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../includes/minishell.h"
 #include "../includes/lexer.h"
 #include "../includes/parser.h"
@@ -30,15 +31,22 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
 	rl_outstream = stderr;
-	setup_signal();
+	if (isatty(STDIN_FILENO))
+		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
 	if (!ctx->env)
 		d_throw_error("main", "init_env is failed");
 	while (1)
 	{
+		set_idle_sig_handlers();
 		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
+		if (g_sig != 0)
+		{
+			ctx->last_status = g_sig + 128;
+			g_sig = 0;
+		}
 		if (*line)
 		{
 			add_history(line);
@@ -53,6 +61,7 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		free(line);
 		line = NULL;
+		// printf("DEBUG last_status: %d\n", ctx->last_status);
 	}
 	return (ctx->last_status);
 }
@@ -68,7 +77,10 @@ void	start_exec(char *line, t_context *ctx)
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
 	if (ctx->cnt)
+	{
 		wait_children_status(ctx);
+		check_core_dump(ctx->last_status);
+	}
 	free_token_list(token_list);
 	free_ast(&ast_node);
 }

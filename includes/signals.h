@@ -3,26 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:49:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/30 21:51:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/05 15:06:15 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
 # define _POSIX_C_SOURCE 200809L
-
-
 # include <signal.h>
+#include <stdbool.h>
+#include <sys/wait.h>
+
 // signal
 typedef struct sigaction		t_sig;
 extern volatile sig_atomic_t	g_sig;
 
-void	setup_signal(void);
-void	handler(int signum);
-int		check_state(void);
-void	ignore_sig(int signum);
-void	setup_sigint(void);
+void	set_idle_sig_handlers(void);
+void	set_parent_sig_handlers(void);
+void	set_child_sig_handlers(void);
+
+bool	is_interactive_mode(void);
+int	    sigint_event_hook(void);
+void	check_core_dump(int status);
+
 #endif

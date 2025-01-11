@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/signals.h"
 #include "../includes/lexer.h"
 #include "../includes/execute.h"
 #include "../includes/utils.h"
@@ -66,7 +67,6 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 		{
 			ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
 			return (ctx->last_status);
-			// exit (ctx->last_status);
 		}
 		return (EXIT_SUCCESS);
 	}
@@ -83,6 +83,7 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 */
 int	exec_cmd(t_node *node, t_context *ctx)
 {
+	int	ret;
 	//signal();
 	//redirect();
 	char	*cmd_path;
@@ -121,13 +122,18 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		ctx->cnt += 1;
 		if (ctx->pids[ctx->cnt -1] == 0)
 		{
+			// set_exec_child_handler();
+			set_child_sig_handlers();
 			setup_child_process_fd(ctx);
 			exec_cmd(node, ctx);
 		}
 		else if (ctx->pids[ctx->cnt -1] == -1)
 			d_throw_error("exec_cmd_handler", "fork is failed");
 		else
+		{
+			set_parent_sig_handlers();
 			reset_parent_process_fd(ctx);
+		}
 	}
 	return (EXIT_SUCCESS);
 }
