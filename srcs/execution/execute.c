@@ -83,7 +83,6 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 */
 int	exec_cmd(t_node *node, t_context *ctx)
 {
-	int	ret;
 	//signal();
 	//redirect();
 	char	*cmd_path;
