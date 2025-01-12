@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:40:41 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/22 18:04:11 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/12 20:06:42 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_node	*create_node(t_node_kind token_kind)
 	new_node->redirects = NULL;
 	new_node->op_val = NULL;
 	new_node->fd_num = -1;
+	new_node->redirect_num = 0;
 	return (new_node);
 }
 

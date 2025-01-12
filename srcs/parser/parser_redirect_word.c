@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 03:00:01 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:49:55 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	handle_redirect_error(char **ret, size_t count)
 free_wordlist(&ret[count - 1]) is wrong.
 When iput is "> > file", ret[1] is not initialized in the parse_single_redirect
 so free_wordlist(&ret[count - 1]) causes a segmentation fault.
-
 TODO:need to change handle_redirect_error to check syntax error
 */
 

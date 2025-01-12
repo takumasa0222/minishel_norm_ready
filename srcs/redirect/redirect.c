@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 16:59:48 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/12 21:04:36 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,53 @@
 #include <unistd.h>
 #include "../includes/redirect.h"
 
+void	redirect_in(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		d_throw_error("redirect_in", "open failed");
+	if (dup2(fd, STDIN_FILENO) < 0)
+	{
+		close(fd);
+		d_throw_error("redirect_in", "dup2_failed");
+	}
+	close(fd);
+}
+
+void	redirect_out(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		d_throw_error("redirect_out", "open failed");
+	if (dup2(fd, STDOUT_FILENO) < 0)
+	{
+		close(fd);
+		d_throw_error("redirect_out", "dup2 failed");
+	}
+	close(fd);
+}
+
+void	redirect_append(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+		d_throw_error("redirect_append", "open failed");
+	if (dup2(fd, STDOUT_FILENO) < 0)
+	{
+		close(fd);
+		d_throw_error("redirect_append", "dup2 failed");
+	}
+	close(fd);
+}
+
 void	set_redirect_fds(t_node *node, t_context *ctx)
 {
-	// int	last_input_fd; 
-	// int	last_output_fd;
-
-	// last_input_fd = -1;
-	// last_output_fd = -1;
-	// if (node->left)
-	// {
-	// 	open_files();
-	// 	last_input_fd = retrieve_last_input_fd(node->left->redirects, last_input_fd);
-	// 	last_output_fd = retrieve_last_output_fd(node->left->redirects, last_output_fd);
-	// }
-
-	// this is temporary implementation
-	// if (!ctx->is_exec_in_child_ps)
-	// 	store_std_in_out();
-
 	printf("DEBUG set_redirect_fds\n");
 
 	int	i;
@@ -42,42 +71,22 @@ void	set_redirect_fds(t_node *node, t_context *ctx)
 	ctx->stored_stdout = dup(STDOUT_FILENO);
 	if (ctx->stored_stdin < 0 || ctx->stored_stdout < 0)
 		d_throw_error("set_redirect_fds", "dup failed");
-	while (node->redirects[i])
+	while (node->left->redirects[i])
 	{
-		char *op = node->redirects[i];
-		char *filename = node->redirects[i + 1];
-		int fd;
+		char *op = node->left->redirects[i];
+		char *filename = node->left->redirects[i + 1];
 		if (!filename)
 			d_throw_error("set_redirect_fds", "filename is NULL");
 		if (ft_strcmp(op, ">") == 0)
-		{
-			fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd < 0)
-				d_throw_error("set_redirect_fds", "open failed");
-			if (dup2(fd, STDOUT_FILENO) < 0)
-				d_throw_error("set_redirect_fds", "dup2 failed");
-			close(fd);
-		}
+			redirect_out(filename);
 		else if (ft_strcmp(op, ">>") == 0)
-		{
-			fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd < 0)
-				d_throw_error("set_redirect_fds", "open failed");
-			if (dup2(fd, STDOUT_FILENO) < 0)
-				d_throw_error("set_redirect_fds", "dup2 failed");
-			close(fd);
-		}	
+			redirect_append(filename);
 		else if (ft_strcmp(op, "<") == 0)
-		{
-			fd = open(filename, O_RDONLY);
-			if (fd < 0)
-				d_throw_error("set_redirect_fds", "open failed");
-			if (dup2(fd, STDIN_FILENO) < 0)
-				d_throw_error("set_redirect_fds", "dup2 failed");
-			close(fd);			
-		}
-		if (node->fd_num < 0)
-			d_throw_error("set_redirect_fds", "open failed");
+			redirect_in(filename);
+		else
+			d_throw_error("set_redirect_fds", "unexpected operator");
+		// if (node->fd_num < 0)
+		// 	d_throw_error("set_redirect_fds", "open failed");
 		i += 2;
 	}
 }

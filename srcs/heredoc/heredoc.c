@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 03:41:14 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:32:28 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ int	input_heredoc_content(char *eof)
 	close(pipe_fds[1]);
 	return (pipe_fds[0]);
 }
+/*
+by returning pipe_fds[0], we can redirect STDIN from this pipe
+so that the command reads these lines as input.
+*/
 
 void	heredoc_handler(t_node *node)
 {
@@ -78,6 +82,17 @@ void	call_heredoc(t_node *node)
 	close_unused_fds(temp_fd_arry, j);
 	free(temp_fd_arry);
 }
+/*
+temp_fd_array: store multiple feredoc fds
+Everytime it sees a "<<" it calls input_heredoc_content()
+with the next string(node->redirects[i+1]) as the end marker.
+The returned FD from input_heredoc_content() is stored in temp_fd_array
+Assign node->fd_num
+	- if j > 0 (actually created at least one heredoc FD)
+	- is_heredoc_end(node->redirects) is true
+	- node->fd_num is set to temp_fd_arry[--j] (presumably means 
+	　"use the last heredoc FD as the input for this node")
+*/
 
 bool	is_heredoc_end(char **redirects)
 {
@@ -113,3 +128,10 @@ void	close_unused_fds(int *arry, size_t end)
 		i++;
 	}
 }
+/*
+This function closes all the file descriptors except for the final one.
+end: the number of active FDs, 
+and then we do end = end - 1 to exclude the one we’re keeping.
+The loop closes everything from arry[0] up to arry[end - 1]. This effectively leaves the last FD open if you only need the final one.
+Key Point: If the code has multiple <<, it’s presumably discarding all but the last one. The final FD is used by node->fd_num.
+*/

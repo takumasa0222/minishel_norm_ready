@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 17:19:12 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/12 20:46:07 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,31 +56,31 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 	t_builtin	*builtin;
 	int			arr_size;
 
-	builtin = lookup_builtin(cmd);
 	arr_size = 0;
-	while (argv[arr_size])
-		arr_size++;
-	if (builtin)
-	{
-		ctx->last_status = builtin->f(arr_size, argv, ctx);
-		if (ctx->last_status != EXIT_SUCCESS)
-		{
-			ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
-			return (ctx->last_status);
-		}
-		return (EXIT_SUCCESS);
-	}
-	else
+	ctx->stored_stdin = dup(STDIN_FILENO);
+	ctx->stored_stdout = dup(STDOUT_FILENO);
+	builtin = lookup_builtin(cmd);
+	if (!builtin)
 	{
 		ft_putendl_fd("exec_builtin: not recognized builtin\n", STDERR_FILENO);
 		ctx->last_status = EXIT_FAILURE;
-		return (EXIT_FAILURE);
+		return (ctx->last_status);
 	}
+	while (argv[arr_size])
+		arr_size++;
+	ctx->last_status = builtin->f(arr_size, argv, ctx);
+	if (ctx->last_status != EXIT_SUCCESS)
+	{
+		ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
+		return (ctx->last_status);
+	}
+	dup2(ctx->stored_stdin, STDIN_FILENO);
+	dup2(ctx->stored_stdout, STDOUT_FILENO);
+	close(ctx->stored_stdin);
+	close(ctx->stored_stdout);
+	return (ctx->last_status);
 }
 
-/*
-
-*/
 int	exec_cmd(t_node *node, t_context *ctx)
 {
 	//signal();
@@ -89,17 +89,16 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	int		ret;
 
 	expand_handler(node, ctx);
-	printf("DEBUG exec_cmd: expand done: %s\n", node->cmds[0]);	
-	if (node->left->redirects){
+	if (node->left && node->left->redirects){
 		printf("DEBUG set_redirect_fds call\n");
 		set_redirect_fds(node, ctx);
 	}
 	if (is_builtin(node->cmds[0]))
 	{
+		printf("DEBUG exec_cmd : is builtin\n");
 		ret = exec_builtin(node->cmds[0], node->cmds, ctx);
 		if (ctx->is_exec_in_child_ps)
 			exit(ret);
-		restore_std_fds(ctx);
 		return (ret);
 	}
 	else
