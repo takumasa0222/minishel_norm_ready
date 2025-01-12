@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/09 01:29:23 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 04:35:50 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,51 +56,26 @@ t_node	*parse_cmd(t_token **token_list)
 {
 	t_node	*node;
 
+	//check token_list is null or EOF_NODE
 	node = NULL;
 	node = parse_cmd_type(token_list);
 	if (!node)
-		d_throw_error("parse_cmd", "node is empty");
+		d_throw_error("parse_cmd", "node is empty");//syntax error due to token is not ND_L_PARE/ND_CMD/ND_REDIRECTS
 	return (parse_cmd_tail(node, token_list));
 }
 
 t_node	*parse_cmd_type(t_token **token_list)
 {
 	t_node	*node;
-
+	//Fix: node should be initialized as NULL
 	if (compare_tk(ND_L_PARE, token_list))
 		node = parse_subshell(token_list);
 	else
 		node = simple_cmd(token_list);
 	if (!node)
-		d_throw_error("parse_cmd_type", "node is empty");
+		d_throw_error("parse_cmd_type", "node is empty");//syntax error due to token is 
 	return (node);
 }
-
-// t_node	*simple_cmd(t_token **token_list)
-// {
-// 	t_node	*node;
-// 	t_node	*tmp;
-
-// 	node = create_node(ND_CMD);
-// 	if (compare_tk(ND_REDIRECTS, token_list))
-// 		node->left = parse_redirects(token_list);
-// 	node->cmds = parse_words(token_list);
-// 	if (!node->cmds && !node->left)
-// 	{
-// 		free_node(node);
-// 		return (NULL);
-// 	}
-// 	else if (!node->cmds && node->left)
-// 	{
-// 		tmp = node->left;
-// 		free(node);
-// 		return (tmp);
-// 	}
-// 	if (compare_tk(ND_REDIRECTS, token_list))
-// 		// node->right = parse_redirects(token_list);
-// 		node->right = parse_redirects_rnode(token_list, node);
-// 	return (node);
-// }
 
 t_node	*simple_cmd(t_token **token_list)
 {
@@ -132,11 +107,11 @@ t_node	*parse_subshell(t_token **token_list)
 	t_node	*node;
 
 	if (!match_token(ND_L_PARE, token_list))
-		d_throw_error("parser_subshell", "syntax_error");
+		d_throw_error("parser_subshell", "syntax_error");//unexpected error
 	node = create_node(ND_RND_BRACKET);
 	node->left = parse_cmd(token_list);
 	if (!match_token(ND_R_PARE, token_list))
-		d_throw_error("parser_subshell", "syntax_error");
+		d_throw_error("parser_subshell", "syntax_error");//syntax error
 	return (node);
 }
 
@@ -150,13 +125,13 @@ char	**parse_words(t_token **token_list)
 	ret = NULL;
 	word_cnt = count_nodes(token_list, ND_CMD);
 	if (!word_cnt)
-		return (NULL);
+		return (NULL);//unexpected error
 	ret = xmalloc((word_cnt + 1) * sizeof(char *));
 	while (i < word_cnt)
 	{
 		if (!compare_tk(ND_CMD, token_list))
-			d_throw_error("parse_words", "unexpected token type");
-		ret[i] = ft_strdup((*token_list)->word);
+			d_throw_error("parse_words", "unexpected token type");//unexpected error
+		ret[i] = ft_strdup((*token_list)->word);//system error should be replaced xmalloc
 		if (!ret[i])
 		{
 			free_wordlist(ret);

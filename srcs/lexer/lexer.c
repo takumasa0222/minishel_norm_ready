@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 00:54:28 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 01:22:17 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*lexer(char *line)
 		else if (is_word(line))
 			token->next = fetch_fst_word_token(line);
 		else
-			d_throw_error("lexer", "unexpected token");
+			d_throw_error("lexer", "unexpected token");// unexpected error
 		line = line + ft_strlen(token->next->word);
 		token = token->next;
 	}
@@ -54,7 +54,7 @@ bool	skip_blank(char **rest, char *input)
 	size_t	i;
 
 	if (!rest)
-		d_throw_error("skip_blank", "rest is NULL");
+		d_throw_error("skip_blank", "rest is NULL");// unexpected error
 	i = 0;
 	while (input[i] && is_blank(input[i]))
 		i++;
@@ -67,7 +67,7 @@ t_token	*fetch_fst_word_token(char *input)
 	size_t		i;
 
 	if (!input)
-		d_throw_error("fetch_fst_word_token", "input is NULL");
+		d_throw_error("fetch_fst_word_token", "input is NULL");// unexpected error
 	i = 0;
 	while (input[i])
 	{
@@ -78,8 +78,8 @@ t_token	*fetch_fst_word_token(char *input)
 		i++;
 	}
 	if (i)
-		return (create_token(ft_substr(input, 0, i), ND_CMD));
-	d_throw_error("fetch_fst_word_token", "logically unexpected error");
+		return (create_token(ft_substr(input, 0, i), ND_CMD));//Check: malloc can be failed so need to check
+	d_throw_error("fetch_fst_word_token", "logically unexpected error");// unexpected error
 	return (NULL);
 }
 
@@ -91,7 +91,7 @@ int	move_to_next_quotation(char *input, int i)
 		while (input[i] && !is_s_quote(input[i]))
 			i++;
 		if (!input[i])
-			d_throw_error("move_to_next_quotation", "squote not closed");
+			d_throw_error("move_to_next_quotation", "squote not closed");// syntax error quote shoud be closed
 	}
 	if (is_d_quote(input[i]))
 	{
@@ -99,7 +99,7 @@ int	move_to_next_quotation(char *input, int i)
 		while (input[i] && !is_d_quote(input[i]))
 			i++;
 		if (!input[i])
-			d_throw_error("move_to_next_quotation", "dquote not closed");
+			d_throw_error("move_to_next_quotation", "dquote not closed");// syntax error quote shoud be closed
 	}
 	return (i);
 }

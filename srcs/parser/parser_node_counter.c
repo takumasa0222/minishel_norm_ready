@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 02:59:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 03:00:14 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 03:42:19 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ size_t	count_nodes_for_rd(t_token **token_list)
 	count = 0;
 	temp = *token_list;
 	if (!temp)
-		d_throw_error("count_nodes_for_redirect", "unexpected result");
+		d_throw_error("count_nodes_for_redirect", "unexpected result");//unexpected error
 	while (compare_tk(ND_REDIRECTS, &temp))
 	{
 		temp = temp->next;
 		if (!compare_tk(ND_CMD, &temp))
-			d_throw_error("count_nodes_for_redirect", "invalid syntax");
+			d_throw_error("count_nodes_for_redirect", "invalid syntax");//syntax error
 		count = count + 2;
 		temp = temp->next;
 	}
 	if (!count || count % 2)
-		d_throw_error("count_nodes_for_redirect", "unexpected result");
+		d_throw_error("count_nodes_for_redirect", "unexpected result");//unexpected error
 	return (count);
 }
 
@@ -77,7 +77,7 @@ size_t	count_nodes_cmd_rd(t_token **tk_list, size_t *cmd_cnt, size_t *rd_cnt)
 		{
 			temp = temp->next;
 			if (!compare_tk(ND_CMD, &temp))
-				d_throw_error("count_nodes_for_redirect", "invalid syntax");
+				d_throw_error("count_nodes_for_redirect", "invalid syntax");//syntax error file should be there
 			redirect_node_cnt = redirect_node_cnt + 2;
 		}
 		else if (compare_tk(ND_CMD, &temp))

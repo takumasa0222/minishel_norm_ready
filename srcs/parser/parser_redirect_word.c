@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 03:00:01 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 03:52:53 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
 	{
 		if (compare_tk(ND_REDIRECTS, t_l))
 		{
-			node->left->redirects[j++] = ft_strdup((*t_l)->word);
+			node->left->redirects[j++] = ft_strdup((*t_l)->word);//system error could be caused
 			*t_l = (*t_l)->next;
 			if (!compare_tk(ND_CMD, t_l))
-				d_throw_error("count_nodes_for_redirect", "invalid syntax");
-			node->left->redirects[j++] = ft_strdup((*t_l)->word);
+				d_throw_error("count_nodes_for_redirect", "invalid syntax");//syntax error unexpected error
+			node->left->redirects[j++] = ft_strdup((*t_l)->word);//system error could be caused
 		}
 		else if (compare_tk(ND_CMD, t_l))
-			node->cmds[i++] = ft_strdup((*t_l)->word);
+			node->cmds[i++] = ft_strdup((*t_l)->word);//system error could be caused
 		*t_l = (*t_l)->next;
 	}
 	node->left->redirects[j] = NULL;
@@ -48,7 +48,7 @@ t_node	*parse_redirects(t_token **token_list)
 	t_node	*node;
 
 	node = NULL;
-	if (!compare_tk(ND_REDIRECTS, token_list))
+	if (!compare_tk(ND_REDIRECTS, token_list))//unexpected error
 		return (NULL);
 	node = create_node(ND_REDIRECTS);
 	node->redirects = parse_redirect_arry(token_list);
@@ -60,12 +60,12 @@ char	*parse_single_redirect(t_token **token_list)
 	char	*word;
 
 	if (!*token_list)
-		d_throw_error("parse_single_redirect", "token_list is NULL");
+		d_throw_error("parse_single_redirect", "token_list is NULL");//unexpected error
 	if ((*token_list)->kind == ND_EOF)
-		d_throw_error("parse_single_redirect", "NULL token kind");
+		d_throw_error("parse_single_redirect", "NULL token kind");//unexpected error
 	word = ft_strdup((*token_list)->word);
 	if (!word)
-		d_throw_error("parse_single_redirect", "strdup_error");
+		d_throw_error("parse_single_redirect", "strdup_error");//system error
 	*token_list = (*token_list)->next;
 	return (word);
 }
@@ -101,12 +101,12 @@ char	**parse_redirect_arry(t_token **token_list)
 	i = 0;
 	rd_cnt = count_nodes_for_rd(token_list);
 	if (!rd_cnt)
-		return (NULL);
+		return (NULL);//unexpected error
 	ret = xmalloc((rd_cnt + 1) * sizeof(char *));
-	while (*token_list && compare_tk(ND_REDIRECTS, token_list))
+	while (*token_list && compare_tk(ND_REDIRECTS, token_list))//Fix i should be less than rd_cnt
 	{
 		ret[i++] = parse_single_redirect(token_list);
-		if (!*token_list || (*token_list && !compare_tk(ND_CMD, token_list)))
+		if (!*token_list || (*token_list && !compare_tk(ND_CMD, token_list)))//syntax error unexpected error
 			handle_redirect_error(ret, i);
 		ret[i++] = parse_single_redirect(token_list);
 	}

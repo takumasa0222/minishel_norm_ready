@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd_tail.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 22:25:13 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/22 18:38:47 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 04:40:48 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static t_node	*handle_pipe(t_node *left, t_token **tk_list)
 	if (!node)
 	{
 		free_node(left);
-		d_throw_error("handle_pipe", "failed to create pipe node");
+		d_throw_error("handle_pipe", "failed to create pipe node");//FIX: need to free all t_node or exit
 		return (NULL);
 	}
 	node->left = left;
 	node->right = parse_cmd_type(tk_list);
 	if (!node->right)
 	{
-		free_node(node);
+		free_node(node);//FIX: need to free all t_node or exit
 		return (NULL);
 	}
 	create_sequential_pipe_node(node, tk_list);
@@ -46,13 +46,13 @@ static t_node	*handle_logical_op(t_node *left, t_token **tk_list)
 	if (!node)
 	{
 		free_node(left);
-		d_throw_error("handle_logical_op", "failed to create logi node");
+		d_throw_error("handle_logical_op", "failed to create logi node");//syntax error need to check left node and right node as well.
 		return (NULL);
 	}
 	if (compare_tk(ND_PIPE, tk_list))
 	{
 		node->right = parse_cmd_tail(node->right, tk_list);
-		if (!node->right)
+		if (!node->right)//syntax error could be cause 
 		{
 			free_node(node);
 			return (NULL);

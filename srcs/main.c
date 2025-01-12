@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/11 03:31:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 01:26:05 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,21 @@
 #include "../includes/signals.h"
 #include "../includes/heredoc.h"
 
+/*
+mark as 
+syntax error
+unexpected error (logicall could not be happened)
+system error
+permission error
+command not found error
+Fix
+Check
+*/
+
+
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*line;
+	char		*line;
 	t_context	*ctx;
 
 	ctx = init_ctx();
@@ -35,7 +47,7 @@ int	main(int argc, char *argv[], char *envp[])
 		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
 	if (!ctx->env)
-		d_throw_error("main", "init_env is failed");
+		d_throw_error("main", "init_env is failed");// this is fatal error so need to exit minishell
 	while (1)
 	{
 		set_idle_sig_handlers();
@@ -47,21 +59,13 @@ int	main(int argc, char *argv[], char *envp[])
 			ctx->last_status = g_sig + 128;
 			g_sig = 0;
 		}
-		if (*line)
+		if (*line)//Fix: need to check if line contains only brank/tab
 		{
 			add_history(line);
 			start_exec(line, ctx);
-			//token_list = lexer(line);
-			//ast = parse_cmd(&token_list);
-			//free_node(ast);
-			//ast = NULL;
-			//if (token_list)
-			//	free_token_list(token_list);
-			//token_list = NULL;
 		}
 		free(line);
 		line = NULL;
-		// printf("DEBUG last_status: %d\n", ctx->last_status);
 	}
 	return (ctx->last_status);
 }
@@ -71,8 +75,8 @@ void	start_exec(char *line, t_context *ctx)
 	t_token		*token_list;
 	t_node		*ast_node;
 
-	token_list = lexer(line);
-	ast_node = parse_cmd(&token_list);
+	token_list = lexer(line);//Fix: when there is syntax error, should be throw error and back to readline
+	ast_node = parse_cmd(&token_list);//Fix: when there is syntax error, should be throw error and back to readline
 	clear_ctx(ctx);
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);

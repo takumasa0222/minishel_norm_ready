@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_node_operator.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:40:41 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/22 18:04:11 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 04:33:57 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_node	*create_node(t_node_kind token_kind)
 {
 	t_node	*new_node;
 
-	new_node = malloc(1 * sizeof(t_node));
+	new_node = malloc(1 * sizeof(t_node));// Fix: xmalloc should be used
 	if (!new_node)
 		d_throw_error("create_node", "malloc failed");
 	new_node->kind = token_kind;
@@ -42,11 +42,11 @@ t_node	*create_logi_node(t_node *left, t_token **token_list)
 		node = create_node(ND_OR_OP);
 	else
 	{
-		d_throw_error("create_logi_node", "Expected logical operator");
+		d_throw_error("create_logi_node", "Expected logical operator");//unexpected error
 		return (NULL);
 	}
 	node->left = left;
-	node->right = parse_cmd_type(token_list);
+	node->right = parse_cmd_type(token_list);//syntax error could be caused if node->right is null.
 	return (node);
 }
 
