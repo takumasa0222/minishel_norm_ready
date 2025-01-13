@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 17:15:46 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 22:18:04 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ static char	*find_executable_path_for_cmd(char *cmd, char **directories)
 		dir_with_slash = ft_strjoin(directories[i], "/");
 		candidate_path = ft_strjoin(dir_with_slash, cmd);
 		free(dir_with_slash);
-		if (candidate_path && access(candidate_path, F_OK) == 0)
+		if (candidate_path && access(candidate_path, F_OK) == 0 &&
+			access(candidate_path, X_OK) == 0)
 		{
 			executable_path = candidate_path;
 			break ;

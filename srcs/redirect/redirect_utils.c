@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new.c                                              :+:      :+:    :+:   */
+/*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 21:39:59 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 22:24:37 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	redirect_here_doc(t_node *node);
 void	redirect_here_doc(t_node *node)
 {
 	if (node->fd_num != -1)
+	{
 		dup2(node->fd_num, STDIN_FILENO);
-	close(node->fd_num);
+		close(node->fd_num);
+	}
 }
 
 void	redirect_in(char *filename)

@@ -57,5 +57,5 @@ assert "cat chain_out.txt"
 # Expected: "abc"
 
 # Cleanup if you like:
-# rm -f normal_file.txt append_file.txt in_file.txt chain_in.txt chain_out.txt
-# rm -rf mydir protected.txt write_only.txt
+rm -f normal_file.txt append_file.txt in_file.txt chain_in.txt chain_out.txt
+rm -rf mydir protected.txt write_only.txt
