@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/04 02:35:02 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:40:54 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	is_digit_str(char *str);
 int	builtin_exit(int argc, char *argv[], t_context *ctx)
 {
 	if (ctx->is_exec_in_child_ps)
-		ft_putendl_fd("exit", STDERR_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);//FIX:exit should not show in child process also when command is succeded show up this.
 	if (argc > 2)
 	{
 		builtin_error("exit", NULL, "too many arguments");

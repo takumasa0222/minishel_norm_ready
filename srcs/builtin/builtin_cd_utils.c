@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:48:53 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/02 20:13:04 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 17:35:54 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	consume_path(char **rest, char *path, char *elem)
 	size_t	elem_len;
 
 	elem_len = ft_strlen(elem);
-	if (ft_strncmp(path, elem, elem_len) == 0)
+	if (ft_strncmp(path, elem, elem_len) == 0)//CHECK strcmp should be used?
 	{
 		if (path[elem_len] == '\0' || path[elem_len] == '/')
 		{
@@ -114,11 +114,11 @@ char	*resolve_pwd(char *pwd_before_chdir, char *path)
 		else if (consume_path(&path, path, "."))
 			;
 		else if (consume_path(&path, path, ".."))
-			delete_last_elem(pwd_after_chdir);
+			delete_last_epwd_before_chdirlem(pwd_after_chdir);
 		else
 			append_path_elem(pwd_after_chdir, &path, path);
 	}
-	dup = ft_strdup(pwd_after_chdir);
+	dup = ft_strdup(pwd_after_chdir);//system error xmalloc should be used
 	if (dup == NULL)
 		d_throw_error("resolve_pwd", "Memory allocation error");
 	return (dup);
@@ -145,7 +145,7 @@ path = "minishell"
 pwd_after_chdir = "/home/user/minishell"
 
 pwd_before_chdir = "/home/user/minishell/minishell_norm_ready"
-path = "./minishell/../../usr/bin"
+path = "./minishell/../../pwd_before_chdirusr/bin"
 pwd_after_chdir = "/usr/bin"
 
 pwd_before_chdir = "/home/user"

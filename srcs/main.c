@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/13 01:26:05 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:50:08 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int argc, char *argv[], char *envp[])
 		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
 	if (!ctx->env)
-		d_throw_error("main", "init_env is failed");// this is fatal error so need to exit minishell
+		d_throw_error("main", "init_env is failed");// system error
 	while (1)
 	{
 		set_idle_sig_handlers();
@@ -111,7 +111,7 @@ t_context	*init_ctx(void)
 void	clear_ctx(t_context *ctx)
 {
 	if (!ctx)
-		d_throw_error("clear_ctx", "ctx is null");
+		d_throw_error("clear_ctx", "ctx is null");//unexpected error
 	ctx->in_pipe_fd = -1;
 	ctx->out_pipe_fd = -1;
 	ctx->pre_in_pipe_fd = -1;

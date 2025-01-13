@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 03:41:14 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:03:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	input_heredoc_content(char *eof)
 
 	line = NULL;
 	if (pipe(pipe_fds) == -1)
-		d_throw_error("input_heredoc_content", "pipe failed");
+		d_throw_error("input_heredoc_content", "pipe failed");//system error bash should not be finished and Too many open files 
 	while (1)
 	{
 		free(line);
@@ -87,7 +87,7 @@ bool	is_heredoc_end(char **redirects)
 	i = 0;
 	ret = false;
 	if (!redirects || !redirects[i])
-		d_throw_error("retrieve_last_input", "redirects is null");
+		d_throw_error("retrieve_last_input", "redirects is null");// unexpected error
 	while (redirects[i])
 	{
 		if (!ft_strcmp(redirects[i], "<"))

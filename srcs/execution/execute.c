@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 10:32:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	{
 		cmd_path = resolve_executable_path(node, ctx->env);
 		if (!cmd_path)
-			d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
+			d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");//FIX: command not found error
 		execve(cmd_path, node->cmds, get_environ(ctx->env));
 		perror("execvp");
-		free(cmd_path);
+		free(cmd_path);//may need to free more
 		exit(EXIT_FAILURE);
 		return (EXIT_FAILURE);
 	}

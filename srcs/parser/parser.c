@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 04:35:50 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:34:04 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,8 @@ char	**parse_words(t_token **token_list)
 // 	}
 // 	else if (compare_tk(ND_AND_OP, tk_list) || compare_tk(ND_OR_OP, tk_list))
 // 	{
-// 		node = create_logi_node(left, tk_list);
-// 		if (compare_tk(ND_PIPE, tk_list))
-// 		{
-// 			node->right = parse_cmd_tail(node->right, tk_list);
+// 		node = create_logi_node(left, tk_list);			d_throw_error("move_to_next_quotation", "squote not closed");// syntax error quote shoud be closed
+;
 // 			return (node);
 // 		}
 // 		else

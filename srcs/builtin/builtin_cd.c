@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/04 02:31:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:07:08 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	builtin_cd(int argc, char *argv[], t_context *ctx)
 		ft_strlcpy(path, argv[1], PATH_MAX);
 	if (path[0] == '\0' || chdir(path) < 0)
 	{
-		builtin_error("cd", path, "no such file or directory");
+		builtin_error("cd", path, "no such file or directory");// CHECK: if HOME not set is called this should be skipped.
 		ctx->last_status = EXIT_FAILURE;
 		return (ctx->last_status);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 00:04:15 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:44:42 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	expand_handler(t_node *node, t_context *ctx)
 {
 	if (!node || !node->cmds)
-		d_throw_error("expand_handler", "node or cmds is null");
+		d_throw_error("expand_handler", "node or cmds is null");//unexpected error
 	expand_variable_handler(node, ctx);
 	//word_split_handler(node);
 	//expand_asterisk_handler(node);
@@ -30,7 +30,7 @@ void	expand_variable_handler(t_node *node, t_context *ctx)
 	char	*tmp;
 
 	if (!node || !node->cmds)
-		d_throw_error("expand_variable_handler", "node or cmds is null");
+		d_throw_error("expand_variable_handler", "node or cmds is null");//unexpected error
 	i = 0;
 	while (node->cmds[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_fd_controller.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/08 22:40:37 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:43:27 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	reset_parent_process_fd(t_context *ctx)
 	if (ctx->pre_in_pipe_fd != -1 && ctx->pre_in_pipe_fd != STDIN_FILENO)
 	{
 		if (close(ctx->pre_in_pipe_fd) == -1)
-			d_throw_error("reset_parent_process", "fail to cls pre_in_pipe_fd");
+			d_throw_error("reset_parent_process", "fail to cls pre_in_pipe_fd");//CHECK could be ignored
 	}
 	if (ctx->out_pipe_fd != -1 && ctx->out_pipe_fd != STDOUT_FILENO)
 		if (close(ctx->out_pipe_fd) == -1)
-			d_throw_error("reset_parent_process", "fail to cls out_pipe_fd");
+			d_throw_error("reset_parent_process", "fail to cls out_pipe_fd");//CHECK could be ignored
 	ctx->pre_in_pipe_fd = ctx->in_pipe_fd;
 	ctx->in_pipe_fd = -1;
 	ctx->out_pipe_fd = -1;
