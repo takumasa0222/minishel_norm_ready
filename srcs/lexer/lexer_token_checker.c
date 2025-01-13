@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_checker.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 21:28:27 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 20:24:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	is_operator(char *input)
 	t_ope_map	ope_map[OPE_MAP_SIZE];
 
 	if (!input)
-		d_throw_error("is_operator_or_metacharacter", "input is null");
+		throw_unexpected_error("is_operator", "input is null");
 	i = 0;
 	get_ope_map(ope_map);
 	while (ope_map[i].op_str && ope_map[i].kind != ND_EOF)

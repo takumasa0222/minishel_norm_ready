@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:33:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/17 16:51:23 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 19:00:45 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@ replased
 void	d_throw_error(char *func_name, char *error_msg)
 {
 	printf("Error: function name: %s, Error message: %s", func_name, error_msg);
+	exit(EXIT_FAILURE);
+}
+
+void	throw_unexpected_error(char *func_name, char *err_msg)
+{
+	static char	*default_err_msg = "Logically unexpected error";
+
+	if (!err_msg)
+		printf("Error: function name: %s, Error message: %s", \
+		func_name, default_err_msg);
+	else
+		printf("Error: function name: %s, Error message: %s", \
+		func_name, err_msg);
 	exit(EXIT_FAILURE);
 }
 

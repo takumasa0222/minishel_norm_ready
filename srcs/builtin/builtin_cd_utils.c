@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:48:53 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 17:35:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 18:51:40 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*resolve_pwd(char *pwd_before_chdir, char *path)
 		else if (consume_path(&path, path, "."))
 			;
 		else if (consume_path(&path, path, ".."))
-			delete_last_epwd_before_chdirlem(pwd_after_chdir);
+			delete_last_elem(pwd_after_chdir);
 		else
 			append_path_elem(pwd_after_chdir, &path, path);
 	}

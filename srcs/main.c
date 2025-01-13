@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/13 15:50:08 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 22:36:17 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ Fix
 Check
 */
 
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	char		*line;
@@ -46,8 +45,6 @@ int	main(int argc, char *argv[], char *envp[])
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
-	if (!ctx->env)
-		d_throw_error("main", "init_env is failed");// system error
 	while (1)
 	{
 		set_idle_sig_handlers();
@@ -59,7 +56,7 @@ int	main(int argc, char *argv[], char *envp[])
 			ctx->last_status = g_sig + 128;
 			g_sig = 0;
 		}
-		if (*line)//Fix: need to check if line contains only brank/tab
+		if (*line && !is_line_blanc(line))
 		{
 			add_history(line);
 			start_exec(line, ctx);
@@ -72,12 +69,17 @@ int	main(int argc, char *argv[], char *envp[])
 
 void	start_exec(char *line, t_context *ctx)
 {
-	t_token		*token_list;
-	t_node		*ast_node;
+	t_token			*token_list;
+	t_node			*ast_node;
+	t_syntax_err	*syntax_err;
 
-	token_list = lexer(line);//Fix: when there is syntax error, should be throw error and back to readline
-	ast_node = parse_cmd(&token_list);//Fix: when there is syntax error, should be throw error and back to readline
+	syntax_err = init_syntax_error();
 	clear_ctx(ctx);
+	token_list = lexer_handler(line, &syntax_err, ctx);
+	if (!token_list)
+		return ;
+	ast_node = parse_cmd(&token_list);//Fix: when there is syntax error, should be throw error and back to readline
+	free_token_list(token_list);
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
 	if (ctx->cnt)
@@ -85,7 +87,6 @@ void	start_exec(char *line, t_context *ctx)
 		wait_children_status(ctx);
 		check_core_dump(ctx->last_status);
 	}
-	free_token_list(token_list);
 	free_ast(&ast_node);
 }
 
@@ -108,14 +109,42 @@ t_context	*init_ctx(void)
 	return (ret);
 }
 
+t_syntax_err	*init_syntax_error(void)
+{
+	t_syntax_err	*ret;
+
+	ret = xmalloc(sizeof(t_syntax_err));
+	ret->is_err = false;
+	ret->err_msg = NULL;
+	return (ret);
+}
+
 void	clear_ctx(t_context *ctx)
 {
 	if (!ctx)
-		d_throw_error("clear_ctx", "ctx is null");//unexpected error
+		throw_unexpected_error("clear_ctx", "ctx is null"); 
 	ctx->in_pipe_fd = -1;
 	ctx->out_pipe_fd = -1;
 	ctx->pre_in_pipe_fd = -1;
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
+}
+
+bool	is_line_blanc(char *line)
+{
+	size_t	i;
+
+	if (!line)
+		return (true);
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == ' ' || line[i] == '\v')
+			i++;
+		else
+			return (false);
+
+	}
+	return (true);
 }

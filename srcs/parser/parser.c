@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 15:34:04 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 20:33:31 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,43 +143,3 @@ char	**parse_words(t_token **token_list)
 	ret[i] = NULL;
 	return (ret);
 }
-
-// t_node	*parse_cmd_tail(t_node *left, t_token **tk_list)
-// {
-// 	t_node	*node;
-// 	node = NULL;
-// 	if (match_token(ND_PIPE, tk_list))
-// 	{
-// 		node = create_node(ND_PIPE);
-// 		node->left = left;
-// 		node->right = parse_cmd_type(tk_list);
-// 		create_sequential_pipe_node(node, tk_list);
-// 		return (parse_cmd_tail(node, tk_list));
-// 	}
-// 	else if (compare_tk(ND_AND_OP, tk_list) || compare_tk(ND_OR_OP, tk_list))
-// 	{
-// 		node = create_logi_node(left, tk_list);			d_throw_error("move_to_next_quotation", "squote not closed");// syntax error quote shoud be closed
-;
-// 			return (node);
-// 		}
-// 		else
-// 			return (parse_cmd_tail(node, tk_list));
-// 	}
-// 	else if (compare_tk(ND_REDIRECTS, tk_list))
-// 	{
-// 		t_node *redirect_node = parse_redirects(tk_list);
-// 		if (redirect_node == NULL)
-// 			return (left);
-// 		if (left)
-// 		{
-// 			left->right = redirect_node;
-// 			return (left);
-// 		}
-// 		else 
-// 		{
-// 			return (redirect_node);
-// 		}
-// 		// return (parse_redirects(tk_list));
-// 	}
-// 	return (left);
-// }
