@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:54:23 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:54:26 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 18:09:02 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	map_unset(t_map *map, const char *name)
 	t_item	*cur;
 	t_item	*prev;
 
-	if (name == NULL || !is_identifier(name))
-		return (-1);
+	if (!map || name == NULL || !is_identifier(name))
+		return (ERROR);
 	prev = &map->item_head;
 	cur = map->item_head.next;
 	while (cur)

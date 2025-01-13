@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:27 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/31 01:06:48 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 11:51:44 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*map_get(t_map *map, const char *name)
 {
 	t_item	*cur;
 
+	if (!map || !name)
+		return (NULL);
 	cur = map->item_head.next;
 	while (cur)
 	{

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:20 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:53:23 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 11:53:29 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ char	*item_get_string(t_item *item)
 	size_t	strsize;
 	char	*str;
 
+	if (!item || !item->name)
+	{
+		d_throw_error("item_get_string", "item or item->name is NULL");
+		return (NULL);
+	}
 	strsize = ft_strlen(item->name) + 2;
 	if (item->value)
 		strsize += ft_strlen(item->value);
@@ -51,7 +56,7 @@ int	ft_strcmp_for_map(const char *s1, const char *s2)
 {
 	if (s1 == NULL || s2 == NULL)
 	{
-		return (-1);
+		return (ERROR);
 	}
 	while (*s1 && *s2 && *s1 == *s2)
 	{
