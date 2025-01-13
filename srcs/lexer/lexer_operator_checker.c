@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 16:44:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 01:06:50 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/14 01:47:42 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token	*fetch_fst_ope_token(char *input)
 	t_token		*ret;
 
 	if (!input)
-		d_throw_error("fetch_fst_ope_token", "input is NULL");// unexpected error
+		throw_unexpected_error("fetch_fst_ope_token", NULL);
 	i = 0;
 	get_ope_map(ope_map);
 	while (ope_map[i].op_str)
@@ -53,11 +53,11 @@ t_token	*fetch_fst_ope_token(char *input)
 		if (!ft_strncmp(ope_map[i].op_str, input,
 				ft_strlen(ope_map[i].op_str)))
 		{
-			ret = create_token(ft_strdup(ope_map[i].op_str), ope_map[i].kind);//Check: malloc can be failed so need to check
+			ret = create_token(x_strdup(ope_map[i].op_str), ope_map[i].kind);
 			return (ret);
 		}
 		i++;
 	}
-	d_throw_error("fetch_fst_ope_token", "logically unexpected error");// unexpected error
+	throw_unexpected_error("fetch_fst_ope_token", NULL);
 	return (NULL);
 }

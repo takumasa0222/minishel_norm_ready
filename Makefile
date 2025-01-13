@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/11 03:00:36 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/14 01:30:05 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ srcs/utils/free_functions.c \
 srcs/utils/ft_strcmp.c \
 srcs/utils/init_env.c \
 srcs/utils/xmalloc.c \
+srcs/utils/extend_string_functions.c\
 srcs/expand/expand_handler.c \
 srcs/expand/expand_helper.c \
 srcs/expand/expand_variable_helper.c \

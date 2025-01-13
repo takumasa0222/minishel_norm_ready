@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/13 15:50:08 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/14 02:08:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,14 @@ int	main(int argc, char *argv[], char *envp[])
 	char		*line;
 	t_context	*ctx;
 
-	ctx = init_ctx();
 	if (argc >= 2)
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
+	ctx = init_ctx();
 	rl_outstream = stderr;
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
-	if (!ctx->env)
-		d_throw_error("main", "init_env is failed");// system error
 	while (1)
 	{
 		set_idle_sig_handlers();
@@ -59,7 +57,7 @@ int	main(int argc, char *argv[], char *envp[])
 			ctx->last_status = g_sig + 128;
 			g_sig = 0;
 		}
-		if (*line)//Fix: need to check if line contains only brank/tab
+		if (*line && !is_blanc_line(line))
 		{
 			add_history(line);
 			start_exec(line, ctx);
@@ -72,12 +70,16 @@ int	main(int argc, char *argv[], char *envp[])
 
 void	start_exec(char *line, t_context *ctx)
 {
-	t_token		*token_list;
-	t_node		*ast_node;
+	t_token			*token_list;
+	t_node			*ast_node;
+	t_syntax_error	*syntx_err;
 
-	token_list = lexer(line);//Fix: when there is syntax error, should be throw error and back to readline
-	ast_node = parse_cmd(&token_list);//Fix: when there is syntax error, should be throw error and back to readline
+	syntx_err = init_syntax_error();
 	clear_ctx(ctx);
+	token_list = lexer_handler(line, syntx_err, ctx);
+	if (!token_list)
+		return ;
+	ast_node = parse_cmd(&token_list);//Fix: when there is syntax error, should be throw error and back to readline
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
 	if (ctx->cnt)
@@ -93,7 +95,7 @@ t_context	*init_ctx(void)
 {
 	t_context	*ret;
 
-	ret = malloc(sizeof(t_context));
+	ret = xmalloc(sizeof(t_context));
 	if (!ret)
 		d_throw_error("init_ctx", "malloc is failed");
 	ret->in_pipe_fd = -1;
@@ -118,4 +120,30 @@ void	clear_ctx(t_context *ctx)
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
+}
+bool	is_blanc_line(char *line)
+{
+	size_t	i;
+
+	if (!line)
+		return (true);
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == ' ' || line[i] == '\t')
+			i++;
+		else
+			return (false);
+	}
+	return (true);
+}
+
+t_syntax_error	*init_syntax_error(void)
+{
+	t_syntax_error	*ret;
+
+	ret = xmalloc(sizeof(t_syntax_error));
+	ret->err_msg = NULL;
+	ret->is_error = false;
+	return (ret);
 }
