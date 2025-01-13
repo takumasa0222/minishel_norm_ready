@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/13 15:29:13 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:22:36 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include "../includes/environment.h"
 #include "../includes/signals.h"
 #include "../includes/heredoc.h"
+
+void close_stored_fds(t_context *ctx);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -84,6 +86,15 @@ void	start_exec(char *line, t_context *ctx)
 	}
 	free_token_list(token_list);
 	free_ast(&ast_node);
+	close_stored_fds(ctx);
+}
+
+void close_stored_fds(t_context *ctx)
+{
+	close(ctx->stored_stdin);
+	close(ctx->stored_stdout);
+	ctx->stored_stdin = -1;
+	ctx->stored_stdout = -1;
 }
 
 t_context	*init_ctx(void)
@@ -102,6 +113,7 @@ t_context	*init_ctx(void)
 	ret->last_status = 0;
 	// ret->stored_stdin = dup(STDIN_FILENO);
 	// ret->stored_stdout = dup(STDOUT_FILENO);
+	backup_std_fds(ret);
 	return (ret);
 }
 
@@ -115,4 +127,5 @@ void	clear_ctx(t_context *ctx)
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
+	backup_std_fds(ctx);
 }

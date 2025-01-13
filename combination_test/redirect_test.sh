@@ -2,42 +2,60 @@
 
 source ./combination_test/test_assert.sh
 
-# redirection
-assert echo "Hello Builtin" > out_builtin.txt
-assert cat out_builtin.txt
+# Attempt to overwrite a read-only file
+touch protected.txt
+chmod 400 protected.txt   # read-only for owner, no write permission
+assert "echo 'Should fail' > protected.txt && echo 'should not print'"
+# Expected: first echo fails (permission denied), second echo is skipped
+# shoud not exit but rightnow we are using d_throw_error. need to change
 
-assert echo "First line" > out_builtin.txt
-assert echo "Second line" >> out_builtin.txt
-assert cat out_builtin.txt
+# Attempt to append to a read-only file
+assert "echo 'Append fail' >> protected.txt"
+# Expected: echo fails (permission denied)
 
-assert echo "line1" > in_builtin.txt
-assert echo "line2" >> in_builtin.txt
-assert cat < in_builtin.txt
+# create write-only file
+touch write_only.txt
+chmod 200 write_only.txt  
+# Only write permission, no read
 
-assert echo "Testing" > out_builtin.txt
-assert pwd > out_builtin.txt
-assert cat out_builtin.txt
+# Attempt to read from a write-only file
+assert "cat < write_only.txt && echo 'should not print'"
+# expected: Permission denied, second echo is skipped
+assert "cat < write_only.txt || echo 'fallback after fail'"
 
-assert echo "Hello Pipe" | cat > out_pipe.txt
-assert cat out_pipe.txt
+# Attempt to write to a directory
+mkdir mydir
+assert "echo 'Test' > mydir"
+# Expected: fails, "Is a directory" not supperted yet
 
-assert echo "Line A" > in_pipe.txt
-assert echo "Line B" >> in_pipe.txt
-assert cat < in_pipe.txt | grep "B"
+# Input From Nonexistent File
+assert "cat < nosuchfile123"
+# expected: "No such file or directory"
+# not supported yet
 
-assert echo "1 2 3" | tr ' ' '\n' >> out_pipe2.txt
-assert cat out_pipe2.txt
-assert echo "Hello AND" > out_and.txt && cat out_and.txt
+# Output to Nonexistent File
+assert "echo 'Test' > not_existing_dir/filename"
+# expected: "No such file or directory"
+# not supported yet
 
-assert nosuchcmd > out_err.txt && echo "OK"
-assert cat < no_such_file.txt && echo "This should not appear"
+# successful redirection
+echo "Initial" > normal_file.txt
+assert "echo 'Overwritten' > normal_file.txt && cat normal_file.txt"
+# Expected: shows "Overwritten"
 
-nosuchcmd > out_or.txt || echo "Fallback" 
-# => "Fallback" が表示される
-# out_or.txt がどうなるか(空ファイルなど)も確認
+echo "Line1" > append_file.txt
+assert "echo 'Line2' >> append_file.txt && cat append_file.txt"
+# Expected: "Line1\nLine2"
 
-assert echo "A B C" > out_ok.txt || echo "This should not appear"
-assert cat out_ok.txt
+echo "Hello" > in_file.txt
+assert "cat < in_file.txt"
+# Expected: shows "Hello"
 
-assert echo "OK" > in_ok.txt
-assert cat < in_ok.txt || echo "This should not appear"
+echo "abc" > chain_in.txt
+assert "cat < chain_in.txt > chain_out.txt"
+assert "cat chain_out.txt"
+# Expected: "abc"
+
+# Cleanup if you like:
+# rm -f normal_file.txt append_file.txt in_file.txt chain_in.txt chain_out.txt
+# rm -rf mydir protected.txt write_only.txt

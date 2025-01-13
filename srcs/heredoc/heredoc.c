@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/12 19:32:28 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 18:38:10 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,9 @@ void	close_unused_fds(int *arry, size_t end)
 This function closes all the file descriptors except for the final one.
 end: the number of active FDs, 
 and then we do end = end - 1 to exclude the one we’re keeping.
-The loop closes everything from arry[0] up to arry[end - 1]. This effectively leaves the last FD open if you only need the final one.
-Key Point: If the code has multiple <<, it’s presumably discarding all but the last one. The final FD is used by node->fd_num.
+The loop closes everything from arry[0] up to arry[end - 1]. 
+This effectively leaves the last FD open if you only need the final one.
+Key Point: If the code has multiple <<, 
+it’s presumably discarding all but the last one. 
+The final FD is used by node->fd_num.
 */

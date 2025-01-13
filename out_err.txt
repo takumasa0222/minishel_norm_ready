@@ -1,2 +1,0 @@
-"nosuchcmd"                   :[1;31m  diff NG[0m[1;31m  status NG, expected 127 but got 1[0m
-

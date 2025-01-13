@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 16:41:59 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:51:28 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 		return (exec_or_node(ast_node, ctx));
 	else if (ast_node->kind == ND_AND_OP)
 		return (exec_and_node(ast_node, ctx));
-	//else if (ast_node->kind == ND_REDIRECTS)
-	//	return (exec_redirects(ast_node, envp, ctx));
 	else
 		return (EXIT_FAILURE);
 }
@@ -55,7 +53,7 @@ int	exec_cmd(t_node *node, t_context *ctx)
 {
 	expand_handler(node, ctx);
 	if (node->left && node->left->redirects)
-		set_redirect_fds(node, ctx);
+		set_redirect_fds(node);
 	if (is_builtin(node->cmds[0]))
 		return (run_builtin(node, ctx));
 	else

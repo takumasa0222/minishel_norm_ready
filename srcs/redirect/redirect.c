@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 17:07:28 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:39:29 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,15 @@
 #include "../includes/redirect.h"
 #include "../includes/execute.h"
 
-static void	redirect_in(char *filename);
-static void	redirect_out(char *filename);
-static void	redirect_append(char *filename);
 static void	apply_redirects(t_node *node);
 
-void	set_redirect_fds(t_node *node, t_context *ctx)
+// void	set_redirect_fds(t_node *node, t_context *ctx)
+void	set_redirect_fds(t_node *node)
 {
 	int	i;
 
 	i = 0;
-	backup_std_fds(ctx);
+	// backup_std_fds(ctx);
 	apply_redirects(node);
 }
 
@@ -41,62 +39,19 @@ static void	apply_redirects(t_node *node)
 		op = node->left->redirects[i];
 		filename = node->left->redirects[i + 1];
 		if (!filename)
-			d_throw_error("set_redirect_fds", "filename is NULL");
+			d_throw_error("apply_redirect_fds", "filename is NULL");
 		if (ft_strcmp(op, ">") == 0)
 			redirect_out(filename);
 		else if (ft_strcmp(op, ">>") == 0)
 			redirect_append(filename);
 		else if (ft_strcmp(op, "<") == 0)
 			redirect_in(filename);
+		else if (ft_strcmp(op, "<<") == 0)
+			redirect_here_doc(node->left);
 		else
-			d_throw_error("set_redirect_fds", "unexpected operator");
+			d_throw_error("apply_redirect_fds", "unexpected operator");
 		i += 2;
 	}
-}
-
-static void	redirect_in(char *filename)
-{
-	int	fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		d_throw_error("redirect_in", "open failed");
-	if (dup2(fd, STDIN_FILENO) < 0)
-	{
-		close(fd);
-		d_throw_error("redirect_in", "dup2_failed");
-	}
-	close(fd);
-}
-
-static void	redirect_out(char *filename)
-{
-	int	fd;
-
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-		d_throw_error("redirect_out", "open failed");
-	if (dup2(fd, STDOUT_FILENO) < 0)
-	{
-		close(fd);
-		d_throw_error("redirect_out", "dup2 failed");
-	}
-	close(fd);
-}
-
-static void	redirect_append(char *filename)
-{
-	int	fd;
-
-	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
-		d_throw_error("redirect_append", "open failed");
-	if (dup2(fd, STDOUT_FILENO) < 0)
-	{
-		close(fd);
-		d_throw_error("redirect_append", "dup2 failed");
-	}
-	close(fd);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 16:42:45 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:10:55 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ void	restore_std_fds(t_context *ctx)
 		if (dup2(ctx->stored_stdout, STDOUT_FILENO) < 0)
 			d_throw_error("restore_std_fds", "dup2 failed");
 	}
-	close(ctx->stored_stdin);
-	close(ctx->stored_stdout);
-	ctx->stored_stdin = -1;
-	ctx->stored_stdout = -1;
+	// close(ctx->stored_stdin);
+	// close(ctx->stored_stdout);
+	// ctx->stored_stdin = -1;
+	// ctx->stored_stdout = -1;
 }
 
 int	exec_builtin(char *cmd, char **argv, t_context *ctx)
@@ -60,7 +60,7 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 	int			arr_size;
 
 	arr_size = 0;
-	backup_std_fds(ctx);
+	// backup_std_fds(ctx);
 	builtin = lookup_builtin(cmd);
 	if (!builtin)
 	{
@@ -76,7 +76,6 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 		ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
 		return (ctx->last_status);
 	}
-	if (!ctx->is_exec_in_child_ps)
-		restore_std_fds(ctx);
+	restore_std_fds(ctx);
 	return (ctx->last_status);
 }
