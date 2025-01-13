@@ -6,16 +6,55 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/12 21:04:36 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 17:07:28 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/utils.h"
-#include <unistd.h>
 #include "../includes/redirect.h"
+#include "../includes/execute.h"
 
-void	redirect_in(char *filename)
+static void	redirect_in(char *filename);
+static void	redirect_out(char *filename);
+static void	redirect_append(char *filename);
+static void	apply_redirects(t_node *node);
+
+void	set_redirect_fds(t_node *node, t_context *ctx)
+{
+	int	i;
+
+	i = 0;
+	backup_std_fds(ctx);
+	apply_redirects(node);
+}
+
+static void	apply_redirects(t_node *node)
+{
+	int		i;
+	char	*op;
+	char	*filename;
+
+	i = 0;
+	while (node->left->redirects[i])
+	{
+		op = node->left->redirects[i];
+		filename = node->left->redirects[i + 1];
+		if (!filename)
+			d_throw_error("set_redirect_fds", "filename is NULL");
+		if (ft_strcmp(op, ">") == 0)
+			redirect_out(filename);
+		else if (ft_strcmp(op, ">>") == 0)
+			redirect_append(filename);
+		else if (ft_strcmp(op, "<") == 0)
+			redirect_in(filename);
+		else
+			d_throw_error("set_redirect_fds", "unexpected operator");
+		i += 2;
+	}
+}
+
+static void	redirect_in(char *filename)
 {
 	int	fd;
 
@@ -30,7 +69,7 @@ void	redirect_in(char *filename)
 	close(fd);
 }
 
-void	redirect_out(char *filename)
+static void	redirect_out(char *filename)
 {
 	int	fd;
 
@@ -45,7 +84,7 @@ void	redirect_out(char *filename)
 	close(fd);
 }
 
-void	redirect_append(char *filename)
+static void	redirect_append(char *filename)
 {
 	int	fd;
 
@@ -58,56 +97,6 @@ void	redirect_append(char *filename)
 		d_throw_error("redirect_append", "dup2 failed");
 	}
 	close(fd);
-}
-
-void	set_redirect_fds(t_node *node, t_context *ctx)
-{
-	printf("DEBUG set_redirect_fds\n");
-
-	int	i;
-
-	i = 0;
-	ctx->stored_stdin = dup(STDIN_FILENO);
-	ctx->stored_stdout = dup(STDOUT_FILENO);
-	if (ctx->stored_stdin < 0 || ctx->stored_stdout < 0)
-		d_throw_error("set_redirect_fds", "dup failed");
-	while (node->left->redirects[i])
-	{
-		char *op = node->left->redirects[i];
-		char *filename = node->left->redirects[i + 1];
-		if (!filename)
-			d_throw_error("set_redirect_fds", "filename is NULL");
-		if (ft_strcmp(op, ">") == 0)
-			redirect_out(filename);
-		else if (ft_strcmp(op, ">>") == 0)
-			redirect_append(filename);
-		else if (ft_strcmp(op, "<") == 0)
-			redirect_in(filename);
-		else
-			d_throw_error("set_redirect_fds", "unexpected operator");
-		// if (node->fd_num < 0)
-		// 	d_throw_error("set_redirect_fds", "open failed");
-		i += 2;
-	}
-}
-
-
-void restore_std_fds(t_context *ctx)
-{
-	if (ctx->stored_stdin >= 0)
-	{
-		if (dup2(ctx->stored_stdin, STDIN_FILENO) < 0)
-			d_throw_error("restore_std_fds", "dup2 failed");
-		close(ctx->stored_stdin);
-		ctx->stored_stdin = -1;
-	}
-	if (ctx->stored_stdout >= 0)
-	{
-		if (dup2(ctx->stored_stdout, STDOUT_FILENO) < 0)
-			d_throw_error("restore_std_fds", "dup2 failed");
-		close(ctx->stored_stdout);
-		ctx->stored_stdout = -1;
-	}
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/12 19:52:10 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 15:29:13 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	start_exec(char *line, t_context *ctx)
 	clear_ctx(ctx);
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
+	// restore fds?
 	if (ctx->cnt)
 	{
 		wait_children_status(ctx);

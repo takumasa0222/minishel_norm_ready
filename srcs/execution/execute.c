@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/12 20:46:07 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:41:59 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,67 +51,15 @@ int	exec_pipe(t_node *node, t_context *ctx)
 	return (exec_handler(node->right, ctx));
 }
 
-int	exec_builtin(char *cmd, char **argv, t_context *ctx)
-{
-	t_builtin	*builtin;
-	int			arr_size;
-
-	arr_size = 0;
-	ctx->stored_stdin = dup(STDIN_FILENO);
-	ctx->stored_stdout = dup(STDOUT_FILENO);
-	builtin = lookup_builtin(cmd);
-	if (!builtin)
-	{
-		ft_putendl_fd("exec_builtin: not recognized builtin\n", STDERR_FILENO);
-		ctx->last_status = EXIT_FAILURE;
-		return (ctx->last_status);
-	}
-	while (argv[arr_size])
-		arr_size++;
-	ctx->last_status = builtin->f(arr_size, argv, ctx);
-	if (ctx->last_status != EXIT_SUCCESS)
-	{
-		ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
-		return (ctx->last_status);
-	}
-	dup2(ctx->stored_stdin, STDIN_FILENO);
-	dup2(ctx->stored_stdout, STDOUT_FILENO);
-	close(ctx->stored_stdin);
-	close(ctx->stored_stdout);
-	return (ctx->last_status);
-}
-
 int	exec_cmd(t_node *node, t_context *ctx)
 {
-	//signal();
-	//redirect();
-	char	*cmd_path;
-	int		ret;
-
 	expand_handler(node, ctx);
-	if (node->left && node->left->redirects){
-		printf("DEBUG set_redirect_fds call\n");
+	if (node->left && node->left->redirects)
 		set_redirect_fds(node, ctx);
-	}
 	if (is_builtin(node->cmds[0]))
-	{
-		printf("DEBUG exec_cmd : is builtin\n");
-		ret = exec_builtin(node->cmds[0], node->cmds, ctx);
-		if (ctx->is_exec_in_child_ps)
-			exit(ret);
-		return (ret);
-	}
+		return (run_builtin(node, ctx));
 	else
-	{
-		cmd_path = resolve_executable_path(node, ctx->env);
-		if (!cmd_path)
-			d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
-		execve(cmd_path, node->cmds, get_environ(ctx->env));
-		perror("execvp");
-		free(cmd_path);
-		exit(EXIT_FAILURE);
-		return (EXIT_FAILURE);
-	}
+		return (run_external(node, ctx));
 	return (EXIT_SUCCESS);
 }
 
