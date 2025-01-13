@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 21:51:28 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 23:32:23 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include "../includes/expand.h"
 #include "../includes/redirect.h"
 
+// int exec_redirect(t_node *node, t_context *ctx);
+
 int	exec_handler(t_node *ast_node, t_context *ctx)
 {
 	if (ast_node->kind == ND_CMD)
@@ -32,9 +34,17 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 		return (exec_or_node(ast_node, ctx));
 	else if (ast_node->kind == ND_AND_OP)
 		return (exec_and_node(ast_node, ctx));
+	// else if (ast_node->kind == ND_REDIRECTS)
+	// 	return (exec_redirect(ast_node, ctx));
 	else
 		return (EXIT_FAILURE);
 }
+
+// int exec_redirect(t_node *node, t_context *ctx)
+// {
+// 	ctx->last_status = apply_redirects(node);
+// 	return (ctx->last_status);
+// }
 
 int	exec_pipe(t_node *node, t_context *ctx)
 {
@@ -82,6 +92,8 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		{
 			set_parent_sig_handlers();
 			reset_parent_process_fd(ctx);
+			if (node->left && node->left->fd_num != -1)
+				close(node->left->fd_num);
 		}
 	}
 	return (EXIT_SUCCESS);

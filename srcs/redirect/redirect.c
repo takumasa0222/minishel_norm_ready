@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 22:20:30 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 23:20:00 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,28 @@
 #include "../includes/redirect.h"
 #include "../includes/execute.h"
 
-static void	apply_redirects(t_node *node);
+int	apply_redirects(t_node *node);
 
 // void	set_redirect_fds(t_node *node, t_context *ctx)
 void	set_redirect_fds(t_node *node)
 {
-	int	i;
-
-	i = 0;
 	// backup_std_fds(ctx);
-	apply_redirects(node);
+	apply_redirects(node->left);
 }
 
-static void	apply_redirects(t_node *node)
+int	apply_redirects(t_node *node)
 {
 	int		i;
 	char	*op;
 	char	*filename;
 
 	i = 0;
-	while (node->left->redirects[i])
+	while (node->redirects[i])
 	{
-		op = node->left->redirects[i];
-		if (node->left->redirects[i + 1] == NULL)
+		op = node->redirects[i];
+		if (node->redirects[i + 1] == NULL)
 			d_throw_error("apply_redirects", "filename missing");
-		filename = node->left->redirects[i + 1];
+		filename = node->redirects[i + 1];
 		if (!filename)
 			d_throw_error("apply_redirect_fds", "filename is NULL");
 		if (ft_strcmp(op, ">") == 0)
@@ -49,11 +46,12 @@ static void	apply_redirects(t_node *node)
 		else if (ft_strcmp(op, "<") == 0)
 			redirect_in(filename);
 		else if (ft_strcmp(op, "<<") == 0)
-			redirect_here_doc(node->left);
+			redirect_here_doc(node);
 		else
 			d_throw_error("apply_redirect_fds", "unexpected operator");
 		i += 2;
 	}
+	return (EXIT_SUCCESS);
 }
 
 /*

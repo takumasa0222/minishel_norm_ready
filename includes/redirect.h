@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:49:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 21:49:46 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 23:26:11 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 
 // void	set_redirect_fds(t_node *node, t_context *ctx);
 void	set_redirect_fds(t_node *node);
-void    restore_std_fds(t_context *ctx);
+void	restore_std_fds(t_context *ctx);
+
+int		apply_redirects(t_node *node);
 
 // redirect_utils.c
 void	redirect_in(char *filename);

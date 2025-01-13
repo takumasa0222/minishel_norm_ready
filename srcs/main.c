@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/13 21:22:36 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 22:54:31 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,8 @@ t_context	*init_ctx(void)
 	ret->is_exec_in_child_ps = false;
 	ret->is_in_round_bracket = false;
 	ret->last_status = 0;
-	// ret->stored_stdin = dup(STDIN_FILENO);
-	// ret->stored_stdout = dup(STDOUT_FILENO);
-	backup_std_fds(ret);
+	ret->stored_stdin = -1;
+	ret->stored_stdout = -1;
 	return (ret);
 }
 
