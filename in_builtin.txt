@@ -1,0 +1,4 @@
+"echo"                        :  diff OK  status OK
+
+"echo"                        :  diff OK  status OK
+
