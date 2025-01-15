@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/15 22:45:37 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/15 23:23:38 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static char	*find_executable_path_for_cmd(char *cmd, char **directories)
 		}
 		else if (errno != ENOENT)
 		{
-			perror(executable_path);
+			perror(candidate_path); // FIX: Error handling
 			exit(126);
 		}
 		free(candidate_path);
@@ -112,7 +112,9 @@ static char	*find_executable_path_env_or_exit(t_node *node, t_map *envp)
 			perror("getcwd"); // FIX: Error handling
 			exit(EXIT_FAILURE);
 		}
-		path_env_value = ft_strdup(cwd);
+		path_env_value = ft_strdup(cwd); // FIX: x_strdup??
+		if (!path_env_value)
+			d_throw_error("find_executable_path_env_or_exit", "Memory allocation failed\n");
 	}
 	directories = ft_split(path_env_value, ':');
 	if (!directories)
