@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/16 21:38:49 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/16 21:45:21 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 #include "../../includes/utils.h"
 #include "../../includes/minishell.h"
 
-t_token	*lexer_handler(char *line, t_syntax_err **syntax_err, t_context *ctx)
+t_token	*lexer_handler(char *line, t_syntax_error **syntax_err, t_context *ctx)
 {
 	t_token	*ret;
 
 	ret = NULL;
 	ret = lexer(line, *syntax_err);
-	if ((*syntax_err)->is_err)
+	if ((*syntax_err)->is_error)
 	{
 		printf("%s\n", (*syntax_err)->err_msg);
 		printf("syntax error: unexpected end of file\n");

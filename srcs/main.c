@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/16 21:37:17 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/16 22:59:20 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,16 +108,6 @@ t_context	*init_ctx(void)
 	ret->last_status = 0;
 	// ret->stored_stdin = dup(STDIN_FILENO);
 	// ret->stored_stdout = dup(STDOUT_FILENO);
-	return (ret);
-}
-
-t_syntax_err	*init_syntax_error(void)
-{
-	t_syntax_err	*ret;
-
-	ret = xmalloc(sizeof(t_syntax_err));
-	ret->is_err = false;
-	ret->err_msg = NULL;
 	return (ret);
 }
 
