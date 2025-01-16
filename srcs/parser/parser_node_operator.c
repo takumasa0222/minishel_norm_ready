@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_node_operator.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:40:41 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 15:45:58 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/14 02:34:43 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ t_node	*create_node(t_node_kind token_kind)
 {
 	t_node	*new_node;
 
-	new_node = malloc(1 * sizeof(t_node));// Fix: xmalloc should be used
-	if (!new_node)
-		d_throw_error("create_node", "malloc failed");
+	new_node = xmalloc(1 * sizeof(t_node));
 	new_node->kind = token_kind;
 	new_node->left = NULL;
 	new_node->right = NULL;
