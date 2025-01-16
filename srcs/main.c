@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/13 22:36:17 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/16 21:37:17 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	main(int argc, char *argv[], char *envp[])
 	char		*line;
 	t_context	*ctx;
 
-	ctx = init_ctx();
 	if (argc >= 2)
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
+	ctx = init_ctx();
 	rl_outstream = stderr;
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = sigint_event_hook;
@@ -56,7 +56,7 @@ int	main(int argc, char *argv[], char *envp[])
 			ctx->last_status = g_sig + 128;
 			g_sig = 0;
 		}
-		if (*line && !is_line_blanc(line))
+		if (*line && !is_blanc_line(line))
 		{
 			add_history(line);
 			start_exec(line, ctx);
@@ -71,14 +71,16 @@ void	start_exec(char *line, t_context *ctx)
 {
 	t_token			*token_list;
 	t_node			*ast_node;
-	t_syntax_err	*syntax_err;
+	t_syntax_error	*syntx_err;
 
-	syntax_err = init_syntax_error();
+	syntx_err = init_syntax_error();
 	clear_ctx(ctx);
-	token_list = lexer_handler(line, &syntax_err, ctx);
+	token_list = lexer_handler(line, syntx_err, ctx);
 	if (!token_list)
 		return ;
 	ast_node = parse_cmd(&token_list);//Fix: when there is syntax error, should be throw error and back to readline
+	if (!ast_node)
+		return ;
 	free_token_list(token_list);
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
@@ -94,7 +96,7 @@ t_context	*init_ctx(void)
 {
 	t_context	*ret;
 
-	ret = malloc(sizeof(t_context));
+	ret = xmalloc(sizeof(t_context));
 	if (!ret)
 		d_throw_error("init_ctx", "malloc is failed");
 	ret->in_pipe_fd = -1;
@@ -122,7 +124,7 @@ t_syntax_err	*init_syntax_error(void)
 void	clear_ctx(t_context *ctx)
 {
 	if (!ctx)
-		throw_unexpected_error("clear_ctx", "ctx is null"); 
+		throw_syntax_error("clear_ctx", "ctx is null");//unexpected error
 	ctx->in_pipe_fd = -1;
 	ctx->out_pipe_fd = -1;
 	ctx->pre_in_pipe_fd = -1;
@@ -130,8 +132,7 @@ void	clear_ctx(t_context *ctx)
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
 }
-
-bool	is_line_blanc(char *line)
+bool	is_blanc_line(char *line)
 {
 	size_t	i;
 
@@ -140,11 +141,20 @@ bool	is_line_blanc(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == ' ' || line[i] == '\v')
+		if (line[i] == ' ' || line[i] == '\t')
 			i++;
 		else
 			return (false);
-
 	}
 	return (true);
+}
+
+t_syntax_error	*init_syntax_error(void)
+{
+	t_syntax_error	*ret;
+
+	ret = xmalloc(sizeof(t_syntax_error));
+	ret->err_msg = NULL;
+	ret->is_error = false;
+	return (ret);
 }

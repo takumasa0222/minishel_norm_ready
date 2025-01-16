@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 16:44:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 20:23:38 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/16 21:37:58 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token	*fetch_fst_ope_token(char *input)
 	t_token		*ret;
 
 	if (!input)
-		throw_unexpected_error("fetch_fst_ope_token", "input is NULL");
+		throw_unexpected_error("fetch_fst_ope_token", NULL);
 	i = 0;
 	get_ope_map(ope_map);
 	while (ope_map[i].op_str)

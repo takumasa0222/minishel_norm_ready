@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/13 21:23:28 by tamatsuu         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/16 21:36:24 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -49,15 +50,15 @@ typedef struct s_context {
 	t_map	*env;
 }	t_context;
 
-typedef struct s_syntax_err {
+typedef struct s_syntax_error {
 	char	*err_msg;
-	bool	is_err;
-}	t_syntax_err;
+	bool	is_error;
+}	t_syntax_error;
 
 void			start_exec(char *line, t_context *ctx);
 t_context		*init_ctx(void);
 void			clear_ctx(t_context *ctx);
-bool			is_line_blanc(char *line);
-t_syntax_err	*init_syntax_error(void);
+bool			is_blanc_line(char *line);
+t_syntax_error	*init_syntax_error(void);
 
 #endif

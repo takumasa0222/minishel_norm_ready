@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 22:34:18 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/16 21:38:49 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,23 @@ Operator : A token that performs a control function.
 It is one of the following symbols:
 || & && ; ;; () | |& <newline>
 */
-t_token	*lexer(char *line, t_syntax_err *syntax_err)
+t_token	*lexer_handler(char *line, t_syntax_error *syntx_err, t_context *ctx)
+{
+	t_token	*ret;
+
+	ret = lexer(line, syntx_err);
+	if (syntx_err->is_error)
+	{
+		throw_syntax_error(syntx_err->err_msg, ERR_MSG_UNEXPECTED_EOF);
+		free(syntx_err);
+		free_token_list(ret);
+		ctx->last_status = EXIT_FAILURE;
+		return (NULL);
+	}
+	return (ret);
+}
+
+t_token	*lexer(char *line, t_syntax_error *syntx_err)
 {
 	t_token	head;
 	t_token	*token;
@@ -59,7 +75,7 @@ t_token	*lexer(char *line, t_syntax_err *syntax_err)
 		else if (is_operator(line))
 			token->next = fetch_fst_ope_token(line);
 		else if (is_word(line))
-			token->next = fetch_fst_word_token(line, syntax_err);
+			token->next = fetch_fst_word_token(line, syntx_err);
 		else
 			throw_unexpected_error("lexer", NULL);
 		line = line + ft_strlen(token->next->word);
@@ -82,7 +98,7 @@ bool	skip_blank(char **rest, char *input)
 	return (i);
 }
 
-t_token	*fetch_fst_word_token(char *input, t_syntax_err *syntax_err)
+t_token	*fetch_fst_word_token(char *input, t_syntax_error *syntx_err)
 {
 	size_t		i;
 
@@ -92,8 +108,8 @@ t_token	*fetch_fst_word_token(char *input, t_syntax_err *syntax_err)
 	while (input[i])
 	{
 		if (is_s_quote(input[i]) || is_d_quote(input[i]))
-			i = move_to_next_quotation(input, i, syntax_err);
-		if (is_metachar(input[i]) || syntax_err->is_err)
+			i = move_to_next_quotation(input, i, syntx_err);
+		if (is_metachar(input[i]) || syntx_err->is_error)
 			break ;
 		i++;
 	}
@@ -103,17 +119,17 @@ t_token	*fetch_fst_word_token(char *input, t_syntax_err *syntax_err)
 	return (NULL);
 }
 
-int	move_to_next_quotation(char *input, int i, t_syntax_err *syntax_err)
+int	move_to_next_quotation(char *input, int i, t_syntax_error *syntx_err)
 {
 	if (is_s_quote(input[i]))
 	{
 		i++;
 		while (input[i] && !is_s_quote(input[i]))
 			i++;
-		if (!input[i] && !syntax_err->is_err)
+		if (!input[i] && !syntx_err->is_error)
 		{
-			syntax_err->is_err = true;
-			syntax_err->err_msg = ERR_MSG_SYNTAX_S_QUOTE;
+			syntx_err->is_error = true;
+			syntx_err->err_msg = ERR_MSG_S_QUOTE;
 		}
 	}
 	if (is_d_quote(input[i]))
@@ -121,10 +137,10 @@ int	move_to_next_quotation(char *input, int i, t_syntax_err *syntax_err)
 		i++;
 		while (input[i] && !is_d_quote(input[i]))
 			i++;
-		if (!input[i] && !syntax_err->is_err)
+		if (!input[i] && !syntx_err->is_error)
 		{
-			syntax_err->is_err = true;
-			syntax_err->err_msg = ERR_MSG_SYNTAX_D_QUOTE;
+			syntx_err->is_error = true;
+			syntx_err->err_msg = ERR_MSG_D_QUOTE;
 		}
 	}
 	return (i);

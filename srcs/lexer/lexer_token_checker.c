@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 20:24:38 by tamatsuu         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/16 21:38:13 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/lexer.h"
 #include "../../libft/libft.h"
@@ -16,7 +17,7 @@
 
 bool	is_metachar(int c)
 {
-	return (c && ft_strchr("|&;()<> \t\n", c));
+	return (c && ft_strchr("|&()<> \t\n", c));
 }
 
 bool	is_word(char *input)

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 22:14:43 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/16 21:35:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include "./minishell.h"
-#define OPE_MAP_SIZE 10
+# define OPE_MAP_SIZE 10
+# define ERR_MSG_S_QUOTE "unexpected EOF while looking for matching `''"
+# define ERR_MSG_D_QUOTE "unexpected EOF while looking for matching `\"'"
+# define ERR_MSG_UNEXPECTED_EOF "syntax error: unexpected end of file"
 
 typedef struct s_token	t_token;
 
@@ -44,12 +47,12 @@ typedef struct s_ope_map {
 	t_node_kind	kind;
 }	t_ope_map;
 
-t_token	*lexer_handler(char *line, t_syntax_err **syntax_err, t_context *ctx);
-t_token	*lexer(char *line, t_syntax_err *syntax_error);
+t_token	*lexer_handler(char *line, t_syntax_error *syntx_err, t_context *ctx);
+t_token	*lexer(char *line, t_syntax_error *syntx_err);
 bool	skip_blank(char **rest, char *input);
 t_token	*fetch_fst_ope_token(char *input);
-t_token	*fetch_fst_word_token(char *input, t_syntax_err *syntax_error);
-int		move_to_next_quotation(char *input, int i, t_syntax_err *syntax_error);
+t_token	*fetch_fst_word_token(char *input, t_syntax_error *syntx_err);
+int		move_to_next_quotation(char *input, int i, t_syntax_error *syntx_err);
 
 bool	is_metachar(int c);
 bool	is_word(char *input);
