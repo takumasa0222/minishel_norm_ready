@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd_tail.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 22:25:13 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 04:40:48 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/17 03:15:17 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_node	*handle_pipe(t_node *left, t_token **tk_list)
 	return (node);
 }
 
-// ND_AND_OP oe ND_OR_OP
+// ND_AND_OP or ND_OR_OP
 static t_node	*handle_logical_op(t_node *left, t_token **tk_list)
 {
 	t_node	*node;
@@ -80,6 +80,8 @@ t_node	*parse_cmd_tail(t_node *left, t_token **tk_list)
 {
 	while (true)
 	{
+		if (!left)
+			return (NULL);
 		if (match_token(ND_PIPE, tk_list))
 			left = handle_pipe(left, tk_list);
 		else if (compare_tk(ND_AND_OP, tk_list)
@@ -89,8 +91,6 @@ t_node	*parse_cmd_tail(t_node *left, t_token **tk_list)
 			left = handle_redirects(left, tk_list);
 		else
 			break ;
-		if (!left)
-			return (NULL);
 	}
 	return (left);
 }

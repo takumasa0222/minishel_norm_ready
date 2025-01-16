@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 03:52:53 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/17 03:26:41 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ t_node	*parse_cmd_rd_node(t_token **t_l, t_node *node, size_t cmd, size_t rd)
 	{
 		if (compare_tk(ND_REDIRECTS, t_l))
 		{
-			node->left->redirects[j++] = ft_strdup((*t_l)->word);//system error could be caused
+			node->left->redirects[j++] = x_strdup((*t_l)->word);//system error could be caused
 			*t_l = (*t_l)->next;
 			if (!compare_tk(ND_CMD, t_l))
 				d_throw_error("count_nodes_for_redirect", "invalid syntax");//syntax error unexpected error
-			node->left->redirects[j++] = ft_strdup((*t_l)->word);//system error could be caused
+			node->left->redirects[j++] = x_strdup((*t_l)->word);//system error could be caused
 		}
 		else if (compare_tk(ND_CMD, t_l))
-			node->cmds[i++] = ft_strdup((*t_l)->word);//system error could be caused
+			node->cmds[i++] = x_strdup((*t_l)->word);//system error could be caused
 		*t_l = (*t_l)->next;
 	}
 	node->left->redirects[j] = NULL;
