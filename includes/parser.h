@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 02:46:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/18 22:13:21 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 00:44:45 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ t_node	*parse_cmd_tail(t_node *left, t_token **tk_list, t_syntax_error *err);
 t_node	*handle_logical_op(t_node *left, t_token **tk_list, t_syntax_error *e);
 t_node	*handle_redirects(t_node *left, t_token **tk_list, t_syntax_error *e);
 //parser_node_operator.c
-t_node	*create_logi_node(t_node *left, t_token **tk_list, t_syntax_error *err);
+t_node	*create_logi_node(t_node *left, t_token **t_l, t_syntax_error *err);
 t_node	*create_node(t_node_kind token_kind);
-t_node	*create_seq_pipe_node(t_node **parent, t_token **t_l, t_syntax_error *e);
+t_node	*create_seq_pipe_node(t_node **prnt, t_token **tl, t_syntax_error *e);
 
 //parser_token_checker.c
 bool	match_token(t_node_kind expected, t_token **cur_token);

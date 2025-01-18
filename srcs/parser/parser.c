@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/19 00:34:51 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 01:27:26 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ t_node	*parse_cmd_handler(t_token **token_list, t_syntax_error *err)
 	return (ret);
 }
 
-t_node	*parse_cmd(t_token **token_list, t_syntax_error *syntx_err)
+t_node	*parse_cmd(t_token **tk_list, t_syntax_error *syntx_err)
 {
 	t_node	*node;
 
 	node = NULL;
-	node = parse_cmd_type(token_list, syntx_err);
+	node = parse_cmd_type(tk_list, syntx_err);
 	if (!node && syntx_err->is_error)
 		return (NULL);
-	return (parse_cmd_tail(node, token_list, syntx_err));
+	return (parse_cmd_tail(node, tk_list, syntx_err));
 }
 
 t_node	*parse_cmd_type(t_token **tk_list, t_syntax_error *err)
@@ -73,27 +73,15 @@ t_node	*parse_cmd_type(t_token **tk_list, t_syntax_error *err)
 	node = NULL;
 	if (compare_tk(ND_L_PARE, tk_list))
 		node = parse_subshell(tk_list, err);
-	else if (compare_tk(ND_CMD, tk_list) \
-	|| compare_tk(ND_REDIRECTS, tk_list))
+	else if (compare_tk(ND_CMD, tk_list) || compare_tk(ND_REDIRECTS, tk_list))
 		node = simple_cmd(tk_list, err);
 	if (!node)
-	{
 		parser_syntax_err(NULL, err, NULL, ERR_MSG_SYNTAX);
-		return (NULL);
-	}
 	//if (node->kind == ND_REDIRECTS)
-	//if (compare_tk(ND_L_PARE, tk_list) && !is_in_rb)
-	if (compare_tk(ND_L_PARE, tk_list))
-	{
-		parser_syntax_err(NULL, err, &node, ERR_MSG_L_PARE);
-		return (NULL);
-	}
-	//if (compare_tk(ND_R_PARE, tk_list) && !is_in_rb)
-	if (compare_tk(ND_R_PARE, tk_list))
-	{
-		parser_syntax_err(NULL, err, &node, ERR_MSG_R_PARE);
-		return (NULL);
-	}
+	//if (node && compare_tk(ND_L_PARE, tk_list))
+	//	parser_syntax_err(NULL, err, &node, ERR_MSG_L_PARE);
+	//if (node && compare_tk(ND_R_PARE, tk_list))
+	//	parser_syntax_err(NULL, err, &node, ERR_MSG_R_PARE);
 	return (node);
 }
 
@@ -120,7 +108,7 @@ t_node	*simple_cmd(t_token **token_list, t_syntax_error *syntx_err)
 		parse_cmd_rd_node(token_list, node, cmd_cnt, rd_cnt);
 	}
 	return (node);
-}ND_RND_BRACKET
+}
 
 char	**parse_words(t_token **token_list)
 {
