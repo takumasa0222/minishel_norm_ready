@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/19 01:01:46 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 05:45:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int terminate_heredoc(char *line, int *pipe_fds)
 {
 	close(pipe_fds[1]);
 	free(line);
-	rl_event_hook = sigint_event_hook;
+	//rl_event_hook = sigint_event_hook;
 	return (-2);
 }
 

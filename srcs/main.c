@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 01:52:47 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 05:51:03 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void close_stored_fds(t_context *ctx);
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*line;
+	char		*line;
 	t_context	*ctx;
 
 	ctx = init_ctx();
@@ -41,15 +41,16 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		set_idle_sig_handlers();
-		printf("DEBUG %d\n", g_sig);
 		if (ctx->heredoc_interrupted == true)
 		{
-			// ft_putchar_fd('\n', STDOUT_FILENO);
-			rl_replace_line("", 0);
-			rl_on_new_line();
-			rl_redisplay();
 			ctx->heredoc_interrupted = false;
-			continue ;
+			g_sig = 0;
+			ctx->last_status = 130;
+			rl_event_hook = sigint_event_hook;
+			continue ;            ctx->heredoc_interrupted = false;
+            g_sig = 0;
+            ctx->last_status = 130;
+            continue ;
 		}
 		line = readline("minishell$ ");
 		if (line == NULL)
@@ -78,6 +79,7 @@ int	start_exec(char *line, t_context *ctx)
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
 	clear_ctx(ctx);
+
 	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
 	// restore fds?
