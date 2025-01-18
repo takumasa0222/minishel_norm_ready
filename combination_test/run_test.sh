@@ -41,6 +41,9 @@ else
 	echo "heredoc test"
 	./combination_test/heredoc_test.sh
 	test_result
+	echo "redirect test"
+	./combination_test/redirect_test.sh
+	test_result
 	echo "exec path test"
 	./combination_test/exec_path_test.sh
 	test_result

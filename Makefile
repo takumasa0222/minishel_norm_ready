@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/11 03:00:36 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/13 21:50:24 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,9 +77,11 @@ srcs/execution/execute_fd_controller.c \
 srcs/execution/execute_logical_operator.c \
 srcs/execution/execute_utils.c \
 srcs/execution/execute.c \
-srcs/execution/execute_prep.c \
+srcs/execution/execute_external.c \
+srcs/execution/execute_builtin.c \
 srcs/heredoc/heredoc.c \
 srcs/redirect/redirect.c \
+srcs/redirect/redirect_utils.c \
 get_next_line/get_next_line.c \
 get_next_line/get_next_line_utils.c 
 

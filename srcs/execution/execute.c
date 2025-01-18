@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 10:32:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/18 12:36:38 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include "../includes/expand.h"
 #include "../includes/redirect.h"
 
+// int exec_redirect(t_node *node, t_context *ctx);
+
 int	exec_handler(t_node *ast_node, t_context *ctx)
 {
 	if (ast_node->kind == ND_CMD)
@@ -32,11 +34,17 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 		return (exec_or_node(ast_node, ctx));
 	else if (ast_node->kind == ND_AND_OP)
 		return (exec_and_node(ast_node, ctx));
-	//else if (ast_node->kind == ND_REDIRECTS)
-	//	return (exec_redirects(ast_node, envp, ctx));
+	// else if (ast_node->kind == ND_REDIRECTS)
+	// 	return (exec_redirect(ast_node, ctx));
 	else
 		return (EXIT_FAILURE);
 }
+
+// int exec_redirect(t_node *node, t_context *ctx)
+// {
+// 	ctx->last_status = apply_redirects(node);
+// 	return (ctx->last_status);
+// }
 
 int	exec_pipe(t_node *node, t_context *ctx)
 {
@@ -51,63 +59,20 @@ int	exec_pipe(t_node *node, t_context *ctx)
 	return (exec_handler(node->right, ctx));
 }
 
-int	exec_builtin(char *cmd, char **argv, t_context *ctx)
-{
-	t_builtin	*builtin;
-	int			arr_size;
-
-	builtin = lookup_builtin(cmd);
-	arr_size = 0;
-	while (argv[arr_size])
-		arr_size++;
-	if (builtin)
-	{
-		ctx->last_status = builtin->f(arr_size, argv, ctx);
-		if (ctx->last_status != EXIT_SUCCESS)
-		{
-			ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
-			return (ctx->last_status);
-		}
-		return (EXIT_SUCCESS);
-	}
-	else
-	{
-		ft_putendl_fd("exec_builtin: not recognized builtin\n", STDERR_FILENO);
-		ctx->last_status = EXIT_FAILURE;
-		return (EXIT_FAILURE);
-	}
-}
-
-/*
-
-*/
 int	exec_cmd(t_node *node, t_context *ctx)
 {
-	//signal();
-	//redirect();
-	char	*cmd_path;
-	int		ret;
-
 	expand_handler(node, ctx);
-	set_redirect_fds(node, ctx);
+	if (node->left && node->left->redirects)
+		set_redirect_fds(node);
 	if (is_builtin(node->cmds[0]))
 	{
-		ret = exec_builtin(node->cmds[0], node->cmds, ctx);
-		if (ctx->is_exec_in_child_ps)
-			exit(ret);
+		int ret = run_builtin(node, ctx);
+		if (ret != EXIT_SUCCESS && ctx->is_exec_in_child_ps)
+			d_throw_error("exec_cmd", "builtin execution failed");
 		return (ret);
 	}
 	else
-	{
-		cmd_path = resolve_executable_path(node, ctx->env);
-		if (!cmd_path)
-			d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
-		execve(cmd_path, node->cmds, get_environ(ctx->env));
-		perror("execvp");
-		free(cmd_path);
-		exit(EXIT_FAILURE);
-		return (EXIT_FAILURE);
-	}
+		return (run_external(node, ctx));
 	return (EXIT_SUCCESS);
 }
 
@@ -132,6 +97,8 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		{
 			set_parent_sig_handlers();
 			reset_parent_process_fd(ctx);
+			if (node->left && node->left->fd_num != -1)
+				close(node->left->fd_num);
 		}
 	}
 	return (EXIT_SUCCESS);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_prep.c                                     :+:      :+:    :+:   */
+/*   execute_external.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/15 23:23:38 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 13:24:07 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,27 @@
 #include <errno.h>
 #include "../../includes/execute.h"
 #include "../../includes/utils.h"
+#include "../../includes/environment.h"
 
-
+char	*resolve_executable_path(t_node *node, t_map *envp);
 static bool	validate_executable_or_exit(char *cmd);
 static char	*find_executable_path_for_cmd(char *cmd, char **directories);
 static char	*find_executable_path_env_or_exit(t_node *node, t_map *envp);
 static void	command_not_found_error(char *cmd);
+
+int	run_external(t_node *node, t_context *ctx)
+{
+	char	*cmd_path;
+
+	cmd_path = resolve_executable_path(node, ctx->env);
+	if (!cmd_path)
+		d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
+	execve(cmd_path, node->cmds, get_environ(ctx->env));
+	perror("execvp");
+	free(cmd_path);
+	exit(EXIT_FAILURE);
+	return (EXIT_FAILURE);
+}
 
 char	*resolve_executable_path(t_node *node, t_map *envp)
 {
@@ -49,6 +64,9 @@ char	*resolve_executable_path(t_node *node, t_map *envp)
 		executable_path = find_executable_path_env_or_exit(node, envp);
 	return (executable_path);
 }
+/*
+errno == ENOENT means "file not found" -> continue searching other directories
+*/
 
 static bool	validate_executable_or_exit(char *cmd)
 {
@@ -60,40 +78,6 @@ static bool	validate_executable_or_exit(char *cmd)
 		d_throw_error("validate_executable_path_or_exit", "permission denied\n");
 	return (true);
 }
-
-static char	*find_executable_path_for_cmd(char *cmd, char **directories)
-{
-	char	*executable_path;
-	char	*dir_with_slash;
-	char	*candidate_path;
-	int		i;
-
-	executable_path = NULL;
-	i = 0;
-	while (directories[i])
-	{
-		dir_with_slash = ft_strjoin(directories[i], "/");
-		candidate_path = ft_strjoin(dir_with_slash, cmd);
-		free(dir_with_slash);
-		if (candidate_path && access(candidate_path, F_OK) == 0)
-		{
-			executable_path = candidate_path;
-			break ;
-		}
-		else if (errno != ENOENT)
-		{
-			perror(candidate_path); // FIX: Error handling
-			exit(126);
-		}
-		free(candidate_path);
-		candidate_path = NULL;
-		i++;
-	}
-	return (executable_path);
-}
-/*
-errno == ENOENT means "file not found" -> continue searching other directories
-*/
 
 static char	*find_executable_path_env_or_exit(t_node *node, t_map *envp)
 {

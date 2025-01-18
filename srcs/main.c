@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/11 03:31:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/18 12:40:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include "../includes/environment.h"
 #include "../includes/signals.h"
 #include "../includes/heredoc.h"
+
+void close_stored_fds(t_context *ctx);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -76,6 +78,7 @@ void	start_exec(char *line, t_context *ctx)
 	clear_ctx(ctx);
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
+	// restore fds?
 	if (ctx->cnt)
 	{
 		wait_children_status(ctx);
@@ -83,6 +86,17 @@ void	start_exec(char *line, t_context *ctx)
 	}
 	free_token_list(token_list);
 	free_ast(&ast_node);
+	close_stored_fds(ctx);
+}
+
+void close_stored_fds(t_context *ctx)
+{
+	if (ctx->stored_stdin != -1 && close(ctx->stored_stdin) == -1)
+		d_throw_error("close_stored_fds", "failed to close stored stdin");
+	if (ctx->stored_stdout != -1 && close(ctx->stored_stdout) == -1)
+		d_throw_error("close_stored_fds", "failed to close stored stdout");
+	ctx->stored_stdin = -1;
+	ctx->stored_stdout = -1;
 }
 
 t_context	*init_ctx(void)
@@ -99,8 +113,8 @@ t_context	*init_ctx(void)
 	ret->is_exec_in_child_ps = false;
 	ret->is_in_round_bracket = false;
 	ret->last_status = 0;
-	// ret->stored_stdin = dup(STDIN_FILENO);
-	// ret->stored_stdout = dup(STDOUT_FILENO);
+	ret->stored_stdin = -1;
+	ret->stored_stdout = -1;
 	return (ret);
 }
 
@@ -114,4 +128,5 @@ void	clear_ctx(t_context *ctx)
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
+	backup_std_fds(ctx);
 }
