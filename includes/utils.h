@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/16 21:36:44 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:08:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@
 
 # define ERR_MSG_SYNTAX_S_QUOTE "unexpected EOF while looking for matching `''"
 # define ERR_MSG_SYNTAX_D_QUOTE "unexpected EOF while looking for matching `\"'"
+# define ERR_MSG_SUBSHELL "syntax error: unexpected end of file"
+# define ERR_MSG_RD "syntax error unexpected token near redirect"
+# define ERR_MSG_PIPE "syntax error unexpected token near pipe"
+# define ERR_MSG_AND_OP "syntax error near unexpected token `&&'"
+# define ERR_MSG_OR_OP "syntax error near unexpected token `||'"
+# define ERR_MSG_SYNTAX "syntax error : unexpected token"
+# define ERR_MSG_L_PARE "syntax error near unexpected token `('"
+# define ERR_MSG_R_PARE "syntax error near unexpected token `)'"
 
 // error.c
 void	d_throw_error(char *func_name, char *error_msg);
@@ -31,7 +39,7 @@ void	throw_syntax_error(char *err_msg, char *err_msg2);
 
 // free_functions.c
 void	free_node(t_node *node);
-void	free_wordlist(char **wordlist);
+void	free_wordlist(char ***wordlist);
 void	free_ast(t_node **node);
 void	free_token_list(t_token *token_list);
 void	free_map(t_map *map);

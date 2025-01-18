@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 16:22:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/18 16:04:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*find_executable_path_env_or_exit(t_node *node, t_map *envp)
 	if (!directories)
 		d_throw_error("find_cmd_from_path", "ft_split is failed\n");//FIX: xmalloc should be used;
 	executable_path = find_executable_path_for_cmd(node->cmds[0], directories);
-	free_wordlist(directories);
+	free_wordlist(&directories);
 	if (!executable_path)
 		d_throw_error("find_cmd_from_path", "executable path not found\n");//command not found error
 	return (executable_path);

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/16 21:38:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/18 17:06:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 bool	is_metachar(int c)
 {
-	return (c && ft_strchr("|&()<> \t\n", c));
+	return (c && ft_strchr("|()<> \t\n", c));
 }
 
 bool	is_word(char *input)

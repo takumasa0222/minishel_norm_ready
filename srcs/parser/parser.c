@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/17 03:18:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 00:34:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,63 @@ this parser will create AST based on below eBNF.
     NUMBER: /[0-9]+/
 				
 */
-
-t_node	*parse_cmd(t_token **token_list)
+t_node	*parse_cmd_handler(t_token **token_list, t_syntax_error *err)
 {
-	t_node	*node;
+	t_node	*ret;
+	t_token	*cpy_list;
 
-	//check token_list is null or EOF_NODE
-	node = NULL;
-	node = parse_cmd_type(token_list);
-	if (!node)
-		d_throw_error("parse_cmd", "node is empty");//syntax error due to token is not ND_L_PARE/ND_CMD/ND_REDIRECTS
-	return (parse_cmd_tail(node, token_list));
+	cpy_list = *token_list;
+	ret = parse_cmd(token_list, err);
+	if (!ret && err->is_error)
+		throw_syntax_error(err->err_msg, NULL);
+	free(err);
+	free_token_list(cpy_list);
+	return (ret);
 }
 
-t_node	*parse_cmd_type(t_token **token_list)
+t_node	*parse_cmd(t_token **token_list, t_syntax_error *syntx_err)
 {
 	t_node	*node;
 
 	node = NULL;
-	if (compare_tk(ND_L_PARE, token_list))
-		node = parse_subshell(token_list);
-	else
-		node = simple_cmd(token_list);
+	node = parse_cmd_type(token_list, syntx_err);
+	if (!node && syntx_err->is_error)
+		return (NULL);
+	return (parse_cmd_tail(node, token_list, syntx_err));
+}
+
+t_node	*parse_cmd_type(t_token **tk_list, t_syntax_error *err)
+{
+	t_node	*node;
+
+	node = NULL;
+	if (compare_tk(ND_L_PARE, tk_list))
+		node = parse_subshell(tk_list, err);
+	else if (compare_tk(ND_CMD, tk_list) \
+	|| compare_tk(ND_REDIRECTS, tk_list))
+		node = simple_cmd(tk_list, err);
 	if (!node)
-		d_throw_error("parse_cmd_type", "node is empty");//syntax error due to token is 
+	{
+		parser_syntax_err(NULL, err, NULL, ERR_MSG_SYNTAX);
+		return (NULL);
+	}
+	//if (node->kind == ND_REDIRECTS)
+	//if (compare_tk(ND_L_PARE, tk_list) && !is_in_rb)
+	if (compare_tk(ND_L_PARE, tk_list))
+	{
+		parser_syntax_err(NULL, err, &node, ERR_MSG_L_PARE);
+		return (NULL);
+	}
+	//if (compare_tk(ND_R_PARE, tk_list) && !is_in_rb)
+	if (compare_tk(ND_R_PARE, tk_list))
+	{
+		parser_syntax_err(NULL, err, &node, ERR_MSG_R_PARE);
+		return (NULL);
+	}
 	return (node);
 }
 
-t_node	*simple_cmd(t_token **token_list)
+t_node	*simple_cmd(t_token **token_list, t_syntax_error *syntx_err)
 {
 	t_node	*node;
 	size_t	cmd_cnt;
@@ -77,34 +106,21 @@ t_node	*simple_cmd(t_token **token_list)
 	cmd_cnt = 0;
 	rd_cnt = 0;
 	node = NULL;
-	count_nodes_cmd_rd(token_list, &cmd_cnt, &rd_cnt);
+	cnt_cmd_rd(token_list, &cmd_cnt, &rd_cnt, syntx_err);
 	if (!rd_cnt && cmd_cnt)
 	{
 		node = create_node(ND_CMD);
 		node->cmds = parse_words(token_list);
 	}
 	else if (!cmd_cnt && rd_cnt && compare_tk(ND_REDIRECTS, token_list))
-		node = parse_redirects(token_list);
+		node = parse_redirects(token_list, syntx_err);
 	else if (rd_cnt && cmd_cnt)
 	{
 		node = create_node(ND_CMD);
 		parse_cmd_rd_node(token_list, node, cmd_cnt, rd_cnt);
 	}
 	return (node);
-}
-
-t_node	*parse_subshell(t_token **token_list)
-{
-	t_node	*node;
-
-	if (!match_token(ND_L_PARE, token_list))
-		throw_unexpected_error("parser_subshell", NULL);
-	node = create_node(ND_RND_BRACKET);
-	node->left = parse_cmd(token_list);
-	if (!match_token(ND_R_PARE, token_list))
-		d_throw_error("parser_subshell", "syntax_error");//syntax error and need to free node.
-	return (node);
-}
+}ND_RND_BRACKET
 
 char	**parse_words(t_token **token_list)
 {
@@ -116,18 +132,14 @@ char	**parse_words(t_token **token_list)
 	ret = NULL;
 	word_cnt = count_nodes(token_list, ND_CMD);
 	if (!word_cnt)
-		return (NULL);//unexpected error
+		throw_unexpected_error("parse_words", "word_cnt is null");
 	ret = xmalloc((word_cnt + 1) * sizeof(char *));
 	while (i < word_cnt)
 	{
-		if (!compare_tk(ND_CMD, token_list))
-			d_throw_error("parse_words", "unexpected token type");//unexpected error
-		ret[i] = ft_strdup((*token_list)->word);//system error should be replaced xmalloc
-		if (!ret[i])
-		{
-			free_wordlist(ret);
-			d_throw_error("parse_words", "strdup_error");
-		}
+		if (!compare_tk(ND_CMD, token_list) || !(*token_list) \
+		|| !(*token_list)->word)
+			throw_unexpected_error("parse_words", "unexpected token type");
+		ret[i] = x_strdup((*token_list)->word);
 		i++;
 		*token_list = (*token_list)->next;
 	}

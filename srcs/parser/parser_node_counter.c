@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_node_counter.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 02:59:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 03:42:19 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/18 16:02:20 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ size_t	count_nodes(t_token **token_list, t_node_kind kind)
 	return (count);
 }
 
-size_t	count_nodes_for_rd(t_token **token_list)
+size_t	count_nodes_for_rd(t_token **token_list, t_syntax_error *err)
 {
 	size_t	count;
 	t_token	*temp;
@@ -48,45 +48,48 @@ size_t	count_nodes_for_rd(t_token **token_list)
 	count = 0;
 	temp = *token_list;
 	if (!temp)
-		d_throw_error("count_nodes_for_redirect", "unexpected result");//unexpected error
+		throw_unexpected_error("count_nodes_for_redirect", NULL);
 	while (compare_tk(ND_REDIRECTS, &temp))
 	{
 		temp = temp->next;
 		if (!compare_tk(ND_CMD, &temp))
-			d_throw_error("count_nodes_for_redirect", "invalid syntax");//syntax error
+		{
+			parser_syntax_err(NULL, err, NULL, ERR_MSG_RD);
+			return (0);
+		}
 		count = count + 2;
 		temp = temp->next;
 	}
 	if (!count || count % 2)
-		d_throw_error("count_nodes_for_redirect", "unexpected result");//unexpected error
+		throw_unexpected_error("count_nodes_for_redirect", NULL);
 	return (count);
 }
 
-size_t	count_nodes_cmd_rd(t_token **tk_list, size_t *cmd_cnt, size_t *rd_cnt)
+size_t	cnt_cmd_rd(t_token **tl, size_t *c_c, size_t *r_c, t_syntax_error *err)
 {
 	size_t	redirect_node_cnt;
 	size_t	command_node_cnt;
-	t_token	*temp;
+	t_token	*tmp;
 
 	redirect_node_cnt = 0;
 	command_node_cnt = 0;
-	temp = *tk_list;
-	while (compare_tk(ND_REDIRECTS, &temp) || compare_tk(ND_CMD, &temp))
+	tmp = *tl;
+	while (tmp && (compare_tk(ND_REDIRECTS, &tmp) || compare_tk(ND_CMD, &tmp)))
 	{
-		if (compare_tk(ND_REDIRECTS, &temp))
+		if (compare_tk(ND_REDIRECTS, &tmp))
 		{
-			temp = temp->next;
-			if (!compare_tk(ND_CMD, &temp))
-				d_throw_error("count_nodes_for_redirect", "invalid syntax");//syntax error file should be there
+			tmp = tmp->next;
+			if (!compare_tk(ND_CMD, &tmp))
+				return (parser_syntax_err(NULL, err, NULL, ERR_MSG_RD), 0);
 			redirect_node_cnt = redirect_node_cnt + 2;
 		}
-		else if (compare_tk(ND_CMD, &temp))
+		else if (compare_tk(ND_CMD, &tmp))
 			command_node_cnt++;
-		temp = temp->next;
+		tmp = tmp->next;
 	}
-	if (rd_cnt)
-		*rd_cnt = redirect_node_cnt;
-	if (cmd_cnt)
-		*cmd_cnt = command_node_cnt;
+	if (r_c)
+		*r_c = redirect_node_cnt;
+	if (c_c)
+		*c_c = command_node_cnt;
 	return (redirect_node_cnt + command_node_cnt);
 }

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 22:25:13 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/17 03:15:17 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/18 22:13:16 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,42 @@
 #include "../../includes/utils.h"
 
 // ND_PIPE
-static t_node	*handle_pipe(t_node *left, t_token **tk_list)
+static t_node	*handle_pipe(t_node *left, t_token **t_l, t_syntax_error *err)
 {
 	t_node	*node;
 
-	node = create_node(ND_PIPE);
-	if (!node)
-	{
-		free_node(left);
-		d_throw_error("handle_pipe", "failed to create pipe node");//FIX: need to free all t_node or exit
+	if (!left)
 		return (NULL);
-	}
+	node = create_node(ND_PIPE);
 	node->left = left;
-	node->right = parse_cmd_type(tk_list);
+	if (!is_cmd_parsable_tk(t_l))
+		parser_syntax_err(NULL, err, &node, ERR_MSG_PIPE);
+	if (!node)
+		return (NULL);
+	node->right = parse_cmd_type(t_l, err);
 	if (!node->right)
 	{
-		free_node(node);//FIX: need to free all t_node or exit
+		parser_syntax_err(NULL, err, &node, ERR_MSG_PIPE);
 		return (NULL);
 	}
-	create_sequential_pipe_node(node, tk_list);
+	create_seq_pipe_node(&node, t_l, err);
 	return (node);
 }
 
 // ND_AND_OP or ND_OR_OP
-static t_node	*handle_logical_op(t_node *left, t_token **tk_list)
+t_node	*handle_logical_op(t_node *left, t_token **tk_list, t_syntax_error *e)
 {
 	t_node	*node;
 
-	node = create_logi_node(left, tk_list);
+	node = create_logi_node(left, tk_list, e);
 	if (!node)
-	{
-		free_node(left);
-		d_throw_error("handle_logical_op", "failed to create logi node");//syntax error need to check left node and right node as well.
 		return (NULL);
-	}
 	if (compare_tk(ND_PIPE, tk_list))
 	{
-		node->right = parse_cmd_tail(node->right, tk_list);
-		if (!node->right)//syntax error could be cause 
+		node->right = parse_cmd_tail(node->right, tk_list, e);
+		if (!node->right)
 		{
-			free_node(node);
+			parser_syntax_err(NULL, e, &node, ERR_MSG_PIPE);
 			return (NULL);
 		}
 	}
@@ -62,11 +58,11 @@ static t_node	*handle_logical_op(t_node *left, t_token **tk_list)
 }
 
 // ND_REDIRECTS
-static t_node	*handle_redirects(t_node *left, t_token **tk_list)
+t_node	*handle_redirects(t_node *left, t_token **tk_list, t_syntax_error *e)
 {
 	t_node	*redirect_node;
 
-	redirect_node = parse_redirects(tk_list);
+	redirect_node = parse_redirects(tk_list, e);
 	if (!redirect_node)
 		return (left);
 	if (left)
@@ -76,19 +72,19 @@ static t_node	*handle_redirects(t_node *left, t_token **tk_list)
 	return (left);
 }
 
-t_node	*parse_cmd_tail(t_node *left, t_token **tk_list)
+t_node	*parse_cmd_tail(t_node *left, t_token **tk_list, t_syntax_error *err)
 {
 	while (true)
 	{
 		if (!left)
 			return (NULL);
 		if (match_token(ND_PIPE, tk_list))
-			left = handle_pipe(left, tk_list);
+			left = handle_pipe(left, tk_list, err);
 		else if (compare_tk(ND_AND_OP, tk_list)
 			|| compare_tk(ND_OR_OP, tk_list))
-			left = handle_logical_op(left, tk_list);
+			left = handle_logical_op(left, tk_list, err);
 		else if (compare_tk(ND_REDIRECTS, tk_list))
-			left = handle_redirects(left, tk_list);
+			left = handle_redirects(left, tk_list, err);
 		else
 			break ;
 	}

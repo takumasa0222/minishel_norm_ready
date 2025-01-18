@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/16 22:59:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/18 17:20:42 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ void	start_exec(char *line, t_context *ctx)
 	token_list = lexer_handler(line, syntx_err, ctx);
 	if (!token_list)
 		return ;
-	ast_node = parse_cmd(&token_list);//Fix: when there is syntax error, should be throw error and back to readline
+	ast_node = parse_cmd_handler(&token_list, syntx_err);
 	if (!ast_node)
 		return ;
-	free_token_list(token_list);
+	//free_token_list(token_list);
 	heredoc_handler(ast_node);
 	exec_handler(ast_node, ctx);
 	if (ctx->cnt)
