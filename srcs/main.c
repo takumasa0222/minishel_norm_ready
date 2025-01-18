@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/13 22:54:31 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 12:40:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ void	start_exec(char *line, t_context *ctx)
 
 void close_stored_fds(t_context *ctx)
 {
-	close(ctx->stored_stdin);
-	close(ctx->stored_stdout);
+	if (ctx->stored_stdin != -1 && close(ctx->stored_stdin) == -1)
+		d_throw_error("close_stored_fds", "failed to close stored stdin");
+	if (ctx->stored_stdout != -1 && close(ctx->stored_stdout) == -1)
+		d_throw_error("close_stored_fds", "failed to close stored stdout");
 	ctx->stored_stdin = -1;
 	ctx->stored_stdout = -1;
 }

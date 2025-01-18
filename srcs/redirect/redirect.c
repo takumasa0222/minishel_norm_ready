@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 23:20:00 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 12:47:15 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	apply_redirects(t_node *node)
 	while (node->redirects[i])
 	{
 		op = node->redirects[i];
-		if (node->redirects[i + 1] == NULL)
-			d_throw_error("apply_redirects", "filename missing");
 		filename = node->redirects[i + 1];
 		if (!filename)
 			d_throw_error("apply_redirect_fds", "filename is NULL");

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 23:32:23 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 12:36:38 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,12 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	if (node->left && node->left->redirects)
 		set_redirect_fds(node);
 	if (is_builtin(node->cmds[0]))
-		return (run_builtin(node, ctx));
+	{
+		int ret = run_builtin(node, ctx);
+		if (ret != EXIT_SUCCESS && ctx->is_exec_in_child_ps)
+			d_throw_error("exec_cmd", "builtin execution failed");
+		return (ret);
+	}
 	else
 		return (run_external(node, ctx));
 	return (EXIT_SUCCESS);
