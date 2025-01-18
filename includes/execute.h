@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:09:09 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/03 23:36:10 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:14:42 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ int		wait_children_status(t_context *ctx);
 void	clear_pid_status(t_context *ctx);
 bool	is_builtin(char *cmd);
 
-char	*resolve_executable_path(t_node *node, t_map *envp);
+// exec_builtin.c
+void	backup_std_fds(t_context *ctx);
+void	restore_std_fds(t_context *ctx);
+int		exec_builtin(char *cmd, char **argv, t_context *ctx);
+int		run_builtin(t_node *node, t_context *ctx);
+
+// exec_external.c
+// char	*resolve_executable_path(t_node *node, t_map *envp);
+int		run_external(t_node *node, t_context *ctx);
 
 #endif

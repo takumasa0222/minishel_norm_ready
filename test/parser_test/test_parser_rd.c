@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser_rd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 01:57:43 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/09 02:54:01 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:08:30 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	run_test_parser()
 		"<a <b >c cat Makefile Readme >> eof >> EOF Makefile2 <asdf",
 		"<a <b cat Makefile>>eof>>EOF Makefile2",
 		">A >B >C >D >E >F>G<H<I<J<K",
-		"cat Makefile Readme >> eof >> EOF Makefile2 <asdf"
+		"cat Makefile Readme >> eof >> EOF Makefile2 <asdf",
 		">A>>EOF>>EOF",
 	};
 

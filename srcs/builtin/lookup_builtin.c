@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:37:41 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/03 15:55:22 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:58:59 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 t_builtin	*lookup_builtin(char *cmd)
 {
-	t_builtin	builtins_list[8];
-	t_builtin	*p;
+	t_builtin			*p;
+	static t_builtin	builtins_list[8];
 
 	builtins_list[0] = (t_builtin){"cd", builtin_cd};
 	builtins_list[1] = (t_builtin){"pwd", builtin_pwd};
