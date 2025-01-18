@@ -37,5 +37,5 @@ assert "zzzNonExistentCommand123"
 # expected: command not found, exit 127
 
 # Cleanup
-# chmod 755 no_read_dir
-# rm -rf no_read_dir
+chmod 755 no_read_dir
+rm -rf no_read_dir

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/18 18:08:22 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:16:44 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static bool	verify_direct_path_or_exit(char *cmd)
 
 static void	execve_errors(char *cmd_path)
 {
-	printf("errno: %d\n", errno);
 	if (errno == EACCES)
 		exit_permission_denied(cmd_path);
 	else if (errno == ENOENT)

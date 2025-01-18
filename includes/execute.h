@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:09:09 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/18 17:11:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:16:04 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ char	*search_path_env_or_exit(t_node *node, t_map *envp);
 void	exit_command_not_found(char *cmd);
 void	exit_permission_denied(char *cmd);
 void	exit_file_not_found(char *cmd);
-void	exit_usage_error(char *cmd);
 void	exit_is_directory(char *cmd);
 
 #endif
