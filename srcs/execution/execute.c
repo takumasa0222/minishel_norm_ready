@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/18 12:36:38 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:06:32 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 // 	ctx->last_status = apply_redirects(node);
 // 	return (ctx->last_status);
 // }
-
 int	exec_pipe(t_node *node, t_context *ctx)
 {
 	int	pfd[2];

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/18 13:24:07 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:08:22 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@
 #include "../../includes/utils.h"
 #include "../../includes/environment.h"
 
-char	*resolve_executable_path(t_node *node, t_map *envp);
-static bool	validate_executable_or_exit(char *cmd);
-static char	*find_executable_path_for_cmd(char *cmd, char **directories);
-static char	*find_executable_path_env_or_exit(t_node *node, t_map *envp);
-static void	command_not_found_error(char *cmd);
+static char	*resolve_executable_path(t_node *node, t_map *envp);
+static bool	verify_direct_path_or_exit(char *cmd);
+static void	execve_errors(char *cmd_path);
 
 int	run_external(t_node *node, t_context *ctx)
 {
@@ -32,23 +30,21 @@ int	run_external(t_node *node, t_context *ctx)
 	if (!cmd_path)
 		d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
 	execve(cmd_path, node->cmds, get_environ(ctx->env));
-	perror("execvp");
+	execve_errors(cmd_path);
 	free(cmd_path);
 	exit(EXIT_FAILURE);
 	return (EXIT_FAILURE);
 }
 
-char	*resolve_executable_path(t_node *node, t_map *envp)
+static char	*resolve_executable_path(t_node *node, t_map *envp)
 {
 	char	*executable_path;
 	char	*cmd;
 	int		i;
 
 	cmd = node->cmds[0];
-	if (ft_strcmp(cmd, ".") == 0)
-		d_throw_error("resolve_executable_path", "filename argument required\n"); // FIX: expect 2
-	if (ft_strcmp(cmd, "..") == 0)
-		command_not_found_error(cmd);
+	if (ft_strcmp(cmd, ".") == 0 || ft_strcmp(cmd, "..") == 0)
+		exit_command_not_found(cmd);
 	i = ft_strlen(cmd) - 1;
 	while (cmd[i] == '/' && i > 0)
 	{
@@ -57,62 +53,54 @@ char	*resolve_executable_path(t_node *node, t_map *envp)
 	}
 	if (ft_strchr(cmd, '/'))
 	{
-		validate_executable_or_exit(cmd);
+		verify_direct_path_or_exit(cmd);
 		executable_path = cmd;
 	}
 	else
-		executable_path = find_executable_path_env_or_exit(node, envp);
+		executable_path = search_path_env_or_exit(node, envp);
 	return (executable_path);
 }
-/*
-errno == ENOENT means "file not found" -> continue searching other directories
-*/
 
-static bool	validate_executable_or_exit(char *cmd)
+static bool	verify_direct_path_or_exit(char *cmd)
 {
+	struct stat	st;
+
 	if (!cmd)
-		d_throw_error("validate_executable_path_or_exit", "cmd is NULL\n");
+		d_throw_error("verify_direct_path", "cmd is NULL\n"); // alreadly checked in resolve_executable_path?
 	if (access(cmd, F_OK) != 0)
-		d_throw_error("validate_executable_path_or_exit", "file not found\n"); // FIX: command not found error, exit 127
-	else if (access(cmd, X_OK) != 0)
-		d_throw_error("validate_executable_path_or_exit", "permission denied\n");
+	{
+		if (errno == EACCES)
+			exit_permission_denied(cmd);
+		exit_file_not_found(cmd);
+	}
+	if (stat(cmd, &st) < 0)
+	{
+		if (errno == EACCES)
+			exit_permission_denied(cmd);
+		exit_file_not_found(cmd);
+	}
+	else if (S_ISDIR(st.st_mode))
+		exit_is_directory(cmd);
+	if (access(cmd, X_OK) != 0)
+	{
+		if (errno == EACCES)
+			exit_permission_denied(cmd);
+		exit_file_not_found(cmd);
+	}
 	return (true);
 }
 
-static char	*find_executable_path_env_or_exit(t_node *node, t_map *envp)
+static void	execve_errors(char *cmd_path)
 {
-	char	*path_env_value;
-	char	**directories;
-	char	*executable_path;
-	char	cwd[PATH_MAX];
-
-	path_env_value = map_get(envp, "PATH");
-	if (!path_env_value)
-		d_throw_error("find_executable_path_env_or_exit", "PATH not set\n"); // FIX: command not found error?
-	if (ft_strlen(path_env_value) == 0)
+	printf("errno: %d\n", errno);
+	if (errno == EACCES)
+		exit_permission_denied(cmd_path);
+	else if (errno == ENOENT)
 	{
-		if (getcwd(cwd, PATH_MAX) == NULL)
-		{
-			perror("getcwd"); // FIX: Error handling
-			exit(EXIT_FAILURE);
-		}
-		path_env_value = ft_strdup(cwd); // FIX: x_strdup??
-		if (!path_env_value)
-			d_throw_error("find_executable_path_env_or_exit", "Memory allocation failed\n");
+		ft_putstr_fd(cmd_path, STDERR_FILENO);
+		ft_putendl_fd(": bad interpreter", STDERR_FILENO);
+		exit(126);
 	}
-	directories = ft_split(path_env_value, ':');
-	if (!directories)
-		d_throw_error("find_executable_path_env_or_exit", "ft_split is failed\n"); // FIX: Error handling
-	executable_path = find_executable_path_for_cmd(node->cmds[0], directories);
-	free_wordlist(directories);
-	if (!executable_path)
-		d_throw_error("find_executable_path_env_or_exit", "executable path not found\n"); // FIX: exit code should be 127
-	return (executable_path);
-}
-
-static void	command_not_found_error(char *cmd) // FIX: Error handling
-{
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putendl_fd(": command not found", STDERR_FILENO);
-	exit(127);
+	perror(cmd_path);
+	exit(126);
 }

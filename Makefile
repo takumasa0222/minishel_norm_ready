@@ -6,7 +6,7 @@
 #    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/13 21:50:24 by ssoeno           ###   ########.fr        #
+#    Updated: 2025/01/18 15:58:46 by ssoeno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,8 @@ srcs/execution/execute_utils.c \
 srcs/execution/execute.c \
 srcs/execution/execute_external.c \
 srcs/execution/execute_builtin.c \
+srcs/execution/execute_error.c \
+srcs/execution/execute_search_path_env.c \
 srcs/heredoc/heredoc.c \
 srcs/redirect/redirect.c \
 srcs/redirect/redirect_utils.c \

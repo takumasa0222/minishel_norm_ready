@@ -6,6 +6,8 @@ echo "=== Test: '.' and '..' as commands ==="
 
 # Attempt to run '.'
 assert "."
+# the '.' builtin is not supported" so we expect "command not found" => exit 127
+
 assert ".."
 assert "..."
 # Expect 127 (command not found) for "..."
@@ -19,6 +21,7 @@ assert "unset PATH && ls"
 echo "=== Test: Non-ENOENT error on access() ==="
 mkdir -p no_read_dir/sub
 chmod 000 no_read_dir
+assert "./no_read_dir"
 assert "./no_read_dir/sub/echo"
 # expected: no such file or directory, exit 126
 
@@ -34,5 +37,5 @@ assert "zzzNonExistentCommand123"
 # expected: command not found, exit 127
 
 # Cleanup
-chmod 755 no_read_dir
-rm -rf no_read_dir
+# chmod 755 no_read_dir
+# rm -rf no_read_dir
