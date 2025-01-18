@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/18 12:40:48 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 01:52:47 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		set_idle_sig_handlers();
+		printf("DEBUG %d\n", g_sig);
+		if (ctx->heredoc_interrupted == true)
+		{
+			// ft_putchar_fd('\n', STDOUT_FILENO);
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay();
+			ctx->heredoc_interrupted = false;
+			continue ;
+		}
 		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
@@ -53,22 +63,14 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			add_history(line);
 			start_exec(line, ctx);
-			//token_list = lexer(line);
-			//ast = parse_cmd(&token_list);
-			//free_node(ast);
-			//ast = NULL;
-			//if (token_list)
-			//	free_token_list(token_list);
-			//token_list = NULL;
 		}
 		free(line);
 		line = NULL;
-		// printf("DEBUG last_status: %d\n", ctx->last_status);
 	}
 	return (ctx->last_status);
 }
 
-void	start_exec(char *line, t_context *ctx)
+int	start_exec(char *line, t_context *ctx)
 {
 	t_token		*token_list;
 	t_node		*ast_node;
@@ -76,7 +78,7 @@ void	start_exec(char *line, t_context *ctx)
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
 	clear_ctx(ctx);
-	heredoc_handler(ast_node);
+	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
 	// restore fds?
 	if (ctx->cnt)
@@ -87,6 +89,7 @@ void	start_exec(char *line, t_context *ctx)
 	free_token_list(token_list);
 	free_ast(&ast_node);
 	close_stored_fds(ctx);
+	return (0);
 }
 
 void close_stored_fds(t_context *ctx)
@@ -115,6 +118,7 @@ t_context	*init_ctx(void)
 	ret->last_status = 0;
 	ret->stored_stdin = -1;
 	ret->stored_stdout = -1;
+	ret->heredoc_interrupted = false;
 	return (ret);
 }
 
@@ -128,5 +132,6 @@ void	clear_ctx(t_context *ctx)
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
+	ctx->heredoc_interrupted = false;
 	backup_std_fds(ctx);
 }

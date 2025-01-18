@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 18:38:10 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 01:01:46 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 #include "../includes/utils.h"
 #include <unistd.h>
 #include "../includes/heredoc.h"
+#include "../includes/signals.h"
 
-int	input_heredoc_content(char *eof)
+static int terminate_heredoc(char *line, int *pipe_fds);
+
+int	input_heredoc_content(char *eof, t_context *ctx)
 {
-	char	*line;
-	int		pipe_fds[2];
+	char			*line;
+	int				pipe_fds[2];
 
 	line = NULL;
+	rl_event_hook = heredoc_sigint_event_hook;
 	if (pipe(pipe_fds) == -1)
 		d_throw_error("input_heredoc_content", "pipe failed");
 	while (1)
@@ -28,6 +32,11 @@ int	input_heredoc_content(char *eof)
 		free(line);
 		line = NULL;
 		line = readline("> ");
+		if (g_sig == SIGINT)
+		{
+			ctx->heredoc_interrupted = true;
+			return (terminate_heredoc(line, pipe_fds));
+		}
 		if (line == NULL || \
 		(ft_strlen(line) == ft_strlen(eof) && !ft_strcmp(eof, line)))
 			break ;
@@ -37,6 +46,7 @@ int	input_heredoc_content(char *eof)
 			write(pipe_fds[1], "\n", ft_strlen("\n"));
 		}
 	}
+	rl_event_hook = sigint_event_hook;
 	free(line);
 	close(pipe_fds[1]);
 	return (pipe_fds[0]);
@@ -46,17 +56,25 @@ by returning pipe_fds[0], we can redirect STDIN from this pipe
 so that the command reads these lines as input.
 */
 
-void	heredoc_handler(t_node *node)
+static int terminate_heredoc(char *line, int *pipe_fds)
+{
+	close(pipe_fds[1]);
+	free(line);
+	rl_event_hook = sigint_event_hook;
+	return (-2);
+}
+
+void	heredoc_handler(t_node *node, t_context *ctx)
 {
 	if (node == NULL)
 		return ;
-	heredoc_handler(node->left);
-	heredoc_handler(node->right);
+	heredoc_handler(node->left, ctx);
+	heredoc_handler(node->right, ctx);
 	if (node->kind == ND_REDIRECTS)
-		call_heredoc(node);
+		call_heredoc(node, ctx);
 }
 
-void	call_heredoc(t_node *node)
+void	call_heredoc(t_node *node, t_context *ctx)
 {
 	size_t	i;
 	size_t	j;
@@ -72,7 +90,7 @@ void	call_heredoc(t_node *node)
 	{
 		if (!ft_strcmp(node->redirects[i], "<<") && node->redirects[i + 1])
 		{
-			temp_fd_arry[j++] = input_heredoc_content(node->redirects[i + 1]);
+			temp_fd_arry[j++] = input_heredoc_content(node->redirects[i + 1], ctx);
 			i++;
 		}
 		i++;
