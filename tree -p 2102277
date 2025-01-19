@@ -1,0 +1,1668 @@
+[33mcommit f850b542484c08e688a80a9a3d316e67cec50877[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/redirect_only/70[m[33m, [m[1;31morigin/feature/redirect_only/70[m[33m)[m
+Author: Shoko Soeno <ssoeno@c6r3s14.42tokyo.jp>
+Date:   Sun Jan 19 17:33:32 2025 +0900
+
+    before review
+
+[33mcommit a83a3e453ddf4ed4da17fb80fd05dbdf2edeffdb[m
+Author: Shoko Soeno <ssoeno@c6r3s14.42tokyo.jp>
+Date:   Sun Jan 19 16:45:07 2025 +0900
+
+    作業中断のためプッシュ
+
+[33mcommit 608cff461bad453546d04d8458198c56fd0610c9[m[33m ([m[1;31morigin/feature/signal_heredoc/22[m[33m, [m[1;32mfeature/signal_heredoc/22[m[33m)[m
+Author: Shoko Soeno <ssoeno@c6r3s14.42tokyo.jp>
+Date:   Sun Jan 19 15:55:29 2025 +0900
+
+    minor changes based on coderabbit comments
+
+[33mcommit 92cf39405603f885f38ac669d6f03a4a4bfbd808[m
+Author: Shoko Soeno <ssoeno@c6r3s14.42tokyo.jp>
+Date:   Sun Jan 19 15:20:23 2025 +0900
+
+    add isatty before rl_event_hook to avoid infinite floop when non tty. refactored input_heredoc_content function
+
+[33mcommit bc0103204d084c889b2e5a6de9aa5b3e4db21cdb[m
+Author: Shoko Soeno <ssoeno@c6r3s14.42tokyo.jp>
+Date:   Sun Jan 19 14:31:59 2025 +0900
+
+    commented out the heredoc test bacause of infinite loop
+
+[33mcommit 3168c87d0ca98c5cd0e277f8f5f3f76d81288b45[m
+Author: Shoko Soeno <ssoeno@c6r3s14.42tokyo.jp>
+Date:   Sun Jan 19 14:00:43 2025 +0900
+
+    rm some lines in main.c and checked signals manually
+
+[33mcommit 2fc213c871c0a63ed582de1e978decdf5f0ddf10[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Jan 19 05:56:00 2025 +0900
+
+    fixed Ctrl +c during heredoc but need to test
+
+[33mcommit 96218858e1e975a31a0e2b925fe91d7bae457007[m
+Author: Shoko Soeno <ssoeno@c6r1s11.42tokyo.jp>
+Date:   Sun Jan 19 02:23:34 2025 +0900
+
+    handling SIGINT during heredoc
+
+[33mcommit 80ebc2f204d44e61741af0d352592856246495bd[m[33m ([m[1;31morigin/feature/exec_path/42[m[33m, [m[1;32mfeature/exec_path/42[m[33m)[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sat Jan 18 18:17:57 2025 +0900
+
+    minor changes base on coderabbit comments
+
+[33mcommit 87c77924a224f83d9df1cee1c7a2133dcb55d148[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sat Jan 18 18:10:57 2025 +0900
+
+    handle exec errors
+
+[33mcommit a571034df1e3b89dcb8da6495f41f2712b4fc96c[m
+Merge: c5dc20d 305af2a
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sat Jan 18 13:25:01 2025 +0900
+
+    merged the changes from the main branch
+
+[33mcommit 305af2a117a2d90fb767655d05eb3bc1410cea63[m
+Merge: 041a0f0 5630fa7
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Jan 18 12:52:04 2025 +0900
+
+    Merge pull request #67 from shoko-soeno/feature/redirect/27
+    
+    Feature/redirect/27
+
+[33mcommit 5630fa722946633e515fea0d46a16bc986c0cfd3[m[33m ([m[1;31morigin/feature/redirect/27[m[33m, [m[1;32mfeature/redirect/27[m[33m)[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sat Jan 18 12:48:21 2025 +0900
+
+    minor changes based on coderabbit comments
+
+[33mcommit c5dc20d96cc1b744364919c82d8777e936d2d320[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Wed Jan 15 23:28:03 2025 +0900
+
+    minor changes base on coderabbit comments
+
+[33mcommit e180d469ec7cd1b2850df8d6342af1ac488bf883[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Wed Jan 15 22:50:05 2025 +0900
+
+    add some new features in exec_prep.c
+
+[33mcommit 626ddacfe71ffef8768401e840ea62ff6d22de80[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Mon Jan 13 23:37:49 2025 +0900
+
+    fixed compile error
+
+[33mcommit 640bf0edf3ae8f68a307aec87521bc9f5031fb7f[m
+Merge: dc1eab9 041a0f0
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Mon Jan 13 22:40:27 2025 +0900
+
+    Merge branch 'main' into feature/redirect/27
+
+[33mcommit dc1eab933cc9cf93b5fabf9926199083b1657027[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Mon Jan 13 22:36:04 2025 +0900
+
+    minor changes based on coderabbit feedback
+
+[33mcommit 86d302ef9b975755868b24ece45112852a3b6c34[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Mon Jan 13 22:01:09 2025 +0900
+
+    add redirect test case, modified lookup_builtin(use static variable)
+
+[33mcommit 041a0f0d97316552d8d7b9a38f6e877340e504cb[m
+Merge: f587af4 7e0192e
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Mon Jan 13 18:17:06 2025 +0900
+
+    Merge pull request #63 from shoko-soeno/bugfix/add_null_guard_to_map_functions
+    
+    add_null_guard_to_map_functions
+
+[33mcommit 7e0192ea65a14a144da6769351acd8fa2f96c708[m[33m ([m[1;31morigin/bugfix/add_null_guard_to_map_functions[m[33m)[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Jan 13 18:15:31 2025 +0900
+
+    fixed based on code rabbit comment
+
+[33mcommit 3b1f1baf61dea43d11c11ac360bf8a0e8a0a5b05[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Mon Jan 13 17:50:52 2025 +0900
+
+    add test cases
+
+[33mcommit 41de70e53a49c3436c84183d9921cf066f188051[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Mon Jan 13 17:17:35 2025 +0900
+
+    fixed norm error, add exec_builtin.c and exec_external.c
+
+[33mcommit fba03eb63821c0f4a7f183d59605eda09dd02446[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sun Jan 12 21:05:38 2025 +0900
+
+    add redirect.c
+
+[33mcommit dcc3961e9824763cbae0f6d0f9a57fbe0e7aa7e3[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sat Jan 11 17:20:18 2025 +0900
+
+    stil debugging...
+
+[33mcommit c14f3d7e2a11ffad4d4e404709ea30797f3cd4cf[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sat Jan 11 17:04:01 2025 +0900
+
+    temporarily pushing
+
+[33mcommit bd4659953e4d2d90419b619cfd60ee3868af0601[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sat Jan 11 15:43:12 2025 +0900
+
+    modified set_redirect_fds
+
+[33mcommit f587af45df51466e1f362c031fa0d70a0128b7bb[m
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Sat Jan 11 15:08:58 2025 +0900
+
+    Update execute.c
+    
+    duplicate var
+
+[33mcommit acd9674d6b6f2daf58d96f3d2fce3d236466b3bf[m
+Merge: 6274dd6 2d7f0d4
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Jan 11 13:20:59 2025 +0900
+
+    Merge pull request #54 from shoko-soeno/feature/signals/22
+    
+    Feature/signals/22
+
+[33mcommit 2d7f0d4aafa552a55baa0e4ca15ab10ba0b9e3ba[m[33m ([m[1;31morigin/feature/signals/22[m[33m)[m
+Merge: 3a0369d 6274dd6
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Jan 11 13:20:47 2025 +0900
+
+    Merge branch 'main' into feature/signals/22
+
+[33mcommit 6274dd62bdeb6e9d33aa14f6a7ec076d916c742c[m
+Merge: 0d0a53c 05a5af2
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Jan 11 13:02:39 2025 +0900
+
+    Merge pull request #59 from takumasa0222/feature/heredoc/53
+    
+    Feature/heredoc/53
+
+[33mcommit 05a5af293c2ad1d0432b59d8ef0d2040363605d9[m
+Merge: e60431f 0d0a53c
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Jan 11 12:59:54 2025 +0900
+
+    Merge branch 'main' into feature/heredoc/53
+
+[33mcommit 0d0a53c3669c6394b0c5c1edb5c238262fb82086[m
+Merge: 4281c97 a3431e1
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Jan 11 12:44:49 2025 +0900
+
+    Merge pull request #62 from takumasa0222/bugfix/incorrect_status_code/61
+    
+    fixed status code bug
+
+[33mcommit e60431fee49487d4428fa9980c16300b4e9d80a6[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 11 12:22:41 2025 +0900
+
+    This is an empty commit
+
+[33mcommit 9ce7f134aad459316d5c727e5f779cedab27f685[m
+Author: Shoko Soeno <ssoeno@c6r2s14.42tokyo.jp>
+Date:   Sat Jan 11 12:07:37 2025 +0900
+
+    add_null_guard_to_map_functions
+
+[33mcommit a3431e1392c96ee6ce35fa7a098e15ab90dcabcc[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 11 11:51:58 2025 +0900
+
+    fixed status code bug
+
+[33mcommit e7fabddadd62b411a81ea4ad73f844b3aebddc17[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 11 03:50:59 2025 +0900
+
+    fixed based on coderabbit comment
+
+[33mcommit c6d604d5811cb36b42747c286983077fe09f584f[m
+Merge: 8fe9f53 4281c97
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 11 03:32:05 2025 +0900
+
+    resolve conflict
+
+[33mcommit 8fe9f53eb6fa1e8874f9a4df3ef3b013b67744ca[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 11 03:23:27 2025 +0900
+
+    add comment on test cases
+
+[33mcommit 7ec147d7410dc2f6f42b19741e4f0b63900f1ff9[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 11 03:22:01 2025 +0900
+
+    add test cases
+
+[33mcommit e0bf3d20e2950d3664b30c6ffc1d428eceeaf833[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 11 02:54:51 2025 +0900
+
+    add heredoc functions
+
+[33mcommit 4281c97e7407c2c7a52875968839f51cc9b2cc43[m
+Merge: 3961472 407d955
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Jan 11 00:39:13 2025 +0900
+
+    Merge pull request #56 from takumasa0222/bugfix/incorrect_redirect_parser/55
+    
+    Bugfix/incorrect redirect parser/55
+
+[33mcommit 4f4a6245ae14089be591d3e5d5a2f956f887f498[m
+Merge: c2cad80 407d955
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Fri Jan 10 21:11:28 2025 +0900
+
+    merge bugfix branch and fixed conflict
+
+[33mcommit 407d95556e20a0826b28eea99ef5f8c961a53598[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Fri Jan 10 21:07:58 2025 +0900
+
+    fixed based on code rabbit comment
+
+[33mcommit 0037b621e36bcef1ad5e8ce5652d31cc9981508c[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Thu Jan 9 02:57:01 2025 +0900
+
+    fixed redirect node parser issue and added test code in test_parser_rd.c
+
+[33mcommit 6385c2e9e6f878b44cd076301e28458034d2291f[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Wed Jan 8 23:30:27 2025 +0900
+
+    temp save
+
+[33mcommit 3a0369d204b0d56121d88cdf1aba945326dd1136[m
+Author: Shoko Soeno <ssoeno@c5r2s1.42tokyo.jp>
+Date:   Wed Jan 8 23:30:18 2025 +0900
+
+    modifying to resolve test cases
+
+[33mcommit fb00361f51707e636d0d70e3c8e87a014d16903f[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Wed Jan 8 22:52:14 2025 +0900
+
+    temp change
+
+[33mcommit ec85cb1bbaf53cb6e1620599e920bd6b62ae57b1[m
+Merge: e6d9212 3961472
+Author: Shoko Soeno <ssoeno@c5r2s1.42tokyo.jp>
+Date:   Wed Jan 8 22:29:53 2025 +0900
+
+    modified to resolve conflints
+
+[33mcommit 3961472e47aba4f1dca0a3b0e3cca042f8085211[m
+Author: Shoko Soeno <ssoeno@c5r2s1.42tokyo.jp>
+Date:   Wed Jan 8 22:26:20 2025 +0900
+
+    rm ctx->last_status = 0 from clear_ctx to store the previous last status
+
+[33mcommit 6d33a5db3f1b97ba6ab36f9c2aebfa5562370319[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Wed Jan 8 19:36:45 2025 +0900
+
+    temp save
+
+[33mcommit c2cad8046d964c16a7e6b273ef9c4fb7e6368f88[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Wed Jan 8 02:23:20 2025 +0900
+
+    add heredoc base code. This code is working if you run command in child process but need to be fixed for parent process (need to restore STDIN/STDOUT)
+
+[33mcommit e6d9212e0d7b79e82889d81f763ff994cbb96e3d[m
+Author: Shoko Soeno <ssoeno@c6r3s8.42tokyo.jp>
+Date:   Tue Jan 7 20:21:54 2025 +0900
+
+    add if (isatty(STDIN_FILENO))
+
+[33mcommit a4aacc02c5fc90922d80f8aa786a08d94624b870[m
+Author: Shoko Soeno <ssoeno@c6r3s8.42tokyo.jp>
+Date:   Tue Jan 7 16:34:56 2025 +0900
+
+    merge changes in the remote repository
+
+[33mcommit d3fc35f3a253e0364edf4c977c7b940efafc47bf[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Mon Jan 6 05:14:07 2025 +0900
+
+    add manual execution for test code to test.yaml
+
+[33mcommit aebc7d015c9e5d1882572671841636fad7328588[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Mon Jan 6 05:10:21 2025 +0900
+
+    try to trigger test
+
+[33mcommit 5e454e5414eb04f45ac621c2fcd758794938fcd9[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Mon Jan 6 04:58:44 2025 +0900
+
+    add time out for test.yam;
+
+[33mcommit c0dd38ed14ea9d011d7dd48782c1ac9e90ca851e[m[33m ([m[1;31morigin/pull/54/head[m[33m)[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Mon Jan 6 04:41:31 2025 +0900
+
+    fixed multi process issue by adding exit when calling builtin in child process (execute.c/exec_cmd). Comment out rl_event_hook temporary to run the test
+
+[33mcommit 16921bd23d1835e18d31112ec1082d7fc20d6ac1[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Mon Jan 6 03:46:49 2025 +0900
+
+    temp save
+
+[33mcommit 1a223ee5b2343b2bfa0f3a61d6c226a0fbb2ebba[m
+Merge: 54d9377 455edaa
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sun Jan 5 15:48:22 2025 +0900
+
+    Merge pull request #52 from takumasa0222/feature/expansion_q_mark/48
+    
+    Implement $?
+
+[33mcommit 5685307dc7cdcefed7f1c2f2b74b1fafa8ffd3fe[m
+Author: Shoko Soeno <ssoeno@c6r2s8.42tokyo.jp>
+Date:   Sun Jan 5 15:42:13 2025 +0900
+
+    changed sigaction to signal function
+
+[33mcommit 455edaabb782171f9e8277967e930fbc8ae1b1ff[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sun Jan 5 01:01:51 2025 +0900
+
+    fixed run_test
+
+[33mcommit 542604e4b1ec8b81a976a0757a2f78aed83a3951[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sun Jan 5 00:58:59 2025 +0900
+
+    modified expand code to apply 0 and modified execute_logical_operator to set proper is_exec_child_flag and  add some test code to expand_test.sh. Almost of the all test has passed.
+
+[33mcommit 6aa3471982f5cd47da616d25b5d453980587a3af[m
+Author: Shoko Soeno <ssoeno@c6r3s4.42tokyo.jp>
+Date:   Sat Jan 4 23:36:35 2025 +0900
+
+    last train
+
+[33mcommit af131e63fd45d806fdb4d9f9226a9e3b02598ebd[m
+Author: Shoko Soeno <ssoeno@c6r3s4.42tokyo.jp>
+Date:   Sat Jan 4 22:41:37 2025 +0900
+
+    signal handling : returns the right exit status but it does not display a new prompt properly
+
+[33mcommit 54d9377bff0666ecf7c08b20225fdc563d3d15e0[m
+Merge: 9489aa1 e1d78ce
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Jan 4 13:11:24 2025 +0900
+
+    Merge pull request #51 from takumasa0222/cleanup/merge_ctx_env/50
+    
+    Cleanup/merge ctx env/50
+
+[33mcommit e1d78ce145d8850f9d08d6e08a58cd1123c4431a[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 4 03:38:51 2025 +0900
+
+    modified test code and removed ctx = NULL from exec_cmd
+
+[33mcommit 03b40e4db927ab0c46fdd673e08d0547d0c0f329[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 4 03:02:53 2025 +0900
+
+    temp
+
+[33mcommit 46447a6ea1f56a7f2cdbebf1a8bd8a29b7df9648[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sat Jan 4 02:44:43 2025 +0900
+
+    modified code
+
+[33mcommit 3d5ed3cc1296b991f795504ac0ee64e76ffbbeee[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Fri Jan 3 23:45:46 2025 +0900
+
+    temp save
+
+[33mcommit 9489aa19be77b4b6c8358599d8408d0e74c872c7[m
+Merge: 2733c33 147744a
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Fri Jan 3 23:14:54 2025 +0900
+
+    Merge pull request #49 from shoko-soeno/feature/builtin_exit/4
+    
+    changed ft_strncmp to ft_strcmp in is_builtin function. modified buil…
+
+[33mcommit 147744aa417b7ca651d2cf4b5715b3dc844f402d[m[33m ([m[1;31morigin/feature/builtin_exit/4[m[33m)[m
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 23:12:12 2025 +0900
+
+    rm unused a variable, add some test cases
+
+[33mcommit ad197191bc73b186dc98f0596f416e472d4bff64[m
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 23:06:01 2025 +0900
+
+    add clear_ctx
+
+[33mcommit f40f47323c95a721ba6443df183afcea7eab9b9c[m
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 21:45:42 2025 +0900
+
+    handle LONG_MIN
+
+[33mcommit 2238d4ebcac6f2862940d84a7bf2fc7d9b119703[m
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 21:10:53 2025 +0900
+
+    modified builtin_exit:NULL check before checking is_digit_str
+
+[33mcommit 8e19194605d1a51737fd06484af395d3ec5615a4[m
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 20:17:23 2025 +0900
+
+    add exit test cases
+
+[33mcommit 23e59608979ea516fd73a0d5e580d7865fa4ce40[m
+Merge: 8bed9ba 2733c33
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 20:12:44 2025 +0900
+
+    fixed datetime to resolve conflicts
+
+[33mcommit 8bed9ba9c061837a9a45da821e18d5f955c54653[m
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 20:07:20 2025 +0900
+
+    changed ft_strncmp to ft_strcmp in is_builtin function. modified builtin_exit to store exit codes similar to bash
+
+[33mcommit 2733c33c21eca10fa5811d400376a2f002e135bc[m
+Merge: 9eff7f0 fca7d5a
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Fri Jan 3 19:22:58 2025 +0900
+
+    Merge pull request #47 from takumasa0222/feature/auto_test/46
+    
+    add test yaml file and test shell script
+
+[33mcommit fca7d5a867ce1b6e6de43483ddaca7da37150c1e[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Fri Jan 3 19:15:06 2025 +0900
+
+    remove unused val
+
+[33mcommit e9c4f96a623bd0222d5a33ff63dfc3c03b607673[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Fri Jan 3 19:12:32 2025 +0900
+
+    modified yaml
+
+[33mcommit 0ab381a10f6a59767fefc21e362e458f189fe776[m
+Merge: 84cf39e 9eff7f0
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Fri Jan 3 18:59:27 2025 +0900
+
+    resolve merge
+
+[33mcommit 84cf39ef3d8d1552618c9d94897c0221edb0a933[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Fri Jan 3 18:50:42 2025 +0900
+
+    modified scripts
+
+[33mcommit bca79514896a19bf4b435cc63cf2a784cb7195c9[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Fri Jan 3 18:41:52 2025 +0900
+
+    modified scripts
+
+[33mcommit f7c6e2f74cb41c18405e3075df8fc064e8254a78[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Fri Jan 3 17:27:03 2025 +0900
+
+    add test yaml file and test shell script
+
+[33mcommit 9eff7f0e231d4806b310c36121617b088908096d[m
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 16:41:10 2025 +0900
+
+    modified Makefile to resolve linker command failed
+
+[33mcommit 6bec2c4525fcc7ec03b1245db389436fd82a1d4a[m
+Merge: cee6fdc b61339c
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Fri Jan 3 16:10:22 2025 +0900
+
+    Merge pull request #44 from shoko-soeno/feature/builtin_cd/8
+    
+    Feature/builtin cd/8
+
+[33mcommit cee6fdcc9bc772356c0e86ea79f2f1bf1344c353[m
+Merge: e499bb5 09dccf8
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Fri Jan 3 16:05:31 2025 +0900
+
+    Merge pull request #37 from shoko-soeno/feature/builtin_export_unset/5_6
+    
+    Feature/builtin export unset/5 6
+
+[33mcommit 09dccf88beebe94008500f26ed4e5fa28be005c4[m[33m ([m[1;31morigin/feature/builtin_export_unset/5_6[m[33m)[m
+Merge: 58c04e6 e499bb5
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 16:03:08 2025 +0900
+
+    modified Makefile to resolve conflicts
+
+[33mcommit e499bb5bfd4b14d01759bd9d5ccbc37f807005d3[m
+Merge: 18e2309 c281f6f
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Fri Jan 3 15:56:55 2025 +0900
+
+    Merge pull request #36 from shoko-soeno/feature/builtin_env/7
+    
+    Feature/builtin env/7
+
+[33mcommit c281f6f3ce514f53c48b6a7271b08d5f69351ef1[m[33m ([m[1;31morigin/feature/builtin_env/7[m[33m)[m
+Merge: 0f781c3 18e2309
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 15:56:38 2025 +0900
+
+    modified to resolve conflicts
+
+[33mcommit 0f781c38cfcc346bb7dfeb23d6348313a3857320[m
+Merge: 64f955b 1f859a7
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 15:42:29 2025 +0900
+
+    modified some files to resolve conflicts
+
+[33mcommit 18e2309f59f33de06fd37a61028ffbcd0ecd5128[m
+Merge: 1f859a7 081ec56
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Fri Jan 3 15:34:26 2025 +0900
+
+    Merge pull request #35 from shoko-soeno/feature/execvp_to_execve/28
+    
+    Feature/execvp to execve/28
+
+[33mcommit 081ec563b0e93c9ede943f131c0b062c3f162a04[m[33m ([m[1;31morigin/feature/execvp_to_execve/28[m[33m)[m
+Merge: 371946a 1f859a7
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 15:31:16 2025 +0900
+
+    modified due to conflicts
+
+[33mcommit 58c04e6f01b06086106dbbe0563d2e25c2b9f0aa[m
+Author: Shoko Soeno <ssoeno@c6r3s6.42tokyo.jp>
+Date:   Fri Jan 3 14:36:08 2025 +0900
+
+    comment in init ctx in start_exec
+
+[33mcommit b61339c2e4a60b3b3b2d901a1496aacf6a0624b9[m[33m ([m[1;31morigin/feature/builtin_cd/8[m[33m)[m
+Author: Shoko Soeno <ssoeno@c6r2s12.42tokyo.jp>
+Date:   Thu Jan 2 20:25:31 2025 +0900
+
+    refactor: builtin_cd and add some testcases to tests/test.sh
+
+[33mcommit 1f859a77bdc1bc929b0dc499b28be8db7e785351[m
+Merge: 71832b1 7411850
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Thu Jan 2 12:41:53 2025 +0900
+
+    Merge pull request #39 from takumasa0222/feature/expansion/20
+    
+    Feature/expansion/20
+
+[33mcommit bc0b93f4ddf0746b575be22ee05cc301a532b309[m
+Author: Shoko Soeno <ssoeno@c6r2s12.42tokyo.jp>
+Date:   Thu Jan 2 11:37:56 2025 +0900
+
+    add str[0] == '\0' to is_valid_env_name
+
+[33mcommit 52c615370f39d15d699c657b6c89cad24d143313[m
+Author: Shoko Soeno <ssoeno@c6r2s12.42tokyo.jp>
+Date:   Thu Jan 2 11:31:47 2025 +0900
+
+    fixed is_valid_env_name
+
+[33mcommit 74118503d86a07da29be64cf8bcf8349c7f10723[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Thu Jan 2 05:25:44 2025 +0900
+
+    modified test code
+
+[33mcommit 0771ac55ffa76f2a21f0b93b96b3f46750fa3aca[m
+Author: Shoko Soeno <ssoeno@c6r3s12.42tokyo.jp>
+Date:   Wed Jan 1 17:28:11 2025 +0900
+
+    minor changes base on Code Rabbit suggestions
+
+[33mcommit 8ccefd2aae883bfbfaa51a92445792d64c932cf9[m
+Author: Shoko Soeno <ssoeno@c6r3s12.42tokyo.jp>
+Date:   Wed Jan 1 17:12:07 2025 +0900
+
+    env, export, unset, echo updated. added some test cases
+
+[33mcommit 64f955b11ccf82edd2a4014f4eca92ef9c024917[m
+Author: Shoko Soeno <ssoeno@c6r3s12.42tokyo.jp>
+Date:   Wed Jan 1 13:59:49 2025 +0900
+
+    add ctx->last_status = EXIT_FAILURE to builtin_env.c
+
+[33mcommit f35935628d1c03ca1089f6fabcccae80b7a38e66[m
+Author: Shoko Soeno <ssoeno@c6r3s12.42tokyo.jp>
+Date:   Wed Jan 1 13:00:02 2025 +0900
+
+    modified tests/test.sh to check the exit status
+
+[33mcommit de9971428f3108d4ab91401385bd841ea7ee7908[m
+Author: Shoko Soeno <ssoeno@c4r3s13.42tokyo.jp>
+Date:   Tue Dec 31 18:08:11 2024 +0900
+
+    segmentation fault resolved (changed init ctx) but env result has not tested
+
+[33mcommit 19b34163c6ac9767e97be8fe0cdad5ce18078e55[m
+Author: Shoko Soeno <ssoeno@c4r3s13.42tokyo.jp>
+Date:   Tue Dec 31 17:48:02 2024 +0900
+
+    make exec_builtin but when env is executed a segmentation fault occurs
+
+[33mcommit c56a3fdcdb7869f3523d06f2e318a798a8deb974[m
+Author: Shoko Soeno <ssoeno@c4r3s7.42tokyo.jp>
+Date:   Tue Dec 31 16:30:34 2024 +0900
+
+    change computer due to error
+
+[33mcommit 371946afa25f6ad2b9be038fea54359c82b8c2f4[m
+Author: Shoko Soeno <ssoeno@c4r3s7.42tokyo.jp>
+Date:   Tue Dec 31 14:40:25 2024 +0900
+
+    fixed resolve_executable_path function
+
+[33mcommit bd5cba158ee03b71a0581b792972bc136b743853[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Dec 31 06:28:44 2024 +0900
+
+    temp save
+
+[33mcommit 7e71830f3ef0cce321e46348569f17d3a7277f25[m
+Author: Shoko Soeno <ssoeno@c4r3s7.42tokyo.jp>
+Date:   Tue Dec 31 04:36:07 2024 +0900
+
+    chaged execvp to execve, trying to resolve executable path but not finished
+
+[33mcommit 57f232b3278cd6cd45b59eacb96ff13d176dedeb[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Dec 31 04:00:15 2024 +0900
+
+    apply norminette other than expand_handler
+
+[33mcommit 8ea43071531496aeb96e3de8d8620492db053f4c[m
+Merge: 35cfb0e 71832b1
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Dec 31 00:06:55 2024 +0900
+
+    Merge remote-tracking branch 'origin/main' into feature/expansion/20
+
+[33mcommit 35cfb0e310d510c2d774d3db51df523c8140284a[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Dec 31 00:06:48 2024 +0900
+
+    modified gitignore
+
+[33mcommit 71832b1812c69c964bb8e60d07258dbb6f15dac9[m
+Merge: 61cfb66 4deef37
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Tue Dec 31 00:00:47 2024 +0900
+
+    Merge pull request #34 from shoko-soeno/cleanup/yearend/31
+    
+    update free_ast
+
+[33mcommit 4deef37802ac90b3ddc1783a7b7e26173dfe431f[m[33m ([m[1;31morigin/cleanup/yearend/31[m[33m)[m
+Author: Shoko Soeno <ssoeno@c4r3s7.42tokyo.jp>
+Date:   Mon Dec 30 23:57:02 2024 +0900
+
+    update free_ast
+
+[33mcommit 32f790f3864f759e144f8e5ab8f631f71663bb1a[m
+Merge: 0700fd1 61cfb66
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Dec 30 23:53:14 2024 +0900
+
+    resolve merge
+
+[33mcommit 61cfb66f1eaca23b97887448598fc66d19522e7d[m
+Merge: f456a02 3837419
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Mon Dec 30 23:49:02 2024 +0900
+
+    Merge pull request #31 from takumasa0222/cleanup/yearend/30
+    
+    Clean up code
+
+[33mcommit 0700fd19a0ee16fdba6e7cc6df125303f69839b5[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Dec 30 23:48:32 2024 +0900
+
+    create remove quotes handler before testing
+
+[33mcommit 7daccc6499e3d93d962805aa7df4cd465b3d375a[m
+Merge: 9ce2dbd e347687
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Dec 30 22:36:07 2024 +0900
+
+    Merge remote-tracking branch 'origin/feature/expansion/20' into feature/expansion/20
+
+[33mcommit 38374198da625c218b7aaa511e79b07d1948b3da[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Dec 30 22:19:09 2024 +0900
+
+    clean up code and rearrange several functions for readbility since today is Dec 30th
+
+[33mcommit 9ce2dbdf75051ea2b3d233acbf5cb891b640db59[m
+Merge: 44d1d07 f456a02
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Dec 30 19:36:44 2024 +0900
+
+    Merge remote-tracking branch 'origin/main' into feature/expansion/20
+
+[33mcommit f456a0274aa3f7ea9ef0626e3849d6b99eb1fae8[m
+Merge: c174ec5 457fd3e
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Mon Dec 30 19:21:45 2024 +0900
+
+    Merge pull request #29 from shoko-soeno/feature/18
+    
+    Feature/18
+
+[33mcommit 457fd3e05b22a40db94297db7dafa33ff92b6601[m[33m ([m[1;31morigin/feature/18[m[33m)[m
+Merge: bc8a8b7 c174ec5
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Dec 30 19:20:24 2024 +0900
+
+    resolve merge conflict
+
+[33mcommit bc8a8b76e5bd77aa33f5eff5749d4c5d1c19ea4c[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Dec 30 19:09:57 2024 +0900
+
+    remove one condition from parse_redirect_arry and add some comment
+
+[33mcommit e347687247a852b6b43d7654ca1587d4a351c8ec[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Mon Dec 30 18:36:30 2024 +0900
+
+    temp chnage
+
+[33mcommit 7181f8fb20cd17757850a4e765c017d1f707a8d0[m
+Author: Shoko Soeno <ssoeno@c4r2s13.42tokyo.jp>
+Date:   Sat Dec 28 15:42:00 2024 +0900
+
+    push all changes to feature/18
+
+[33mcommit b5c0ee9953d515cc42875048b290daad5dae8113[m
+Author: Shoko Soeno <ssoeno@c4r2s13.42tokyo.jp>
+Date:   Sat Dec 28 15:28:08 2024 +0900
+
+    fixed handle re
+    _redirest_error to prevent segmentation faults
+
+[33mcommit 4e3e11eff84d153c0a8b7b16dd0e2e8a724b03d2[m
+Author: Shoko Soeno <ssoeno@c4r3s13.42tokyo.jp>
+Date:   Sun Dec 22 20:43:19 2024 +0900
+
+    微修正
+
+[33mcommit 9dc4a7f0510e759e04e2a401445eb3f749de8e95[m
+Author: Shoko Soeno <ssoeno@c4r3s13.42tokyo.jp>
+Date:   Sun Dec 22 20:33:20 2024 +0900
+
+    code rabbitのコメントに沿った微修正
+
+[33mcommit 0600b3e0dac6c76a9ec8310226ae1de174437760[m
+Author: Shoko Soeno <ssoeno@c4r3s13.42tokyo.jp>
+Date:   Sun Dec 22 19:24:36 2024 +0900
+
+    integration testで起こっていた、トークンリストの解放ができなかった点は解決。norm準拠のため、parserの関数を分割した。
+
+[33mcommit c40bf0c476ed6303df3746128f06709501dde2a2[m
+Author: Shoko Soeno <ssoeno@c4r3s13.42tokyo.jp>
+Date:   Sun Dec 22 13:28:04 2024 +0900
+
+    parse cmd tailを新規のファイルとして追加
+
+[33mcommit 93100ef9851d9c4d7322ed0e8a64701ea5a4903c[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sun Dec 22 13:10:21 2024 +0900
+
+    temp commit
+
+[33mcommit 624ad89969e545c098f684dcd29419e010b33bb4[m
+Author: Shoko Soeno <ssoeno@c3r1s4.42tokyo.jp>
+Date:   Sat Dec 21 23:25:07 2024 +0900
+
+    testコードを微修正　メモリリークは変わらず
+
+[33mcommit e3a32a8344000bd281241b15a30d37e583b0a9c1[m
+Author: Shoko Soeno <ssoeno@c3r1s4.42tokyo.jp>
+Date:   Sat Dec 21 23:19:20 2024 +0900
+
+    token listのフリーができていないが、終電の時間のためプッシュ
+
+[33mcommit e345723d27edc6f4490b0015c5bc4bc68fd92915[m
+Author: Shoko Soeno <ssoeno@c3r1s4.42tokyo.jp>
+Date:   Sat Dec 21 20:12:31 2024 +0900
+
+    作業中断のためいったんプッシュ
+
+[33mcommit 779560c12c0a8ee659c2751f32638d24e523b7a1[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Wed Dec 18 02:01:13 2024 +0900
+
+    added test case and fixed some code to expand
+
+[33mcommit 44d1d07601f407d4278c7c574c3685798863a77b[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Dec 16 23:39:02 2024 +0900
+
+    testing in the middle
+
+[33mcommit 3d618c108db0ca44d023699605b3fa780e002ba5[m
+Author: Shoko Soeno <ssoeno@c4r3s13.42tokyo.jp>
+Date:   Sun Dec 15 22:13:03 2024 +0900
+
+    sample.cをリファクタ
+
+[33mcommit 06c0322449fb537eedea6e4c3e0752db50fc6c88[m
+Author: Shoko Soeno <ssoeno@c4r3s13.42tokyo.jp>
+Date:   Sun Dec 15 20:37:29 2024 +0900
+
+    print_treeのセグフォが修正できない（parserの修正が必要かもしれない）　o1が作成したASTのサンプルコードsample.cを1個のみのテストケースで動かした。leakなし。これからロジックを確認する。
+
+[33mcommit c174ec57c8e270552e055b25f0c653bc39c48c6a[m
+Merge: 3a42d2e 7a0bf1d
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sun Dec 15 15:16:20 2024 +0900
+
+    Merge pull request #25 from takumasa0222/feature/comb_exec/21
+    
+    Feature/comb_exec/21
+
+[33mcommit 7a0bf1dc872d84b2c84d9f85ea27d04817491f2a[m
+Merge: 9d8d6d5 3a42d2e
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sun Dec 15 15:15:30 2024 +0900
+
+    Merge branch 'main' into feature/comb_exec/21
+
+[33mcommit 9d8d6d5b6ca68c6ee22d46e3d5256ffb3f572c9f[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Dec 15 03:04:51 2024 +0900
+
+    fixed based on coderabbit comment
+
+[33mcommit 3a42d2e0c16e9bca37bb626ab2459e7373d122c9[m
+Merge: 969bc11 5fc8a91
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Sun Dec 15 02:54:02 2024 +0900
+
+    Merge pull request #23 from shoko-soeno/feature/signal/22
+    
+    Feature/signal/22
+
+[33mcommit 5fc8a91d673b09c38ece61bca12917fa87a89258[m[33m ([m[1;31morigin/feature/signal/22[m[33m)[m
+Merge: fc694e1 969bc11
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Sun Dec 15 02:52:03 2024 +0900
+
+    Merge branch 'main' into feature/signal/22
+
+[33mcommit 1c3fdce8b891858e3c7232d5511e67d415ce3e9c[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Dec 15 02:34:41 2024 +0900
+
+    fixed based on coderabbit
+
+[33mcommit a3e5cfbcf2a3e0e5db39e3ef58679124a986178b[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Dec 15 02:07:46 2024 +0900
+
+    split the main.c file into execute*.c files to meet norm limitation and completed test
+
+[33mcommit 7ec377f29c007dc05386f3e1909777eb994b8d01[m
+Author: Shoko Soeno <ssoeno@c1r4s6.42tokyo.jp>
+Date:   Sat Dec 14 15:20:12 2024 +0900
+
+    ASTのサンプル作成中　googleアカウントにログインできずo1に相談できないため、いったん中断
+
+[33mcommit 5755b4b76ccb23ad85e2c07819ca73fb56679241[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Dec 12 04:32:24 2024 +0900
+
+    in the middle
+
+[33mcommit bf395ef0115220b91594d2bf2f415079c04618d5[m
+Author: Shoko Soeno <ssoeno@c4r3s5.42tokyo.jp>
+Date:   Wed Dec 11 23:19:22 2024 +0900
+
+    add sample.c and sample.h in the integrate_lexer_parser directory to understand AST
+
+[33mcommit 89ca5ff96ee658f4a15dfcca682c40e2edbe9b9b[m
+Author: Shoko Soeno <ssoeno@c1r4s7.42tokyo.jp>
+Date:   Mon Dec 9 22:59:41 2024 +0900
+
+    作業中断のためいったんプッシュ　intergrate_lexer_parser追加　print treeでセグフォ起こしてる
+
+[33mcommit 93458acb27dfc5dd62318a1bf1fbe2c06ab0b10e[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Dec 8 23:40:53 2024 +0900
+
+    in the middle
+
+[33mcommit 1605a8db75095508e2c054537bbfeecb7bc4057f[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Dec 8 23:05:30 2024 +0900
+
+    simple pipe and multi pipe work fine
+
+[33mcommit c4fd5a5d2385f8f1845016102cc25cd4a7a964cc[m
+Author: Shoko Soeno <ssoeno@c4r1s2.42tokyo.jp>
+Date:   Sun Dec 8 22:26:48 2024 +0900
+
+    帰宅のためプッシュ　parserとlexerの連結テスト　|| と && が特におかしいので明日テスト
+
+[33mcommit 903cc90262dc1b97aa673e0c7e0524904ecf5deb[m
+Author: Shoko Soeno <ssoeno@c4r1s2.42tokyo.jp>
+Date:   Sun Dec 8 21:23:10 2024 +0900
+
+    lexerのoperatorをparserに沿って修正　t_token_kindではなく、t_node_kindに変更。　lexer testerの結果はすべてOK
+
+[33mcommit 3937a45baec8697a9399b6390df31b173462cdd6[m
+Author: Shoko Soeno <ssoeno@c4r1s2.42tokyo.jp>
+Date:   Sun Dec 8 21:22:29 2024 +0900
+
+    lexerのoperatorをparserに沿って修正　t_token_kindではなく、t_node_kindに変更。　lexer testerの結果はすべてOK
+
+[33mcommit 6626fd88dcf57382884966fc361037f712fce92c[m
+Author: Shoko Soeno <ssoeno@c4r1s2.42tokyo.jp>
+Date:   Sun Dec 8 19:59:51 2024 +0900
+
+    lexer.c fetch_fst_word_tokenの重複部分を削除
+
+[33mcommit 93224c985e1e64f1d8cd79f0cd808d9af70129c9[m
+Author: Shoko Soeno <ssoeno@c4r1s2.42tokyo.jp>
+Date:   Sun Dec 8 19:57:59 2024 +0900
+
+    シンプルなテストを作成　fetch fst word tokenの重複した処理を削除することでエラーが解消されることを確認
+
+[33mcommit 9c2e1b5a92582fe1ff04db2a1bd59276a86e1ccd[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Dec 8 19:25:18 2024 +0900
+
+    temp commit
+
+[33mcommit 6c1958307c2e51576b8ef6b8ccf05cc76554914a[m
+Author: Shoko Soeno <ssoeno@c1r3s5.42tokyo.jp>
+Date:   Sun Dec 8 19:24:19 2024 +0900
+
+    作業中断のためいったんpush
+
+[33mcommit 3f2ae7f861c6d680c5bdbc1d9b7d4caf90e4e6db[m
+Author: Shoko Soeno <ssoeno@c1r3s5.42tokyo.jp>
+Date:   Sun Dec 8 15:41:34 2024 +0900
+
+    delete e_token_kind from lexer.h
+
+[33mcommit ea80a4f5935a91e13e2270c9025c2d6a5ae2213a[m
+Merge: 1dab1fc 969bc11
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Dec 8 15:36:27 2024 +0900
+
+    Merge remote-tracking branch 'origin/main' into feature/comb_exec/21
+
+[33mcommit 969bc112a9c3905e795c8387d6711978893f5062[m
+Author: Shoko Soeno <ssoeno@c1r3s5.42tokyo.jp>
+Date:   Sat Dec 7 21:07:48 2024 +0900
+
+    parserのテストを3つ追加
+
+[33mcommit fc694e196b1014d96155d979c2c78cc3450f9d22[m
+Author: Shoko Soeno <ssoeno@c1r3s5.42tokyo.jp>
+Date:   Sat Dec 7 20:49:16 2024 +0900
+
+    builten testerの細かい間違いを修正
+
+[33mcommit 31aa32d49220a44a1c7d110d9c576252056bdac3[m
+Merge: b9ac4bc de4e2a1
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Dec 7 20:38:41 2024 +0900
+
+    Merge pull request #19 from takumasa0222/feature/parser/16
+    
+    Feature/parser/16
+
+[33mcommit de4e2a18e4817b60d979ec36501d8996d18783ff[m
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Dec 7 20:33:23 2024 +0900
+
+    Update srcs/parser/parser_node_operator.c
+    
+    Co-authored-by: coderabbitai[bot] <136622811+coderabbitai[bot]@users.noreply.github.com>
+
+[33mcommit 5f22b57109c6ceabbed3ff0f4b7c72a589235010[m
+Author: Shoko Soeno <ssoeno@c1r3s5.42tokyo.jp>
+Date:   Sat Dec 7 16:59:53 2024 +0900
+
+    coderabbitの指摘に沿って修正
+
+[33mcommit 97d4e402ed5da7aa522be7f4c7119db1e557856e[m
+Author: Shoko Soeno <ssoeno@c1r3s5.42tokyo.jp>
+Date:   Sat Dec 7 16:42:18 2024 +0900
+
+    signalはごく一部しか実装していないが、動作確認のためmainを使用したいためいったんマージ
+
+[33mcommit 1dab1fc1a2dfdc7b7d8d06ade25509e74827e27a[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Dec 5 04:33:04 2024 +0900
+
+    modified code in progress
+
+[33mcommit ff647979da9289faec556b1480d24e1755e92549[m
+Merge: d61ead1 a711e06
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Dec 5 04:15:14 2024 +0900
+
+    Merge remote-tracking branch 'origin/feature/comb_exec/21' into feature/comb_exec/21
+
+[33mcommit d61ead1846bc652d9a979635b78ba17fd4351cfd[m
+Merge: e24a7c7 3fcf252
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Dec 5 04:06:52 2024 +0900
+
+    Merge branch 'feature/parser/16' into feature/comb_exec/21
+
+[33mcommit 3fcf252c4386c72eab002bf8f04479cd6e834e61[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Dec 5 03:53:37 2024 +0900
+
+    fixed tree behavior to exec pipeline smoothly
+
+[33mcommit a711e06582bcee11e0fec0b573edd6483f9bfc66[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Wed Dec 4 19:42:14 2024 +0900
+
+    temp commit
+
+[33mcommit c40002a43af0f39c7a674e236eb603e8eb0ac4c4[m
+Author: Shoko Soeno <ssoeno@c2r8s7.42tokyo.jp>
+Date:   Mon Nov 25 22:58:10 2024 +0900
+
+    #22 header fileをnormにそって修正　code rabbitのコメントも一部反映　帰宅のため作業途中でプッシュ
+
+[33mcommit b99715d6380b1b118c0633b174c6787891dbff31[m
+Author: Shoko Soeno <ssoeno@c1r2s8.42tokyo.jp>
+Date:   Sun Nov 24 20:01:08 2024 +0900
+
+    #22 signal/signal.cをnormに沿って修正　テストは手動のみ
+
+[33mcommit e7b91255471aa320ab728cd49522ceff918144ad[m
+Author: Shoko Soeno <ssoeno@c1r2s8.42tokyo.jp>
+Date:   Sun Nov 24 17:43:16 2024 +0900
+
+    #22 ctrl c とctrl \ の簡単な実装　動作確認のため,signal/signal.c自分で宣言していいグローバル変数は1個だけだけど、readlineライブラリで定義されてるグローバル変数は使っていい?後で確認
+
+[33mcommit e24a7c7c6682428b644bf4d8aa0480d7c9b966e3[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Nov 24 05:17:41 2024 +0900
+
+    modified main to execute astree
+
+[33mcommit 7f3d77bceda87719d1e71680560c1de38a515694[m
+Author: Shoko Soeno <ssoeno@c4r2s9.42tokyo.jp>
+Date:   Sat Nov 23 21:58:19 2024 +0900
+
+    fd閉じ忘れ解消
+
+[33mcommit 1f84e8b8f0075ba47020dd92e6d53732a02d4fbc[m
+Author: Shoko Soeno <ssoeno@c1r2s4.42tokyo.jp>
+Date:   Sat Nov 23 19:36:23 2024 +0900
+
+    fd閉じ忘れがあるけど休憩するのでいったんプッシュ
+
+[33mcommit 5c64b59f445390923ceb73258bdf83d77c0d0c0a[m
+Author: Shoko Soeno <ssoeno@c1r2s4.42tokyo.jp>
+Date:   Sat Nov 23 18:39:27 2024 +0900
+
+    pipe.c, pipe_testerを追加。pipe.cは関数が6つあるが（連結リストの操作関数については他のファイルでまとめるか後ほど相談）、それ以外はnorm準拠。テストはecho hello | -l で1を出力することしか確認していないので追加が必要。valgrindでno leaks are possible
+
+[33mcommit ffce4031aef731c31b0c1ca3146ba7e7d2949fbb[m
+Author: Shoko Soeno <ssoeno@c1r2s4.42tokyo.jp>
+Date:   Sat Nov 23 16:47:02 2024 +0900
+
+    校舎の端末の挙動がおかしいのでいったんプッシュ
+
+[33mcommit a0d95a58c60a07591152cd6f892b9305491bc982[m
+Merge: 5b6acb4 b9ac4bc
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Fri Nov 22 04:51:17 2024 +0900
+
+    Merge remote-tracking branch 'origin' into feature/parser/16
+
+[33mcommit 5b6acb4323c3bb4cbe2db547af3bdf0a2e609c4b[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Fri Nov 22 04:50:09 2024 +0900
+
+    fix for norm and separate parser.c to several files
+
+[33mcommit b9ac4bcd74baffc7037a4343e20b771d7ceabfd1[m
+Merge: 867f483 725176e
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Fri Nov 22 04:12:45 2024 +0900
+
+    Merge pull request #11 from shoko-soeno/#4_#8_#10_builtin
+    
+    #4 exit, #8 cd, #10 pwdの簡単な実行　テストは不十分　Makefileに問題あり
+
+[33mcommit 086682aca1e6fb31c87629d722666ea95091ed2f[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Nov 19 22:48:44 2024 +0900
+
+    all tests other than last passed
+
+[33mcommit 0326ebbf274f695f64b23f8a7c3239df93bb56fe[m
+Author: Shoko Soeno <ssoeno@c1r4s7.42tokyo.jp>
+Date:   Tue Nov 19 22:30:57 2024 +0900
+
+    帰宅のため校舎からプッシュ
+
+[33mcommit 0026da299e01862d6d05d6c2901ca9cfc3bfd1a5[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Nov 19 20:55:40 2024 +0900
+
+    temporary save. currently test case 1 to 22 can be passed but 23 is not correct
+
+[33mcommit 725176e1a612719f5c233276977beb424e621784[m[33m ([m[1;31morigin/#4_#8_#10_builtin[m[33m)[m
+Author: Shoko Soeno <ssoeno@c1r4s7.42tokyo.jp>
+Date:   Tue Nov 19 20:38:29 2024 +0900
+
+    builtin_tester.cにテストケース追加
+
+[33mcommit c4150cd724052beb47ed9a19cab703bb5c5acd08[m
+Author: Shoko Soeno <ssoeno@c1r4s7.42tokyo.jp>
+Date:   Tue Nov 19 20:37:19 2024 +0900
+
+    builtin_tester.cにテストケース追加
+
+[33mcommit ed0db9841c7ea1623e6736062ef9c59f9fda2772[m
+Author: Shoko Soeno <ssoeno@c1r4s7.42tokyo.jp>
+Date:   Tue Nov 19 20:17:08 2024 +0900
+
+    たくまささんのコメントに沿って修正
+
+[33mcommit fcde365f9b8f06c3b7f12252cb2f7dcfb1baf43a[m
+Author: Shoko Soeno <ssoeno@c1r4s7.42tokyo.jp>
+Date:   Tue Nov 19 20:13:03 2024 +0900
+
+    コメントに沿って修正
+
+[33mcommit 09c26547d461dabdbc326fc7139cc163c631b3c6[m
+Author: Shoko Soeno <ssoeno@c4r3s1.42tokyo.jp>
+Date:   Mon Nov 18 23:28:35 2024 +0900
+
+    帰宅のためいったん校舎からプッシュ
+
+[33mcommit 616e1df7e7b8cc64a9cba5eacd13f5b6054332cd[m
+Author: Shoko Soeno <ssoeno@c1r4s2.42tokyo.jp>
+Date:   Sun Nov 17 21:28:03 2024 +0900
+
+    作業途中　校舎でプッシュ
+
+[33mcommit 32b99200b6eef1d60edb13522e2a738cd2000d14[m
+Author: Shoko Soeno <ssoeno@c1r4s2.42tokyo.jp>
+Date:   Sun Nov 17 19:57:07 2024 +0900
+
+    builtin最低限の機能実装とテストを作成　cdは未実装機能あり（cd -）
+
+[33mcommit e6263d5ca71f1f96a5128f6084b86acbb628dbde[m
+Author: Shoko Soeno <ssoeno@c1r1s6.42tokyo.jp>
+Date:   Sat Nov 16 21:01:20 2024 +0900
+
+     cd - is not working, cant update OLDPWD properly
+
+[33mcommit 73761236d64902b7f233bfa7436444ef5fa0ec03[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sat Nov 16 04:36:24 2024 +0900
+
+    parser test in the middle
+
+[33mcommit 6d5e0802087f139013767b01f349b62b93ae007e[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sat Nov 16 00:19:44 2024 +0900
+
+    temp save
+
+[33mcommit bc80083e777c9180ed11bb743227b99063246920[m
+Author: Shoko Soeno <ssoeno@c2r8s6.42tokyo.jp>
+Date:   Fri Nov 15 23:38:36 2024 +0900
+
+    builtin_cd のバグ　temp_elemの初期化が必要
+
+[33mcommit 916181cde068526d29870b1a2e9eeae3b491a30b[m
+Merge: 6af0898 867f483
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Fri Nov 15 22:53:40 2024 +0900
+
+    Merge branch 'main' into #4_#8_#10_builtin
+
+[33mcommit 6af0898cd1879c13fa0ae318338ff4c36075ffb1[m
+Author: Shoko Soeno <ssoeno@c2r8s6.42tokyo.jp>
+Date:   Fri Nov 15 22:52:12 2024 +0900
+
+    wifiが切れたためいったんプッシュ
+
+[33mcommit 50a3c3d78c6d139d59994b9eb999628253c388de[m
+Merge: 945c63f 867f483
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Fri Nov 15 22:38:27 2024 +0900
+
+    fixed conflict
+
+[33mcommit 867f483b81b69fc682a734fb837f2421258a7cbe[m
+Author: Shoko Soeno <ssoeno@c2r8s6.42tokyo.jp>
+Date:   Fri Nov 15 19:57:11 2024 +0900
+
+    modified ai-review.yaml
+
+[33mcommit 53533d9a63692d5c9128736c5be95695a8705263[m
+Author: Shoko Soeno <ssoeno@c2r8s6.42tokyo.jp>
+Date:   Fri Nov 15 19:54:41 2024 +0900
+
+    add builtin.h
+
+[33mcommit af0d49e95f75dc085b4e4a56b3105370628ebdf9[m
+Author: Shoko Soeno <ssoeno@c1r2s3.42tokyo.jp>
+Date:   Thu Nov 14 19:36:27 2024 +0900
+
+    test_builtinを整理。cdはabsolute pathやrelative pathの途中まで実装
+
+[33mcommit 661ea0d343acbfefae8d2e50ac99897c363b1d2e[m
+Author: Shoko Soeno <ssoeno@c1r2s3.42tokyo.jp>
+Date:   Thu Nov 14 19:24:25 2024 +0900
+
+    test_builtinを整理。cdはabsolute pathやrelative pathの途中まで実装
+
+[33mcommit 9b627a89d4ff325aa27588227bd8d6c15ef1c4e9[m
+Merge: 6948ccf 7aabb28
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Thu Nov 14 14:34:13 2024 +0900
+
+    Merge pull request #15 from takumasa0222/feature/lexer/13
+    
+    Feature/lexer/13
+
+[33mcommit 888b9b07d3a72ccf068e4b7fd89fb3830eb2cf97[m
+Author: Shoko Soeno <ssoeno@c2r7s4.42tokyo.jp>
+Date:   Wed Nov 13 23:37:29 2024 +0900
+
+    builtinのプロトタイプを揃えたので、テストの関数もenvmapの有無で分けなくて良いため書き直す
+
+[33mcommit 8c691cea80278cbadd50801dc56046e0dda812be[m
+Author: Shoko Soeno <ssoeno@c2r8s1.42tokyo.jp>
+Date:   Tue Nov 12 23:03:17 2024 +0900
+
+    modified test_builins
+
+[33mcommit 7528490ab182a264b612e04b29bd333a6d9f5dfe[m
+Author: Shoko Soeno <ssoeno@c2r8s1.42tokyo.jp>
+Date:   Tue Nov 12 23:02:49 2024 +0900
+
+    add env, echo, unset and simple test cases
+
+[33mcommit 945c63fcdca74a9e24aad353a0bbbb8687f2f2a3[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Nov 10 22:25:38 2024 +0900
+
+    update comment
+
+[33mcommit c99e8dc7af1c0c9afd1590bf95e84af13272973e[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Nov 10 22:22:02 2024 +0900
+
+    parser implimentation in the middle
+
+[33mcommit e62fc8bea20d4a12f6015b365e28c4b6663a44e5[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sun Nov 10 20:46:00 2024 +0900
+
+    parser in the middle
+
+[33mcommit 7858ecd22070a76860021892601621baa529ec34[m
+Author: Shoko Soeno <ssoeno@c4r2s7.42tokyo.jp>
+Date:   Sun Nov 10 20:38:20 2024 +0900
+
+    builtin_test修正 ただしunsetのテストは改善の余地あり
+
+[33mcommit 8e8969d64fc215372cba34528003406e5b99edb2[m
+Author: Shoko Soeno <ssoeno@c4r2s7.42tokyo.jp>
+Date:   Sun Nov 10 18:51:26 2024 +0900
+
+    校舎での作業中断のためいったんプッシュ
+
+[33mcommit f0086eb551c811fe4fd756489bc6ee0fc70b0323[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sun Nov 10 11:24:21 2024 +0900
+
+    modified BNF
+
+[33mcommit a3db5f012ae0c12c6c378dd1aeae2a16906e3bfa[m
+Merge: 539cc42 d574235
+Author: Shoko Soeno <ssoeno@c3r4s5.42tokyo.jp>
+Date:   Sat Nov 9 22:32:34 2024 +0900
+
+    Merge branch '#4_#8_#10_builtin' of https://github.com/shoko-soeno/minishel_norm_ready into #4_#8_#10_builtin
+
+[33mcommit 539cc42ce3cea2a82db2e2ada4344c4b3fa63839[m
+Author: Shoko Soeno <ssoeno@c3r4s5.42tokyo.jp>
+Date:   Sat Nov 9 22:26:28 2024 +0900
+
+    code rabbit test
+
+[33mcommit d574235a316fc9eff3647c5d93213e26534a8106[m
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sat Nov 9 22:25:09 2024 +0900
+
+    Delete .github/workflows directory
+
+[33mcommit 9c7489d45d6da1dfaeb6e7dda6c7fe4f45395fbd[m
+Author: Shoko Soeno <ssoeno@c3r4s5.42tokyo.jp>
+Date:   Sat Nov 9 22:21:45 2024 +0900
+
+    modified ai-review.yaml
+
+[33mcommit b9c5f03cc190adb9c9d4cef75bcb77fa6cc68799[m
+Author: Shoko Soeno <ssoeno@c3r4s5.42tokyo.jp>
+Date:   Sat Nov 9 22:09:46 2024 +0900
+
+    normクリア　ただしコンフリクト回避のためヘッダーは入れてない
+
+[33mcommit c10bb4814516657dbb9c18479b9f523e600d828b[m
+Author: Shoko Soeno <ssoeno@c3r4s5.42tokyo.jp>
+Date:   Sat Nov 9 21:54:47 2024 +0900
+
+    map関連の関数の修正とテスト作成 no leak
+
+[33mcommit 7abb8e54cd485bdbd25472ef498e1f3771d28166[m
+Author: Shoko Soeno <ssoeno@c4r3s11.42tokyo.jp>
+Date:   Sat Nov 9 19:00:50 2024 +0900
+
+    校舎の端末の調子が悪いため途中でプッシュ
+
+[33mcommit 31c40b338ecc8efa4ed098180796a05e9b3de71f[m
+Author: Shoko Soeno <ssoeno@c1r6s1.42tokyo.jp>
+Date:   Sat Nov 9 17:05:51 2024 +0900
+
+    校舎の端末の調子が悪いので途中でプッシュ
+
+[33mcommit 0b4918fed4327ef4d01c27ef19d97d92831502d2[m
+Author: Shoko Soeno <ssoeno@c1r6s1.42tokyo.jp>
+Date:   Sat Nov 9 14:21:45 2024 +0900
+
+    change pull_request_target to pull request in ai-reveiw.yml
+
+[33mcommit 2c47c402e9a03bc4455d0a843dcdd53f920b87cc[m
+Author: Shoko Soeno <ssoeno@c1r6s1.42tokyo.jp>
+Date:   Sat Nov 9 14:16:00 2024 +0900
+
+    rm concurrency from ai-review.yaml
+
+[33mcommit c6b12a0d9cfd83951377045fed78d072d31388c0[m
+Author: Shoko Soeno <ssoeno@c1r6s1.42tokyo.jp>
+Date:   Sat Nov 9 13:48:53 2024 +0900
+
+    envmap test
+
+[33mcommit d5c23f251e5112c1e5dbdc6dbf7bf8bb4f1a4fb9[m
+Author: Shoko Soeno <ssoeno@c1r1s7.42tokyo.jp>
+Date:   Thu Nov 7 23:43:01 2024 +0900
+
+    まだ作業途中　.github追加
+
+[33mcommit 68146c8d9daba4337a1e95ee1b4aa72158451d23[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Nov 7 23:42:08 2024 +0900
+
+    add python code
+
+[33mcommit d95298d43a23063798fe9758d5629a7c3fb3d01f[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Thu Nov 7 09:02:01 2024 +0900
+
+    modified BNF
+
+[33mcommit c8c7b81883ca58cdb3b8cf0c59df75c53527c825[m
+Author: Shoko Soeno <ssoeno@c2r6s9.42tokyo.jp>
+Date:   Wed Nov 6 17:58:09 2024 +0900
+
+    作業途中でいったんコミット　続きは夜やります
+
+[33mcommit e0200102385b02f8f6e37b98c840ab7cc73da507[m
+Author: Shoko Soeno <ssoeno@c1r4s2.42tokyo.jp>
+Date:   Tue Nov 5 20:26:10 2024 +0900
+
+    校舎の端末が調子わるいのでいったんプッシュ　続きは自宅で作業
+
+[33mcommit a312bc9acd7b057e3c30e6cde913f23d368a4264[m
+Merge: 6b59377 6948ccf
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Nov 5 04:38:42 2024 +0900
+
+    add behavior checking script
+
+[33mcommit 6b59377c7a39e536df3fc49bcbd23d3aa4a96cdd[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Nov 4 19:45:38 2024 +0900
+
+    test
+
+[33mcommit 7aabb2817c30bb0ddf679085703c8d09116459b3[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sun Nov 3 05:40:57 2024 +0900
+
+    add some test cases
+
+[33mcommit a54258c3cfc5e68673a79c5c640c7dafa78570a7[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Sun Nov 3 05:26:26 2024 +0900
+
+    divide file for norm and confirmed all test case passed
+
+[33mcommit fe838045d051f6318ddc3bed527c258d068f4786[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Oct 31 23:02:24 2024 +0900
+
+    temp save
+
+[33mcommit 3fd0ff2f3cf7bea2c086081ca047e328a653f48e[m
+Author: Shoko Soeno <ssoeno@c1r1s8.42tokyo.jp>
+Date:   Thu Oct 31 22:35:50 2024 +0900
+
+    add test directory
+
+[33mcommit 606fb90969530b687f7044c4c28e3baa8a3e5d14[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Oct 31 22:25:45 2024 +0900
+
+    add test
+
+[33mcommit b37c0da3f4bfac87379997a1b512d1dd8fb6cd67[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Oct 31 22:17:17 2024 +0900
+
+    implemented single quote and double quote consideration test is also done
+
+[33mcommit 6c64c7f01ef3ba382deb932a45d8e7f54722d7d3[m
+Author: Shoko Soeno <ssoeno@c1r1s8.42tokyo.jp>
+Date:   Thu Oct 31 21:49:07 2024 +0900
+
+    move cd, exit, pwd to each file
+
+[33mcommit 7ba25264be48224d40b0f0a3ebfd8560c2e1b5cb[m
+Merge: 07e00f6 6948ccf
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Thu Oct 31 15:38:36 2024 +0900
+
+    xMerge remote-tracking branch 'origin/main' into feature/lexer/13
+
+[33mcommit 6948ccf5a15a9f4997027b889bb74450bfc9702e[m
+Merge: c135c06 baca085
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Tue Oct 29 16:55:51 2024 +0900
+
+    Merge pull request #14 from shoko-soeno/add_template_and_coderabbit_yml
+    
+    add .github directory to introduce coderabbit and custum template
+
+[33mcommit ebc5fe61e6d66536e5906a4607042b0ba2272609[m
+Merge: ef67195 c135c06
+Author: shoko-soeno <happydream0120@gmail.com>
+Date:   Tue Oct 29 14:37:35 2024 +0900
+
+    Merge remote-tracking branch 'origin/main' into #4_#8_#10_builtin
+
+[33mcommit baca085ede5dd7a313bb8ef8e20b5e364a4839f2[m[33m ([m[1;31morigin/add_template_and_coderabbit_yml[m[33m)[m
+Author: shoko-soeno <happydream0120@gmail.com>
+Date:   Tue Oct 29 14:03:15 2024 +0900
+
+    add .github directory to introduce coderabbit and custum template
+
+[33mcommit c135c065ba99e8268ef24dcf28afea7bf71242c8[m
+Merge: 77ca7f8 9f2c2e9
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Tue Oct 29 13:33:01 2024 +0900
+
+    Merge pull request #12 from takumasa0222/feature/lexer/2
+    
+    Feature/lexer/2
+
+[33mcommit 07e00f6b893a204b0c49b2be97bd5f316b0067fe[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Oct 29 04:33:57 2024 +0900
+
+    single quote implementation in the middle
+
+[33mcommit 9f2c2e9133efd8f98f45c6eb7d51da567979fa6f[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Oct 29 02:06:47 2024 +0900
+
+    deleted unused files
+
+[33mcommit 13a74ba57dcae28d515490059230447e71ee9c1d[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Tue Oct 29 02:02:06 2024 +0900
+
+    test passed code
+
+[33mcommit a005e35158f1191d720517bf9019fa96a646b928[m
+Merge: deef03b 77ca7f8
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Oct 28 23:51:43 2024 +0900
+
+    fix conflict
+
+[33mcommit deef03b9a87431427ade6a892d978cc239fb25ff[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Oct 28 23:43:25 2024 +0900
+
+    sava change
+
+[33mcommit 10c1bc5e8ff6c8949b70541dbd2505e9f911d44c[m
+Merge: 2ba3ceb c2ba3f1
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Oct 28 22:54:56 2024 +0900
+
+    Merge branch 'features/lexer/2' into feature/lexer/2
+
+[33mcommit 2ba3ceb9678f1ad0606c800de9b924ff2df7ae35[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Oct 28 22:50:39 2024 +0900
+
+    add lexer tester
+
+[33mcommit c2ba3f14e0eb34c10e0c2fb10b77ecd709129c0c[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Mon Oct 28 22:42:26 2024 +0900
+
+    commit lexer
+
+[33mcommit ef671959622c041732cef45071d19adcd79b2f37[m
+Author: Shoko Soeno <ssoeno@c2r5s3.42tokyo.jp>
+Date:   Sun Oct 27 17:10:33 2024 +0900
+
+    #4 exit, #8 cd, #10 pwdの簡単な実行　テストは不十分　Makefileに問題あり
+
+[33mcommit 70be6e1cd05e592b40360e6f8d3a53fde5ea329b[m
+Author: Takumasa Matsuura <tamatsuu@student.42tokyo.jp>
+Date:   Sat Oct 26 21:31:12 2024 +0900
+
+    issue #2  add tester and lexer code. need to test and fix current behavior
+
+[33mcommit 77ca7f8acaf246a81248273dce3b8c391e6b0f32[m
+Author: Shoko Soeno <ssoeno@c2r5s2.42tokyo.jp>
+Date:   Sat Oct 26 18:59:40 2024 +0900
+
+    add microshell
+
+[33mcommit 5477d11cfef7acf30da03eaab97b933c40e051b0[m
+Merge: f7193b4 d63aa17
+Author: takumasa0222 <37662590+takumasa0222@users.noreply.github.com>
+Date:   Sat Oct 26 13:52:22 2024 +0900
+
+    Merge pull request #3 from shoko-soeno/#1_readline
+    
+    #1 readline 内容問題ないと思います！
+
+[33mcommit d63aa17a52180c1a11aad7a78e86cd165308dcb2[m[33m ([m[1;31morigin/#1_readline[m[33m)[m
+Author: shoko-soeno <happydream0120@gmail.com>
+Date:   Fri Oct 25 22:01:40 2024 +0900
+
+    #1 readline
+
+[33mcommit 8a7b72d56d39b4372285023e03938384ec16dabb[m
+Author: takumasa0222 <t.tonnbo0222@gmail.com>
+Date:   Thu Oct 24 03:47:34 2024 +0900
+
+    add lexer functions for issue #2
+
+[33mcommit f7193b436a54418e11848c68306040e35ace1222[m
+Author: ssoeno <happydream0120@gmail.com>
+Date:   Sun Oct 20 13:47:24 2024 +0900
+
+    Initial commit

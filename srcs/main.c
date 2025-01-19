@@ -6,12 +6,12 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 15:54:01 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 18:30:45 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 #include "../includes/lexer.h"
 #include "../includes/parser.h"
 #include "../includes/execute.h"
