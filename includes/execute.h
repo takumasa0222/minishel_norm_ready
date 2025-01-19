@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:09:09 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/18 18:16:04 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 16:26:33 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define EXPORT "export"
 
 int		exec_handler(t_node *ast_node, t_context *ctx);
+int		exec_redirect(t_node *node, t_context *ctx);
 int		exec_pipe(t_node *node, t_context *ctx);
 int		exec_cmd(t_node *node, t_context *ctx);
 int		exec_cmd_handler(t_node *node, t_context *ctx);
