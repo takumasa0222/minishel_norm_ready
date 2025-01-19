@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 13:43:30 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 14:26:24 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,13 @@ int	main(int argc, char *argv[], char *envp[])
 			ctx->heredoc_interrupted = false;
 			g_sig = 0;
 			ctx->last_status = 130;
-			rl_event_hook = sigint_event_hook;
-			continue ;
+			if (isatty(STDIN_FILENO))
+			{
+				rl_event_hook = sigint_event_hook;
+				continue ;
+			} else {
+				break;
+			}
 		}
 		line = readline("minishell$ ");
 		if (line == NULL)
