@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/18 18:16:44 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:33:38 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static bool	verify_direct_path_or_exit(char *cmd)
 	struct stat	st;
 
 	if (!cmd)
-		d_throw_error("verify_direct_path", "cmd is NULL\n"); // alreadly checked in resolve_executable_path?
+		d_throw_error("verify_direct_path", "cmd is NULL\n");
 	if (access(cmd, F_OK) != 0)
 	{
 		if (errno == EACCES)

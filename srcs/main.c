@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 14:26:24 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:54:01 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int argc, char *argv[], char *envp[])
 	return (ctx->last_status);
 }
 
-int	start_exec(char *line, t_context *ctx)
+void	start_exec(char *line, t_context *ctx)
 {
 	t_token		*token_list;
 	t_node		*ast_node;
@@ -92,7 +92,6 @@ int	start_exec(char *line, t_context *ctx)
 	free_token_list(token_list);
 	free_ast(&ast_node);
 	close_stored_fds(ctx);
-	return (0);
 }
 
 void close_stored_fds(t_context *ctx)
