@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 05:51:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 13:43:30 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ int	main(int argc, char *argv[], char *envp[])
 			g_sig = 0;
 			ctx->last_status = 130;
 			rl_event_hook = sigint_event_hook;
-			continue ;            ctx->heredoc_interrupted = false;
-            g_sig = 0;
-            ctx->last_status = 130;
-            continue ;
+			continue ;
 		}
 		line = readline("minishell$ ");
 		if (line == NULL)
@@ -79,7 +76,6 @@ int	start_exec(char *line, t_context *ctx)
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
 	clear_ctx(ctx);
-
 	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
 	// restore fds?
