@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/19 15:32:04 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 16:50:08 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ int	read_heredoc(char *eof, t_context *ctx)
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = heredoc_sigint_event_hook;
 	if (pipe(pipe_fds) == -1)
+	{
+		if (isatty(STDIN_FILENO))
+			rl_event_hook = sigint_event_hook;
 		d_throw_error("read_heredoc", "pipe failed");
+	}
 	ret = read_heredoc_line(eof, pipe_fds[1], ctx);
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = sigint_event_hook;

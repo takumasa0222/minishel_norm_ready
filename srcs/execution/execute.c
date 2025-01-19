@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/19 16:27:33 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 17:20:02 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ int	exec_redirect(t_node *node, t_context *ctx)
 	int	ret;
 
 	(void)ctx;
-	// backup_std_fds(ctx);
 	ret = apply_redirects(node);
-	// restore_std_fds(ctx);
+	restore_std_fds(ctx);
 	return (ret);
 }
-
 
 int	exec_pipe(t_node *node, t_context *ctx)
 {
