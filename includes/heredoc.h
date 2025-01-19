@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 13:31:55 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 03:38:43 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:29:24 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 # include "./minishell.h"
 # include "./parser.h"
 
-int		input_heredoc_content(char *eof);
-void	heredoc_handler(t_node *node);
-void	call_heredoc(t_node *node);
+// heredoc_read.c
+int		read_heredoc(char *eof, t_context *ctx);
+
+// heredoc.c
+void	heredoc_handler(t_node *node, t_context *ctx);
+void	call_heredoc(t_node *node, t_context *ctx);
 bool	is_heredoc_end(char **redirects);
 void	close_unused_fds(int *arry, size_t end);
 

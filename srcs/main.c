@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/18 12:40:48 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:54:01 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void close_stored_fds(t_context *ctx);
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*line;
+	char		*line;
 	t_context	*ctx;
 
 	ctx = init_ctx();
@@ -41,6 +41,19 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		set_idle_sig_handlers();
+		if (ctx->heredoc_interrupted == true)
+		{
+			ctx->heredoc_interrupted = false;
+			g_sig = 0;
+			ctx->last_status = 130;
+			if (isatty(STDIN_FILENO))
+			{
+				rl_event_hook = sigint_event_hook;
+				continue ;
+			} else {
+				break;
+			}
+		}
 		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
@@ -53,17 +66,9 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			add_history(line);
 			start_exec(line, ctx);
-			//token_list = lexer(line);
-			//ast = parse_cmd(&token_list);
-			//free_node(ast);
-			//ast = NULL;
-			//if (token_list)
-			//	free_token_list(token_list);
-			//token_list = NULL;
 		}
 		free(line);
 		line = NULL;
-		// printf("DEBUG last_status: %d\n", ctx->last_status);
 	}
 	return (ctx->last_status);
 }
@@ -76,7 +81,7 @@ void	start_exec(char *line, t_context *ctx)
 	token_list = lexer(line);
 	ast_node = parse_cmd(&token_list);
 	clear_ctx(ctx);
-	heredoc_handler(ast_node);
+	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
 	// restore fds?
 	if (ctx->cnt)
@@ -115,6 +120,7 @@ t_context	*init_ctx(void)
 	ret->last_status = 0;
 	ret->stored_stdin = -1;
 	ret->stored_stdout = -1;
+	ret->heredoc_interrupted = false;
 	return (ret);
 }
 
@@ -128,5 +134,6 @@ void	clear_ctx(t_context *ctx)
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
+	ctx->heredoc_interrupted = false;
 	backup_std_fds(ctx);
 }

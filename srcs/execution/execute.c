@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/18 18:06:32 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:48:33 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include "../includes/environment.h"
 #include "../includes/expand.h"
 #include "../includes/redirect.h"
-
-// int exec_redirect(t_node *node, t_context *ctx);
 
 int	exec_handler(t_node *ast_node, t_context *ctx)
 {
@@ -40,11 +38,6 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 		return (EXIT_FAILURE);
 }
 
-// int exec_redirect(t_node *node, t_context *ctx)
-// {
-// 	ctx->last_status = apply_redirects(node);
-// 	return (ctx->last_status);
-// }
 int	exec_pipe(t_node *node, t_context *ctx)
 {
 	int	pfd[2];
@@ -60,12 +53,15 @@ int	exec_pipe(t_node *node, t_context *ctx)
 
 int	exec_cmd(t_node *node, t_context *ctx)
 {
+	int	ret;
+
+	ret = 0;
 	expand_handler(node, ctx);
 	if (node->left && node->left->redirects)
 		set_redirect_fds(node);
 	if (is_builtin(node->cmds[0]))
 	{
-		int ret = run_builtin(node, ctx);
+		ret = run_builtin(node, ctx);
 		if (ret != EXIT_SUCCESS && ctx->is_exec_in_child_ps)
 			d_throw_error("exec_cmd", "builtin execution failed");
 		return (ret);

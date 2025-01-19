@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/11 10:34:28 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:54:20 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_context {
 	int		last_status;
 	int		stored_stdin;
 	int		stored_stdout;
+	bool	heredoc_interrupted;
 	t_map	*env;
 }	t_context;
 
