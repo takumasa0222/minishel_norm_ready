@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/18 16:42:42 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
+/*   Updated: 2025/01/19 17:01:39 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_context {
 	int		last_status;
 	int		stored_stdin;
 	int		stored_stdout;
+	bool	heredoc_interrupted;
 	t_map	*env;
 }	t_context;
 

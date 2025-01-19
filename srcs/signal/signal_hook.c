@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:41:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/05 14:01:49 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/19 01:14:31 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ int	sigint_event_hook(void)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		rl_done = true;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	heredoc_sigint_event_hook(void)
+{
+	if (g_sig == SIGINT)
+	{
 		rl_done = true;
 	}
 	return (EXIT_SUCCESS);

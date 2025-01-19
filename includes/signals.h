@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:49:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/05 15:06:15 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:39:39 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ extern volatile sig_atomic_t	g_sig;
 void	set_idle_sig_handlers(void);
 void	set_parent_sig_handlers(void);
 void	set_child_sig_handlers(void);
+void	check_core_dump(int status);
 
 bool	is_interactive_mode(void);
-int	    sigint_event_hook(void);
-void	check_core_dump(int status);
+int		sigint_event_hook(void);
+int		heredoc_sigint_event_hook(void);
 
 #endif

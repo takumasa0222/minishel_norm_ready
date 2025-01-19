@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lookup_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:37:41 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 18:01:30 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:07:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 t_builtin	*lookup_builtin(char *cmd)
 {
-	t_builtin	builtins_list[8];
-	t_builtin	*p;
+	t_builtin			*p;
+	static t_builtin	builtins_list[8];
 
 	builtins_list[0] = (t_builtin){"cd", builtin_cd};
 	builtins_list[1] = (t_builtin){"pwd", builtin_pwd};

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_node_operator.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:40:41 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/18 22:41:36 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:50:06 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

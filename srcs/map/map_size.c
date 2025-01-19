@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:54:10 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:54:13 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 11:44:20 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ size_t	map_size(t_map *map, bool count_null_value)
 	size_t	size;
 	t_item	*item;
 
+	if (!map)
+		return (0);
 	size = 0;
 	item = map->item_head.next;
 	while (item)

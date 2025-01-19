@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_prep.c                                     :+:      :+:    :+:   */
+/*   execute_search_path_env.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/18 16:04:00 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:08:32 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,16 @@ char	*find_executable_path_for_cmd(char *cmd, char **directories)
 	i = 0;
 	while (directories[i])
 	{
-		dir_with_slash = ft_strjoin(directories[i], "/");//FIX: xstrjoin should be used.
-		candidate_path = ft_strjoin(dir_with_slash, cmd);//FIX: xstrjoin should be used.
+		dir_with_slash = ft_strjoin(directories[i], "/");
+		candidate_path = ft_strjoin(dir_with_slash, cmd);
 		free(dir_with_slash);
-		if (candidate_path && access(candidate_path, F_OK) == 0)//CHECK: if path cannot be executable what will be happend?
+		if (candidate_path && access(candidate_path, F_OK) == 0)
 		{
 			executable_path = candidate_path;
 			break ;
 		}
 		free(candidate_path);
 		candidate_path = NULL;
-		//FIX: dir_with_slash needs to be set NULL
 		i++;
 	}
 	return (executable_path);
@@ -62,14 +61,14 @@ char	*find_executable_path_env_or_exit(t_node *node, t_map *envp)
 
 	path_env_value = map_get(envp, "PATH");
 	if (!path_env_value)
-		d_throw_error("find_cmd_from_path", "PATH not set\n");//FIX: path could be null
+		d_throw_error("find_cmd_from_path", "PATH not set\n");
 	directories = ft_split(path_env_value, ':');
 	if (!directories)
-		d_throw_error("find_cmd_from_path", "ft_split is failed\n");//FIX: xmalloc should be used;
+		d_throw_error("find_cmd_from_path", "ft_split is failed\n");
 	executable_path = find_executable_path_for_cmd(node->cmds[0], directories);
-	free_wordlist(&directories);
+	free_wordlist(directories);
 	if (!executable_path)
-		d_throw_error("find_cmd_from_path", "executable path not found\n");//command not found error
+		d_throw_error("find_cmd_from_path", "executable path not found\n");
 	return (executable_path);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/18 17:20:42 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:07:01 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,6 @@
 #include "../includes/environment.h"
 #include "../includes/signals.h"
 #include "../includes/heredoc.h"
-
-/*
-mark as 
-syntax error
-unexpected error (logicall could not be happened)
-system error
-permission error
-command not found error
-Fix
-Check
-*/
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -48,6 +37,19 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		set_idle_sig_handlers();
+		if (ctx->heredoc_interrupted == true)
+		{
+			ctx->heredoc_interrupted = false;
+			g_sig = 0;
+			ctx->last_status = 130;
+			if (isatty(STDIN_FILENO))
+			{
+				rl_event_hook = sigint_event_hook;
+				continue ;
+			} else {
+				break;
+			}
+		}
 		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
@@ -81,15 +83,26 @@ void	start_exec(char *line, t_context *ctx)
 	ast_node = parse_cmd_handler(&token_list, syntx_err);
 	if (!ast_node)
 		return ;
-	//free_token_list(token_list);
-	heredoc_handler(ast_node);
+	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
+	// restore fds?
 	if (ctx->cnt)
 	{
 		wait_children_status(ctx);
 		check_core_dump(ctx->last_status);
 	}
 	free_ast(&ast_node);
+	close_stored_fds(ctx);
+}
+
+void close_stored_fds(t_context *ctx)
+{
+	if (ctx->stored_stdin != -1 && close(ctx->stored_stdin) == -1)
+		d_throw_error("close_stored_fds", "failed to close stored stdin");
+	if (ctx->stored_stdout != -1 && close(ctx->stored_stdout) == -1)
+		d_throw_error("close_stored_fds", "failed to close stored stdout");
+	ctx->stored_stdin = -1;
+	ctx->stored_stdout = -1;
 }
 
 t_context	*init_ctx(void)
@@ -98,7 +111,7 @@ t_context	*init_ctx(void)
 
 	ret = xmalloc(sizeof(t_context));
 	if (!ret)
-		d_throw_error("init_ctx", "malloc is failed");
+		throw_unexpected_error("init_ctx", "malloc is failed");
 	ret->in_pipe_fd = -1;
 	ret->out_pipe_fd = -1;
 	ret->pre_in_pipe_fd = -1;
@@ -106,21 +119,24 @@ t_context	*init_ctx(void)
 	ret->is_exec_in_child_ps = false;
 	ret->is_in_round_bracket = false;
 	ret->last_status = 0;
-	// ret->stored_stdin = dup(STDIN_FILENO);
-	// ret->stored_stdout = dup(STDOUT_FILENO);
+	ret->stored_stdin = -1;
+	ret->stored_stdout = -1;
+	ret->heredoc_interrupted = false;
 	return (ret);
 }
 
 void	clear_ctx(t_context *ctx)
 {
 	if (!ctx)
-		throw_syntax_error("clear_ctx", "ctx is null");//unexpected error
+		throw_unexpected_error("clear_ctx", "ctx is null");
 	ctx->in_pipe_fd = -1;
 	ctx->out_pipe_fd = -1;
 	ctx->pre_in_pipe_fd = -1;
 	ctx->cnt = 0;
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
+	ctx->heredoc_interrupted = false;
+	backup_std_fds(ctx);
 }
 bool	is_blanc_line(char *line)
 {

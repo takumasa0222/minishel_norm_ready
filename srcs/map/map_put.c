@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:47 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:53:50 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/11 11:51:04 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ int	split_name_value(const char *string, bool allow_empty_value, char **name,
 {
 	char	*name_end;
 
+	if (!string || !name || !value)
+		return (ERROR);
 	name_end = ft_strchr(string, '=');
 	if (name_end == NULL)
 	{
 		if (!allow_empty_value)
-			return (-1);
+			return (ERROR);
 		*name = ft_strdup(string);
 		*value = NULL;
 	}
@@ -41,6 +43,8 @@ int	map_put(t_map *map, const char *string, bool allow_empty_value)
 	char	*name;
 	char	*value;
 
+	if (!map || !string)
+		return (ERROR);
 	name = NULL;
 	value = NULL;
 	result = split_name_value(string, allow_empty_value, &name, &value);

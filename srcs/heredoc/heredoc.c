@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 16:03:34 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:49:03 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,19 @@
 #include "../includes/utils.h"
 #include <unistd.h>
 #include "../includes/heredoc.h"
+#include "../includes/signals.h"
 
-int	input_heredoc_content(char *eof)
-{
-	char	*line;
-	int		pipe_fds[2];
-
-	line = NULL;
-	if (pipe(pipe_fds) == -1)
-		d_throw_error("input_heredoc_content", "pipe failed");//system error bash should not be finished and Too many open files 
-	while (1)
-	{
-		free(line);
-		line = NULL;
-		line = readline("> ");
-		if (line == NULL || \
-		(ft_strlen(line) == ft_strlen(eof) && !ft_strcmp(eof, line)))
-			break ;
-		else
-		{
-			write(pipe_fds[1], line, ft_strlen(line));
-			write(pipe_fds[1], "\n", ft_strlen("\n"));
-		}
-	}
-	free(line);
-	close(pipe_fds[1]);
-	return (pipe_fds[0]);
-}
-
-void	heredoc_handler(t_node *node)
+void	heredoc_handler(t_node *node, t_context *ctx)
 {
 	if (node == NULL)
 		return ;
-	heredoc_handler(node->left);
-	heredoc_handler(node->right);
+	heredoc_handler(node->left, ctx);
+	heredoc_handler(node->right, ctx);
 	if (node->kind == ND_REDIRECTS)
-		call_heredoc(node);
+		call_heredoc(node, ctx);
 }
 
-void	call_heredoc(t_node *node)
+void	call_heredoc(t_node *node, t_context *ctx)
 {
 	size_t	i;
 	size_t	j;
@@ -68,7 +42,7 @@ void	call_heredoc(t_node *node)
 	{
 		if (!ft_strcmp(node->redirects[i], "<<") && node->redirects[i + 1])
 		{
-			temp_fd_arry[j++] = input_heredoc_content(node->redirects[i + 1]);
+			temp_fd_arry[j++] = read_heredoc(node->redirects[i + 1], ctx);
 			i++;
 		}
 		i++;
@@ -78,6 +52,17 @@ void	call_heredoc(t_node *node)
 	close_unused_fds(temp_fd_arry, j);
 	free(temp_fd_arry);
 }
+/*
+temp_fd_array: store multiple feredoc fds
+Everytime it sees a "<<" it calls input_heredoc_content()
+with the next string(node->redirects[i+1]) as the end marker.
+The returned FD from input_heredoc_content() is stored in temp_fd_array
+Assign node->fd_num
+	- if j > 0 (actually created at least one heredoc FD)
+	- is_heredoc_end(node->redirects) is true
+	- node->fd_num is set to temp_fd_arry[--j] (presumably means 
+	　"use the last heredoc FD as the input for this node")
+*/
 
 bool	is_heredoc_end(char **redirects)
 {
@@ -113,3 +98,13 @@ void	close_unused_fds(int *arry, size_t end)
 		i++;
 	}
 }
+/*
+This function closes all the file descriptors except for the final one.
+end: the number of active FDs, 
+and then we do end = end - 1 to exclude the one we’re keeping.
+The loop closes everything from arry[0] up to arry[end - 1]. 
+This effectively leaves the last FD open if you only need the final one.
+Key Point: If the code has multiple <<, 
+it’s presumably discarding all but the last one. 
+The final FD is used by node->fd_num.
+*/
