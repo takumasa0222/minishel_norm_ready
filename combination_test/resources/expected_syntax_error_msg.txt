@@ -5,7 +5,7 @@ minishell: unexpected EOF while looking for matching `"'
 minishell: unexpected EOF while looking for matching `''
 ---
 3
-minishell: syntax error : unexpected token
+minishell: syntax error: unexpected end of file
 ---
 4
 minishell: syntax error : unexpected token
@@ -23,11 +23,41 @@ minishell: syntax error unexpected token near redirect
 minishell: syntax error unexpected token near redirect
 ---
 9
-minishell: syntax error near unexpected token `('
+minishell: syntax error: unexpected end of file
 ---
 10
 minishell: syntax error: unexpected end of file
 ---
 11
 minishell: unexpected EOF while looking for matching `"
+---
+12
+minishell: syntax error: unexpected end of file
+---
+13
+minishell: syntax error: unexpected end of file
+---
+14
+minishell: syntax error near unexpected token `)'
+---
+15
+minishell: syntax error near unexpected token `('
+---
+16
+minishell: syntax error near unexpected token `('
+---
+17
+minishell: syntax error near unexpected token `(
+---
+18
+minishell: syntax error: unexpected end of file
+---
+19
+minishell: syntax error: unexpected end of file
+---
+20
+minishell: syntax error: unexpected end of file
+---
+21
+minishell: syntax error near unexpected token `('
 ---
