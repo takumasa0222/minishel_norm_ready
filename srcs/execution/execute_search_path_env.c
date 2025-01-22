@@ -6,28 +6,66 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/19 17:08:32 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/23 01:40:19 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <errno.h>
+#include "../../includes/execute.h"
 #include "../../includes/utils.h"
+#include "../../includes/environment.h"
 
-bool	validate_executable_or_exit(char *cmd)
+static char	*get_resolved_path_env(t_map *envp);
+static char	*locate_executable_in_dirs(char *cmd, char **directories);
+
+char	*search_path_env_or_exit(t_node *node, t_map *envp)
 {
-	if (!cmd)
-		d_throw_error("check_executable_path_or_exit", "cmd is NULL");
-	if (access(cmd, F_OK) != 0)
-		d_throw_error("check_executable_path_or_exit", "file not found");
-	if (access(cmd, X_OK) != 0)
-		d_throw_error("check_executable_path_or_exit", "permission denied");
-	return (true);
+	char	**directories;
+	char	*path_env_value;
+	char	*executable_path;
+
+	path_env_value = get_resolved_path_env(envp);
+	if (!path_env_value)
+		exit_file_not_found(node->cmds[0]);
+	directories = ft_split(path_env_value, ':');
+	free(path_env_value);
+	if (!directories)
+		d_throw_error("find_executable_path_env_or_exit", "ft_split is failed\n"); // FIX: replace with x_split
+	executable_path = locate_executable_in_dirs(node->cmds[0], directories);
+	free_wordlist(&directories);
+	if (!executable_path)
+		exit_file_not_found(node->cmds[0]);
+	return (executable_path);
 }
 
-char	*find_executable_path_for_cmd(char *cmd, char **directories)
+// if PATH = '', replace it with current working directory
+static char	*get_resolved_path_env(t_map *envp)
+{
+	char	*original;
+	char	*cwd_ptr;
+	char	*copy;
+
+	original = map_get(envp, "PATH");
+	if (!original)
+		return (NULL);
+	if (ft_strlen(original) == 0)
+	{
+		cwd_ptr = getcwd(NULL, 0);
+		if (!cwd_ptr)
+		{
+			perror("getcwd");
+			return (NULL);
+		}
+		return (cwd_ptr);
+	}
+	copy = ft_strdup(original);
+	return (copy);
+}
+
+static char	*locate_executable_in_dirs(char *cmd, char **directories)
 {
 	char	*executable_path;
 	char	*dir_with_slash;
@@ -44,44 +82,17 @@ char	*find_executable_path_for_cmd(char *cmd, char **directories)
 		if (candidate_path && access(candidate_path, F_OK) == 0)
 		{
 			executable_path = candidate_path;
+			candidate_path = NULL;
 			break ;
 		}
+		else if (errno != ENOENT)
+			exit_permission_denied(candidate_path);
 		free(candidate_path);
 		candidate_path = NULL;
 		i++;
 	}
 	return (executable_path);
 }
-
-char	*find_executable_path_env_or_exit(t_node *node, t_map *envp)
-{
-	char	*path_env_value;
-	char	**directories;
-	char	*executable_path;
-
-	path_env_value = map_get(envp, "PATH");
-	if (!path_env_value)
-		d_throw_error("find_cmd_from_path", "PATH not set\n");
-	directories = ft_split(path_env_value, ':');
-	if (!directories)
-		d_throw_error("find_cmd_from_path", "ft_split is failed\n");
-	executable_path = find_executable_path_for_cmd(node->cmds[0], directories);
-	free_wordlist(directories);
-	if (!executable_path)
-		d_throw_error("find_cmd_from_path", "executable path not found\n");
-	return (executable_path);
-}
-
-char	*resolve_executable_path(t_node *node, t_map *envp)
-{
-	char	*executable_path;
-
-	if (ft_strchr(node->cmds[0], '/'))
-	{
-		validate_executable_or_exit(node->cmds[0]);
-		executable_path = node->cmds[0];
-	}
-	else
-		executable_path = find_executable_path_env_or_exit(node, envp);
-	return (executable_path);
-}
+/*
+errno == ENOENT means "file not found" -> continue searching other directories
+*/

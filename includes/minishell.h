@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 17:01:39 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/23 01:34:25 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ t_context		*init_ctx(void);
 void			clear_ctx(t_context *ctx);
 bool			is_blanc_line(char *line);
 t_syntax_error	*init_syntax_error(void);
+
+void			close_stored_fds(t_context *ctx);
 
 #endif

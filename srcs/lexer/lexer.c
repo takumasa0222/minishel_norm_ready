@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/16 23:52:05 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/23 02:35:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	*lexer_handler(char *line, t_syntax_error *syntx_err, t_context *ctx)
 		throw_syntax_error(syntx_err->err_msg, ERR_MSG_UNEXPECTED_EOF);
 		free(syntx_err);
 		free_token_list(ret);
-		ctx->last_status = EXIT_FAILURE;
+		ctx->last_status = EXIT_SYNTAX_ERROR;
 		return (NULL);
 	}
 	return (ret);

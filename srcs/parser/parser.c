@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/19 17:50:51 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/23 05:31:33 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,22 @@ this parser will create AST based on below eBNF.
     NUMBER: /[0-9]+/
 				
 */
-t_node	*parse_cmd_handler(t_token **token_list, t_syntax_error *err)
+t_node	*parse_cmd_handler(t_token **t_l, t_syntax_error *err, t_context *ctx)
 {
 	t_node	*ret;
 	t_token	*cpy_list;
 
-	cpy_list = *token_list;
-	ret = parse_cmd(token_list, err);
+	ret = NULL;
+	cpy_list = *t_l;
+	if (is_rnd_bracket_closed(&cpy_list))
+		ret = parse_cmd(t_l, err);
+	else
+		parser_syntax_err(NULL, err, NULL, ERR_MSG_SUBSHELL);
 	if (!ret && err->is_error)
+	{
 		throw_syntax_error(err->err_msg, NULL);
+		ctx->last_status = EXIT_SYNTAX_ERROR;
+	}
 	free(err);
 	free_token_list(cpy_list);
 	return (ret);
@@ -63,6 +70,11 @@ t_node	*parse_cmd(t_token **tk_list, t_syntax_error *syntx_err)
 	node = parse_cmd_type(tk_list, syntx_err);
 	if (!node && syntx_err->is_error)
 		return (NULL);
+	if (!is_cmd_tail_tk(tk_list))
+	{
+		parser_syntax_err(NULL, syntx_err, &node, ERR_MSG_SYNTAX);
+		return (NULL);
+	}
 	return (parse_cmd_tail(node, tk_list, syntx_err));
 }
 
@@ -77,11 +89,11 @@ t_node	*parse_cmd_type(t_token **tk_list, t_syntax_error *err)
 		node = simple_cmd(tk_list, err);
 	if (!node)
 		parser_syntax_err(NULL, err, NULL, ERR_MSG_SYNTAX);
-	//if (node->kind == ND_REDIRECTS)
-	//if (node && compare_tk(ND_L_PARE, tk_list))
-	//	parser_syntax_err(NULL, err, &node, ERR_MSG_L_PARE);
-	//if (node && compare_tk(ND_R_PARE, tk_list))
-	//	parser_syntax_err(NULL, err, &node, ERR_MSG_R_PARE);
+	if (node && node->kind == ND_RND_BRACKET && \
+	(compare_tk(ND_CMD, tk_list) || compare_tk(ND_REDIRECTS, tk_list)))
+		parser_syntax_err(NULL, err, &node, ERR_MSG_R_PARE);
+	else if (node && compare_tk(ND_L_PARE, tk_list))
+		parser_syntax_err(NULL, err, &node, ERR_MSG_L_PARE);
 	return (node);
 }
 

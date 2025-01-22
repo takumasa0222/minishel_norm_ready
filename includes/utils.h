@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/18 18:08:51 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/23 02:35:42 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define ERR_MSG_SYNTAX "syntax error : unexpected token"
 # define ERR_MSG_L_PARE "syntax error near unexpected token `('"
 # define ERR_MSG_R_PARE "syntax error near unexpected token `)'"
+# define EXIT_SYNTAX_ERROR 2
 
 // error.c
 void	d_throw_error(char *func_name, char *error_msg);

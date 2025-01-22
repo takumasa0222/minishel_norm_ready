@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 17:07:01 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/23 03:24:11 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	start_exec(char *line, t_context *ctx)
 	token_list = lexer_handler(line, syntx_err, ctx);
 	if (!token_list)
 		return ;
-	ast_node = parse_cmd_handler(&token_list, syntx_err);
+	ast_node = parse_cmd_handler(&token_list, syntx_err, ctx);
 	if (!ast_node)
 		return ;
 	heredoc_handler(ast_node, ctx);

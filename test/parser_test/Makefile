@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/11 03:01:14 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/23 05:08:41 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,20 +31,23 @@ endif
 SRCS = \
 ./parser_tester.c \
 ./test_parser_rd.c \
-../../srcs/utils/error.c \
-../../srcs/utils/free_functions.c \
-../../srcs/utils/xmalloc.c \
 ../../srcs/parser/parser.c \
 ../../srcs/parser/parser_cmd_tail.c \
 ../../srcs/parser/parser_redirect_word.c \
 ../../srcs/parser/parser_token_checker.c \
 ../../srcs/parser/parser_node_operator.c \
 ../../srcs/parser/parser_node_counter.c \
+../../srcs/parser/parser_error_handler.c \
 ../../srcs/lexer/lexer_helper.c \
 ../../srcs/lexer/lexer_token_checker.c \
 ../../srcs/lexer/lexer_token_quote_checker.c \
 ../../srcs/lexer/lexer_operator_checker.c \
-../../srcs/lexer/lexer.c
+../../srcs/lexer/lexer.c \
+../../srcs/utils/error.c \
+../../srcs/utils/free_functions.c \
+../../srcs/utils/ft_strcmp.c \
+../../srcs/utils/xmalloc.c \
+../../srcs/utils/extend_string_functions.c
 #./ft_get_next_line/get_next_line_bonus.c \
 #./ft_get_next_line/get_next_line_utils_bonus.c \
 #../../srcs/lexer/lexer_helper.c \
