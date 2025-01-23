@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/19 18:52:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 16:59:17 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,12 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	{
 		ret = run_builtin(node, ctx);
 		if (ret != EXIT_SUCCESS && ctx->is_exec_in_child_ps)
+		{
+			// free_token_list(token_list);
+			// free_ast(&node);
+			close_stored_fds(ctx);
 			d_throw_error("exec_cmd", "builtin execution failed");
+		}
 		return (ret);
 	}
 	else

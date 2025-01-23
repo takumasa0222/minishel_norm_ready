@@ -990,8 +990,9 @@ Error: function name: count_nodes_for_redirect, Error message: invalid syntax==2
 ==2102857== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
 ### data structure
-- 
+- わからん 
 ### code structure
+- わからん
 ### NITS FB
 - INCLUDES = -I includes -I $(LIBFT_DIR), CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)が設定されているので"minishell.h"のインクルード記述でOK
 - exit statusはenumかマクロ定義推奨

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 18:30:45 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 18:56:05 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ void	start_exec(char *line, t_context *ctx)
 	t_node		*ast_node;
 
 	token_list = lexer(line);
+	if (!token_list)
+		return ;
 	ast_node = parse_cmd(&token_list);
+	free_token_list(token_list);
 	clear_ctx(ctx);
 	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
@@ -89,7 +92,6 @@ void	start_exec(char *line, t_context *ctx)
 		wait_children_status(ctx);
 		check_core_dump(ctx->last_status);
 	}
-	free_token_list(token_list);
 	free_ast(&ast_node);
 	close_stored_fds(ctx);
 }

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 22:32:09 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:06:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 	int			arr_size;
 
 	arr_size = 0;
-	// backup_std_fds(ctx);
 	builtin = lookup_builtin(cmd);
 	if (!builtin)
 	{

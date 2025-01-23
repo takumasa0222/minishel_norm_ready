@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 15:54:20 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:00:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ typedef struct s_context {
 void		start_exec(char *line, t_context *ctx);
 t_context	*init_ctx(void);
 void		clear_ctx(t_context *ctx);
+void close_stored_fds(t_context *ctx);
 
 #endif

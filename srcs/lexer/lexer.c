@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 00:54:28 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:59:04 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ t_token	*lexer(char *line)
 		else if (is_operator(line))
 			token->next = fetch_fst_ope_token(line);
 		else if (is_word(line))
+		{
 			token->next = fetch_fst_word_token(line);
+			if (token->next) // free partial token list
+				return (free_token_list(head.next), NULL);
+		}
 		else
 			d_throw_error("lexer", "unexpected token");
 		line = line + ft_strlen(token->next->word);
@@ -79,7 +83,7 @@ t_token	*fetch_fst_word_token(char *input)
 	}
 	if (i)
 		return (create_token(ft_substr(input, 0, i), ND_CMD));
-	d_throw_error("fetch_fst_word_token", "logically unexpected error");
+	// d_throw_error("fetch_fst_word_token", "logically unexpected error");
 	return (NULL);
 }
 
