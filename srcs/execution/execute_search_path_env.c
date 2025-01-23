@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_search_path_env.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/18 18:09:44 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 01:40:19 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*search_path_env_or_exit(t_node *node, t_map *envp)
 	if (!directories)
 		d_throw_error("find_executable_path_env_or_exit", "ft_split is failed\n"); // FIX: replace with x_split
 	executable_path = locate_executable_in_dirs(node->cmds[0], directories);
-	free_wordlist(directories);
+	free_wordlist(&directories);
 	if (!executable_path)
 		exit_file_not_found(node->cmds[0]);
 	return (executable_path);

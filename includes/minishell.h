@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/19 15:54:20 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 01:34:25 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -50,8 +51,17 @@ typedef struct s_context {
 	t_map	*env;
 }	t_context;
 
-void		start_exec(char *line, t_context *ctx);
-t_context	*init_ctx(void);
-void		clear_ctx(t_context *ctx);
+typedef struct s_syntax_error {
+	char	*err_msg;
+	bool	is_error;
+}	t_syntax_error;
+
+void			start_exec(char *line, t_context *ctx);
+t_context		*init_ctx(void);
+void			clear_ctx(t_context *ctx);
+bool			is_blanc_line(char *line);
+t_syntax_error	*init_syntax_error(void);
+
+void			close_stored_fds(t_context *ctx);
 
 #endif

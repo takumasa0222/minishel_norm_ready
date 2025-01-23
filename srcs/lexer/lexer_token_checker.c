@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_checker.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 14:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/08 21:28:27 by ssoeno           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/18 17:06:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/lexer.h"
 #include "../../libft/libft.h"
@@ -16,7 +17,7 @@
 
 bool	is_metachar(int c)
 {
-	return (c && ft_strchr("|&;()<> \t\n", c));
+	return (c && ft_strchr("|()<> \t\n", c));
 }
 
 bool	is_word(char *input)
@@ -35,7 +36,7 @@ bool	is_operator(char *input)
 	t_ope_map	ope_map[OPE_MAP_SIZE];
 
 	if (!input)
-		d_throw_error("is_operator_or_metacharacter", "input is null");
+		throw_unexpected_error("is_operator", "input is null");
 	i = 0;
 	get_ope_map(ope_map);
 	while (ope_map[i].op_str && ope_map[i].kind != ND_EOF)

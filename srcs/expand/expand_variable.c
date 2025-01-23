@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:58:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 02:55:58 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:52:21 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	expand_heredoc_var(t_node *node, t_context *ctx)
 	char	*ret;
 
 	if (pipe(pipe_fds) == -1)
-		d_throw_error("expand_heredoc_var", "pipe failed");
+		d_throw_error("expand_heredoc_var", "pipe failed");//system error need to exit function
 	line = get_next_line(node->fd_num);
 	while (line)
 	{
@@ -112,13 +112,13 @@ size_t	retrieve_var_in_heredoc(char **ret, char *str, size_t i, t_context *ctx)
 	var_name_len = retrieve_var_name_len(str, i + 1, true);
 	if (!var_name_len)
 		return (append_substring(ret, str, i, 1), i);
-	tmp = ft_substr(str, i + 1, var_name_len);
+	tmp = ft_substr(str, i + 1, var_name_len);//FIX xmalloc should be used
 	if (!tmp)
-		d_throw_error("retrieve_var", "substr failed");
+		d_throw_error("retrieve_var", "substr failed");//unexpected error
 	if (var_name_len == 1 && !ft_strcmp(tmp, QUESTION_MARK))
-		expanded_val = ft_itoa(ctx->last_status);
+		expanded_val = ft_itoa(ctx->last_status);//FIX xmalloc should be used
 	else
-		expanded_val = ft_strdup(map_get(ctx->env, tmp));
+		expanded_val = ft_strdup(map_get(ctx->env, tmp));//FIX xmalloc should be used
 	if (expanded_val)
 		append_substring(ret, expanded_val, 0, ft_strlen(expanded_val));
 	else

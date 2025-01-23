@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/03 19:46:36 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/18 16:03:44 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ void	free_node(t_node *node)
 	if (node->right)
 		free_node(node->right);
 	if (node->cmds)
-		free_wordlist(node->cmds);
+		free_wordlist(&node->cmds);
 	free(node);
 }
 
-void	free_wordlist(char **wordlist)
+void	free_wordlist(char ***wordlist)
 {
 	int	i;
 
 	if (!wordlist)
 		return ;
 	i = 0;
-	while (wordlist[i])
+	while ((*wordlist) && (*wordlist)[i])
 	{
-		free(wordlist[i]);
+		free((*wordlist)[i]);
 		i++;
 	}
-	free(wordlist);
+	free(*wordlist);
 }
 
 void	free_ast(t_node **node)

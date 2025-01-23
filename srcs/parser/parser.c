@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/12 21:04:05 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 05:31:33 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,68 +41,63 @@ this parser will create AST based on below eBNF.
     NUMBER: /[0-9]+/
 				
 */
+t_node	*parse_cmd_handler(t_token **t_l, t_syntax_error *err, t_context *ctx)
+{
+	t_node	*ret;
+	t_token	*cpy_list;
 
-/*
-今あまり明確になっていないところ
-・どんなときならノードを作るのか -> オペレーターもしくはコマンドのときのみ
-・親ノードを追加する場合や子ノードを追加するときの切り分け方　-> 実際にほしい木を意識してみるとわかりやすい
-・現在の問題点 ((ls)) のような場合にパーサーエラーが発生しない
-・match_token を行う場合と単純に判定を行う場合で分ける必要がありそう。基本的には、match は実際のトークン作成時に行うのがベター
-・match_token を行う際に実際のトークンも勧めていく形にする
-修正ポイント　11/17
-・match_token / compare_tk の箇所は、t_token_kind に合わせる。一方で、t_token_kind の種類を増やす
-*/
-t_node	*parse_cmd(t_token **token_list)
+	ret = NULL;
+	cpy_list = *t_l;
+	if (is_rnd_bracket_closed(&cpy_list))
+		ret = parse_cmd(t_l, err);
+	else
+		parser_syntax_err(NULL, err, NULL, ERR_MSG_SUBSHELL);
+	if (!ret && err->is_error)
+	{
+		throw_syntax_error(err->err_msg, NULL);
+		ctx->last_status = EXIT_SYNTAX_ERROR;
+	}
+	free(err);
+	free_token_list(cpy_list);
+	return (ret);
+}
+
+t_node	*parse_cmd(t_token **tk_list, t_syntax_error *syntx_err)
 {
 	t_node	*node;
 
 	node = NULL;
-	node = parse_cmd_type(token_list);
-	if (!node)
-		d_throw_error("parse_cmd", "node is empty");
-	return (parse_cmd_tail(node, token_list));
+	node = parse_cmd_type(tk_list, syntx_err);
+	if (!node && syntx_err->is_error)
+		return (NULL);
+	if (!is_cmd_tail_tk(tk_list))
+	{
+		parser_syntax_err(NULL, syntx_err, &node, ERR_MSG_SYNTAX);
+		return (NULL);
+	}
+	return (parse_cmd_tail(node, tk_list, syntx_err));
 }
 
-t_node	*parse_cmd_type(t_token **token_list)
+t_node	*parse_cmd_type(t_token **tk_list, t_syntax_error *err)
 {
 	t_node	*node;
 
-	if (compare_tk(ND_L_PARE, token_list))
-		node = parse_subshell(token_list);
-	else
-		node = simple_cmd(token_list);
+	node = NULL;
+	if (compare_tk(ND_L_PARE, tk_list))
+		node = parse_subshell(tk_list, err);
+	else if (compare_tk(ND_CMD, tk_list) || compare_tk(ND_REDIRECTS, tk_list))
+		node = simple_cmd(tk_list, err);
 	if (!node)
-		d_throw_error("parse_cmd_type", "node is empty");
+		parser_syntax_err(NULL, err, NULL, ERR_MSG_SYNTAX);
+	if (node && node->kind == ND_RND_BRACKET && \
+	(compare_tk(ND_CMD, tk_list) || compare_tk(ND_REDIRECTS, tk_list)))
+		parser_syntax_err(NULL, err, &node, ERR_MSG_R_PARE);
+	else if (node && compare_tk(ND_L_PARE, tk_list))
+		parser_syntax_err(NULL, err, &node, ERR_MSG_L_PARE);
 	return (node);
 }
 
-// t_node	*simple_cmd(t_token **token_list)
-// {
-// 	t_node	*node;
-// 	t_node	*tmp;
-
-// 	node = create_node(ND_CMD);
-// 	if (compare_tk(ND_REDIRECTS, token_list))
-// 		node->left = parse_redirects(token_list);
-// 	node->cmds = parse_words(token_list);
-// 	if (!node->cmds && !node->left)
-// 	{
-// 		free_node(node);
-// 		return (NULL);
-// 	}
-// 	else if (!node->cmds && node->left)
-// 	{
-// 		tmp = node->left;
-// 		free(node);
-// 		return (tmp);
-// 	}
-// 	if (compare_tk(ND_REDIRECTS, token_list))
-// 		// node->right = parse_redirects(token_list);
-// 		node->right = parse_redirects_rnode(token_list, node);
-// 	return (node);
-// }
-
-t_node	*simple_cmd(t_token **token_list)
+t_node	*simple_cmd(t_token **token_list, t_syntax_error *syntx_err)
 {
 	t_node	*node;
 	size_t	cmd_cnt;
@@ -111,32 +106,19 @@ t_node	*simple_cmd(t_token **token_list)
 	cmd_cnt = 0;
 	rd_cnt = 0;
 	node = NULL;
-	count_nodes_cmd_rd(token_list, &cmd_cnt, &rd_cnt);
+	cnt_cmd_rd(token_list, &cmd_cnt, &rd_cnt, syntx_err);
 	if (!rd_cnt && cmd_cnt)
 	{
 		node = create_node(ND_CMD);
 		node->cmds = parse_words(token_list);
 	}
 	else if (!cmd_cnt && rd_cnt && compare_tk(ND_REDIRECTS, token_list))
-		node = parse_redirects(token_list);
+		node = parse_redirects(token_list, syntx_err);
 	else if (rd_cnt && cmd_cnt)
 	{
 		node = create_node(ND_CMD);
 		parse_cmd_rd_node(token_list, node, cmd_cnt, rd_cnt);
 	}
-	return (node);
-}
-
-t_node	*parse_subshell(t_token **token_list)
-{
-	t_node	*node;
-
-	if (!match_token(ND_L_PARE, token_list))
-		d_throw_error("parser_subshell", "syntax_error");
-	node = create_node(ND_RND_BRACKET);
-	node->left = parse_cmd(token_list);
-	if (!match_token(ND_R_PARE, token_list))
-		d_throw_error("parser_subshell", "syntax_error");
 	return (node);
 }
 
@@ -150,63 +132,17 @@ char	**parse_words(t_token **token_list)
 	ret = NULL;
 	word_cnt = count_nodes(token_list, ND_CMD);
 	if (!word_cnt)
-		return (NULL);
+		throw_unexpected_error("parse_words", "word_cnt is null");
 	ret = xmalloc((word_cnt + 1) * sizeof(char *));
 	while (i < word_cnt)
 	{
-		if (!compare_tk(ND_CMD, token_list))
-			d_throw_error("parse_words", "unexpected token type");
-		ret[i] = ft_strdup((*token_list)->word);
-		if (!ret[i])
-		{
-			free_wordlist(ret);
-			d_throw_error("parse_words", "strdup_error");
-		}
+		if (!compare_tk(ND_CMD, token_list) || !(*token_list) \
+		|| !(*token_list)->word)
+			throw_unexpected_error("parse_words", "unexpected token type");
+		ret[i] = x_strdup((*token_list)->word);
 		i++;
 		*token_list = (*token_list)->next;
 	}
 	ret[i] = NULL;
 	return (ret);
 }
-
-// t_node	*parse_cmd_tail(t_node *left, t_token **tk_list)
-// {
-// 	t_node	*node;
-// 	node = NULL;
-// 	if (match_token(ND_PIPE, tk_list))
-// 	{
-// 		node = create_node(ND_PIPE);
-// 		node->left = left;
-// 		node->right = parse_cmd_type(tk_list);
-// 		create_sequential_pipe_node(node, tk_list);
-// 		return (parse_cmd_tail(node, tk_list));
-// 	}
-// 	else if (compare_tk(ND_AND_OP, tk_list) || compare_tk(ND_OR_OP, tk_list))
-// 	{
-// 		node = create_logi_node(left, tk_list);
-// 		if (compare_tk(ND_PIPE, tk_list))
-// 		{
-// 			node->right = parse_cmd_tail(node->right, tk_list);
-// 			return (node);
-// 		}
-// 		else
-// 			return (parse_cmd_tail(node, tk_list));
-// 	}
-// 	else if (compare_tk(ND_REDIRECTS, tk_list))
-// 	{
-// 		t_node *redirect_node = parse_redirects(tk_list);
-// 		if (redirect_node == NULL)
-// 			return (left);
-// 		if (left)
-// 		{
-// 			left->right = redirect_node;
-// 			return (left);
-// 		}
-// 		else 
-// 		{
-// 			return (redirect_node);
-// 		}
-// 		// return (parse_redirects(tk_list));
-// 	}
-// 	return (left);
-// }
