@@ -4,7 +4,6 @@ source ./combination_test/test_assert.sh
 
 echo "=== Test: '.' and '..' as commands ==="
 
-# Attempt to run '.'
 # assert "."
 # the '.' builtin is not supported" so we expect "command not found" => exit 127
 

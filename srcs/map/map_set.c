@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:57 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/11 12:03:17 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/24 19:30:58 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ void	map_update_item(t_item *item, const char *value)
 		item->value = NULL;
 	else
 	{
-		item->value = ft_strdup(value);
-		if (item->value == NULL)
-			d_throw_error("map_update_item", "Memory allocation error");
+		item->value = x_strdup(value);
 	}
 }
 
@@ -81,11 +79,11 @@ void	map_add_item(t_map *map, const char *name, const char *value)
 
 	if (!map || !name)
 		d_throw_error("map_add_item", "map or name is NULL");
-	name_copy = ft_strdup(name);
+	name_copy = x_strdup(name);
 	if (value == NULL)
 		value_copy = NULL;
 	else
-		value_copy = ft_strdup(value);
+		value_copy = x_strdup(value);
 	if (!name_copy || (value && !value_copy))
 	{
 		free(name_copy);
