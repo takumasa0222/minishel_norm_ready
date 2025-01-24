@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:48:53 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/16 21:37:35 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/24 21:13:18 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,7 @@ char	*resolve_pwd(char *pwd_before_chdir, char *path)
 		else
 			append_path_elem(pwd_after_chdir, &path, path);
 	}
-	dup = ft_strdup(pwd_after_chdir);//system error xmalloc should be used
-	if (dup == NULL)
-		d_throw_error("resolve_pwd", "Memory allocation error");
+	dup = x_strdup(pwd_after_chdir);
 	return (dup);
 }
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 03:08:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 16:50:19 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/24 21:16:21 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,16 @@ size_t	retrieve_var(char **ret, char *str, size_t i, t_context *ctx)
 	char	*tmp;
 	char	*expanded_val;
 
-	if (!str)
-		d_throw_error("retrieve_var", "arg is invalid");//unexpected error
 	if (!str[i + 1])
 		return (append_substring(ret, str, i, 1), i);
 	var_name_len = retrieve_var_name_len(str, i + 1, false);
 	if (!var_name_len)
 		return (append_substring(ret, str, i, 1), i);
-	tmp = ft_substr(str, i + 1, var_name_len);//FIX xmalloc should be used
-	if (!tmp)
-		d_throw_error("retrieve_var", "substr failed");//unexpected error
+	tmp = x_substr(str, i + 1, var_name_len);
 	if (var_name_len == 1 && !ft_strcmp(tmp, QUESTION_MARK))
 		expanded_val = ft_itoa(ctx->last_status);//FIX xmalloc should be used
 	else
-		expanded_val = ft_strdup(map_get(ctx->env, tmp));//FIX xmalloc should be used
+		expanded_val = x_strdup(map_get(ctx->env, tmp));
 	if (expanded_val)
 		append_substring(ret, expanded_val, 0, ft_strlen(expanded_val));
 	else

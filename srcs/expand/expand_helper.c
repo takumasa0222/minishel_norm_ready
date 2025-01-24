@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 16:46:17 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/24 21:17:02 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,8 @@ char	*append_substring(char **ret, char *str, size_t i, size_t len)
 	char	*tmp;
 	char	*ret_val;
 
-	tmp = ft_substr(str, i, len);//FIX xmalloc should be used
-	if (!tmp)
-		d_throw_error("append_substring", "substr failed");//unexpected error
-	ret_val = ft_strjoin(*ret, tmp);//FIX xmalloc should be used
-	if (!ret_val)
-		d_throw_error("append_substring", "strjoin failed");//unexpected error
+	tmp = x_substr(str, i, len);
+	ret_val = x_strjoin(*ret, tmp);
 	free(tmp);
 	free(*ret);
 	*ret = NULL;
