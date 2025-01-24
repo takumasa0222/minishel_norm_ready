@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/03 19:46:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 22:11:46 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static void	envmap_init(t_map *envmap, char **ep)
 		getcwd(cwd, PATH_MAX);
 		map_set(envmap, "PWD", cwd);
 	}
-	if (map_get(envmap, "OLDPWD") == NULL)
-	{
-		map_set(envmap, "OLDPWD", "/home/ssoeno/Downloads");
-	}
+	// if (map_get(envmap, "OLDPWD") == NULL)
+	// {
+	// 	map_set(envmap, "OLDPWD", "/home/ssoeno/Downloads");
+	// }
 }
 /*
 SHLVL: shell level, the number of nested shells

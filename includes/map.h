@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:18:32 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/01 16:42:40 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 23:26:37 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		split_name_value(const char *string, bool allow_empty_value,
 // map_set.c
 int		map_set(t_map *map, const char *name, const char *value);
 bool	is_identifier(const char *s);
+void	map_add_item(t_map *map, const char *name, const char *value);
 
 // map_size.c
 size_t	map_size(t_map *map, bool count_null_value);

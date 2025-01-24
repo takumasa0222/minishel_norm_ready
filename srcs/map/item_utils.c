@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:20 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/11 11:53:29 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/24 19:28:33 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ t_item	*item_new(char *name, char *value)
 {
 	t_item	*item;
 
-	item = malloc(sizeof(*item));
-	if (!item)
-		d_throw_error("item_new", "Memory allocation error");
+	item = xmalloc(sizeof(*item));
 	item->name = name;
 	item->value = value;
 	return (item);
@@ -39,9 +37,7 @@ char	*item_get_string(t_item *item)
 	strsize = ft_strlen(item->name) + 2;
 	if (item->value)
 		strsize += ft_strlen(item->value);
-	str = malloc(strsize);
-	if (str == NULL)
-		d_throw_error("item_get_string", "Memory allocation error");
+	str = xmalloc(strsize);
 	ft_strlcpy(str, item->name, strsize);
 	if (item->value)
 	{
