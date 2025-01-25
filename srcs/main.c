@@ -6,10 +6,9 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/25 16:34:00 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:09:36 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 #include "../includes/lexer.h"
@@ -46,9 +45,9 @@ int	main(int argc, char *argv[], char *envp[])
 			{
 				rl_event_hook = sigint_event_hook;
 				continue ;
-			} else {
-				break;
 			}
+			else
+				break;
 		}
 		line = readline("minishell$ ");
 		if (line == NULL)
