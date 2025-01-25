@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/19 17:00:59 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/25 18:31:28 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ LIBFT_DIR = ./libft
 LIBFT = ${LIBFT_DIR}/libft.a
 
 SRCS = srcs/main.c \
+srcs/init/setup_shell.c \
 srcs/lexer/lexer_helper.c \
 srcs/lexer/lexer_token_checker.c \
 srcs/lexer/lexer_token_quote_checker.c \
@@ -46,6 +47,7 @@ srcs/parser/parser_node_operator.c \
 srcs/parser/parser_node_counter.c \
 srcs/parser/parser_error_handler.c \
 srcs/utils/error.c \
+srcs/utils/error2.c \
 srcs/utils/free_functions.c \
 srcs/utils/ft_strcmp.c \
 srcs/utils/init_env.c \

@@ -3,42 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 17:40:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 08:14:50 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin.h"
 #include "../../includes/utils.h"
+#include "../../includes/execute.h"
 
 static bool	is_digit_str(char *str);
 
 int	builtin_exit(int argc, char *argv[], t_context *ctx)
 {
-	if (ctx->is_exec_in_child_ps)
-		ft_putendl_fd("exit", STDERR_FILENO);//FIX:exit should not show in child process also when command is succeded show up this.
+	int	ret;
+
+	ctx->last_status = EXIT_SUCCESS;
+	if (!ctx->is_exec_in_child_ps)
+		ft_putendl_fd(EXIT, STDERR_FILENO);
 	if (argc > 2)
-	{
-		builtin_error("exit", NULL, "too many arguments");
-		ctx->last_status = EXIT_FAILURE;
-		return (ctx->last_status);
-	}
+		return (builtin_error("exit", NULL, "too many arguments"), \
+		ctx->last_status = EXIT_FAILURE, ctx->last_status);
 	if (argc == 2)
 	{
 		if (argv[1] == NULL || !is_digit_str(argv[1]))
 		{
 			builtin_error("exit", argv[1], "numeric argument required");
 			ctx->last_status = EXIT_INVALID_INPUT;
-			exit(ctx->last_status);
+			ret = ctx->last_status;
+			if (!ctx->is_exec_in_child_ps)
+				free_ctx(&ctx);
+			exit(ret);
 		}
 		ctx->last_status = ft_atoi(argv[1]);
 	}
-	else
-		ctx->last_status = EXIT_SUCCESS;
-	exit(ctx->last_status);
+	ret = ctx->last_status;
+	if (!ctx->is_exec_in_child_ps)
+		free_ctx(&ctx);
+	exit(ret);
 }
 
 static bool	is_digit_str(char *str)

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/25 16:32:44 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:32:31 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define EXIT_INVALID_INPUT 2
 # define EXIT_EXEC_ERROR 126
 # define EXIT_CMD_NOT_FOUND 127
+
+# define MAX_PROCESS_COUNT 1024
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -36,8 +38,10 @@
 # include <string.h>
 # include "map.h"
 
+typedef struct s_node	t_node;
+
 typedef struct s_context {
-	pid_t	pids[5000];
+	pid_t	pids[MAX_PROCESS_COUNT];
 	int		in_pipe_fd;
 	int		out_pipe_fd;
 	int		pre_in_pipe_fd;
@@ -49,6 +53,7 @@ typedef struct s_context {
 	int		stored_stdout;
 	bool	heredoc_interrupted;
 	t_map	*env;
+	t_node	**head_node;
 }	t_context;
 
 typedef struct s_syntax_error {
@@ -63,5 +68,7 @@ bool			is_blanc_line(char *line);
 t_syntax_error	*init_syntax_error(void);
 
 void			close_stored_fds(t_context *ctx);
+void	main_loop(t_context *ctx);
+bool	read_command(t_context *ctx);
 
 #endif

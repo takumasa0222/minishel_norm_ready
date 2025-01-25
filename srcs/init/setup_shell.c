@@ -6,11 +6,13 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:19 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 18:00:27 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:34:58 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
+#include "../includes/utils.h"
+#include "../includes/execute.h"
 
 t_context	*init_ctx(void)
 {
@@ -29,6 +31,7 @@ t_context	*init_ctx(void)
 	ret->stored_stdin = -1;
 	ret->stored_stdout = -1;
 	ret->heredoc_interrupted = false;
+	ret->head_node = NULL;
 	return (ret);
 }
 
@@ -63,5 +66,6 @@ void	clear_ctx(t_context *ctx)
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
 	ctx->heredoc_interrupted = false;
+	ctx->head_node = NULL;
 	backup_std_fds(ctx);
 }

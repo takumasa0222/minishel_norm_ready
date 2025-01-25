@@ -30,9 +30,9 @@ int	run_builtin(t_node *node, t_context *ctx)
 
 void	backup_std_fds(t_context *ctx)
 {
-	if (ctx->stored_stdin >= 0)
+	if (ctx->stored_stdin > 2)
 		close(ctx->stored_stdin);
-	if (ctx->stored_stdout >= 0)
+	if (ctx->stored_stdout > 2)
 		close(ctx->stored_stdout);
 	ctx->stored_stdin = dup(STDIN_FILENO);
 	ctx->stored_stdout = dup(STDOUT_FILENO);
@@ -76,7 +76,7 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 	ctx->last_status = builtin->f(arr_size, argv, ctx);
 	if (ctx->last_status != EXIT_SUCCESS)
 	{
-		ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
+		// ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
 		return (ctx->last_status);
 	}
 	restore_std_fds(ctx);

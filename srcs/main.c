@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/25 18:12:23 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:32:52 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	main(int argc, char *argv[], char *envp[])
 {
 
 	t_context	*ctx;
+	int			last_status;
 
+	last_status = EXIT_SUCCESS;
 	if (argc >= 2)
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
@@ -34,7 +36,9 @@ int	main(int argc, char *argv[], char *envp[])
 		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
 	main_loop(ctx);
-	return (ctx->last_status);
+	last_status = ctx->last_status;
+	free_ctx(&ctx);
+	return (last_status);
 }
 
 void	main_loop(t_context *ctx)
@@ -56,7 +60,7 @@ void	main_loop(t_context *ctx)
 				break;
 		}
 		if (!read_command(ctx))
-			break;
+			break ;
 	}
 }
 
@@ -96,6 +100,7 @@ void	start_exec(char *line, t_context *ctx)
 	ast_node = parse_cmd_handler(&token_list, syntx_err, ctx);
 	if (!ast_node)
 		return ;
+	ctx->head_node = &ast_node;
 	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
 	// restore fds?
@@ -106,6 +111,7 @@ void	start_exec(char *line, t_context *ctx)
 	}
 	free_ast(&ast_node);
 	close_stored_fds(ctx);
+	ctx->head_node = NULL;
 }
 
 bool	is_blanc_line(char *line)
