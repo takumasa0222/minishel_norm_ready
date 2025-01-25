@@ -76,7 +76,7 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 	ctx->last_status = builtin->f(arr_size, argv, ctx);
 	if (ctx->last_status != EXIT_SUCCESS)
 	{
-		ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
+		// ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
 		return (ctx->last_status);
 	}
 	restore_std_fds(ctx);
