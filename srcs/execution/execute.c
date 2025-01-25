@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 01:39:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:45:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,26 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 		return (exec_or_node(ast_node, ctx));
 	else if (ast_node->kind == ND_AND_OP)
 		return (exec_and_node(ast_node, ctx));
-	// else if (ast_node->kind == ND_REDIRECTS)
-	// 	return (exec_redirect(ast_node, ctx));
+	else if (ast_node->kind == ND_REDIRECTS)
+		return (exec_redirect(ast_node, ctx));
 	else
 		return (EXIT_FAILURE);
 }
+
+int	exec_redirect(t_node *node, t_context *ctx)
+{
+	int	ret;
+
+	ret = apply_redirects(node);
+	// if (ret != EXIT_SUCCESS)
+	// 	close_stored_fds(ctx);
+	restore_std_fds(ctx);
+	return (ret);
+}
+/*
+code rabbit comment: close_stored_fds when apply_redirect fails
+ignore for now, FD management will be reviewed in future issues
+*/
 
 int	exec_pipe(t_node *node, t_context *ctx)
 {
@@ -62,8 +77,6 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = run_builtin(node, ctx);
-		// if (ret != EXIT_SUCCESS && ctx->is_exec_in_child_ps)
-		// 	d_throw_error("exec_cmd", "builtin execution failed");
 		if (ctx->is_exec_in_child_ps)
 			exit(ret);
 		return (ret);
