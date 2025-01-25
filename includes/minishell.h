@@ -21,6 +21,8 @@
 # define EXIT_EXEC_ERROR 126
 # define EXIT_CMD_NOT_FOUND 127
 
+# define MAX_PROCESS_COUNT 1024
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -36,8 +38,10 @@
 # include <string.h>
 # include "map.h"
 
+typedef struct s_node	t_node;
+
 typedef struct s_context {
-	pid_t	pids[5000];
+	pid_t	pids[MAX_PROCESS_COUNT];
 	int		in_pipe_fd;
 	int		out_pipe_fd;
 	int		pre_in_pipe_fd;
@@ -49,6 +53,7 @@ typedef struct s_context {
 	int		stored_stdout;
 	bool	heredoc_interrupted;
 	t_map	*env;
+	t_node	**head_node;
 }	t_context;
 
 typedef struct s_syntax_error {

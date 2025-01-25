@@ -30,9 +30,9 @@ int	run_builtin(t_node *node, t_context *ctx)
 
 void	backup_std_fds(t_context *ctx)
 {
-	if (ctx->stored_stdin >= 0)
+	if (ctx->stored_stdin > 2)
 		close(ctx->stored_stdin);
-	if (ctx->stored_stdout >= 0)
+	if (ctx->stored_stdout > 2)
 		close(ctx->stored_stdout);
 	ctx->stored_stdin = dup(STDIN_FILENO);
 	ctx->stored_stdout = dup(STDOUT_FILENO);
