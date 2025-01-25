@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 18:59:04 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 13:24:14 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*lexer(char *line)
 		else if (is_word(line))
 		{
 			token->next = fetch_fst_word_token(line);
-			if (token->next) // free partial token list
+			if (!token->next) // free partial token list
 				return (free_token_list(head.next), NULL);
 		}
 		else

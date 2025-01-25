@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/19 18:34:00 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 13:15:31 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ static void	envmap_init(t_map *envmap, char **ep)
 	{
 		getcwd(cwd, PATH_MAX);
 		map_set(envmap, "PWD", cwd);
-	}
-	if (map_get(envmap, "OLDPWD") == NULL)
-	{
-		// TODO: rm it
-		map_set(envmap, "OLDPWD", "/home/ssoeno/Downloads");
 	}
 }
 /*

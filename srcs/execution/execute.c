@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 16:59:17 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 13:20:17 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	exec_redirect(t_node *node, t_context *ctx)
 {
 	int	ret;
 
-	(void)ctx;
 	ret = apply_redirects(node);
 	restore_std_fds(ctx);
 	return (ret);
