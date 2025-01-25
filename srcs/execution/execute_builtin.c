@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 23:36:28 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 16:34:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 	int			arr_size;
 
 	arr_size = 0;
-	// backup_std_fds(ctx);
 	builtin = lookup_builtin(cmd);
 	if (!builtin)
 	{

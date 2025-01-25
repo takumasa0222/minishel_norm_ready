@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/23 03:24:11 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:09:36 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "../includes/minishell.h"
+#include "minishell.h"
 #include "../includes/lexer.h"
 #include "../includes/parser.h"
 #include "../includes/execute.h"
@@ -46,9 +45,9 @@ int	main(int argc, char *argv[], char *envp[])
 			{
 				rl_event_hook = sigint_event_hook;
 				continue ;
-			} else {
-				break;
 			}
+			else
+				break;
 		}
 		line = readline("minishell$ ");
 		if (line == NULL)
