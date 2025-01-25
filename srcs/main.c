@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/25 17:09:36 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:12:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char		*line;
+
 	t_context	*ctx;
 
 	if (argc >= 2)
@@ -33,6 +33,12 @@ int	main(int argc, char *argv[], char *envp[])
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
+	main_loop(ctx);
+	return (ctx->last_status);
+}
+
+void	main_loop(t_context *ctx)
+{	
 	while (1)
 	{
 		set_idle_sig_handlers();
@@ -49,23 +55,31 @@ int	main(int argc, char *argv[], char *envp[])
 			else
 				break;
 		}
-		line = readline("minishell$ ");
-		if (line == NULL)
-			break ;
-		if (g_sig != 0)
-		{
-			ctx->last_status = g_sig + 128;
-			g_sig = 0;
-		}
-		if (*line && !is_blanc_line(line))
-		{
-			add_history(line);
-			start_exec(line, ctx);
-		}
-		free(line);
-		line = NULL;
+		if (!read_command(ctx))
+			break;
 	}
-	return (ctx->last_status);
+}
+
+bool	read_command(t_context *ctx)
+{
+	char *line;
+
+	line = readline("minishell$ ");
+	if (line == NULL)
+		return (false);
+	if (g_sig != 0)
+	{
+		ctx->last_status = g_sig + 128;
+		g_sig = 0;
+	}
+	if (*line && !is_blanc_line(line))
+	{
+		add_history(line);
+		start_exec(line, ctx);
+	}
+	free(line);
+	line = NULL;
+	return (true);
 }
 
 void	start_exec(char *line, t_context *ctx)
@@ -94,49 +108,6 @@ void	start_exec(char *line, t_context *ctx)
 	close_stored_fds(ctx);
 }
 
-void close_stored_fds(t_context *ctx)
-{
-	if (ctx->stored_stdin != -1 && close(ctx->stored_stdin) == -1)
-		d_throw_error("close_stored_fds", "failed to close stored stdin");
-	if (ctx->stored_stdout != -1 && close(ctx->stored_stdout) == -1)
-		d_throw_error("close_stored_fds", "failed to close stored stdout");
-	ctx->stored_stdin = -1;
-	ctx->stored_stdout = -1;
-}
-
-t_context	*init_ctx(void)
-{
-	t_context	*ret;
-
-	ret = xmalloc(sizeof(t_context));
-	if (!ret)
-		throw_unexpected_error("init_ctx", "malloc is failed");
-	ret->in_pipe_fd = -1;
-	ret->out_pipe_fd = -1;
-	ret->pre_in_pipe_fd = -1;
-	ret->cnt = 0;
-	ret->is_exec_in_child_ps = false;
-	ret->is_in_round_bracket = false;
-	ret->last_status = 0;
-	ret->stored_stdin = -1;
-	ret->stored_stdout = -1;
-	ret->heredoc_interrupted = false;
-	return (ret);
-}
-
-void	clear_ctx(t_context *ctx)
-{
-	if (!ctx)
-		throw_unexpected_error("clear_ctx", "ctx is null");
-	ctx->in_pipe_fd = -1;
-	ctx->out_pipe_fd = -1;
-	ctx->pre_in_pipe_fd = -1;
-	ctx->cnt = 0;
-	ctx->is_exec_in_child_ps = false;
-	ctx->is_in_round_bracket = false;
-	ctx->heredoc_interrupted = false;
-	backup_std_fds(ctx);
-}
 bool	is_blanc_line(char *line)
 {
 	size_t	i;
@@ -152,14 +123,4 @@ bool	is_blanc_line(char *line)
 			return (false);
 	}
 	return (true);
-}
-
-t_syntax_error	*init_syntax_error(void)
-{
-	t_syntax_error	*ret;
-
-	ret = xmalloc(sizeof(t_syntax_error));
-	ret->err_msg = NULL;
-	ret->is_error = false;
-	return (ret);
 }
