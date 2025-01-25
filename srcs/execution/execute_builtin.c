@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 23:36:28 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 15:38:36 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	run_builtin(t_node *node, t_context *ctx)
 
 void	backup_std_fds(t_context *ctx)
 {
-	if (ctx->stored_stdin >= 0)
+	if (ctx->stored_stdin > 2)
 		close(ctx->stored_stdin);
-	if (ctx->stored_stdout >= 0)
+	if (ctx->stored_stdout > 2)
 		close(ctx->stored_stdout);
 	ctx->stored_stdin = dup(STDIN_FILENO);
 	ctx->stored_stdout = dup(STDOUT_FILENO);

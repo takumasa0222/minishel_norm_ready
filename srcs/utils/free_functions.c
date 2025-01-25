@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/25 01:41:43 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:47:20 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@ void	free_ctx(t_context **ctx)
 		return ;
 	if (*ctx)
 	{
+		if ((*ctx)->in_pipe_fd > 2)
+			close((*ctx)->in_pipe_fd);
+		if ((*ctx)->out_pipe_fd > 2)
+			close((*ctx)->out_pipe_fd);
+		if ((*ctx)->pre_in_pipe_fd > 2)
+			close((*ctx)->pre_in_pipe_fd);
+		if ((*ctx)->stored_stdin > 2)
+			close((*ctx)->stored_stdin);
+		if ((*ctx)->stored_stdout > 2)
+			close((*ctx)->stored_stdout);
 		free_map(&(*ctx)->env);
 		free_ast((*ctx)->head_node);
 		free(*ctx);
