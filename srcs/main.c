@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/25 18:32:52 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:39:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-
 	t_context	*ctx;
 	int			last_status;
 
@@ -51,13 +50,20 @@ void	main_loop(t_context *ctx)
 			ctx->heredoc_interrupted = false;
 			g_sig = 0;
 			ctx->last_status = 130;
-			if (isatty(STDIN_FILENO))
+			if (isatty(STDIN_FILENO)) // rm this if before submit
 			{
 				rl_event_hook = sigint_event_hook;
 				continue ;
 			}
 			else
-				break;
+				break ;
+		}
+		if (!read_command(ctx))
+			break ;
+		if (g_sig != 0)
+		{
+			ctx->last_status = g_sig + 128;
+			g_sig = 0;
 		}
 		if (!read_command(ctx))
 			break ;
@@ -66,7 +72,7 @@ void	main_loop(t_context *ctx)
 
 bool	read_command(t_context *ctx)
 {
-	char *line;
+	char	*line;
 
 	line = readline("minishell$ ");
 	if (line == NULL)

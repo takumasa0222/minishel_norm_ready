@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_token_checker.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:41:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 05:35:26 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:35:39 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ bool	is_cmd_tail_tk(t_token **cur_token)
 
 bool	is_rnd_bracket_closed(t_token **cur_token)
 {
-	int	l_pare;
-
+	int		l_pare;
 	t_token	*temp;
 
 	if (!cur_token || !*cur_token)

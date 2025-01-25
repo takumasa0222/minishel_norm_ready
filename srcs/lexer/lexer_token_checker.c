@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_checker.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/18 17:06:51 by tamatsuu         ###   ########.fr       */
+/*   Created: 2025/01/25 01:33:45 by tamatsuu          #+#    #+#             */
+/*   Updated: 2025/01/25 21:41:55 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/lexer.h"
 #include "../../libft/libft.h"

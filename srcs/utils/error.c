@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/25 08:16:47 by tamatsuu         ###   ########.fr       */
+/*   Created: 2025/01/25 01:33:45 by tamatsuu          #+#    #+#             */
+/*   Updated: 2025/01/25 21:40:42 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/utils.h"
 #define ERROR_PREFIX "minishell: "
 
 static void	perror_prefix(void);
+
 /*
 This function for testing purpose. When you submit this code, this should be
 replased
