@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 23:45:41 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 01:39:13 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,12 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		return (exec_cmd(node, ctx));
 	else
 	{
+		if (ctx->cnt + 1 >= MAX_PROCESS_COUNT)
+			throw_system_error(ERR_MSG_PROCESS_LIMIT, NULL);
 		ctx->pids[ctx->cnt] = fork();
 		ctx->cnt += 1;
 		if (ctx->pids[ctx->cnt -1] == 0)
 		{
-			// set_exec_child_handler();
 			set_child_sig_handlers();
 			setup_child_process_fd(ctx);
 			exec_cmd(node, ctx);
