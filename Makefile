@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/19 17:00:59 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/25 08:18:11 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ srcs/parser/parser_node_operator.c \
 srcs/parser/parser_node_counter.c \
 srcs/parser/parser_error_handler.c \
 srcs/utils/error.c \
+srcs/utils/error2.c \
 srcs/utils/free_functions.c \
 srcs/utils/ft_strcmp.c \
 srcs/utils/init_env.c \

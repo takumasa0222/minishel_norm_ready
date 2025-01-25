@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/23 03:24:11 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:09:36 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "../includes/minishell.h"
+#include "minishell.h"
 #include "../includes/lexer.h"
 #include "../includes/parser.h"
 #include "../includes/execute.h"
@@ -25,7 +24,9 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	char		*line;
 	t_context	*ctx;
+	int			last_status;
 
+	last_status = EXIT_SUCCESS;
 	if (argc >= 2)
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
@@ -46,9 +47,9 @@ int	main(int argc, char *argv[], char *envp[])
 			{
 				rl_event_hook = sigint_event_hook;
 				continue ;
-			} else {
-				break;
 			}
+			else
+				break;
 		}
 		line = readline("minishell$ ");
 		if (line == NULL)
@@ -66,7 +67,9 @@ int	main(int argc, char *argv[], char *envp[])
 		free(line);
 		line = NULL;
 	}
-	return (ctx->last_status);
+	last_status = ctx->last_status;
+	free_ctx(&ctx);
+	return (last_status);
 }
 
 void	start_exec(char *line, t_context *ctx)
@@ -83,6 +86,7 @@ void	start_exec(char *line, t_context *ctx)
 	ast_node = parse_cmd_handler(&token_list, syntx_err, ctx);
 	if (!ast_node)
 		return ;
+	ctx->head_node = &ast_node;
 	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
 	// restore fds?
@@ -93,6 +97,7 @@ void	start_exec(char *line, t_context *ctx)
 	}
 	free_ast(&ast_node);
 	close_stored_fds(ctx);
+	ctx->head_node = NULL;
 }
 
 void close_stored_fds(t_context *ctx)
@@ -122,6 +127,7 @@ t_context	*init_ctx(void)
 	ret->stored_stdin = -1;
 	ret->stored_stdout = -1;
 	ret->heredoc_interrupted = false;
+	ret->head_node = NULL;
 	return (ret);
 }
 
@@ -136,6 +142,7 @@ void	clear_ctx(t_context *ctx)
 	ctx->is_exec_in_child_ps = false;
 	ctx->is_in_round_bracket = false;
 	ctx->heredoc_interrupted = false;
+	ctx->head_node = NULL;
 	backup_std_fds(ctx);
 }
 bool	is_blanc_line(char *line)

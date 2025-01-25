@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/16 21:39:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 08:16:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/utils.h"
 #define ERROR_PREFIX "minishell: "
+
+static void	perror_prefix(void);
 /*
 This function for testing purpose. When you submit this code, this should be
 replased
 */
-
 void	d_throw_error(char *func_name, char *error_msg)
 {
 	printf("Error: function name: %s, Error message: %s", func_name, error_msg);
@@ -49,7 +50,7 @@ void	throw_syntax_error(char *err_msg, char *err_msg2)
 	}
 }
 
-void	perror_prefix(void)
+static void	perror_prefix(void)
 {
 	ft_putstr_fd(ERROR_PREFIX, STDERR_FILENO);
 }

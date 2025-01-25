@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:49 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/23 23:24:16 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 00:54:52 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_sorted_env(t_map *envmap)
 			printf("declare -x %s\n", cur->name);
 		cur = cur->next;
 	}
-	free_map(sorted_map);
+	free_map(&sorted_map);
 }
 
 static t_map	*build_sorted_env(t_map *envmap)

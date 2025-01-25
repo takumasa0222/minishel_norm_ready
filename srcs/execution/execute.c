@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 23:45:41 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 17:45:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,26 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 		return (exec_or_node(ast_node, ctx));
 	else if (ast_node->kind == ND_AND_OP)
 		return (exec_and_node(ast_node, ctx));
-	// else if (ast_node->kind == ND_REDIRECTS)
-	// 	return (exec_redirect(ast_node, ctx));
+	else if (ast_node->kind == ND_REDIRECTS)
+		return (exec_redirect(ast_node, ctx));
 	else
 		return (EXIT_FAILURE);
 }
+
+int	exec_redirect(t_node *node, t_context *ctx)
+{
+	int	ret;
+
+	ret = apply_redirects(node);
+	// if (ret != EXIT_SUCCESS)
+	// 	close_stored_fds(ctx);
+	restore_std_fds(ctx);
+	return (ret);
+}
+/*
+code rabbit comment: close_stored_fds when apply_redirect fails
+ignore for now, FD management will be reviewed in future issues
+*/
 
 int	exec_pipe(t_node *node, t_context *ctx)
 {
@@ -62,8 +77,6 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = run_builtin(node, ctx);
-		// if (ret != EXIT_SUCCESS && ctx->is_exec_in_child_ps)
-		// 	d_throw_error("exec_cmd", "builtin execution failed");
 		if (ctx->is_exec_in_child_ps)
 			exit(ret);
 		return (ret);
@@ -79,11 +92,12 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		return (exec_cmd(node, ctx));
 	else
 	{
+		if (ctx->cnt + 1 >= MAX_PROCESS_COUNT)
+			throw_system_error(ERR_MSG_PROCESS_LIMIT, NULL);
 		ctx->pids[ctx->cnt] = fork();
 		ctx->cnt += 1;
 		if (ctx->pids[ctx->cnt -1] == 0)
 		{
-			// set_exec_child_handler();
 			set_child_sig_handlers();
 			setup_child_process_fd(ctx);
 			exec_cmd(node, ctx);

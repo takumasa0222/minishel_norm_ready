@@ -6,24 +6,33 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/18 16:03:44 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:40:13 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 #include "../../includes/utils.h"
 
-void	free_node(t_node *node)
+void	free_ctx(t_context **ctx)
 {
-	if (!node)
+	if (!ctx)
 		return ;
-	if (node->left)
-		free_node(node->left);
-	if (node->right)
-		free_node(node->right);
-	if (node->cmds)
-		free_wordlist(&node->cmds);
-	free(node);
+	if (*ctx)
+	{
+		if ((*ctx)->in_pipe_fd > 2)
+			close((*ctx)->in_pipe_fd);
+		if ((*ctx)->out_pipe_fd > 2)
+			close((*ctx)->out_pipe_fd);
+		if ((*ctx)->pre_in_pipe_fd > 2)
+			close((*ctx)->pre_in_pipe_fd);
+		if ((*ctx)->stored_stdin > 2)
+			close((*ctx)->stored_stdin);
+		if ((*ctx)->stored_stdout > 2)
+			close((*ctx)->stored_stdout);
+		free_map(&(*ctx)->env);
+		free_ast((*ctx)->head_node);
+		free(*ctx);
+	}
 }
 
 void	free_wordlist(char ***wordlist)
@@ -81,14 +90,14 @@ void	free_token_list(t_token *token_list)
 	}
 }
 
-void	free_map(t_map *map)
+void	free_map(t_map **map)
 {
 	t_item	*cur;
 	t_item	*next;
 
-	if (!map)
+	if (!map || !*map)
 		return ;
-	cur = map->item_head.next;
+	cur = (*map)->item_head.next;
 	while (cur)
 	{
 		next = cur->next;
@@ -97,5 +106,5 @@ void	free_map(t_map *map)
 		free(cur);
 		cur = next;
 	}
-	free(map);
+	free(*map);
 }

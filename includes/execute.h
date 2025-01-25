@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:09:09 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 01:37:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:30:16 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define EXPORT "export"
 
 int		exec_handler(t_node *ast_node, t_context *ctx);
+int		exec_redirect(t_node *node, t_context *ctx);
 int		exec_pipe(t_node *node, t_context *ctx);
 int		exec_cmd(t_node *node, t_context *ctx);
 int		exec_cmd_handler(t_node *node, t_context *ctx);
