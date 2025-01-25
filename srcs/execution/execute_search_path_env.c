@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/18 18:09:44 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/24 21:28:22 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ char	*search_path_env_or_exit(t_node *node, t_map *envp)
 	path_env_value = get_resolved_path_env(envp);
 	if (!path_env_value)
 		exit_file_not_found(node->cmds[0]);
-	directories = ft_split(path_env_value, ':');
+	directories = ft_split(path_env_value, ':'); // FIX : xmalloc should be used
 	free(path_env_value);
-	if (!directories)
-		d_throw_error("find_executable_path_env_or_exit", "ft_split is failed\n"); // FIX: replace with x_split
 	executable_path = locate_executable_in_dirs(node->cmds[0], directories);
-	free_wordlist(directories);
+	free_wordlist(&directories);
 	if (!executable_path)
-		exit_file_not_found(node->cmds[0]);
+	{
+		exit_command_not_found(node->cmds[0]);
+	}
 	return (executable_path);
 }
 
@@ -61,7 +61,7 @@ static char	*get_resolved_path_env(t_map *envp)
 		}
 		return (cwd_ptr);
 	}
-	copy = ft_strdup(original);
+	copy = x_strdup(original);
 	return (copy);
 }
 
@@ -76,8 +76,8 @@ static char	*locate_executable_in_dirs(char *cmd, char **directories)
 	i = 0;
 	while (directories[i])
 	{
-		dir_with_slash = ft_strjoin(directories[i], "/");
-		candidate_path = ft_strjoin(dir_with_slash, cmd);
+		dir_with_slash = x_strjoin(directories[i], "/");
+		candidate_path = x_strjoin(dir_with_slash, cmd);
 		free(dir_with_slash);
 		if (candidate_path && access(candidate_path, F_OK) == 0)
 		{

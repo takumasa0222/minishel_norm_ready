@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 16:33:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/11/17 16:51:23 by ssoeno           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/16 21:39:13 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/utils.h"
 #define ERROR_PREFIX "minishell: "
@@ -21,6 +22,31 @@ void	d_throw_error(char *func_name, char *error_msg)
 {
 	printf("Error: function name: %s, Error message: %s", func_name, error_msg);
 	exit(EXIT_FAILURE);
+}
+
+void	throw_unexpected_error(char *func_name, char *err_msg)
+{
+	static char	*default_err_msg = "Logically unexpected error";
+
+	ft_putstr_fd("Error: function name:", STDERR_FILENO);
+	ft_putstr_fd(func_name, STDERR_FILENO);
+	ft_putstr_fd(" Error message:", STDERR_FILENO);
+	if (err_msg)
+		ft_putendl_fd(err_msg, STDERR_FILENO);
+	else
+		ft_putendl_fd(default_err_msg, STDERR_FILENO);
+	exit(EXIT_FAILURE);
+}
+
+void	throw_syntax_error(char *err_msg, char *err_msg2)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putendl_fd(err_msg, STDERR_FILENO);
+	if (err_msg2)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putendl_fd(err_msg2, STDERR_FILENO);
+	}
 }
 
 void	perror_prefix(void)

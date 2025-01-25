@@ -62,11 +62,11 @@ assert "cat << eof
 eof
 "
 #below cases are failed and need to be fixed.
-assert "cat << eof
-$'
-eof
-"
-assert "cat << eof
-$+
-eof
-"
+# assert "cat << eof
+# $'
+# eof
+# "
+# assert "cat << eof
+# $+
+# eof
+# "

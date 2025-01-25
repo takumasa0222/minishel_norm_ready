@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 02:33:07 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/24 21:17:02 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 size_t	skip_s_quote_block(char *str, size_t i)
 {
 	if (!str)
-		d_throw_error("skip_s_quote_block", "str is null");
+		d_throw_error("skip_s_quote_block", "str is null");//unexpected error
 	i = i + 1;
 	while (str[i] && !is_s_quote(str[i]))
 		i++;
@@ -34,12 +34,8 @@ char	*append_substring(char **ret, char *str, size_t i, size_t len)
 	char	*tmp;
 	char	*ret_val;
 
-	tmp = ft_substr(str, i, len);
-	if (!tmp)
-		d_throw_error("append_substring", "substr failed");
-	ret_val = ft_strjoin(*ret, tmp);
-	if (!ret_val)
-		d_throw_error("append_substring", "strjoin failed");
+	tmp = x_substr(str, i, len);
+	ret_val = x_strjoin(*ret, tmp);
 	free(tmp);
 	free(*ret);
 	*ret = NULL;

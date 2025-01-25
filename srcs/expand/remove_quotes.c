@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 03:12:31 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/12/31 03:14:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 20:33:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	move_to_next_quotation_expnd(char *input, int i)
 		while (input[i] && !is_s_quote(input[i]))
 			i++;
 		if (!input[i])
-			d_throw_error("move_to_next_quotation", "squote not closed");
+			d_throw_error("move_to_next_quotation_expnd", "squote not closed");
 	}
 	else if (is_d_quote(input[i]))
 	{
@@ -57,7 +57,7 @@ int	move_to_next_quotation_expnd(char *input, int i)
 		while (input[i] && !is_d_quote(input[i]))
 			i++;
 		if (!input[i])
-			d_throw_error("move_to_next_quotation", "dquote not closed");
+			d_throw_error("move_to_next_quotation_expnd", "dquote not closed");
 	}
 	return (i);
 }

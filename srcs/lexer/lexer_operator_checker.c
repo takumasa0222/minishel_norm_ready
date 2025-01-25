@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_operator_checker.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 16:44:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/12/08 21:20:51 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/16 21:37:58 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token	*fetch_fst_ope_token(char *input)
 	t_token		*ret;
 
 	if (!input)
-		d_throw_error("fetch_fst_ope_token", "input is NULL");
+		throw_unexpected_error("fetch_fst_ope_token", NULL);
 	i = 0;
 	get_ope_map(ope_map);
 	while (ope_map[i].op_str)
@@ -53,11 +53,11 @@ t_token	*fetch_fst_ope_token(char *input)
 		if (!ft_strncmp(ope_map[i].op_str, input,
 				ft_strlen(ope_map[i].op_str)))
 		{
-			ret = create_token(ft_strdup(ope_map[i].op_str), ope_map[i].kind);
+			ret = create_token(x_strdup(ope_map[i].op_str), ope_map[i].kind);
 			return (ret);
 		}
 		i++;
 	}
-	d_throw_error("fetch_fst_ope_token", "logically unexpected error");
+	throw_unexpected_error("fetch_fst_ope_token", NULL);
 	return (NULL);
 }

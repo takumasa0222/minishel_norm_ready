@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   map_new.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 19:53:37 by ssoeno            #+#    #+#             */
-/*   Updated: 2024/11/17 19:53:39 by ssoeno           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/16 21:39:01 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"
@@ -32,9 +33,7 @@ t_map	*map_new(void)
 {
 	t_map	*map;
 
-	map = malloc(sizeof(t_map));
-	if (!map)
-		d_throw_error("map_new", "Memory allocation error");
+	map = xmalloc(sizeof(t_map));
 	map->item_head.next = NULL;
 	return (map);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser_rd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 01:57:43 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 17:08:30 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 04:39:29 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	run_test_parser()
 {
 	t_token	*token_list;
 	t_node	*ast_tree;
+	static t_syntax_error err = {.is_error = false, .err_msg = NULL};
 
 	char *testcase[] = 
 	{
@@ -70,10 +71,10 @@ void	run_test_parser()
 	for (int i = 0; i < (int)sizeof(testcase)/(int)sizeof(char*); i++)
 	{
 		printf("---------------testcase [%d]\n",i + 1);
-		token_list = lexer(testcase[i]);
+		token_list = lexer(testcase[i],&err);
 		if (!token_list)
 			printf("unexpexted error in exec_parser_test");
-		ast_tree = parse_cmd(&token_list);
+		ast_tree = parse_cmd(&token_list, &err);
 		print_tree(ast_tree, 0, "root");
 		free_ast(&ast_tree);
 		ast_tree = NULL;

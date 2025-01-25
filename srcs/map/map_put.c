@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:47 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/11 11:51:04 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/24 19:28:05 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	split_name_value(const char *string, bool allow_empty_value, char **name,
 	{
 		if (!allow_empty_value)
 			return (ERROR);
-		*name = ft_strdup(string);
+		*name = x_strdup(string);
 		*value = NULL;
 	}
 	else
 	{
-		*name = ft_substr(string, 0, name_end - string);
-		*value = ft_strdup(name_end + 1);
+		*name = x_substr(string, 0, name_end - string);
+		*value = x_strdup(name_end + 1);
 	}
 	return (EXIT_SUCCESS);
 }

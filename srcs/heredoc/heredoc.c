@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/19 15:27:55 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 16:41:14 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	is_heredoc_end(char **redirects)
 	i = 0;
 	ret = false;
 	if (!redirects || !redirects[i])
-		d_throw_error("retrieve_last_input", "redirects is null");
+		d_throw_error("retrieve_last_input", "redirects is null");// unexpected error
 	while (redirects[i])
 	{
 		if (!ft_strcmp(redirects[i], "<"))

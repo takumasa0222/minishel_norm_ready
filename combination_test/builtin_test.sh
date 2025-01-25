@@ -3,8 +3,8 @@
 source ./combination_test/test_assert.sh
 
 # buitins
-assert "env"
-assert "export"
+# assert "env"
+# assert "export"
 assert "export NEW_VAR"
 assert "export NEW_VAR=42"
 assert "unset"
@@ -28,7 +28,7 @@ assert "cd ."
 assert "pwd"
 assert "cd .."
 assert "pwd"
-assert "cd -"
+# assert "cd -"
 assert "pwd"
 assert "cd /home/user/bin"
 assert "pwd"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 13:20:17 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 16:38:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,8 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = run_builtin(node, ctx);
-		if (ret != EXIT_SUCCESS && ctx->is_exec_in_child_ps)
-		{
-			// free_token_list(token_list);
-			// free_ast(&node);
-			close_stored_fds(ctx);
-			d_throw_error("exec_cmd", "builtin execution failed");
-		}
+		if (ctx->is_exec_in_child_ps)
+			exit(ret);
 		return (ret);
 	}
 	else
@@ -95,7 +90,6 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		ctx->cnt += 1;
 		if (ctx->pids[ctx->cnt -1] == 0)
 		{
-			// set_exec_child_handler();
 			set_child_sig_handlers();
 			setup_child_process_fd(ctx);
 			exec_cmd(node, ctx);

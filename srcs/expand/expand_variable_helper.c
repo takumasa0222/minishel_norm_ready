@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 03:08:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 02:38:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/24 21:16:21 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ size_t	retrieve_val_in_sq(char **ret, char *str, size_t i)
 	size_t	closing_sq_pos;
 
 	if (!is_s_quote(str[i]) || !ret || !str)
-		d_throw_error("retrieve_val_in_sq", "arg is invalid");
+		d_throw_error("retrieve_val_in_sq", "arg is invalid");//unexpected error
 	closing_sq_pos = skip_s_quote_block(str, i);
 	append_substring(ret, str, i, closing_sq_pos - i + 1);
 	if (!is_s_quote(str[closing_sq_pos]))
-		d_throw_error("retrieve_val_in_sq", "unexpected error");
+		d_throw_error("retrieve_val_in_sq", "unexpected error");//unexpected error
 	return (closing_sq_pos);
 }
 
@@ -32,7 +32,7 @@ size_t	retrieve_val_in_dq(char **ret, char *str, size_t i, t_context *ctx)
 	size_t	j;
 
 	if (!is_d_quote(str[i]) || !ret || !str)
-		d_throw_error("retrieve_val_in_dq", "arg is invalid");
+		d_throw_error("retrieve_val_in_dq", "arg is invalid");//unexpected error
 	j = i + 1;
 	while (str[j] && !is_d_quote(str[j]))
 	{
@@ -46,7 +46,7 @@ size_t	retrieve_val_in_dq(char **ret, char *str, size_t i, t_context *ctx)
 	}
 	append_substring(ret, str, i, j - i + 1);
 	if (!is_d_quote(str[j]))
-		d_throw_error("retrieve_val_in_dq", "unexpected error");
+		d_throw_error("retrieve_val_in_dq", "unexpected error");//unexpected error
 	return (j);
 }
 
@@ -56,20 +56,16 @@ size_t	retrieve_var(char **ret, char *str, size_t i, t_context *ctx)
 	char	*tmp;
 	char	*expanded_val;
 
-	if (!str)
-		d_throw_error("retrieve_var", "arg is invalid");
 	if (!str[i + 1])
 		return (append_substring(ret, str, i, 1), i);
 	var_name_len = retrieve_var_name_len(str, i + 1, false);
 	if (!var_name_len)
 		return (append_substring(ret, str, i, 1), i);
-	tmp = ft_substr(str, i + 1, var_name_len);
-	if (!tmp)
-		d_throw_error("retrieve_var", "substr failed");
+	tmp = x_substr(str, i + 1, var_name_len);
 	if (var_name_len == 1 && !ft_strcmp(tmp, QUESTION_MARK))
-		expanded_val = ft_itoa(ctx->last_status);
+		expanded_val = ft_itoa(ctx->last_status);//FIX xmalloc should be used
 	else
-		expanded_val = ft_strdup(map_get(ctx->env, tmp));
+		expanded_val = x_strdup(map_get(ctx->env, tmp));
 	if (expanded_val)
 		append_substring(ret, expanded_val, 0, ft_strlen(expanded_val));
 	else
@@ -85,7 +81,7 @@ size_t	retrieve_var_name_len(char *str, size_t i, bool is_heredoc)
 
 	len = 0;
 	if (!str)
-		d_throw_error("retrieve_var_name_end", "arg is invalid");
+		d_throw_error("retrieve_var_name_end", "arg is invalid");//unexpected error
 	if (!is_heredoc && (is_d_quote(str[i]) || is_s_quote(str[i])))
 		return (0);
 	if (!ft_isalpha(str[i]) && str[i] != UNDER_SCORE)

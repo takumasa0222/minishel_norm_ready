@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:49 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/01 17:23:45 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/23 23:24:16 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_map	*build_sorted_env(t_map *envmap)
 	cur = envmap->item_head.next;
 	while (cur)
 	{
-		map_put(sorted_map, cur->name, cur->value);
+		map_add_item(sorted_map, cur->name, cur->value);
 		cur = cur->next;
 	}
 	bubble_sort_map(sorted_map);

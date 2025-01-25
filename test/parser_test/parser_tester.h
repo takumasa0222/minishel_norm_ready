@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:18:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/09 02:10:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/23 04:36:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "../../includes/utils.h"
 # include "../../includes/parser.h"
 # include "../../includes/lexer.h"
+# include "../../includes/minishell.h"
 
 # define DEFAULT_PARSER_TEST_CASE "parser_testcase.txt"
 # define NUMBER_OF_TESTS 3

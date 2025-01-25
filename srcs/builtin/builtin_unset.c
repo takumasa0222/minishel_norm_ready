@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:50:01 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/04 02:37:39 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/13 18:00:37 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	builtin_unset(int argc, char *argv[], t_context *ctx)
 	{
 		if (map_unset(ctx->env, argv[i]) < 0)
 		{
-			builtin_error("unset", argv[i], "not a valid identifier");
+			builtin_error("unset", argv[i], "not a valid identifier");//FIX unset doesn't need valid identifier check but need to implement invalid option check
 			ctx->last_status = 1;
 		}
 		else

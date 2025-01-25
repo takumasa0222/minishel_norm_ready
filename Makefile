@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/19 15:28:29 by ssoeno           ###   ########.fr        #
+#    Updated: 2025/01/19 17:00:59 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,13 @@ srcs/parser/parser_redirect_word.c \
 srcs/parser/parser_token_checker.c \
 srcs/parser/parser_node_operator.c \
 srcs/parser/parser_node_counter.c \
+srcs/parser/parser_error_handler.c \
 srcs/utils/error.c \
 srcs/utils/free_functions.c \
 srcs/utils/ft_strcmp.c \
 srcs/utils/init_env.c \
 srcs/utils/xmalloc.c \
+srcs/utils/extend_string_functions.c\
 srcs/expand/expand_handler.c \
 srcs/expand/expand_helper.c \
 srcs/expand/expand_variable_helper.c \

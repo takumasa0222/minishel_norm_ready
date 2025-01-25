@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/23 18:56:05 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 16:34:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,19 @@
 #include "../includes/signals.h"
 #include "../includes/heredoc.h"
 
-void close_stored_fds(t_context *ctx);
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	char		*line;
 	t_context	*ctx;
 
-	ctx = init_ctx();
 	if (argc >= 2)
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
+	ctx = init_ctx();
 	rl_outstream = stderr;
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = sigint_event_hook;
 	ctx->env = init_env(envp);
-	if (!ctx->env)
-		d_throw_error("main", "init_env is failed");
 	while (1)
 	{
 		set_idle_sig_handlers();
@@ -62,7 +58,7 @@ int	main(int argc, char *argv[], char *envp[])
 			ctx->last_status = g_sig + 128;
 			g_sig = 0;
 		}
-		if (*line)
+		if (*line && !is_blanc_line(line))
 		{
 			add_history(line);
 			start_exec(line, ctx);
@@ -75,15 +71,18 @@ int	main(int argc, char *argv[], char *envp[])
 
 void	start_exec(char *line, t_context *ctx)
 {
-	t_token		*token_list;
-	t_node		*ast_node;
+	t_token			*token_list;
+	t_node			*ast_node;
+	t_syntax_error	*syntx_err;
 
-	token_list = lexer(line);
+	syntx_err = init_syntax_error();
+	clear_ctx(ctx);
+	token_list = lexer_handler(line, syntx_err, ctx);
 	if (!token_list)
 		return ;
-	ast_node = parse_cmd(&token_list);
-	free_token_list(token_list);
-	clear_ctx(ctx);
+	ast_node = parse_cmd_handler(&token_list, syntx_err, ctx);
+	if (!ast_node)
+		return ;
 	heredoc_handler(ast_node, ctx);
 	exec_handler(ast_node, ctx);
 	// restore fds?
@@ -110,9 +109,9 @@ t_context	*init_ctx(void)
 {
 	t_context	*ret;
 
-	ret = malloc(sizeof(t_context));
+	ret = xmalloc(sizeof(t_context));
 	if (!ret)
-		d_throw_error("init_ctx", "malloc is failed");
+		throw_unexpected_error("init_ctx", "malloc is failed");
 	ret->in_pipe_fd = -1;
 	ret->out_pipe_fd = -1;
 	ret->pre_in_pipe_fd = -1;
@@ -129,7 +128,7 @@ t_context	*init_ctx(void)
 void	clear_ctx(t_context *ctx)
 {
 	if (!ctx)
-		d_throw_error("clear_ctx", "ctx is null");
+		throw_unexpected_error("clear_ctx", "ctx is null");
 	ctx->in_pipe_fd = -1;
 	ctx->out_pipe_fd = -1;
 	ctx->pre_in_pipe_fd = -1;
@@ -138,4 +137,30 @@ void	clear_ctx(t_context *ctx)
 	ctx->is_in_round_bracket = false;
 	ctx->heredoc_interrupted = false;
 	backup_std_fds(ctx);
+}
+bool	is_blanc_line(char *line)
+{
+	size_t	i;
+
+	if (!line)
+		return (true);
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == ' ' || line[i] == '\t')
+			i++;
+		else
+			return (false);
+	}
+	return (true);
+}
+
+t_syntax_error	*init_syntax_error(void)
+{
+	t_syntax_error	*ret;
+
+	ret = xmalloc(sizeof(t_syntax_error));
+	ret->err_msg = NULL;
+	ret->is_error = false;
+	return (ret);
 }
