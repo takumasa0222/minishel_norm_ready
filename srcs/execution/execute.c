@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 16:38:23 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:45:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,15 @@ int	exec_redirect(t_node *node, t_context *ctx)
 	int	ret;
 
 	ret = apply_redirects(node);
+	// if (ret != EXIT_SUCCESS)
+	// 	close_stored_fds(ctx);
 	restore_std_fds(ctx);
 	return (ret);
 }
+/*
+code rabbit comment: close_stored_fds when apply_redirect fails
+ignore for now, FD management will be reviewed in future issues
+*/
 
 int	exec_pipe(t_node *node, t_context *ctx)
 {
