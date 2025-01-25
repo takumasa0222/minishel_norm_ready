@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 17:45:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/25 22:26:17 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 
 int	exec_redirect(t_node *node, t_context *ctx)
 {
-	int	ret;
-
-	ret = apply_redirects(node);
+	apply_redirects(node, ctx);
 	// if (ret != EXIT_SUCCESS)
 	// 	close_stored_fds(ctx);
 	restore_std_fds(ctx);
-	return (ret);
+	return (ctx->last_status);
 }
 /*
 code rabbit comment: close_stored_fds when apply_redirect fails
@@ -73,7 +71,7 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	ret = 0;
 	expand_handler(node, ctx);
 	if (node->left && node->left->redirects)
-		set_redirect_fds(node);
+		apply_redirects(node, ctx);
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = run_builtin(node, ctx);
