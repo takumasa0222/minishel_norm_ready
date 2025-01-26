@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/25 18:32:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:49:52 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_syntax_error {
 }	t_syntax_error;
 
 void			start_exec(char *line, t_context *ctx);
-t_context		*init_ctx(void);
+t_context		*init_ctx(char *envp[]);
 void			clear_ctx(t_context *ctx);
 bool			is_blanc_line(char *line);
 t_syntax_error	*init_syntax_error(void);

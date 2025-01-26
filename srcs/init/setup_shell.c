@@ -6,21 +6,24 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:19 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 21:33:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 18:01:58 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/utils.h"
 #include "../includes/execute.h"
+#include "../includes/environment.h"
+#include "../includes/map.h"
 
-t_context	*init_ctx(void)
+t_context	*init_ctx(char *envp[])
 {
 	t_context	*ret;
 
 	ret = xmalloc(sizeof(t_context));
 	if (!ret)
 		throw_unexpected_error("init_ctx", "malloc is failed");
+	ret->env = NULL;
 	ret->in_pipe_fd = -1;
 	ret->out_pipe_fd = -1;
 	ret->pre_in_pipe_fd = -1;
@@ -32,6 +35,7 @@ t_context	*init_ctx(void)
 	ret->stored_stdout = -1;
 	ret->heredoc_interrupted = false;
 	ret->head_node = NULL;
+	ret->env = init_env(envp);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/26 13:46:42 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 17:55:10 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ int	exec_cmd(t_node *node, t_context *ctx)
 
 	ret = 0;
 	expand_handler(node, ctx);
-	// if (node->left && node->left->redirects)
-	// 	set_redirect_fds(node, ctx);
-	set_redirect_fds(node->left, ctx);
+	if (node->left)
+		set_redirect_fds(node->left, ctx);
 	if (ctx->last_status != EXIT_SUCCESS)
 		return (ctx->last_status);
 	if (is_builtin(node->cmds[0]))
@@ -84,8 +83,6 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	}
 	else
 		return (run_external(node, ctx));
-	// return (EXIT_SUCCESS);
-	return (ctx->last_status);
 }
 
 int	exec_cmd_handler(t_node *node, t_context *ctx)
