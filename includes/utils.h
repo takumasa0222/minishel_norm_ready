@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/26 13:10:35 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 18:14:00 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define ERR_MSG_L_PARE "syntax error near unexpected token `('"
 # define ERR_MSG_R_PARE "syntax error near unexpected token `)'"
 # define EXIT_SYNTAX_ERROR 2
+# define ERROR_PREFIX "minishell: "
 
 # define ERR_MSG_PROCESS_LIMIT "Exceed number of process limit"
 // error.c

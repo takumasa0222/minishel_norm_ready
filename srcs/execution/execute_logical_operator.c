@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_logical_operator.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:56:20 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 10:36:37 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/26 19:13:59 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,17 @@ int	exec_or_node(t_node *node, t_context *ctx)
 	int	status;
 
 	status = 0;
-	status = exec_handler(node->left, ctx);
 	if (ctx->cnt)
 		wait_children_status(ctx);
-	if (!ctx->last_status && !status)
-	{
-		clear_pid_status(ctx);
+	status = exec_handler(node->left, ctx);
+	// if (!ctx->last_status && !status)
+	// {
+	// 	clear_pid_status(ctx);
+	// 	// return (EXIT_SUCCESS);
+	// 	return (ctx->last_status);
+	// } // このコメントアウト部分についてたくまささんに確認
+	if (status == 0)
 		return (EXIT_SUCCESS);
-	}
 	else
 	{
 		if (!ctx->is_in_round_bracket)

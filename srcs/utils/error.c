@@ -6,12 +6,11 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 01:33:45 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/26 17:17:31 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 18:13:41 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/utils.h"
-#define ERROR_PREFIX "minishell: "
 
 /*
 This function for testing purpose. When you submit this code, this should be

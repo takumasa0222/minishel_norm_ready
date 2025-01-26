@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/19 15:33:38 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 18:29:09 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	run_external(t_node *node, t_context *ctx)
 	execve(cmd_path, node->cmds, get_environ(ctx->env));
 	execve_errors(cmd_path);
 	free(cmd_path);
-	exit(EXIT_FAILURE);
+	if (ctx->is_exec_in_child_ps)
+		exit(EXIT_FAILURE);
 	return (EXIT_FAILURE);
 }
 

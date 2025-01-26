@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/26 17:01:21 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 18:49:27 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	wait_children_status(t_context *ctx)
 	c_status = EXIT_SUCCESS;
 	while (++i < ctx->cnt)
 		waitpid(ctx->pids[i], &c_status, 0);
+	if (ctx->last_status != 0) // 確認　"cat < nosuchfile123" should return 1
+		return (ctx->last_status);
 	if (WIFSIGNALED(c_status))
 		ctx->last_status = WTERMSIG(c_status) + 128;
 	else if (WIFEXITED(c_status)) 

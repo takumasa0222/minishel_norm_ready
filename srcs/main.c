@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/26 17:48:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 18:16:01 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	main_loop(t_context *ctx)
 			ctx->last_status = g_sig + 128;
 			g_sig = 0;
 		}
-		if (!read_command(ctx))
-			break ;
 	}
 }
 
