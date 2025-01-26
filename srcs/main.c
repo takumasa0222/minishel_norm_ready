@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/25 21:39:48 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/27 03:22:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,6 @@ void	main_loop(t_context *ctx)
 			}
 			else
 				break ;
-		}
-		if (!read_command(ctx))
-			break ;
-		if (g_sig != 0)
-		{
-			ctx->last_status = g_sig + 128;
-			g_sig = 0;
 		}
 		if (!read_command(ctx))
 			break ;
