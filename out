@@ -1,10 +1,12 @@
-fallback after fail
-abc
-fallback after fail
-abc
-fallback after fail
-abc
-fallback after fail
-abc
-fallback after fail
+Should fail
+should not print
+Append fail
+should not print
+Test
+Test
+Overwritten
+Line1
+Line2
+Line2
+Hello
 abc

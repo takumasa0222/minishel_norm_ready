@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 22:39:09 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 12:25:59 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 #include "../includes/utils.h"
 #include "../includes/redirect.h"
 #include "../includes/execute.h"
+
+int	apply_redirects(t_node *node, t_context *ctx);
+
+void	set_redirect_fds(t_node *node, t_context *ctx)
+{
+	if (!node)
+		return ;
+	if (!node->redirects)
+		return ;
+	if (node->redirects)
+		apply_redirects(node, ctx);
+}
 
 int	apply_redirects(t_node *node, t_context *ctx)
 {
