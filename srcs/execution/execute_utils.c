@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/05 14:03:37 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 14:40:07 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	wait_children_status(t_context *ctx)
 		waitpid(ctx->pids[i], &c_status, 0);
 	if (WIFSIGNALED(c_status))
 		ctx->last_status = WTERMSIG(c_status) + 128;
-	else if (WIFEXITED(c_status))
+	else if (WIFEXITED(c_status) && ctx->last_status == 0) // 確認
 		ctx->last_status = WEXITSTATUS(c_status);
 	return (ctx->last_status);
 }
