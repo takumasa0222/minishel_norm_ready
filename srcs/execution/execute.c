@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/26 19:16:05 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/27 00:46:39 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	expand_handler(node, ctx);
 	if (node->left)
 		set_redirect_fds(node->left, ctx);
-	if (ctx->last_status != EXIT_SUCCESS)
-		return (ctx->last_status);
+	// if (ctx->last_status != EXIT_SUCCESS)
+	// 	return (ctx->last_status);
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = run_builtin(node, ctx);
@@ -99,6 +99,7 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		{
 			set_child_sig_handlers();
 			setup_child_process_fd(ctx);
+			ctx->is_exec_in_child_ps = true;
 			exec_cmd(node, ctx);
 		}
 		else if (ctx->pids[ctx->cnt -1] == -1)
@@ -111,6 +112,6 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 				close(node->left->fd_num);
 		}
 	}
-	// return (EXIT_SUCCESS);
-	return (ctx->last_status);
+	return (EXIT_SUCCESS);
+	// return (ctx->last_status);
 }
