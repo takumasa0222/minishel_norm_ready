@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/25 21:32:16 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 13:10:35 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	d_throw_error(char *func_name, char *error_msg);
 void	builtin_error(char *func, char *name, char *err);
 void	throw_unexpected_error(char *func_name, char *err_msg);
 void	throw_syntax_error(char *err_msg, char *err_msg2);
+void    perror_prefix(void);
 
 void	throw_system_error(char *err_msg, char *err_msg2);
 

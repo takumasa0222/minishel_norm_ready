@@ -6,14 +6,12 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 01:33:45 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 21:40:42 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/26 13:11:04 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/utils.h"
 #define ERROR_PREFIX "minishell: "
-
-static void	perror_prefix(void);
 
 /*
 This function for testing purpose. When you submit this code, this should be
@@ -50,7 +48,7 @@ void	throw_syntax_error(char *err_msg, char *err_msg2)
 	}
 }
 
-static void	perror_prefix(void)
+void	perror_prefix(void)
 {
 	ft_putstr_fd(ERROR_PREFIX, STDERR_FILENO);
 }
