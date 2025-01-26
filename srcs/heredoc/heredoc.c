@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 16:41:14 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/27 02:47:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	call_heredoc(t_node *node, t_context *ctx)
 	i = 0;
 	j = 0;
 	if (!node || !node->redirects)
-		d_throw_error("call_heredoc", "node or redirects is null");
+		throw_unexpected_error("call_heredoc", "node or redirects is null");
 	temp_fd_arry = \
 	xmalloc((get_char_arry_size(node->redirects) / 2 + 1) * sizeof (int));
 	while (node->redirects[i])
@@ -91,7 +91,6 @@ void	close_unused_fds(int *arry, size_t end)
 	i = 0;
 	if (!end || !arry || end < 1)
 		return ;
-	end = end - 1;
 	while (i < end && arry[i])
 	{
 		close(arry[i]);
