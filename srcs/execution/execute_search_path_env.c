@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_search_path_env.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/24 21:28:22 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/27 01:40:44 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*search_path_env_or_exit(t_node *node, t_map *envp)
 	path_env_value = get_resolved_path_env(envp);
 	if (!path_env_value)
 		exit_file_not_found(node->cmds[0]);
-	directories = ft_split(path_env_value, ':'); // FIX : xmalloc should be used
+	directories = x_split(path_env_value, ':'); // FIX : xmalloc should be used
 	free(path_env_value);
 	executable_path = locate_executable_in_dirs(node->cmds[0], directories);
 	free_wordlist(&directories);

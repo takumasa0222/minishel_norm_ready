@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/25 21:32:16 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/27 01:47:36 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,8 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*x_strjoin(char const *s1, char const *s2);
 char	*x_substr(char const *s, unsigned int start, size_t len);
 char	*x_strdup(const char *s1);
+
+char	**x_split(char const *s, char c);
+char	*x_itoa(int n);
 
 #endif

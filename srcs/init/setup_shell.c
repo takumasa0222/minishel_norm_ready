@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_shell.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:19 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 21:33:53 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/27 01:49:03 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ t_context	*init_ctx(void)
 	t_context	*ret;
 
 	ret = xmalloc(sizeof(t_context));
-	if (!ret)
-		throw_unexpected_error("init_ctx", "malloc is failed");
 	ret->in_pipe_fd = -1;
 	ret->out_pipe_fd = -1;
 	ret->pre_in_pipe_fd = -1;

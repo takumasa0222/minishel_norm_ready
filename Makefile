@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/25 21:32:35 by ssoeno           ###   ########.fr        #
+#    Updated: 2025/01/27 01:51:24 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,8 @@ srcs/utils/ft_strcmp.c \
 srcs/utils/init_env.c \
 srcs/utils/xmalloc.c \
 srcs/utils/extend_string_functions.c\
+srcs/utils/extend_split.c\
+srcs/utils/extend_itoa.c\
 srcs/expand/expand_handler.c \
 srcs/expand/expand_helper.c \
 srcs/expand/expand_variable_helper.c \
@@ -119,6 +121,10 @@ fclean: clean
 re: fclean all
 
 test: all
-	./test.sh
+	./combination_test/run_test.sh
+
+norm:
+	norminette -R CheckForbiddenSourceHeader $(SRCS) $(BONUS)
+	norminette -R CheckDefine src/*.h bonus/*.h
 
 .PHONY: all clean fclean re test
