@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/27 01:51:24 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/27 02:01:48 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -124,7 +124,7 @@ test: all
 	./combination_test/run_test.sh
 
 norm:
-	norminette -R CheckForbiddenSourceHeader $(SRCS) $(BONUS)
-	norminette -R CheckDefine src/*.h bonus/*.h
+	norminette -R CheckForbiddenSourceHeader $(SRCS) 
+	norminette -R CheckDefine includes/*.h libft/libft.h
 
 .PHONY: all clean fclean re test
