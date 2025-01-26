@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/27 02:54:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/27 03:30:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	read_heredoc_line(char *eof, int pipe_write_fd, t_context *ctx)
 static int	terminate_heredoc(int *pipe_fds)
 {
 	close(pipe_fds[1]);
-	// close(pipe_fds[0]);
+	close(pipe_fds[0]);
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = sigint_event_hook;
 	return (-2);

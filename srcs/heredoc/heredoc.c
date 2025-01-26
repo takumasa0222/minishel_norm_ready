@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/27 02:47:12 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/27 03:30:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	call_heredoc(t_node *node, t_context *ctx)
 		}
 		i++;
 	}
-	if (j > 0 && is_heredoc_end(node->redirects))
+	if (j > 0 && is_heredoc_end(node->redirects) && temp_fd_arry[j - 1] > 2)
 		node->fd_num = temp_fd_arry[--j];
 	close_unused_fds(temp_fd_arry, j);
 	free(temp_fd_arry);
@@ -93,7 +93,8 @@ void	close_unused_fds(int *arry, size_t end)
 		return ;
 	while (i < end && arry[i])
 	{
-		close(arry[i]);
+		if (arry[i] > 2)
+			close(arry[i]);
 		i++;
 	}
 }
