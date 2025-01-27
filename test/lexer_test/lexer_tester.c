@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:10:27 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/10 21:06:07 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/27 01:40:52 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ bool	match(t_token *token, char *str)
 	char 		**str_list;
 	int			i;
 
-	str_list = ft_split(str,',');
+	str_list = x_split(str,',');
 	copy_token = token;
 	if (!token)
 		printf("token is NULL");

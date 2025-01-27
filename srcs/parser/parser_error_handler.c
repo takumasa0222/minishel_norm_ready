@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_error_handler.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 15:53:46 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/18 21:14:55 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:35:59 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	parser_syntax_err(char ***ar, t_syntax_error *e, t_node **n, char *msg)
 
 void	log_syntax_err(char ***arry, t_syntax_error *err, t_node **node)
 {
-
 	if ((*node)->kind == ND_AND_OP)
 		parser_syntax_err(arry, err, node, ERR_MSG_AND_OP);
 	else

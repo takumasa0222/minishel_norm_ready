@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/25 08:18:11 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/27 02:01:48 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ LIBFT_DIR = ./libft
 LIBFT = ${LIBFT_DIR}/libft.a
 
 SRCS = srcs/main.c \
+srcs/init/setup_shell.c \
 srcs/lexer/lexer_helper.c \
 srcs/lexer/lexer_token_checker.c \
 srcs/lexer/lexer_token_quote_checker.c \
@@ -52,6 +53,8 @@ srcs/utils/ft_strcmp.c \
 srcs/utils/init_env.c \
 srcs/utils/xmalloc.c \
 srcs/utils/extend_string_functions.c\
+srcs/utils/extend_split.c\
+srcs/utils/extend_itoa.c\
 srcs/expand/expand_handler.c \
 srcs/expand/expand_helper.c \
 srcs/expand/expand_variable_helper.c \
@@ -118,6 +121,10 @@ fclean: clean
 re: fclean all
 
 test: all
-	./test.sh
+	./combination_test/run_test.sh
+
+norm:
+	norminette -R CheckForbiddenSourceHeader $(SRCS) 
+	norminette -R CheckDefine includes/*.h libft/libft.h
 
 .PHONY: all clean fclean re test
