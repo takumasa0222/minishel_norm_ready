@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:49:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/26 12:18:11 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/28 22:25:55 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "./minishell.h"
 # include "./parser.h"
 
-void	set_redirect_fds(t_node *node, t_context *ctx);
+int		set_redirect_fds(t_node *node, t_context *ctx);
 void	restore_std_fds(t_context *ctx);
 
 int		apply_redirects(t_node *node, t_context *ctx);

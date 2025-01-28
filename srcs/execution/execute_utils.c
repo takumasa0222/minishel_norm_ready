@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/27 00:09:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/28 23:27:09 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	wait_children_status(t_context *ctx)
 	// 	return (ctx->last_status);
 	if (WIFSIGNALED(c_status))
 		ctx->last_status = WTERMSIG(c_status) + 128;
-	else if (WIFEXITED(c_status)) 
+	else if (WIFEXITED(c_status))
 		ctx->last_status = WEXITSTATUS(c_status);
 	return (ctx->last_status);
 }

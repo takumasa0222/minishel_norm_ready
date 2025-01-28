@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/27 00:46:39 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/28 22:27:40 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	ret = 0;
 	expand_handler(node, ctx);
 	if (node->left)
-		set_redirect_fds(node->left, ctx);
-	// if (ctx->last_status != EXIT_SUCCESS)
-	// 	return (ctx->last_status);
+		ret = set_redirect_fds(node->left, ctx);
+	if (ret != EXIT_SUCCESS)
+		return (ret);
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = run_builtin(node, ctx);
@@ -112,6 +112,6 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 				close(node->left->fd_num);
 		}
 	}
-	return (EXIT_SUCCESS);
-	// return (ctx->last_status);
+	// return (EXIT_SUCCESS);
+	return (ctx->last_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/27 00:46:01 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/28 23:22:32 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	redirect_in(char *filename, t_context *ctx)
 		ctx->last_status = EXIT_FAILURE;
 		if (ctx->is_exec_in_child_ps)
 			exit(ctx->last_status);
-
 		return ;
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
@@ -49,8 +48,8 @@ void	redirect_in(char *filename, t_context *ctx)
 		close(fd);
 		perror("dup2");
 		ctx->last_status = EXIT_FAILURE;
-		// if (ctx->is_exec_in_child_ps)
-		// 	exit(ctx->last_status);
+		if (ctx->is_exec_in_child_ps)
+			exit(ctx->last_status);
 		return ;
 	}
 	close(fd);
@@ -67,8 +66,8 @@ void	redirect_out(char *filename, t_context *ctx)
 		perror_prefix();
 		perror(filename);
 		ctx->last_status = EXIT_FAILURE;
-		// if (ctx->is_exec_in_child_ps)
-		// 	exit(ctx->last_status);
+		if (ctx->is_exec_in_child_ps)
+			exit(ctx->last_status);
 		return ;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
@@ -76,8 +75,8 @@ void	redirect_out(char *filename, t_context *ctx)
 		close(fd);
 		perror("dup2");
 		ctx->last_status = EXIT_FAILURE;
-		// if (ctx->is_exec_in_child_ps)
-		// 	exit(ctx->last_status);
+		if (ctx->is_exec_in_child_ps)
+			exit(ctx->last_status);
 		return ;
 	}
 	close(fd);
@@ -94,8 +93,8 @@ void	redirect_append(char *filename, t_context *ctx)
 		perror_prefix();
 		perror(filename);
 		ctx->last_status = EXIT_FAILURE;
-		// if (ctx->is_exec_in_child_ps)
-		// 	exit(ctx->last_status);
+		if (ctx->is_exec_in_child_ps)
+			exit(ctx->last_status);
 		return ;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
@@ -103,8 +102,8 @@ void	redirect_append(char *filename, t_context *ctx)
 		close(fd);
 		perror("dup2");
 		ctx->last_status = EXIT_FAILURE;
-		// if (ctx->is_exec_in_child_ps)
-		// 	exit(ctx->last_status);
+		if (ctx->is_exec_in_child_ps)
+			exit(ctx->last_status);
 		return ;
 	}
 	close(fd);
