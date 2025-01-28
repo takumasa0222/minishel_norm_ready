@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_logical_operator.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:56:20 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/28 23:26:48 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 00:19:56 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_or_node(t_node *node, t_context *ctx)
 	if (!ctx->last_status && !status)
 	{
 		clear_pid_status(ctx);
-		return (ctx->last_status);
+		return (EXIT_SUCCESS);
 	}
 	else
 	{
