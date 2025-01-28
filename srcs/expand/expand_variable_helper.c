@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 03:08:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/24 21:16:21 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/27 01:46:02 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ size_t	retrieve_var(char **ret, char *str, size_t i, t_context *ctx)
 		return (append_substring(ret, str, i, 1), i);
 	tmp = x_substr(str, i + 1, var_name_len);
 	if (var_name_len == 1 && !ft_strcmp(tmp, QUESTION_MARK))
-		expanded_val = ft_itoa(ctx->last_status);//FIX xmalloc should be used
+		expanded_val = x_itoa(ctx->last_status);//FIX xmalloc should be used
 	else
 		expanded_val = x_strdup(map_get(ctx->env, tmp));
 	if (expanded_val)

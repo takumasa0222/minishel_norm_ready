@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:58:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/24 21:14:20 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/27 01:46:28 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,8 @@ size_t	retrieve_var_in_heredoc(char **ret, char *str, size_t i, t_context *ctx)
 	if (!var_name_len)
 		return (append_substring(ret, str, i, 1), i);
 	tmp = x_substr(str, i + 1, var_name_len);
-	// if (!tmp)
-	// 	d_throw_error("retrieve_var", "substr failed");//unexpected error
 	if (var_name_len == 1 && !ft_strcmp(tmp, QUESTION_MARK))
-		expanded_val = ft_itoa(ctx->last_status);//FIX xmalloc should be used
+		expanded_val = x_itoa(ctx->last_status);
 	else
 		expanded_val = x_strdup(map_get(ctx->env, tmp));
 	if (expanded_val)
