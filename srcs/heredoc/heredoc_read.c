@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/27 03:30:34 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/28 22:48:48 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	read_heredoc_line(char *eof, int pipe_write_fd, t_context *ctx)
 		{
 			ctx->heredoc_interrupted = true;
 			free (line);
-			return (-2);
+			return (SIGINT_DURING_HEREDOC);
 		}
 		if (line == NULL || \
 		(ft_strlen(line) == ft_strlen(eof) && !ft_strcmp(eof, line)))

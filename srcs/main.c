@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/27 03:25:55 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/28 23:02:27 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	start_exec(char *line, t_context *ctx)
 	t_token			*token_list;
 	t_node			*ast_node;
 	t_syntax_error	*syntx_err;
+	bool			is_sigint;
 
 	syntx_err = init_syntax_error();
 	clear_ctx(ctx);
@@ -100,7 +101,15 @@ void	start_exec(char *line, t_context *ctx)
 	if (!ast_node)
 		return ;
 	ctx->head_node = &ast_node;
-	heredoc_handler(ast_node, ctx);
+	is_sigint = false;
+	heredoc_handler(ast_node, ctx, &is_sigint);
+	if (is_sigint)
+	{
+		free_ast(&ast_node);
+		close_stored_fds(ctx);
+		ctx->head_node = NULL;
+		return ;
+	}
 	exec_handler(ast_node, ctx);
 	// restore fds?
 	if (ctx->cnt)
