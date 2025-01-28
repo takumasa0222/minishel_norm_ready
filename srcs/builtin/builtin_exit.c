@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/25 08:14:50 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/29 01:23:59 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	builtin_exit(int argc, char *argv[], t_context *ctx)
 {
 	int	ret;
 
-	ctx->last_status = EXIT_SUCCESS;
 	if (!ctx->is_exec_in_child_ps)
 		ft_putendl_fd(EXIT, STDERR_FILENO);
 	if (argc > 2)
