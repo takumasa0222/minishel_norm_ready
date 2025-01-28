@@ -125,7 +125,7 @@ test: all
 	./combination_test/run_test.sh
 
 norm:
-	norminette -R CheckForbiddenSourceHeader $(SRCS) $(BONUS)
-	norminette -R CheckDefine src/*.h bonus/*.h
+	norminette -R CheckForbiddenSourceHeader $(SRCS) 
+	norminette -R CheckDefine includes/*.h libft/libft.h
 
 .PHONY: all clean fclean re test
