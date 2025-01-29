@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/27 03:22:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/28 23:52:56 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,39 +78,11 @@ bool	read_command(t_context *ctx)
 	if (*line && !is_blanc_line(line))
 	{
 		add_history(line);
-		start_exec(line, ctx);
+		start_pipeline(line, ctx);
 	}
 	free(line);
 	line = NULL;
 	return (true);
-}
-
-void	start_exec(char *line, t_context *ctx)
-{
-	t_token			*token_list;
-	t_node			*ast_node;
-	t_syntax_error	*syntx_err;
-
-	syntx_err = init_syntax_error();
-	clear_ctx(ctx);
-	token_list = lexer_handler(line, syntx_err, ctx);
-	if (!token_list)
-		return ;
-	ast_node = parse_cmd_handler(&token_list, syntx_err, ctx);
-	if (!ast_node)
-		return ;
-	ctx->head_node = &ast_node;
-	heredoc_handler(ast_node, ctx);
-	exec_handler(ast_node, ctx);
-	// restore fds?
-	if (ctx->cnt)
-	{
-		wait_children_status(ctx);
-		check_core_dump(ctx->last_status);
-	}
-	free_ast(&ast_node);
-	close_stored_fds(ctx);
-	ctx->head_node = NULL;
 }
 
 bool	is_blanc_line(char *line)

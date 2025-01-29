@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/27 02:01:48 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/28 23:53:59 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ LIBFT = ${LIBFT_DIR}/libft.a
 
 SRCS = srcs/main.c \
 srcs/init/setup_shell.c \
+srcs/init/pipeline.c \
 srcs/lexer/lexer_helper.c \
 srcs/lexer/lexer_token_checker.c \
 srcs/lexer/lexer_token_quote_checker.c \
