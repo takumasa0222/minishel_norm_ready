@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/26 17:49:52 by ssoeno           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/29 17:37:00 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 
 #ifndef MINISHELL_H
@@ -61,14 +63,16 @@ typedef struct s_syntax_error {
 	bool	is_error;
 }	t_syntax_error;
 
-void			start_exec(char *line, t_context *ctx);
-t_context		*init_ctx(char *envp[]);
+// void			start_exec(char *line, t_context *ctx);
+t_context		*init_ctx(void);
 void			clear_ctx(t_context *ctx);
 bool			is_blanc_line(char *line);
 t_syntax_error	*init_syntax_error(void);
+void			start_pipeline(char *line, t_context *ctx);
+t_node			*analyze_pipeline(char *line, t_context *ctx);
 
 void			close_stored_fds(t_context *ctx);
-void	main_loop(t_context *ctx);
-bool	read_command(t_context *ctx);
+void			main_loop(t_context *ctx);
+bool			read_command(t_context *ctx);
 
 #endif

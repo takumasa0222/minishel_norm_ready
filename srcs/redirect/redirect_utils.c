@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/28 23:22:32 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 17:37:43 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	redirect_here_doc(t_node *node);
 
 void	redirect_here_doc(t_node *node)
 {
-	if (node->fd_num != -1)
+	if (node->fd_num > 2)
 	{
 		dup2(node->fd_num, STDIN_FILENO);
 		close(node->fd_num);
