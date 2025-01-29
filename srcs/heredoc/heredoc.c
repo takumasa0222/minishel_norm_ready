@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 02:14:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 16:41:14 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/28 22:49:57 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,26 @@
 #include "../includes/heredoc.h"
 #include "../includes/signals.h"
 
-void	heredoc_handler(t_node *node, t_context *ctx)
+bool	heredoc_handler(t_node *node, t_context *ctx, bool *is_sigint)
 {
 	if (node == NULL)
-		return ;
-	heredoc_handler(node->left, ctx);
-	heredoc_handler(node->right, ctx);
+		return (true);
+	if (!heredoc_handler(node->left, ctx, is_sigint))
+		return (false);
+	if (!heredoc_handler(node->right, ctx, is_sigint))
+		return (false);
 	if (node->kind == ND_REDIRECTS)
+	{
 		call_heredoc(node, ctx);
+		if (node->fd_num == SIGINT_DURING_HEREDOC)
+		{
+			*is_sigint = true;
+			return (false);
+		}
+		else
+			return (true);
+	}
+	return (true);
 }
 
 void	call_heredoc(t_node *node, t_context *ctx)
@@ -35,7 +47,7 @@ void	call_heredoc(t_node *node, t_context *ctx)
 	i = 0;
 	j = 0;
 	if (!node || !node->redirects)
-		d_throw_error("call_heredoc", "node or redirects is null");
+		throw_unexpected_error("call_heredoc", "node or redirects is null");
 	temp_fd_arry = \
 	xmalloc((get_char_arry_size(node->redirects) / 2 + 1) * sizeof (int));
 	while (node->redirects[i])
@@ -43,11 +55,13 @@ void	call_heredoc(t_node *node, t_context *ctx)
 		if (!ft_strcmp(node->redirects[i], "<<") && node->redirects[i + 1])
 		{
 			temp_fd_arry[j++] = read_heredoc(node->redirects[i + 1], ctx);
+			if (temp_fd_arry[j - 1] == SIGINT_DURING_HEREDOC)
+				break ;
 			i++;
 		}
 		i++;
 	}
-	if (j > 0 && is_heredoc_end(node->redirects))
+	if (j > 0 && is_heredoc_end(node->redirects) && temp_fd_arry[j - 1] != -1)
 		node->fd_num = temp_fd_arry[--j];
 	close_unused_fds(temp_fd_arry, j);
 	free(temp_fd_arry);
@@ -91,10 +105,10 @@ void	close_unused_fds(int *arry, size_t end)
 	i = 0;
 	if (!end || !arry || end < 1)
 		return ;
-	end = end - 1;
 	while (i < end && arry[i])
 	{
-		close(arry[i]);
+		if (arry[i] > 2)
+			close(arry[i]);
 		i++;
 	}
 }

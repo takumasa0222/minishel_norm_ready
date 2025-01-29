@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   map_new.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/16 21:39:01 by tamatsuu         ###   ########.fr       */
+/*   Created: 2025/01/25 01:33:45 by tamatsuu          #+#    #+#             */
+/*   Updated: 2025/01/25 21:41:09 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 #include "../../includes/utils.h"

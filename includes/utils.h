@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/25 08:17:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/27 01:47:36 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define ERR_MSG_L_PARE "syntax error near unexpected token `('"
 # define ERR_MSG_R_PARE "syntax error near unexpected token `)'"
 # define EXIT_SYNTAX_ERROR 2
+# define ERROR_PREFIX "minishell: "
 
 # define ERR_MSG_PROCESS_LIMIT "Exceed number of process limit"
 // error.c
@@ -38,6 +39,7 @@ void	d_throw_error(char *func_name, char *error_msg);
 void	builtin_error(char *func, char *name, char *err);
 void	throw_unexpected_error(char *func_name, char *err_msg);
 void	throw_syntax_error(char *err_msg, char *err_msg2);
+void    perror_prefix(void);
 
 void	throw_system_error(char *err_msg, char *err_msg2);
 
@@ -57,5 +59,8 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*x_strjoin(char const *s1, char const *s2);
 char	*x_substr(char const *s, unsigned int start, size_t len);
 char	*x_strdup(const char *s1);
+
+char	**x_split(char const *s, char c);
+char	*x_itoa(int n);
 
 #endif

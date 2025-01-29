@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:05:18 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/25 16:40:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/27 01:51:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/environment.h"
+#include "../includes/utils.h"
 
 static void	envmap_init(t_map *envmap, char **ep);
 
@@ -68,7 +69,7 @@ char	**get_environ(t_map *map)
 	char	**environ;
 
 	size = map_size(map, false) + 1;
-	environ = malloc(sizeof(char *) * (size + 1));
+	environ = xmalloc(sizeof(char *) * (size + 1));
 	i = 0;
 	item = map->item_head.next;
 	while (item)

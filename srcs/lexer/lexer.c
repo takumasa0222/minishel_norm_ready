@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 16:39:17 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:41:26 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../../libft/libft.h"
 #include "../../includes/utils.h"
 #include "../../includes/minishell.h"
-
 
 /*
 This function divides char pointer into token pointer list.
