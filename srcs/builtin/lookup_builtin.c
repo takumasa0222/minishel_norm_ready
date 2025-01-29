@@ -6,13 +6,13 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:37:41 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/29 19:57:49 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 20:00:45 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../../includes/builtin.h"
-#include "../../includes/builtin.h"
+#include "../../includes/utils.h"
 
 t_builtin	*lookup_builtin(char *cmd)
 {
