@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:48:53 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/24 21:13:18 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:14:33 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	consume_path(char **rest, char *path, char *elem)
 	size_t	elem_len;
 
 	elem_len = ft_strlen(elem);
-	if (ft_strncmp(path, elem, elem_len) == 0)//CHECK strcmp should be used?
+	if (ft_strcmp(path, elem) == 0)
 	{
 		if (path[elem_len] == '\0' || path[elem_len] == '/')
 		{
@@ -79,21 +79,20 @@ void	append_path_elem(char *dst, char **rest, char *src)
 // not sure strlcat is the best choice here
 /*
 Example1: when dst does not end with '/'
-dst[PATH_MAX] = "/home/user";
-src = "projects/next"
-append_path_elem(dst, &rest, src);
-dst == "/home/user/projects" pwd
-rest == "next"
-
-Example2: when dst ends with '/'
-dst[PATH_MAX] = "/";
-src = "home/user/projects"
-while(*rest){
+	dst[PATH_MAX] = "/home/user";
+	src = "projects/next"
 	append_path_elem(dst, &rest, src);
-	src = rest;
-}
-dst == "/home/user/projects"
-rest == ""
+	dst == "/home/user/projects" pwd
+	rest == "next"
+Example2: when dst ends with '/'
+	dst[PATH_MAX] = "/";
+	src = "home/user/projects"
+	while(*rest){
+		append_path_elem(dst, &rest, src);
+		src = rest;
+	}
+	dst == "/home/user/projects"
+	rest == ""
 */
 
 char	*resolve_pwd(char *pwd_before_chdir, char *path)
@@ -130,32 +129,4 @@ if the path starts with "." (relative path), \
 	copy pwd_before_chdir to pwd_after_chdir
 In the loop, 
 '.' means the current directory so no need to change the path
-if the path starts with ".." (relative path), 
-copy pwd_before_chdir to pwd_after_chdir
-
-example:
-pwd_before_chdir = "/home/user"
-path = "../usr/bin"
-pwd_after_chdir = "/home/usr/bin"
-
-pwd_before_chdir = "/home/ssoeno"
-path = "minishell"
-pwd_after_chdir = "/home/user/minishell"
-
-pwd_before_chdir = "/home/user/minishell/minishell_norm_ready"
-path = "./minishell/../../pwd_before_chdirusr/bin"
-pwd_after_chdir = "/usr/bin"
-
-pwd_before_chdir = "/home/user"
-path = "projects/../next";
-step1 append_path_elem adds "projects" to dst
-	dst == "/home/user/projects"
-	rest == "../next"
-step2 consume_path detect ".." -> go back to the parent dir
-	*delete_last_elem
-	dst = "/home/user"
-	rest == "next"
-step3 append_path_elem adds "next" to dst
-	dst == "/home/user/next"
-	rest == ""
 */
