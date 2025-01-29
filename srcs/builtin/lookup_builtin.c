@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lookup_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:37:41 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/19 17:07:34 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:57:49 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_builtin	*lookup_builtin(char *cmd)
 	p = builtins_list;
 	while (p->name)
 	{
-		if (ft_strncmp(cmd, p->name, ft_strlen(cmd)) == 0)//CHECK ft_strcmp is better
+		if (ft_strcmp(cmd, p->name) == 0)
 			return (p);
 		p++;
 	}
