@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/29 17:37:00 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 17:43:23 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_syntax_error {
 }	t_syntax_error;
 
 // void			start_exec(char *line, t_context *ctx);
-t_context		*init_ctx(void);
+t_context		*init_ctx(char *envp[]);
 void			clear_ctx(t_context *ctx);
 bool			is_blanc_line(char *line);
 t_syntax_error	*init_syntax_error(void);
