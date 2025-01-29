@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tester.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 02:16:13 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 04:42:55 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/30 00:36:50 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,9 +151,7 @@ t_token	*create_tokens(char *word, t_node_kind kind)
 {
 	t_token	*ret;
 
-	ret = malloc(1 * sizeof(t_token));
-	if (!ret)
-		d_throw_error("create_token", "malloc failed");
+	ret = xmalloc(1 * sizeof(t_token));
 	ret->kind = kind;
 	ret->word = word;
 	ret->next = NULL;

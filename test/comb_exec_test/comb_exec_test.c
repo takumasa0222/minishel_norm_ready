@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   comb_exec_test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:45:04 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/04 21:52:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/30 00:36:19 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,7 @@ t_token	*create_tokens(char *word, t_node_kind kind)
 {
 	t_token	*ret;
 
-	ret = malloc(1 * sizeof(t_token));
-	if (!ret)
-		d_throw_error("create_token", "malloc failed");
+	ret = xmalloc(1 * sizeof(t_token));
 	ret->kind = kind;
 	ret->word = word;
 	ret->next = NULL;

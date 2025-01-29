@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/26 18:29:09 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/30 00:31:03 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	run_external(t_node *node, t_context *ctx)
 
 	cmd_path = resolve_executable_path(node, ctx->env);
 	if (!cmd_path)
-		d_throw_error("exec_cmd", "unexpected: cmd_path is NULL");
+		throw_unexpected_error("run_external", "cmd_path is NULL");
 	execve(cmd_path, node->cmds, get_environ(ctx->env));
 	execve_errors(cmd_path);
 	free(cmd_path);
@@ -67,7 +67,7 @@ static bool	verify_direct_path_or_exit(char *cmd)
 	struct stat	st;
 
 	if (!cmd)
-		d_throw_error("verify_direct_path", "cmd is NULL\n");
+		throw_unexpected_error("verify_direct_path", "cmd is NULL");
 	if (access(cmd, F_OK) != 0)
 	{
 		if (errno == EACCES)

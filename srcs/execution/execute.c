@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/29 00:51:51 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/30 00:34:05 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 int	exec_redirect(t_node *node, t_context *ctx)
 {
 	apply_redirects(node, ctx);
-	// if (ret != EXIT_SUCCESS)
-	// 	close_stored_fds(ctx);
 	restore_std_fds(ctx);
 	return (ctx->last_status);
 }
@@ -56,7 +54,7 @@ int	exec_pipe(t_node *node, t_context *ctx)
 	int	pfd[2];
 
 	if (pipe(pfd))
-		d_throw_error("exec_pipeline", "pipe is failed");
+		throw_system_error("exec_pipeline", "pipe is failed");
 	ctx->is_exec_in_child_ps = true;
 	set_pipe_fd(&ctx->in_pipe_fd, &ctx->out_pipe_fd, pfd);
 	exec_handler(node->left, ctx);
@@ -102,7 +100,7 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 			exec_cmd(node, ctx);
 		}
 		else if (ctx->pids[ctx->cnt -1] == -1)
-			d_throw_error("exec_cmd_handler", "fork is failed");
+			throw_system_error("exec_cmd_handler", "fork is failed");
 		else
 		{
 			set_parent_sig_handlers();

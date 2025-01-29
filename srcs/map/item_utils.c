@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:20 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/24 19:28:33 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/30 00:34:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*item_get_string(t_item *item)
 
 	if (!item || !item->name)
 	{
-		d_throw_error("item_get_string", "item or item->name is NULL");
+		throw_unexpected_error("item_get_string", "item / item->name is NULL");
 		return (NULL);
 	}
 	strsize = ft_strlen(item->name) + 2;

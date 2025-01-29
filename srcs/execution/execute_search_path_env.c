@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_search_path_env.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:54:58 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/27 01:40:44 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:59:24 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*search_path_env_or_exit(t_node *node, t_map *envp)
 	path_env_value = get_resolved_path_env(envp);
 	if (!path_env_value)
 		exit_file_not_found(node->cmds[0]);
-	directories = x_split(path_env_value, ':'); // FIX : xmalloc should be used
+	directories = x_split(path_env_value, ':');
 	free(path_env_value);
 	executable_path = locate_executable_in_dirs(node->cmds[0], directories);
 	free_wordlist(&directories);
@@ -94,5 +94,6 @@ static char	*locate_executable_in_dirs(char *cmd, char **directories)
 	return (executable_path);
 }
 /*
-errno == ENOENT means "file not found" -> continue searching other directories
+errno == ENOENT means "file not found"
+ -> continue searching other directories
 */
