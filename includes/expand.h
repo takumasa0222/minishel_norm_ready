@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/11 02:38:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/29 13:22:11 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,8 @@ char	*remove_quotes(char *str);
 int		move_to_next_quotation_expnd(char *input, int i);
 char	*expand_var_in_heredoc(char *str, t_context *ctx);
 size_t	retrieve_var_in_heredoc(char **ret, char *s, size_t i, t_context *ctx);
+
+/*related to aster expansion*/
+
 
 #endif

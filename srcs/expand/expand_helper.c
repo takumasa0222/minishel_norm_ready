@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/24 21:17:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 13:22:58 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*append_substring(char **ret, char *str, size_t i, size_t len)
 	*ret = ret_val;
 	return (ret_val);
 }
+
+
 
 //below code for expand asterisk. freeze for developping.
 /*
