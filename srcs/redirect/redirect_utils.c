@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/29 22:41:28 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 23:31:14 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	redirect_here_doc(t_node *node, t_context *ctx)
 		}
 		ctx->last_status = EXIT_SUCCESS;
 		close(node->fd_num);
+		node->fd_num = -1;
 	}
 }
 
