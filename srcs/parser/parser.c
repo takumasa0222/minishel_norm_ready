@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/23 05:31:33 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:31:50 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,9 @@ this parser will create AST based on below eBNF.
                | ">>" filename
                | "<<" filename
                | "<>" filename
-               | NUMBER ">" filename
-               | NUMBER "<" filename
-               | NUMBER ">>" filename
-               | NUMBER "<<" filename
-               | NUMBER "<>" filename
     filename: WORD
     WORD: /[a-zA-Z0-9_"]+/
     NUMBER: /[0-9]+/
-				
 */
 t_node	*parse_cmd_handler(t_token **t_l, t_syntax_error *err, t_context *ctx)
 {

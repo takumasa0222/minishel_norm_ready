@@ -13,12 +13,15 @@
 #include "../includes/minishell.h"
 #include "../includes/utils.h"
 #include "../includes/execute.h"
+#include "../includes/environment.h"
+#include "../includes/map.h"
 
-t_context	*init_ctx(void)
+t_context	*init_ctx(char *envp[])
 {
 	t_context	*ret;
 
 	ret = xmalloc(sizeof(t_context));
+	ret->env = NULL;
 	ret->in_pipe_fd = -1;
 	ret->out_pipe_fd = -1;
 	ret->pre_in_pipe_fd = -1;
@@ -30,6 +33,7 @@ t_context	*init_ctx(void)
 	ret->stored_stdout = -1;
 	ret->heredoc_interrupted = false;
 	ret->head_node = NULL;
+	ret->env = init_env(envp);
 	return (ret);
 }
 

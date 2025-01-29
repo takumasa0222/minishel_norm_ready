@@ -47,7 +47,6 @@ else
 	echo "exec path test"
 	./combination_test/exec_path_test.sh
 	test_result
-	echo "test is completed"
 	echo "syntax error test"
 	./combination_test/syntax_error_test.sh
 	test_result

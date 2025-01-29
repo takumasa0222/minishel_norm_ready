@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 21:31:55 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/28 23:45:25 by tamatsuu         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/29 17:43:23 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 
 #ifndef MINISHELL_H
@@ -62,7 +64,7 @@ typedef struct s_syntax_error {
 }	t_syntax_error;
 
 // void			start_exec(char *line, t_context *ctx);
-t_context		*init_ctx(void);
+t_context		*init_ctx(char *envp[]);
 void			clear_ctx(t_context *ctx);
 bool			is_blanc_line(char *line);
 t_syntax_error	*init_syntax_error(void);

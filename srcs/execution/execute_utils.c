@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/05 14:03:37 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 00:51:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	wait_children_status(t_context *ctx)
 	c_status = EXIT_SUCCESS;
 	while (++i < ctx->cnt)
 		waitpid(ctx->pids[i], &c_status, 0);
+	// if (ctx->last_status != 0) // 確認　"cat < nosuchfile123" should return 1
+	// 	return (ctx->last_status);
 	if (WIFSIGNALED(c_status))
 		ctx->last_status = WTERMSIG(c_status) + 128;
 	else if (WIFEXITED(c_status))
@@ -33,7 +35,7 @@ int	wait_children_status(t_context *ctx)
 SIGINT 2, SIGQUIT 3
 */
 
-void	setup_child_process_fd(t_context *ctx)
+void	setup_child_process_fd_flg(t_context *ctx)
 {
 	if (ctx->pre_in_pipe_fd != -1)
 	{
@@ -47,6 +49,7 @@ void	setup_child_process_fd(t_context *ctx)
 		dup2(ctx->out_pipe_fd, STDOUT_FILENO);
 		close(ctx->out_pipe_fd);
 	}
+	ctx->is_exec_in_child_ps = true;
 }
 
 bool	is_builtin(char *cmd)

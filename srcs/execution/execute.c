@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 17:45:06 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/29 00:51:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 
 int	exec_redirect(t_node *node, t_context *ctx)
 {
-	int	ret;
-
-	ret = apply_redirects(node);
+	apply_redirects(node, ctx);
 	// if (ret != EXIT_SUCCESS)
 	// 	close_stored_fds(ctx);
 	restore_std_fds(ctx);
-	return (ret);
+	return (ctx->last_status);
 }
 /*
 code rabbit comment: close_stored_fds when apply_redirect fails
@@ -70,10 +68,12 @@ int	exec_cmd(t_node *node, t_context *ctx)
 {
 	int	ret;
 
-	ret = 0;
+	ret = EXIT_SUCCESS;
 	expand_handler(node, ctx);
-	if (node->left && node->left->redirects)
-		set_redirect_fds(node);
+	if (node->left)
+		ret = set_redirect_fds(node->left, ctx);
+	if (ret != EXIT_SUCCESS)
+		return (EXIT_FAILURE);
 	if (is_builtin(node->cmds[0]))
 	{
 		ret = run_builtin(node, ctx);
@@ -83,7 +83,6 @@ int	exec_cmd(t_node *node, t_context *ctx)
 	}
 	else
 		return (run_external(node, ctx));
-	return (EXIT_SUCCESS);
 }
 
 int	exec_cmd_handler(t_node *node, t_context *ctx)
@@ -99,7 +98,7 @@ int	exec_cmd_handler(t_node *node, t_context *ctx)
 		if (ctx->pids[ctx->cnt -1] == 0)
 		{
 			set_child_sig_handlers();
-			setup_child_process_fd(ctx);
+			setup_child_process_fd_flg(ctx);
 			exec_cmd(node, ctx);
 		}
 		else if (ctx->pids[ctx->cnt -1] == -1)

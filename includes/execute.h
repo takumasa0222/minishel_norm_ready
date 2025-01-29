@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:09:09 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 16:30:16 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/29 00:52:04 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		exec_or_node(t_node *node, t_context *ctx);
 int		exec_and_node(t_node *node, t_context *ctx);
 int		exec_round_brackets(t_node *node, t_context *ctx);
 
-void	setup_child_process_fd(t_context *ctx);
+void	setup_child_process_fd_flg(t_context *ctx);
 void	reset_parent_process_fd(t_context *ctx);
 void	set_pipe_fd(int *in_fd, int *out_fd, int *pfd);
 

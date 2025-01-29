@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/28 23:52:56 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:42:48 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc >= 2)
 		ft_putendl_fd("command line arguments will be ignored", STDERR_FILENO);
 	(void)argv;
-	ctx = init_ctx();
+	ctx = init_ctx(envp);
 	rl_outstream = stderr;
 	if (isatty(STDIN_FILENO))
 		rl_event_hook = sigint_event_hook;
-	ctx->env = init_env(envp);
 	main_loop(ctx);
 	last_status = ctx->last_status;
 	free_ctx(&ctx);
