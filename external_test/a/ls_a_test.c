@@ -2,5 +2,5 @@
 
 int main()
 {
-    printf("hi from local ls");
+    printf("hi from a/ls\n");
 }

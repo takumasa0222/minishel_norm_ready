@@ -1,12 +1,15 @@
 [unset PATH\nexport PATH="/tmp/b:/tmp/a"\nsimple_test]                :
---- out	2025-01-31 20:53:34.608927815 +0900
-+++ cmp	2025-01-31 20:53:34.604927847 +0900
+--- out	2025-01-31 23:31:13.728651948 +0900
++++ cmp	2025-01-31 23:31:13.720652008 +0900
 @@ -1 +0,0 @@
 -
-[unset PATH\nexport PATH="/tmp/b:/tmp/a"\nsimple_test]                :status NG, expected 1 but got 126
-[unset PATH\nexport PATH="/tmp/a:/tmp/b"\nsimple_test]                :status NG, expected 2 but got 126
+[unset PATH\nexport PATH="/tmp/a:/tmp/b"\nsimple_test]                :
+--- out	2025-01-31 23:31:13.788651499 +0900
++++ cmp	2025-01-31 23:31:13.784651529 +0900
+@@ -1 +0,0 @@
+-
 [unset PATH\nexport PATH="/tmp/b:/tmp/a"\nsimple_test]                :
---- out	2025-01-31 20:53:34.672927312 +0900
-+++ cmp	2025-01-31 20:53:34.668927343 +0900
+--- out	2025-01-31 23:31:13.796651439 +0900
++++ cmp	2025-01-31 23:31:13.792651469 +0900
 @@ -1 +0,0 @@
 -

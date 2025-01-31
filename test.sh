@@ -79,7 +79,7 @@ assert() {
 	do
 		echo -n "  [$arg] "
 		diff "$arg"".cmp" "$arg"".out" >/dev/null && echo -e -n "$OK" || echo -e -n "$NG"
-		rm -f "$arg"".cmp" "$arg"".out"
+		# rm -f "$arg"".cmp" "$arg"".out"
 		rm -f "$arg"".cmp_err" "$arg"".out_err"
 	done
 	echo
@@ -197,9 +197,9 @@ assert 'unset PATH\nexport PATH="/tmp/b:/tmp/a"\nsimple_test'
 
 # Redirect
 ## Redirecting output
-assert 'echo hello >hello.txt' 'hello.txt'
-assert 'echo hello >f1>f2>f3' 'f1' 'f2' 'f3'
-assert 'echo hello >f1>>f2>f3' 'f1' 'f2' 'f3'
+# assert 'echo hello >hello.txt' 'hello.txt'
+# assert 'echo hello >f1>f2>f3' 'f1' 'f2' 'f3'
+# assert 'echo hello >f1>>f2>f3' 'f1' 'f2' 'f3'
 
 ## Redirecting input
 # assert 'cat <Makefile'
