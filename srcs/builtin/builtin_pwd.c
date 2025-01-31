@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:56:59 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/04 02:37:05 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:43:03 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	builtin_pwd(int argc, char *argv[], t_context *ctx)
 		ctx->last_status = EXIT_FAILURE;
 		return (EXIT_FAILURE);
 	}
-	printf("%s\n", buf);
+	ft_putendl_fd(buf, STDOUT_FILENO);
 	ctx->last_status = EXIT_SUCCESS;
 	return (EXIT_SUCCESS);
 }

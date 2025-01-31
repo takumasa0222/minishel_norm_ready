@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:48:53 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/29 19:14:33 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/31 20:53:03 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	consume_path(char **rest, char *path, char *elem)
 	size_t	elem_len;
 
 	elem_len = ft_strlen(elem);
-	if (ft_strcmp(path, elem) == 0)
+	if (ft_strncmp(path, elem, elem_len) == 0)
 	{
 		if (path[elem_len] == '\0' || path[elem_len] == '/')
 		{
@@ -34,7 +34,7 @@ example:
 path = "../projects"
 result = consume_path(&rest, path, "..")
 result = true
-ret == "projects"
+rest == "projects"
 */
 
 void	delete_last_elem(char *path)
