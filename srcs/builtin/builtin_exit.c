@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/29 01:23:59 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:50:43 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,19 @@
 
 static bool	is_digit_str(char *str);
 
+int	handle_too_many_args(char *arg, t_context *ctx)
+{
+
+	if (is_digit_str(arg))
+	{
+		builtin_error("exit", NULL, "too many arguments");
+		return (ctx->last_status = EXIT_FAILURE, ctx->last_status);
+	}
+	builtin_error("exit", NULL, "numeric argument required");
+	ctx->last_status = EXIT_INVALID_INPUT;
+	exit(ctx->last_status);
+}
+
 int	builtin_exit(int argc, char *argv[], t_context *ctx)
 {
 	int	ret;
@@ -24,8 +37,7 @@ int	builtin_exit(int argc, char *argv[], t_context *ctx)
 	if (!ctx->is_exec_in_child_ps)
 		ft_putendl_fd(EXIT, STDERR_FILENO);
 	if (argc > 2)
-		return (builtin_error("exit", NULL, "too many arguments"), \
-		ctx->last_status = EXIT_FAILURE, ctx->last_status);
+		return (handle_too_many_args(argv[1], ctx));
 	if (argc == 2)
 	{
 		if (argv[1] == NULL || !is_digit_str(argv[1]))

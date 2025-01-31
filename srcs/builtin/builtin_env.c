@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:49:31 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/04 02:32:17 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:03:32 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,19 @@ int	builtin_env(int argc, char *argv[], t_context *ctx)
 	while (cur)
 	{
 		if (cur->value)
-			printf("%s=%s\n", cur->name, cur->value);
+		{
+			ft_putstr_fd(cur->name, STDOUT_FILENO);
+			ft_putstr_fd("=", STDOUT_FILENO);
+			ft_putstr_fd(cur->value, STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
 		cur = cur->next;
 	}
-	printf("_=/usr/bin/env\n");
+	ft_putendl_fd("_=/usr/bin/env", STDOUT_FILENO);
 	ctx->last_status = EXIT_SUCCESS;
 	return (EXIT_SUCCESS);
 }
 /*
-print "_=/usr/bin/env" to emulate 
-the behavior of the env command.
 shell commands are executed with _ set to the path of the command
 so that the command can know its own path
 echo $_ prints the path of the command
