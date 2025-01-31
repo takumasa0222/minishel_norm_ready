@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/29 00:51:51 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:14:17 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ int	exec_cmd(t_node *node, t_context *ctx)
 
 	ret = EXIT_SUCCESS;
 	expand_handler(node, ctx);
+	if (*node->cmds[0] == '\0')
+	{
+		ft_putendl_fd("Command '' not found", STDERR_FILENO);
+		ctx->last_status = 127;
+		if (ctx->is_exec_in_child_ps)
+			exit(ctx->last_status);
+		return (EXIT_FAILURE);
+	}
 	if (node->left)
 		ret = set_redirect_fds(node->left, ctx);
 	if (ret != EXIT_SUCCESS)
