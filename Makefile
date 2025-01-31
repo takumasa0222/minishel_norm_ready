@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/28 23:53:59 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/31 17:31:26 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,12 @@ srcs/expand/expand_helper.c \
 srcs/expand/expand_variable_helper.c \
 srcs/expand/expand_variable.c \
 srcs/expand/remove_quotes.c \
+srcs/expand/expand_asterisk.c \
+srcs/expand/create_compare_strings.c \
+srcs/expand/expand_asterisk_analyzer.c \
+srcs/expand/expand_asterisk_utils.c \
+srcs/expand/expand_recreate_strings.c \
+srcs/expand/match_asterisk_checker.c \
 srcs/builtin/builtin_cd.c \
 srcs/builtin/builtin_cd_utils.c \
 srcs/builtin/builtin_exit.c \
@@ -78,6 +84,7 @@ srcs/map/map_put.c \
 srcs/map/map_set.c \
 srcs/map/map_size.c \
 srcs/map/map_unset.c \
+srcs/map/map_remove.c \
 srcs/signal/signal.c \
 srcs/signal/signal_hook.c \
 srcs/execution/execute_fd_controller.c \

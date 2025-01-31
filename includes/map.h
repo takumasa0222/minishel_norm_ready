@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:18:32 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 11:19:02 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/31 12:27:20 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_H
 # define MAP_H
 # include <stdio.h>
+# include <stdbool.h>
+
 
 // map
 typedef struct s_map		t_map;
@@ -54,5 +56,7 @@ size_t	map_size(t_map *map, bool count_null_value);
 
 // map_unset.c
 int		map_unset(t_map *map, const char *name);
+
+int		map_remove(t_map *map, const char *name);
 
 #endif
