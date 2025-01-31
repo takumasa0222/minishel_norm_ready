@@ -6,7 +6,7 @@
 /*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:53:57 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/24 19:30:58 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/31 12:05:41 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_item	*map_find_item(t_map *map, const char *name)
 void	map_update_item(t_item *item, const char *value)
 {
 	if (item == NULL)
-		d_throw_error("map_update_item", "item is NULL");
+		throw_unexpected_error("map_update_item", "item is NULL");
 	if (item->value)
 	{
 		free(item->value);
@@ -78,18 +78,12 @@ void	map_add_item(t_map *map, const char *name, const char *value)
 	char	*value_copy;
 
 	if (!map || !name)
-		d_throw_error("map_add_item", "map or name is NULL");
+		throw_unexpected_error("map_add_item", "map or name is NULL");
 	name_copy = x_strdup(name);
 	if (value == NULL)
 		value_copy = NULL;
 	else
 		value_copy = x_strdup(value);
-	if (!name_copy || (value && !value_copy))
-	{
-		free(name_copy);
-		free(value_copy);
-		d_throw_error("map_add_item", "Memory allocation error");
-	}
 	new_item = item_new(name_copy, value_copy);
 	new_item->next = map->item_head.next;
 	map->item_head.next = new_item;

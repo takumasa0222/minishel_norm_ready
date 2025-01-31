@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:54:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 16:34:23 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/30 00:17:01 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	backup_std_fds(t_context *ctx)
 	ctx->stored_stdin = dup(STDIN_FILENO);
 	ctx->stored_stdout = dup(STDOUT_FILENO);
 	if (ctx->stored_stdin < 0 || ctx->stored_stdout < 0)
-		d_throw_error("backup_std_fds", "dup failed");
+		throw_system_error("backup_std_fds", "dup failed");
 }
 
 void	restore_std_fds(t_context *ctx)
@@ -45,17 +45,13 @@ void	restore_std_fds(t_context *ctx)
 	if (ctx->stored_stdin >= 0)
 	{
 		if (dup2(ctx->stored_stdin, STDIN_FILENO) < 0)
-			d_throw_error("restore_std_fds", "dup2 failed");
+			throw_system_error("restore_std_fds", "dup2 failed");
 	}
 	if (ctx->stored_stdout >= 0)
 	{
 		if (dup2(ctx->stored_stdout, STDOUT_FILENO) < 0)
-			d_throw_error("restore_std_fds", "dup2 failed");
+			throw_system_error("restore_std_fds", "dup2 failed");
 	}
-	// close(ctx->stored_stdin);
-	// close(ctx->stored_stdout);
-	// ctx->stored_stdin = -1;
-	// ctx->stored_stdout = -1;
 }
 
 int	exec_builtin(char *cmd, char **argv, t_context *ctx)
@@ -76,7 +72,6 @@ int	exec_builtin(char *cmd, char **argv, t_context *ctx)
 	ctx->last_status = builtin->f(arr_size, argv, ctx);
 	if (ctx->last_status != EXIT_SUCCESS)
 	{
-		// ft_putendl_fd("exec_builtin failed\n", STDERR_FILENO);
 		return (ctx->last_status);
 	}
 	restore_std_fds(ctx);

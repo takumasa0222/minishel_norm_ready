@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/29 00:51:38 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/30 00:32:06 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	wait_children_status(t_context *ctx)
 	c_status = EXIT_SUCCESS;
 	while (++i < ctx->cnt)
 		waitpid(ctx->pids[i], &c_status, 0);
-	// if (ctx->last_status != 0) // 確認　"cat < nosuchfile123" should return 1
-	// 	return (ctx->last_status);
 	if (WIFSIGNALED(c_status))
 		ctx->last_status = WTERMSIG(c_status) + 128;
 	else if (WIFEXITED(c_status))
@@ -55,7 +53,7 @@ void	setup_child_process_fd_flg(t_context *ctx)
 bool	is_builtin(char *cmd)
 {
 	if (!cmd)
-		d_throw_error("is_builtin", "command is null");
+		throw_unexpected_error("is_builtin", "command is null");
 	if (ft_strcmp(cmd, EXIT) == 0)
 		return (true);
 	else if (ft_strcmp(cmd, CD) == 0)
