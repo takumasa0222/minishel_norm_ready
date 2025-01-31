@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisk.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 01:48:19 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 06:52:12 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 14:07:40 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <sys/types.h>
 # include <dirent.h>
 # include "./map.h"
+# include <sys/types.h>
 
 typedef enum e_cmp_type{
 	PREFIX,
@@ -26,8 +27,8 @@ typedef enum e_cmp_type{
 
 typedef struct s_cmp_str
 {
-	char			*compared_str;
-	t_cmp_type		compare_type;
+	char			*cmp_str;
+	t_cmp_type		cmp_type;
 }	t_cmp_str;
 
 bool		is_aster_only(char *line);
@@ -42,11 +43,12 @@ size_t		analyze_sb_loop(t_cmp_str ***ret, char *line, size_t i, size_t j);
 void		expand_asterisk_handler(t_node *node);
 char		**expand_asterisk(char *line);
 void		get_all_files_in_dir(t_map *file_map);
-void		filter_map(t_map *file_map, t_cmp_str **cmp_arry);
-bool		match_aster_regex(char *f_name, t_cmp_str **cmp_arry);
+void		filter_map(t_map *file_map, t_cmp_str **cmp_arry, bool is_dot);
+bool		match_aster_regex(t_item *file, t_cmp_str **cmp_arry, bool is_dot);
 char		**extract_file_name(t_map *file_map);
 bool		match_prefix(char *f_name, size_t *i, char *prefix);
-bool		match_suffix(char *f_name, size_t *i, char *suffix);
-bool		match_contain(char *f_name, size_t *i, char *contain);
+bool		match_suffix(t_item *f, size_t *i, char *suffix, bool is_dot);
+bool		match_contain(char *f_name, size_t *i, char *contain, bool is_dot);
+bool		match_suffix_directory(t_item *f, size_t *i, char *suffix);
 
 #endif

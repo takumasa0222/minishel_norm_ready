@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisk.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:23:01 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 07:38:47 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:00:25 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ t_cmp_str	*create_cmp_str(char *s, size_t st, size_t len, t_cmp_type typ)
 	t_cmp_str	*ret;
 
 	ret = xmalloc(sizeof(t_cmp_str));
-	ret->compared_str = x_substr(s, (unsigned int)st, len);
-	ret->compare_type = typ;
+	ret->cmp_str = x_substr(s, (unsigned int)st, len);
+	ret->cmp_type = typ;
 	return (ret);
 }
 
@@ -184,45 +184,85 @@ size_t	analyze_sb_loop(t_cmp_str ***ret, char *line, size_t i, size_t j)
 }
 
 //below code for expand asterisk. freeze for developping.
-// void	expand_asterisk_handler(t_node *node)
-// {
-// 	int		i;
-// 	char	**tmp;
-// 	int		size;
+ void	expand_asterisk_handler(t_node *node)
+ {
+ 	size_t	i;
+ 	char	**tmp;
 
-// 	if (!node || !node->cmds)
-// 		throw_unexpected_error("expand_variable_handler", NULL);
-// 	i = 0;
-// 	while (node->cmds[i])
-// 	{
-// 		size = 0;
-// 		if (ft_strchr(node->cmds[i], ASTERISK))
-// 		{
-// 			tmp = NULL;
-// 			// ここでリストの長さが変わる可能性があるので、詰めなおす必要がある
-// 			tmp = expand_asterisk(node->cmds[i], &size);
-// 			if (size > 1)
-// 				recreate_command_list();
-// 			free(node->cmds[i]);
-// 			node->cmds[i] = NULL;
-// 			node->cmds[i] = tmp;
-// 		}
-// 		i++;
-// 	}
-// }
+ 	if (!node || !node->cmds)
+ 		throw_unexpected_error("expand_variable_handler", NULL);
+ 	i = 0;
+ 	while (node->cmds[i])
+ 	{
+ 		if (ft_strchr(node->cmds[i], ASTERISK))
+ 		{
+ 			tmp = NULL;
+ 			tmp = expand_asterisk(node->cmds[i]);
+ 			if (tmp)
+ 				i = i + recreate_command_list(node, tmp, i);
+ 		}
+ 		i++;
+ 	}
+}
+
+size_t	recreate_command_list(t_node *node, char **file_arry, size_t i)
+{
+	size_t	ret;
+	size_t	origin_arry_size;
+	size_t	new_arry_size;
+	char	**new_cmds;
+
+	ret = 0;
+	if (!node || !file_arry)
+		return (ret);
+	origin_arry_size = get_char_arry_size(node->cmds);
+	new_arry_size = get_char_arry_size(file_arry);
+	new_cmds = xmalloc(sizeof(char *) * (origin_arry_size + new_arry_size - 2));
+	ret = pack_new_cmds(node->cmds, file_arry, new_cmds, i);
+	free_wordlist(&node->cmds);
+	free_wordlist(&file_arry);
+	return (ret);
+}
+
+size_t	pack_new_cmds(char **old_arry, char **new_arry, char **ret, size_t i)
+{
+	size_t	o_cnt;
+	size_t	n_cnt;
+	size_t	j;
+
+	j = 0;
+	o_cnt = 0;
+	n_cnt = 0;
+	if (!old_arry || !new_arry)
+		return (n_cnt);
+	while (j < i)
+		ret[j++] = x_strdup(old_arry[o_cnt++]);
+	while (ret < new_arry[n_cnt])
+		ret[j++] = x_strdup(new_arry[n_cnt++]);
+	o_cnt++;
+	while (ret < old_arry[o_cnt])
+		ret[j++] = x_strdup(old_arry[o_cnt++]);
+	ret[j] = NULL;
+	return (n_cnt);
+}
 
 char	**expand_asterisk(char *line)
 {
 	t_cmp_str	**cmp_arry;
 	t_map		*file_map;
 	char		**ret;
+	bool		is_dot;
 
 	ret = NULL;
+	is_dot = false;
 	file_map = map_new();
 	get_all_files_in_dir(file_map);
 	cmp_arry = create_cmp_str_arry(line);
-	filter_map(file_map, cmp_arry);
+	if (line[0] == '.')
+		is_dot = true;
+	filter_map(file_map, cmp_arry, is_dot);
 	ret = extract_file_name(file_map);
+	//free_map(&file_map);
 	return (ret);
 }
 
@@ -230,6 +270,7 @@ void	get_all_files_in_dir(t_map *file_map)
 {
 	DIR				*dir;
 	struct dirent	*dir_ent;
+	struct stat		file_stat;
 
 	dir = opendir(".");
 	if (!dir)
@@ -239,11 +280,16 @@ void	get_all_files_in_dir(t_map *file_map)
 		dir_ent = readdir(dir);
 		if (!dir_ent)
 			break ;
-		map_add_item(file_map, dir_ent->d_name, dir_ent->d_name);
+		if (stat(dir_ent->d_name, &file_stat) == -1)
+			continue ;
+		if (S_ISDIR(file_stat.st_mode))
+			map_add_item(file_map, x_strdup(dir_ent->d_name), x_strdup("DIR"));
+		else
+			map_add_item(file_map, x_strdup(dir_ent->d_name), x_strdup("FILE"));
 	}
 }
 
-void	filter_map(t_map *file_map, t_cmp_str **cmp_arry)
+void	filter_map(t_map *file_map, t_cmp_str **cmp_arry, bool is_dot)
 {
 	t_item	*file;
 	t_item	*next_file;
@@ -254,7 +300,7 @@ void	filter_map(t_map *file_map, t_cmp_str **cmp_arry)
 	while (file)
 	{
 		next_file = file->next;
-		if (!match_aster_regex(file->name, cmp_arry))
+		if (!match_aster_regex(file, cmp_arry, is_dot))
 		{
 			map_remove(file_map, file->name);
 			file = NULL;
@@ -263,27 +309,28 @@ void	filter_map(t_map *file_map, t_cmp_str **cmp_arry)
 	}
 }
 
-bool	match_aster_regex(char *f_name, t_cmp_str **cmp_arry)
+bool	match_aster_regex(t_item *file, t_cmp_str **cmp_arry, bool is_dot)
 {
 	size_t	i;
 	size_t	j;
-	bool	is_match;
+	char	is_match;
 
 	is_match = true;
-	if (!cmp_arry || !f_name)
+	if (!cmp_arry || !file)
 		throw_unexpected_error("match_aster_regex", NULL);
 	i = 0;
 	j = 0;
 	while (cmp_arry[i])
 	{
-		if (!j && cmp_arry[i]->compare_type == PREFIX)
-			is_match = match_prefix(f_name, &j, cmp_arry[i]->compared_str);
-		else if (cmp_arry[i]->compare_type == SUFFIX)
-			is_match = match_suffix(f_name, &j, cmp_arry[i]->compared_str);
-		else if (cmp_arry[i]->compare_type == CONTAIN)
-			is_match = match_contain(f_name, &j, cmp_arry[i]->compared_str);
-		// else if (cmp_arry[i]->compare_type == ALL)
-		// 	is_match = match_all(f_name, cmp_arry[i]->compared_str);
+		if (!j && cmp_arry[i]->cmp_type == PREFIX)
+			is_match = match_prefix(file->name, &j, cmp_arry[i]->cmp_str);
+		else if (cmp_arry[i]->cmp_type == SUFFIX)
+			is_match = match_suffix(file, &j, cmp_arry[i]->cmp_str, is_dot);
+		else if (cmp_arry[i]->cmp_type == CONTAIN)
+			is_match = \
+			match_contain(file->name, &j, cmp_arry[i]->cmp_str, is_dot);
+		else if (cmp_arry[i]->cmp_type == ALL)
+			is_match = file->name[0] != '.';
 		if (!is_match)
 			return (is_match);
 		i++;
@@ -306,20 +353,24 @@ bool	match_prefix(char *f_name, size_t *i, char *prefix)
 	return (true);
 }
 
-bool	match_suffix(char *f_name, size_t *i, char *suffix)
+bool	match_suffix(t_item *f, size_t *i, char *suffix, bool is_dot)
 {
 	size_t	j;
-	size_t	f_name_len;
+	size_t	f_len;
 	size_t	suffix_len;
 
-	j = 0;
-	f_name_len = ft_strlen(f_name);
-	suffix_len = ft_strlen(suffix);
-	if (*i >= f_name_len || f_name_len < suffix_len + *i)
+	if (!is_dot && f->name[0] == '.')
 		return (false);
-	while (j <= suffix_len && f_name[f_name_len - j] == suffix[suffix_len - j])
+	j = 0;
+	f_len = ft_strlen(f->name);
+	suffix_len = ft_strlen(suffix);
+	if (suffix[suffix_len - 1] == '/')
+		return (match_suffix_directory(f, i, suffix));
+	if (*i >= f_len || f_len < suffix_len + *i)
+		return (false);
+	while (j <= suffix_len && f->name[f_len - j] == suffix[suffix_len - j])
 	{
-		if (f_name_len < *i + j)
+		if (f_len < *i + j)
 			return (false);
 		if (!suffix[j])
 			return (true);
@@ -328,17 +379,43 @@ bool	match_suffix(char *f_name, size_t *i, char *suffix)
 	*i = j;
 	return (false);
 }
+bool	match_suffix_directory(t_item *f, size_t *i, char *suffix)
+{
+	size_t	j;
+	size_t	f_len;
+	size_t	suffix_len;
 
-bool	match_contain(char *f_name, size_t *i, char *contain)
+	f_len = ft_strlen(f->name);
+	suffix_len = ft_strlen(suffix);
+	if (ft_strcmp(f->value, "DIR"))
+		return (false);
+	if (suffix_len == 1)
+		return (true);
+	if (*i >= f_len || f_len < suffix_len + *i)
+		return (false);
+	j = 2;
+	while (j <= suffix_len && f->name[f_len - j + 1] == suffix[suffix_len - j])
+	{
+		if (f_len < *i + j)
+			return (false);
+		if (!suffix[j])
+			return (true);
+		j++;
+	}
+	return (false);
+}
+
+
+bool	match_contain(char *f_name, size_t *i, char *contain, bool is_dot)
 {
 	size_t	k;
-	size_t	file_name_len;
 	size_t	contain_len;
 
+	if (!is_dot && f_name[0] == '.')
+		return (false);
 	k = 0;
-	file_name_len = ft_strlen(f_name);
 	contain_len = ft_strlen(contain);
-	if (*i >= file_name_len || file_name_len < contain_len + *i)
+	if (*i >= ft_strlen(f_name) || ft_strlen(f_name) < contain_len + *i)
 		return (false);
 	while (f_name[*i])
 	{
@@ -374,7 +451,7 @@ char	**extract_file_name(t_map *file_map)
 	file = file_map->item_head.next;
 	while (file)
 	{
-		ret[i] = file->name;
+		ret[i] = x_strdup(file->name);
 		file = file->next;
 		i++;
 	}

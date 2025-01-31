@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/31 05:18:47 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/31 14:09:39 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS = ./expand_aster_test.c \
 ../../srcs/utils/error.c \
 ../../srcs/utils/error2.c \
 ../../srcs/utils/xmalloc.c \
+../../srcs/utils/ft_strcmp.c \
 ../../srcs/utils/extend_string_functions.c \
 ../../srcs/map/item_utils.c \
 ../../srcs/map/map_get.c \

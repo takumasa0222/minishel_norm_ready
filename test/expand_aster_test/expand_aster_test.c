@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_aster_test.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 01:46:24 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 07:45:36 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 14:11:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	test_create_cmp_str_arry(void)
 		printf("test case is: %s\n",test_cases[i]);
 		for (int j = 0; ret[j]; j++)
 		{
-			printf("string:%s\n",ret[j]->compared_str);
-			printf("cmp_type:%s\n",cmp_type_to_string(ret[j]->compare_type));
+			printf("string:%s\n",ret[j]->cmp_str);
+			printf("cmp_type:%s\n",cmp_type_to_string(ret[j]->cmp_type));
 		}
 		printf("test case done\n\n");
 		free(ret);
@@ -76,7 +76,7 @@ void	test_expand_asterisk(void)
 
 	ret = NULL;
 	char	*test_cases[] ={
-		// "*",
+		 "*",
 		"*.c",
 		"expand*",
 		"Makefile*",
@@ -95,7 +95,7 @@ void	test_expand_asterisk(void)
 		"*ab*cd",
 		"a*bc*d",
 		"*a*b*c*",
-		// "*****",
+		 "*****",
 		"***.c",
 		"ex****",
 		"***abcd***",
@@ -104,6 +104,11 @@ void	test_expand_asterisk(void)
 		".*",
 		"*.",
 		"*.*",
+		"*/",
+		"*/*",
+		"dumm*/",
+		"du*my/",
+		"du*er/",
 		NULL
 	};
 
