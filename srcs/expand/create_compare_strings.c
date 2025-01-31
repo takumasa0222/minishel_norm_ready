@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:09:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 17:25:39 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:48:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_cmp_str	**init_cmp_str_arry(char *line)
 	split_cnt = get_split_count(line, ASTERISK);
 	if (!split_cnt)
 		split_cnt = 1;
+	if (split_cnt > SIZE_MAX / sizeof(t_cmp_str *) - 1)
+		throw_unexpected_error("init_cmp_str_arry", "allocationsize overflow");
 	ret = xmalloc(sizeof(t_cmp_str *) * (split_cnt + 1));
 	return (ret);
 }

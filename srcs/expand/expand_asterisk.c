@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:23:01 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 17:26:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:52:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	get_all_files_in_dir(t_map *file_map)
 		else
 			map_add_item(file_map, dir_ent->d_name, "FILE");
 	}
-	free(dir);
+	closedir(dir);
 }
 
 void	filter_map(t_map *file_map, t_cmp_str **cmp_arry, bool is_dot)

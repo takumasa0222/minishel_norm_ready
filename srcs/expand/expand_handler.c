@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 17:12:11 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:51:18 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	expand_asterisk_handler(t_node *node)
 	char	**tmp;
 
 	if (!node || !node->cmds)
-		throw_unexpected_error("expand_variable_handler", NULL);
+		throw_unexpected_error("expand_asterisk_handler", NULL);
 	i = 0;
 	while (node->cmds[i])
 	{
