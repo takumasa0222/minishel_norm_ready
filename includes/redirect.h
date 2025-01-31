@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:49:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/29 21:52:36 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/01 02:06:13 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int		set_redirect_fds(t_node *node, t_context *ctx);
 void	restore_std_fds(t_context *ctx);
 int		apply_redirects(t_node *node, t_context *ctx);
+int		redirect_ambiguous_error(t_context *ctx);
 
 // redirect_utils.c
 void	redirect_in(char *filename, t_context *ctx);
