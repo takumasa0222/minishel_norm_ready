@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:50:01 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 18:00:37 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:54:30 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,20 @@ int	builtin_unset(int argc, char *argv[], t_context *ctx)
 	}
 	while (argv[i])
 	{
-		if (map_unset(ctx->env, argv[i]) < 0)
+		if (!is_identifier(argv[i]))
 		{
-			builtin_error("unset", argv[i], "not a valid identifier");//FIX unset doesn't need valid identifier check but need to implement invalid option check
+			builtin_error("unset", argv[i], "not a valid identifier");
 			ctx->last_status = 1;
+			i++;
+			continue ;
 		}
-		else
-			ctx->last_status = 0;
+		map_unset(ctx->env, argv[i]);
 		i++;
 	}
 	return (ctx->last_status);
 }
+/*
+if the name is not exist in the map, do nothing and return 0
+(we ignore the return value of map_unset)
+unsupported opsions are ignored (return "not a valid identifier")
+*/

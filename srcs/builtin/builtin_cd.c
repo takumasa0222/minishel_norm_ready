@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:17 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/13 17:07:08 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:35:55 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,9 @@
 #include "../../includes/environment.h"
 
 /*
-`cd -` simply swaps `PWD` and `OLDPWD` alternately.  
-As a result, it repeatedly returns to the previous directory.  
-`OLDPWD` always stores the current `PWD` and is used for subsequent `cd -`.
-may not be implemented in this project
-"cd --" is out of subject.
+"cd -" and "cd --" is not supported
 */
-
-void	cd_with_no_argument(t_map *envmap, char *path)
+int	cd_with_no_argument(t_map *envmap, char *path)
 {
 	const char	*home;
 
@@ -33,9 +28,10 @@ void	cd_with_no_argument(t_map *envmap, char *path)
 	{
 		builtin_error("cd", NULL, "HOME not set");
 		path[0] = '\0';
-		return ;
+		return (EXIT_FAILURE);
 	}
 	ft_strlcpy(path, home, PATH_MAX);
+	return (EXIT_SUCCESS);
 }
 
 int	handle_cd_error(int argc, char *argv[], t_context *ctx)
@@ -77,12 +73,18 @@ int	builtin_cd(int argc, char *argv[], t_context *ctx)
 	pwd_before_chdir = xgetenv(ctx->env, "PWD");
 	map_set(ctx->env, "OLDPWD", pwd_before_chdir);
 	if (argc == 1)
-		cd_with_no_argument(ctx->env, path);
+	{
+		if (cd_with_no_argument(ctx->env, path) == EXIT_FAILURE)
+		{
+			ctx->last_status = EXIT_FAILURE;
+			return (EXIT_FAILURE);
+		}
+	}
 	else
 		ft_strlcpy(path, argv[1], PATH_MAX);
 	if (path[0] == '\0' || chdir(path) < 0)
 	{
-		builtin_error("cd", path, "no such file or directory");// CHECK: if HOME not set is called this should be skipped.
+		builtin_error("cd", path, "no such file or directory");
 		ctx->last_status = EXIT_FAILURE;
 		return (ctx->last_status);
 	}
