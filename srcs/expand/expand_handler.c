@@ -6,13 +6,14 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 16:44:42 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:14:10 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/utils.h"
 #include "../../libft/libft.h"
 #include "../../includes/expand.h"
+#include "../../includes/expand_asterisk.h"
 
 void	expand_handler(t_node *node, t_context *ctx)
 {
@@ -20,7 +21,7 @@ void	expand_handler(t_node *node, t_context *ctx)
 		d_throw_error("expand_handler", "node or cmds is null");//unexpected error
 	expand_variable_handler(node, ctx);
 	//word_split_handler(node);
-	//expand_asterisk_handler(node);
+	expand_asterisk_handler(node);
 	remove_quote_handler(node);
 }
 

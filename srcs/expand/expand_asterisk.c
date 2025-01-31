@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:23:01 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 15:00:25 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:01:20 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ t_cmp_str	**init_cmp_str_arry(char *line)
 	size_t		split_cnt;
 
 	split_cnt = get_split_count(line, ASTERISK);
+	if (!split_cnt)
+		split_cnt = 1;
 	ret = xmalloc(sizeof(t_cmp_str *) * (split_cnt + 1));
 	return (ret);
 }
@@ -183,7 +185,6 @@ size_t	analyze_sb_loop(t_cmp_str ***ret, char *line, size_t i, size_t j)
 	return (j);
 }
 
-//below code for expand asterisk. freeze for developping.
  void	expand_asterisk_handler(t_node *node)
  {
  	size_t	i;
@@ -199,7 +200,10 @@ size_t	analyze_sb_loop(t_cmp_str ***ret, char *line, size_t i, size_t j)
  			tmp = NULL;
  			tmp = expand_asterisk(node->cmds[i]);
  			if (tmp)
+			{
  				i = i + recreate_command_list(node, tmp, i);
+				continue ;
+			}
  		}
  		i++;
  	}
@@ -217,14 +221,16 @@ size_t	recreate_command_list(t_node *node, char **file_arry, size_t i)
 		return (ret);
 	origin_arry_size = get_char_arry_size(node->cmds);
 	new_arry_size = get_char_arry_size(file_arry);
-	new_cmds = xmalloc(sizeof(char *) * (origin_arry_size + new_arry_size - 2));
+	new_cmds = xmalloc(sizeof(char *) * (origin_arry_size + new_arry_size));
 	ret = pack_new_cmds(node->cmds, file_arry, new_cmds, i);
 	free_wordlist(&node->cmds);
 	free_wordlist(&file_arry);
+	node->cmds = NULL;
+	node->cmds = new_cmds;
 	return (ret);
 }
 
-size_t	pack_new_cmds(char **old_arry, char **new_arry, char **ret, size_t i)
+size_t	pack_new_cmds(char **old_arry, char **f_arry, char **ret, size_t i)
 {
 	size_t	o_cnt;
 	size_t	n_cnt;
@@ -233,14 +239,14 @@ size_t	pack_new_cmds(char **old_arry, char **new_arry, char **ret, size_t i)
 	j = 0;
 	o_cnt = 0;
 	n_cnt = 0;
-	if (!old_arry || !new_arry)
+	if (!old_arry || !f_arry)
 		return (n_cnt);
 	while (j < i)
 		ret[j++] = x_strdup(old_arry[o_cnt++]);
-	while (ret < new_arry[n_cnt])
-		ret[j++] = x_strdup(new_arry[n_cnt++]);
+	while (f_arry[n_cnt])
+		ret[j++] = x_strdup(f_arry[n_cnt++]);
 	o_cnt++;
-	while (ret < old_arry[o_cnt])
+	while (old_arry[o_cnt])
 		ret[j++] = x_strdup(old_arry[o_cnt++]);
 	ret[j] = NULL;
 	return (n_cnt);
@@ -261,9 +267,26 @@ char	**expand_asterisk(char *line)
 	if (line[0] == '.')
 		is_dot = true;
 	filter_map(file_map, cmp_arry, is_dot);
+	free_cmp_arry(&cmp_arry);
 	ret = extract_file_name(file_map);
-	//free_map(&file_map);
+	free_map(&file_map);
 	return (ret);
+}
+
+void free_cmp_arry(t_cmp_str ***cmp_arry)
+{
+	size_t	i;
+
+	i = 0;
+	if (!cmp_arry || !*cmp_arry)
+		return ;
+	while ((*cmp_arry)[i])
+	{
+		free((*cmp_arry)[i]->cmp_str);
+		free((*cmp_arry)[i]);
+		i++;
+	}
+	free(*cmp_arry);
 }
 
 void	get_all_files_in_dir(t_map *file_map)
@@ -283,10 +306,11 @@ void	get_all_files_in_dir(t_map *file_map)
 		if (stat(dir_ent->d_name, &file_stat) == -1)
 			continue ;
 		if (S_ISDIR(file_stat.st_mode))
-			map_add_item(file_map, x_strdup(dir_ent->d_name), x_strdup("DIR"));
+			map_add_item(file_map, dir_ent->d_name, "DIR");
 		else
-			map_add_item(file_map, x_strdup(dir_ent->d_name), x_strdup("FILE"));
+			map_add_item(file_map, dir_ent->d_name, "FILE");
 	}
+	free(dir);
 }
 
 void	filter_map(t_map *file_map, t_cmp_str **cmp_arry, bool is_dot)
@@ -458,7 +482,3 @@ char	**extract_file_name(t_map *file_map)
 	ret[i] = NULL;
 	return (ret);
 }
-// bool	check_expandable_asterisk(char *str, size_t i)
-// {
-	
-// }
