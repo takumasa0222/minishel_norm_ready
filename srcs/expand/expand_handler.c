@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 15:14:10 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:12:11 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,31 @@ void	expand_variable_handler(t_node *node, t_context *ctx)
 	if (node->left && node->left->fd_num != -1)
 		node->left->fd_num = expand_heredoc_var(node->left, ctx);
 }
+
+void	expand_asterisk_handler(t_node *node)
+{
+	size_t	i;
+	char	**tmp;
+
+	if (!node || !node->cmds)
+		throw_unexpected_error("expand_variable_handler", NULL);
+	i = 0;
+	while (node->cmds[i])
+	{
+		if (ft_strchr(node->cmds[i], ASTERISK))
+		{
+			tmp = NULL;
+			tmp = expand_asterisk(node->cmds[i]);
+			if (tmp)
+			{
+				i = i + recreate_command_list(node, tmp, i);
+				continue ;
+			}
+		}
+		i++;
+	}
+}
+
 /*
 Remove quote handler should remove quotation 
 which is not surrounded by other quotation.
@@ -56,7 +81,6 @@ e.g.
 "'Hello'" -> 'Hello'
 'Hello'"hello" -> Hellohello
 */
-
 void	remove_quote_handler(t_node *node)
 {
 	int		i;

@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/31 15:15:27 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/31 17:31:26 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,11 @@ srcs/expand/expand_variable_helper.c \
 srcs/expand/expand_variable.c \
 srcs/expand/remove_quotes.c \
 srcs/expand/expand_asterisk.c \
+srcs/expand/create_compare_strings.c \
+srcs/expand/expand_asterisk_analyzer.c \
+srcs/expand/expand_asterisk_utils.c \
+srcs/expand/expand_recreate_strings.c \
+srcs/expand/match_asterisk_checker.c \
 srcs/builtin/builtin_cd.c \
 srcs/builtin/builtin_cd_utils.c \
 srcs/builtin/builtin_exit.c \
