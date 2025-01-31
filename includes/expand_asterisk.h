@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 01:48:19 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 17:29:52 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:18:48 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		expand_asterisk_handler(t_node *node);
 bool		is_aster_only(char *line);
 bool		is_first_aster(char *str, size_t i);
 void		free_cmp_arry(t_cmp_str ***cmp_arry);
-size_t	get_split_count(char const *str, char dlm);
+size_t		get_split_count(char const *str, char dlm);
 
 t_cmp_str	**init_cmp_str_arry(char *line);
 t_cmp_str	**create_cmp_str_arry(char *line);

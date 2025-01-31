@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 01:33:45 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/26 18:13:41 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/31 21:25:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/utils.h"
-
-/*
-This function for testing purpose. When you submit this code, this should be
-replased
-*/
-void	d_throw_error(char *func_name, char *error_msg)
-{
-	printf("Error: function name: %s, Error message: %s", func_name, error_msg);
-	exit(EXIT_FAILURE);
-}
 
 void	throw_unexpected_error(char *func_name, char *err_msg)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 21:41:26 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/31 21:58:26 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_token	*lexer_handler(char *line, t_syntax_error *syntx_err, t_context *ctx)
 		free(syntx_err);
 		free_token_list(ret);
 		ctx->last_status = EXIT_SYNTAX_ERROR;
+		close_stored_fds(ctx);
 		return (NULL);
 	}
 	return (ret);
