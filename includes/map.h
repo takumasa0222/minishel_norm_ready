@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:18:32 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 12:27:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:18:57 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MAP_H
 # include <stdio.h>
 # include <stdbool.h>
-
 
 // map
 typedef struct s_map		t_map;

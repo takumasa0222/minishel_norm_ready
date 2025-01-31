@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_shell.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:19 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/27 01:49:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:22:44 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ t_syntax_error	*init_syntax_error(void)
 void	close_stored_fds(t_context *ctx)
 {
 	if (ctx->stored_stdin != -1 && close(ctx->stored_stdin) == -1)
-		d_throw_error("close_stored_fds", "failed to close stored stdin");
+		throw_system_error("close_stored_fds", "failed to close stdin");
 	if (ctx->stored_stdout != -1 && close(ctx->stored_stdout) == -1)
-		d_throw_error("close_stored_fds", "failed to close stored stdout");
+		throw_system_error("close_stored_fds", "failed to close stdout");
 	ctx->stored_stdin = -1;
 	ctx->stored_stdout = -1;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 11:21:12 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/31 21:25:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 # define ERR_MSG_PROCESS_LIMIT "Exceed number of process limit"
 
 // error.c
-void	d_throw_error(char *func_name, char *error_msg);
 void	builtin_error(char *func, char *name, char *err);
 void	throw_unexpected_error(char *func_name, char *err_msg);
 void	throw_syntax_error(char *err_msg, char *err_msg2);

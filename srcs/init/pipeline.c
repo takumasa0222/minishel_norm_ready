@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 23:52:40 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/28 23:53:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:16:59 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	start_pipeline(char *line, t_context *ctx)
 		return ;
 	ctx->head_node = &ast_node;
 	exec_handler(ast_node, ctx);
-	// restore fds?
 	if (ctx->cnt)
 	{
 		wait_children_status(ctx);
