@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:51:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/26 17:31:50 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/31 21:58:43 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_node	*parse_cmd_handler(t_token **t_l, t_syntax_error *err, t_context *ctx)
 	if (!ret && err->is_error)
 	{
 		throw_syntax_error(err->err_msg, NULL);
+		close_stored_fds(ctx);
 		ctx->last_status = EXIT_SYNTAX_ERROR;
 	}
 	free(err);
