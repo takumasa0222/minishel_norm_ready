@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 22:54:28 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/30 01:59:25 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 05:05:54 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "../../includes/expand.h"
 # include "../../includes/expand_asterisk.h"
 # include "../../includes/environment.h"
-void	test_expand_aster(void);
 
+void	test_create_cmp_str_arry(void);
+void	test_expand_asterisk(void);
 
 #endif 

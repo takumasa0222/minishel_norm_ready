@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 21:34:48 by shokosoeno        #+#    #+#              #
-#    Updated: 2025/01/30 02:09:54 by tamatsuu         ###   ########.fr        #
+#    Updated: 2025/01/31 05:18:47 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,16 @@ endif
 SRCS = ./expand_aster_test.c \
 ../../srcs/expand/expand_asterisk.c \
 ../../srcs/utils/error.c \
+../../srcs/utils/error2.c \
 ../../srcs/utils/xmalloc.c \
-../../srcs/utils/extend_string_functions.c
-
+../../srcs/utils/extend_string_functions.c \
+../../srcs/map/item_utils.c \
+../../srcs/map/map_get.c \
+../../srcs/map/map_new.c \
+../../srcs/map/map_put.c \
+../../srcs/map/map_set.c \
+../../srcs/map/map_size.c \
+../../srcs/map/map_remove.c
 
 
 OBJS = $(SRCS:.c=.o)
