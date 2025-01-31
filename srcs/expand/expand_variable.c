@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:58:35 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/27 01:46:28 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:14:52 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	expand_heredoc_var(t_node *node, t_context *ctx)
 	char	*ret;
 
 	if (pipe(pipe_fds) == -1)
-		d_throw_error("expand_heredoc_var", "pipe failed");//system error need to exit function
+		throw_syntax_error("expand_heredoc_var", "pipe failed");
 	line = get_next_line(node->fd_num);
 	while (line)
 	{
@@ -106,7 +106,7 @@ size_t	retrieve_var_in_heredoc(char **ret, char *str, size_t i, t_context *ctx)
 	char	*expanded_val;
 
 	if (!str)
-		d_throw_error("retrieve_var", "arg is invalid");
+		throw_unexpected_error("retrieve_var", "arg is invalid");
 	if (!str[i + 1])
 		return (append_substring(ret, str, i, 1), i);
 	var_name_len = retrieve_var_name_len(str, i + 1, true);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:14:38 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/30 04:17:36 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:13:18 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 size_t	skip_s_quote_block(char *str, size_t i)
 {
 	if (!str)
-		d_throw_error("skip_s_quote_block", "str is null");//unexpected error
+		throw_unexpected_error("skip_s_quote_block", "str is null");
 	i = i + 1;
 	while (str[i] && !is_s_quote(str[i]))
 		i++;

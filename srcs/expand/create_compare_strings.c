@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:09:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 17:48:12 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:16:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,3 @@ t_cmp_str	*create_cmp_str(char *s, size_t st, size_t len, t_cmp_type typ)
 	ret->cmp_type = typ;
 	return (ret);
 }
-

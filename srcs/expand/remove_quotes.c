@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 03:12:31 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/13 20:33:07 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:16:15 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*remove_quotes(char *str)
 	char	*ret;
 
 	if (!str)
-		d_throw_error("remove_quotes", "unexpected error. str is null");
+		throw_unexpected_error("remove_quotes", "str is null");
 	ret = xmalloc(ft_strlen(str));
 	i = 0;
 	j = 0;
@@ -49,7 +49,7 @@ int	move_to_next_quotation_expnd(char *input, int i)
 		while (input[i] && !is_s_quote(input[i]))
 			i++;
 		if (!input[i])
-			d_throw_error("move_to_next_quotation_expnd", "squote not closed");
+			throw_unexpected_error("mv_t_nxt_qttn_expnd", "s not closed");
 	}
 	else if (is_d_quote(input[i]))
 	{
@@ -57,7 +57,7 @@ int	move_to_next_quotation_expnd(char *input, int i)
 		while (input[i] && !is_d_quote(input[i]))
 			i++;
 		if (!input[i])
-			d_throw_error("move_to_next_quotation_expnd", "dquote not closed");
+			throw_unexpected_error("mv_t_nxt_qttn_expnd", "dquote not closed");
 	}
 	return (i);
 }

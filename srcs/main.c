@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/31 11:49:33 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/01/31 21:17:31 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	main_loop(t_context *ctx)
 			ctx->heredoc_interrupted = false;
 			g_sig = 0;
 			ctx->last_status = 130;
-			if (isatty(STDIN_FILENO)) // rm this if before submit
+			if (isatty(STDIN_FILENO))
 			{
 				rl_event_hook = sigint_event_hook;
 				continue ;
