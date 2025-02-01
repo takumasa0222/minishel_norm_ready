@@ -6,10 +6,9 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/02/01 09:37:52 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/01 10:28:37 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/signals.h"
 #include "../includes/lexer.h"

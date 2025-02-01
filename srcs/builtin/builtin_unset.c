@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:50:01 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/31 19:00:48 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/01 10:28:13 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	builtin_unset(int argc, char *argv[], t_context *ctx)
 	{
 		if (!is_identifier(argv[i]))
 		{
-			// builtin_error("unset", argv[i], "not a valid identifier");
 			ctx->last_status = 0;
 			i++;
 			continue ;

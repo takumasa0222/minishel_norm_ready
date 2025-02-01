@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:19:21 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/31 18:50:43 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/01 10:27:55 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static bool	is_digit_str(char *str);
 
 int	handle_too_many_args(char *arg, t_context *ctx)
 {
-
 	if (is_digit_str(arg))
 	{
 		builtin_error("exit", NULL, "too many arguments");
