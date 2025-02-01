@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 21:36:46 by shokosoeno        #+#    #+#             */
-/*   Updated: 2025/01/31 21:17:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/01/31 23:38:28 by ssoeno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 #include "../includes/lexer.h"
 #include "../includes/parser.h"
 #include "../includes/execute.h"
@@ -68,10 +68,7 @@ bool	read_command(t_context *ctx)
 
 	line = readline("minishell$ ");
 	if (line == NULL)
-	{
-		ft_putendl_fd("exit", STDERR_FILENO);
-		return (false);
-	}
+		return (ft_putendl_fd("exit", STDERR_FILENO), false);
 	if (g_sig != 0)
 	{
 		ctx->last_status = g_sig + 128;

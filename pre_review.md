@@ -1,1 +1,0 @@
-valgrind --leak-check=full --track-children=yes --trace-fds=yes ./minishell
