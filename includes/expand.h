@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/02/01 02:07:08 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/01 09:57:05 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "./minishell.h"
 
 void	expand_handler(t_node *node, t_context *ctx);
+void	expand_redirect_handler(t_node *node, t_context *ctx);
 void	expand_variable_handler(t_node *node, t_context *ctx);
 char	*expand_variable(char *str, t_context *ctx);
 int		expand_heredoc_var(t_node *node, t_context *ctx);

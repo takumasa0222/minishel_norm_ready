@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:34:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/02/01 02:05:27 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/01 09:55:44 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "../includes/utils.h"
 #include "../includes/redirect.h"
 #include "../includes/execute.h"
-
-int	apply_redirects(t_node *node, t_context *ctx);
 
 int	set_redirect_fds(t_node *node, t_context *ctx)
 {
@@ -28,22 +26,22 @@ int	set_redirect_fds(t_node *node, t_context *ctx)
 
 int	apply_redirects(t_node *node, t_context *ctx)
 {
-	int		i;
-	char	*filename;
+	size_t	i;
+	char	**rds;
 
 	i = 0;
-	while (node->redirects[i])
+	rds = node->redirects;
+	while (rds[i])
 	{
-		filename = node->redirects[i + 1];
-		if (!filename)
+		if (!rds[i + 1])
 			throw_unexpected_error("apply_redirect_fds", "filename is NULL");
-		if (ft_strcmp(node->redirects[i], ">") == 0)
-			redirect_out(filename, ctx);
-		else if (ft_strcmp(node->redirects[i], ">>") == 0)
-			redirect_append(filename, ctx);
-		else if (ft_strcmp(node->redirects[i], "<") == 0)
-			redirect_in(filename, ctx);
-		else if (ft_strcmp(node->redirects[i], "<<") == 0)
+		if (ft_strcmp(rds[i], ">") == 0 && is_multi_file(rds, i))
+			redirect_out(node->redirects[i + 1], ctx);
+		else if (ft_strcmp(rds[i], ">>") == 0 && is_multi_file(rds, i))
+			redirect_append(node->redirects[i + 1], ctx);
+		else if (ft_strcmp(rds[i], "<") == 0 && is_multi_file(rds, i))
+			redirect_in(node->redirects[i + 1], ctx);
+		else if (ft_strcmp(rds[i], "<<") == 0 && is_multi_file(rds, i))
 			redirect_here_doc(node, ctx);
 		else
 			redirect_ambiguous_error(ctx);
@@ -62,4 +60,22 @@ int	redirect_ambiguous_error(t_context *ctx)
 	if (ctx->is_exec_in_child_ps)
 		exit(ctx->last_status);
 	return (EXIT_FAILURE);
+}
+
+bool	is_multi_file(char **redirects, size_t i)
+{
+	if (!redirects || !redirects[i] || !redirects[i + 1])
+		throw_unexpected_error("check_multi_file", "null error");
+	if (!redirects[i + 2])
+		return (true);
+	if (ft_strcmp(redirects[i + 2], ">") == 0)
+		return (true);
+	else if (ft_strcmp(redirects[i + 2], ">>") == 0)
+		return (true);
+	else if (ft_strcmp(redirects[i + 2], "<") == 0)
+		return (true);
+	else if (ft_strcmp(redirects[i + 2], "<<") == 0)
+		return (true);
+	else
+		return (false);
 }

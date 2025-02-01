@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/02/01 02:13:35 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/01 09:37:39 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ void	expand_handler(t_node *node, t_context *ctx)
 	expand_asterisk_handler(node);
 	remove_quote_handler(node);
 	if (node && node->left && node->left->redirects)
-	{
-		expand_var_rd_handler(node->left, ctx);
-		expand_aster_rd_handler(node->left);
-		remove_quote_rd_handler(node->left);
-	}
+		expand_redirect_handler(node->left, ctx);
+}
+
+void	expand_redirect_handler(t_node *node, t_context *ctx)
+{
+	expand_var_rd_handler(node, ctx);
+	expand_aster_rd_handler(node);
+	remove_quote_rd_handler(node);
 }
 
 void	expand_variable_handler(t_node *node, t_context *ctx)

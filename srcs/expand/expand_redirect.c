@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redirect.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 01:46:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/02/01 02:09:09 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/01 10:00:05 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	expand_aster_rd_handler(t_node *node)
 	i = 0;
 	while (node->redirects[i])
 	{
-		if (ft_strchr(node->redirects[i], ASTERISK))
+		if (ft_strchr(node->redirects[i], ASTERISK) && \
+		i > 0 && ft_strcmp(node->redirects[i - 1], "<<"))
 		{
 			tmp = NULL;
 			tmp = expand_asterisk(node->redirects[i]);
