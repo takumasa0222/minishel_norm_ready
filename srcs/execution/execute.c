@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 01:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/30 00:34:05 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/01 09:37:52 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	exec_handler(t_node *ast_node, t_context *ctx)
 
 int	exec_redirect(t_node *node, t_context *ctx)
 {
+	expand_redirect_handler(node, ctx);
 	apply_redirects(node, ctx);
 	restore_std_fds(ctx);
 	return (ctx->last_status);

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 02:57:36 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 21:18:31 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/01 10:13:16 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ void	expand_handler(t_node *node, t_context *ctx)
 	expand_variable_handler(node, ctx);
 	expand_asterisk_handler(node);
 	remove_quote_handler(node);
+	if (node && node->left && node->left->redirects)
+		expand_redirect_handler(node->left, ctx);
+}
+
+void	expand_redirect_handler(t_node *node, t_context *ctx)
+{
+	if (!node || !node->redirects || !ctx)
+		throw_unexpected_error("expand_redirect_handler", "null");
+	expand_var_rd_handler(node, ctx);
+	expand_aster_rd_handler(node);
+	remove_quote_rd_handler(node);
 }
 
 void	expand_variable_handler(t_node *node, t_context *ctx)
