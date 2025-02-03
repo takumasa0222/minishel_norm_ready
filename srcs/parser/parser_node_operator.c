@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:40:41 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/19 17:50:06 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:39:50 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ t_node	*create_seq_pipe_node(t_node **parent, t_token **tl, t_syntax_error *e)
 		child->left = (*parent)->right;
 		(*parent)->right = child;
 		if (!is_cmd_parsable_tk(tl))
-			parser_syntax_err(NULL, e, parent, ERR_MSG_PIPE);
+			parser_syntax_err(NULL, e, NULL, ERR_MSG_PIPE);
 		if (!*parent)
 			return (NULL);
 		child->right = parse_cmd_type(tl, e);
 		if (!child->right || !child->left)
 		{
-			parser_syntax_err(NULL, e, parent, ERR_MSG_PIPE);
+			parser_syntax_err(NULL, e, NULL, ERR_MSG_PIPE);
 			return (NULL);
 		}
 		return (create_seq_pipe_node(&child, tl, e));
