@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:41:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/07 20:00:23 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/04 04:17:34 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ volatile sig_atomic_t	g_sig = 0;
 void	set_global_sig_variable(int signum)
 {
 	g_sig = signum;
+	rl_replace_line("", 0);
+	rl_done = 1;
 }
 
 // Sets the handlers for the shell process during input
