@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_checker.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 01:33:45 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/25 21:41:55 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/04 04:03:23 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 bool	is_metachar(int c)
 {
-	return (c && ft_strchr("|()<> \t\n", c));
+	return (c && ft_strchr("&|()<>; \t\n", c));
 }
 
 bool	is_word(char *input)
@@ -43,6 +43,17 @@ bool	is_operator(char *input)
 		if (!ft_strncmp(ope_map[i].op_str, input, ft_strlen(ope_map[i].op_str)))
 			return (true);
 		i++;
+	}
+	return (false);
+}
+
+bool	is_unsupported(char *input, t_syntax_error *syntx_err)
+{
+	if (input && (*input == '&' || *input == ';'))
+	{
+		syntx_err->is_error = true;
+		syntx_err->err_msg = ERR_MSG_UNSUPPORTED_SYNTAX;
+		return (true);
 	}
 	return (false);
 }

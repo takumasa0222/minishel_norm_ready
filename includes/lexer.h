@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 01:13:23 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 11:20:14 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/04 04:03:44 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define ERR_MSG_S_QUOTE "unexpected EOF while looking for matching `''"
 # define ERR_MSG_D_QUOTE "unexpected EOF while looking for matching `\"'"
 # define ERR_MSG_UNEXPECTED_EOF "syntax error: unexpected end of file"
+# define ERR_MSG_UNSUPPORTED_SYNTAX "syntax error: unsupported syntax"
 
 typedef struct s_token	t_token;
 
@@ -65,6 +66,7 @@ bool	is_d_quote(char input);
 void	get_ope_map(t_ope_map *ope_map);
 t_token	*fetch_fst_ope_token(char *input);
 bool	is_operator(char *input);
+bool	is_unsupported(char *input, t_syntax_error *syntx_err);
 size_t	get_char_arry_size(char **str);
 t_token	*create_token(char *word, t_node_kind kind);
 #endif
