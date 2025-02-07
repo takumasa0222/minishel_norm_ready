@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:03:57 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 21:58:26 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/04 04:00:42 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ t_token	*lexer(char *line, t_syntax_error *syntx_err)
 			token->next = fetch_fst_ope_token(line);
 		else if (is_word(line))
 			token->next = fetch_fst_word_token(line, syntx_err);
+		else if (is_unsupported(line, syntx_err))
+			break ;
 		else
 			throw_unexpected_error("lexer", NULL);
 		line = line + ft_strlen(token->next->word);

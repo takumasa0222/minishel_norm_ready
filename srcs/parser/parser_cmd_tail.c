@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd_tail.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 22:25:13 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/18 22:13:16 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/04 03:05:58 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static t_node	*handle_pipe(t_node *left, t_token **t_l, t_syntax_error *err)
 		parser_syntax_err(NULL, err, &node, ERR_MSG_PIPE);
 		return (NULL);
 	}
-	create_seq_pipe_node(&node, t_l, err);
+	if (!create_seq_pipe_node(&node, t_l, err))
+		free_ast(&node);
 	return (node);
 }
 
