@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 21:49:29 by tamatsuu          #+#    #+#             */
-/*   Updated: 2025/01/31 11:18:09 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/08 19:42:00 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	set_idle_sig_handlers(void);
 void	set_parent_sig_handlers(void);
 void	set_child_sig_handlers(void);
 void	check_core_dump(int status);
+void	set_exec_handler(int signum);
 
 bool	is_interactive_mode(void);
 int		sigint_event_hook(void);

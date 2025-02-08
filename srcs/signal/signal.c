@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:41:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/02/04 04:17:34 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:04:40 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	set_idle_sig_handlers(void)
 // Sets the handlers for the parent process during command execution
 void	set_parent_sig_handlers(void)
 {
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, set_exec_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
@@ -61,10 +61,6 @@ void	check_core_dump(int status)
 		if (sig == SIGQUIT)
 		{
 			ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
-		}
-		else if (sig == SIGINT)
-		{
-			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
 	}
 }

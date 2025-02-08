@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_hook.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoeno <ssoeno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:41:50 by ssoeno            #+#    #+#             */
-/*   Updated: 2025/01/19 01:14:31 by ssoeno           ###   ########.fr       */
+/*   Updated: 2025/02/08 20:05:05 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ bool	is_interactive_mode(void)
 
 int	sigint_event_hook(void)
 {
-	if (g_sig == SIGINT)
-	{
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		rl_done = true;
-	}
 	return (EXIT_SUCCESS);
 }
 
@@ -37,6 +30,17 @@ int	heredoc_sigint_event_hook(void)
 		rl_done = true;
 	}
 	return (EXIT_SUCCESS);
+}
+
+void	set_exec_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_sig = SIGINT;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
 }
 /*
 g_sig = 0 means no signal is received
